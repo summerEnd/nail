@@ -128,7 +128,7 @@ public class MainFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onHiddenChanged(boolean hidden) {
         if (!hidden) {
-            getActivity().setTitle("首页");
+            getActivity().setTitle(getString(R.string.home_page));
         }
 
     }

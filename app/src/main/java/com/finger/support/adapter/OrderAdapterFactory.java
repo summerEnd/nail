@@ -1,4 +1,4 @@
-package com.finger.activity.user.order;
+package com.finger.support.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;

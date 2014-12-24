@@ -1,6 +1,8 @@
 package com.finger.activity.other.plan;
 
+import android.app.AlertDialog;
 import android.content.ActivityNotFoundException;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -104,13 +106,22 @@ public class PlanForMe extends Fragment implements View.OnClickListener {
             case R.id.item_gps: {
                 ContextUtil.toast_debug("click");
                 if (!BaiduAPI.isGpsEnabled(getActivity())) {
-                    Intent intent = new Intent();
-                    intent.setAction(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    try {
-                        getActivity().startActivity(intent);
-                    } catch (ActivityNotFoundException ex) {
-                    }
+
+                    AlertDialog.Builder builder=new AlertDialog.Builder(getActivity());
+                    builder.setTitle("温馨提示");
+                    builder.setPositiveButton(R.string.yes,new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            gpsActivity();
+                        }
+                    });
+                    builder.setNegativeButton(R.string.cancel,new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                        }
+                    });
+                    builder.show();
                 } else {
                     BaiduAPI.locate(new BaiduAPI.Callback() {
                         @Override
@@ -128,6 +139,16 @@ public class PlanForMe extends Fragment implements View.OnClickListener {
         }
 
 
+    }
+
+    private void gpsActivity() {
+        Intent intent = new Intent();
+        intent.setAction(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        try {
+            getActivity().startActivity(intent);
+        } catch (ActivityNotFoundException ex) {
+        }
     }
 
 }

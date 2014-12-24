@@ -12,6 +12,7 @@ import com.finger.R;
 import com.finger.support.util.Logger;
 
 public class RatingWidget extends View {
+    public static final int STAR_PADDING = 2;
     /**
      * 皇冠数量
      */
@@ -65,7 +66,7 @@ public class RatingWidget extends View {
         int heightMode = MeasureSpec.getMode(heightMeasureSpec);
         int width = MeasureSpec.getSize(widthMeasureSpec);
         int height = MeasureSpec.getSize(heightMeasureSpec);
-        int horizontal_padding = getPaddingLeft() + getPaddingRight();
+        int horizontal_padding = getPaddingLeft() + getPaddingRight()+(num_star-1)*STAR_PADDING;
         int vertical_padding = getPaddingTop() + getPaddingBottom();
 
         int demandWidth;
@@ -80,7 +81,7 @@ public class RatingWidget extends View {
             BitmapFactory.decodeResource(getResources(), starRecourseId, options);
             demandWidth = options.outWidth * num_star + horizontal_padding;
             demandHeight = options.outHeight + vertical_padding;
-            invalidateStars();
+
         } else {
             demandWidth = star.getWidth() * num_star + horizontal_padding;
             demandHeight = star.getHeight() + vertical_padding;
@@ -95,16 +96,18 @@ public class RatingWidget extends View {
         }
 
         setMeasuredDimension(width, height);
+        invalidateStars();
     }
 
     void invalidateStars() {
         if (starRecourseId == 0) {
+            star=null;
             return;
         }
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inJustDecodeBounds = true;
         BitmapFactory.decodeResource(getResources(), starRecourseId, options);
-        int starHeight = getHeight() - getPaddingTop() - getPaddingBottom();
+        int starHeight = getMeasuredHeight() - getPaddingTop() - getPaddingBottom();
         if (starHeight != 0) {
             float scale = options.outHeight / starHeight;
             options.inJustDecodeBounds = false;
@@ -122,7 +125,7 @@ public class RatingWidget extends View {
         canvas.save();
         for (int i = 0; i < num_star; i++) {
             canvas.drawBitmap(star, getPaddingLeft(), getPaddingTop()+top, null);
-            canvas.translate(star.getWidth(), 0);
+            canvas.translate(star.getWidth()+ STAR_PADDING, 0);
         }
         canvas.restore();
     }

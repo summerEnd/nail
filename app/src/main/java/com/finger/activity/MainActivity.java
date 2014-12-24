@@ -18,6 +18,7 @@ import com.finger.activity.artist.my.MyFragment;
 import com.finger.activity.artist.order.OrderFragment;
 import com.finger.support.Constant;
 import com.finger.support.util.ContextUtil;
+import com.finger.support.util.Logger;
 import com.sp.lib.support.IntentFactory;
 
 
@@ -26,7 +27,8 @@ public class MainActivity extends BaseActivity {
      * 当前展示的Fragment在fragments数组中的下标
      */
     int curIndex = 0;
-    boolean shouldChangeRole = false;
+    View clicked_tab;
+    boolean sholdReturnHome = false;
     FragmentManager fragmentManager;
     ImageView imageView[] = new ImageView[4];
     TextView tvs[] = new TextView[4];
@@ -71,7 +73,7 @@ public class MainActivity extends BaseActivity {
 
     public void onTabClick(View v) {
         int id = v.getId();
-
+        clicked_tab = v;
         switch (id) {
             case R.id.tab1:
                 changeTab(0);
@@ -183,7 +185,7 @@ public class MainActivity extends BaseActivity {
     }
 
     void showFragment(int index) {
-
+        Logger.i_format("index:%d  cur:%d",index,curIndex);
         if (curIndex == index) {
             return;
         }
@@ -194,6 +196,7 @@ public class MainActivity extends BaseActivity {
         Fragment showFragment = fragments[index];
         Fragment hideFragment = fragments[curIndex];
 
+
         if (!showFragment.isAdded()) {
             ft.add(R.id.frag_container, showFragment);
         } else {
@@ -203,15 +206,17 @@ public class MainActivity extends BaseActivity {
         curIndex = index;
     }
 
-    int clickTab;
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (RESULT_OK != resultCode) {
-            showFragment(0);
-        } else {
-            super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode==100){
+            sholdReturnHome =false;
+            if (!getApp().isLogin()) {
+                returnHome();
+            } else {
+                onTabClick(clicked_tab);
+            }
         }
+
     }
 
     @Override
@@ -229,10 +234,18 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        if (shouldChangeRole) {
-            showFragment(0);
-            shouldChangeRole = false;
+        if (sholdReturnHome) {
+            returnHome();
+            sholdReturnHome = false;
         }
+    }
+
+    /**
+     * 返回首页
+     */
+    void returnHome() {
+        showFragment(0);
+        changeTab(0);
     }
 
     @Override
@@ -242,7 +255,7 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void onRoleChange(String role) {
-        shouldChangeRole = true;
+        sholdReturnHome = true;
     }
 
     private long time;

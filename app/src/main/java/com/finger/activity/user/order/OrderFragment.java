@@ -10,18 +10,18 @@ import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.finger.R;
+import com.finger.support.adapter.OrderAdapterFactory;
 import com.finger.support.annotion.User;
 
 import java.util.ArrayList;
 
-import static com.finger.activity.user.order.OrderAdapterFactory.OrderAdapter;
-import static com.finger.activity.user.order.OrderAdapterFactory.OrderType.*;
+import static com.finger.support.adapter.OrderAdapterFactory.OrderAdapter;
+import static com.finger.support.adapter.OrderAdapterFactory.OrderType.*;
 
 @User
 public class OrderFragment extends Fragment implements RadioGroup.OnCheckedChangeListener {

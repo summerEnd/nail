@@ -1,39 +1,136 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:background="@drawable/windowBackground"
     android:layout_height="match_parent">
-    <include layout="@layout/head_1"/>
-    <TextView style="@style/horizontal_line" />
 
-    <TextView
-        android:id="@id/publish_nail"
-        style="@style/text_click_item"
-        android:text="发布作品" />
+    <RelativeLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:background="@drawable/titleBackground"
+        android:layout_height="@dimen/title_height">
 
-    <TextView style="@style/horizontal_line" />
+        <TextView
+            android:id="@+id/settings"
+            style="@style/title_click_text"
+            android:text="@string/settings"
+            android:layout_alignParentLeft="true"
+            android:layout_centerInParent="true" />
 
-    <TextView
-        android:id="@id/published_nail"
-        style="@style/text_click_item"
-        android:text="我的作品" />
+        <TextView
+            style="@style/title_text_style"
+            android:text="@string/personal_center"
+            android:layout_centerInParent="true" />
 
+        <TextView
+            android:id="@id/publish_nail"
+            style="@style/title_click_text"
+            android:text="@string/publish"
+            android:layout_alignParentRight="true"
+            android:layout_centerInParent="true" />
+    </RelativeLayout>
 
-    <TextView style="@style/horizontal_line" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:background="@drawable/user_background"
+        android:orientation="vertical">
 
-    <TextView
-        android:id="@id/settings"
-        style="@style/text_click_item"
-        android:text="荣誉等级" />
+        <ImageView
+            android:id="@+id/iv_avatar"
+            android:layout_width="@dimen/avatar_center_size"
+            android:layout_height="@dimen/avatar_center_size"
+            android:src="@drawable/default_user" />
 
-    <TextView style="@style/horizontal_line" />
+        <TextView
+            android:layout_marginTop="@dimen/center_nick_margin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/textColorBlack"
+            android:textSize="@dimen/textSize_2"
+            android:text="昵称" />
 
-    <TextView
-        android:id="@id/settings"
-        style="@style/text_click_item"
-        android:text="@string/settings" />
+        <com.finger.support.widget.RatingWidget
+            android:layout_marginTop="@dimen/center_nick_margin"
+            android:layout_width="wrap_content"
+            app:drawable="@drawable/star2"
+            app:stars="3"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
 
-    <TextView style="@style/horizontal_line" />
+    <LinearLayout
+        android:id="@+id/zgs"
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:layout_toRightOf="@+id/avatar"
+        android:layout_alignBottom="@+id/avatar"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/textColorGray"
+            android:textSize="@dimen/textSize_dp_24px"
+            android:text="专业：" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/textColorGray"
+            android:textSize="@dimen/textSize_dp_30px"
+            android:text="5.0" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:textColor="@color/textColorGray"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/textSize_dp_24px"
+            android:text="沟通：" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:textColor="@color/textColorGray"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/textSize_dp_30px"
+            android:text="5.0" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+
+        <TextView
+            android:textSize="@dimen/textSize_dp_24px"
+            android:layout_width="wrap_content"
+            android:textColor="@color/textColorGray"
+            android:layout_height="wrap_content"
+            android:text="守时：" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:textColor="@color/textColorGray"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/textSize_dp_30px"
+            android:text="5.0" />
+    </LinearLayout>
+
+    <GridView
+        android:numColumns="2"
+        android:layout_width="match_parent"
+        android:verticalSpacing="@dimen/item_spacing"
+        android:horizontalSpacing="@dimen/item_spacing"
+        android:layout_marginRight="@dimen/item_spacing"
+        android:layout_marginLeft="@dimen/item_spacing"
+        android:layout_height="match_parent"
+        android:id="@+id/grid" />
+
 </LinearLayout>

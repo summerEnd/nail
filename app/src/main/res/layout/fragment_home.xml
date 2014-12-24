@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:scaleType="centerInside"
         android:layout_height="@dimen/title_height"
-        android:background="@drawable/titleBackground"/>
+        android:background="@drawable/titleBackground" />
 
     <ScrollView
         android:layout_width="match_parent"

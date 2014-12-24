@@ -7,6 +7,7 @@
     <!--字体大小-->
     <dimen name="textSize_dp_60px">30sp</dimen>
     <dimen name="textSize_dp_24px">13sp</dimen>
+    <dimen name="textSize_dp_34px">17sp</dimen>
     <dimen name="textSize_dp_36px">19.5sp</dimen>
     <dimen name="textSize_dp_38px">20sp</dimen>
     <dimen name="textSize_dp_30px">15sp</dimen>
@@ -54,6 +55,7 @@
     <dimen name="order_item_vertical_padding">5dp</dimen>
     <dimen name="my_care_margin">10dp</dimen>
     <dimen name="number_size">25dp</dimen>
+    <dimen name="center_nick_margin">6dp</dimen>
 
     <style name="click_item_padding">
         <item name="android:paddingTop">13dp</item>

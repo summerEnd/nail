@@ -18,8 +18,7 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.finger.R;
-import com.finger.support.widget.ItemUtil;
-import com.finger.support.widget.NailItem;
+import com.finger.support.adapter.NailListAdapter;
 import com.finger.support.util.ContextUtil;
 import com.sp.lib.util.DisplayUtil;
 
@@ -185,44 +184,6 @@ public class NailItemListFragment extends Fragment implements View.OnClickListen
             }
 
 
-            return convertView;
-        }
-    }
-
-    class NailListAdapter extends BaseAdapter {
-        private Context context;
-
-        NailListAdapter(Context context) {
-            this.context = context;
-        }
-
-        @Override
-        public int getCount() {
-            return 7;
-        }
-
-        @Override
-        public Object getItem(int position) {
-            return null;
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return position;
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            NailItem item;
-            if (convertView == null) {
-                item = new NailItem(context);
-                item.setImageSize(ItemUtil.item_size);
-                convertView = item;
-            } else {
-                item = (NailItem) convertView;
-            }
-            item.setPrice("200" + position);
-            item.setTitle("hi" + position);
             return convertView;
         }
     }

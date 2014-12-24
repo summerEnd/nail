@@ -218,7 +218,18 @@
         <item name="android:gravity">center</item>
     </style>
 
-    <style name="ww" parent="android:Theme.Holo" />
+    <style name="title_click_text">
+        <item name="android:gravity">center</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:textSize">@dimen/textSize_dp_34px</item>
+        <item name="android:textColor">@color/textColorWhite</item>
+        <item name="android:background">@drawable/title_text_click</item>
+        <item name="android:layout_centerInParent">true</item>
+        <item name="android:paddingLeft">7dp</item>
+        <item name="android:paddingRight">7dp</item>
+    </style>
+
     <!--
     <item name="android:paddingLeft"></item>
     <item name="android:paddingRight"></item>

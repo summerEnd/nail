@@ -5,10 +5,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <include layout="@layout/head_2" android:id="@+id/head" />
+    <include
+        layout="@layout/head_2"
+        android:id="@+id/head" />
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/frag_container"/>
+        android:id="@+id/frag_container" />
 </LinearLayout>

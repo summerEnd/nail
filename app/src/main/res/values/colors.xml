@@ -14,6 +14,8 @@
     <color name="textColorPink">#e5376b</color>
     <drawable name="windowBackground">#f5f5f5</drawable>
     <drawable name="titleBackground">#fa8faf</drawable>
+    <drawable name="title_text_bg_clicked">#5000</drawable>
+    <drawable name="title_text_bg_normal">#0000</drawable>
     <color name="home_horizontal_line">#c9c9c9</color>
 
     <color name="tab_text_selected">#fadd71</color>

@@ -150,9 +150,9 @@ public class BaseActivity extends FragmentActivity implements View.OnClickListen
     /**
      * 当前登录的用户发生改变时，会调用这个方法
      *
-     * @param role 美甲师：
-     *             用户：
-     *             未登录：
+     * @param role 美甲师：LOGIN_TYPE_ARTIST
+     *             用户：LOGIN_TYPE_USER
+     *             未登录：LOGIN_TYPE_EMPTY
      */
     protected void onRoleChange(String role) {
 
