@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include layout="@layout/head_2" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:scaleType="centerCrop"
+                android:src="@drawable/test_image_02"
+                android:layout_height="wrap_content" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_margin="@dimen/activity_horizontal_margin"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/tv_money"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#ff0e03"
+                    android:textSize="@dimen/textSize_dp_60px"
+                    android:textStyle="bold"
+                    android:text="￥4040" />
+
+                <TextView
+                    android:id="@+id/dmj"
+                    android:layout_marginLeft="4dp"
+                    android:layout_below="@id/tv_money"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/textSize_dp_24px"
+                    android:textColor="@color/textColorGray"
+                    android:text="店面价：" />
+
+                <TextView
+                    android:id="@+id/tv_dmj"
+                    android:layout_below="@id/tv_money"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/textSize_dp_24px"
+                    android:layout_toRightOf="@id/dmj"
+                    android:textColor="@color/textColorGray"
+                    android:text="900" />
+
+                <TextView
+                    android:layout_below="@id/tv_money"
+                    android:layout_alignParentRight="true"
+                    android:textSize="@dimen/textSize_dp_36px"
+                    android:layout_alignBaseline="@id/tv_dmj"
+                    android:layout_width="wrap_content"
+                    android:drawableLeft="@drawable/ic_collect"
+                    android:layout_height="wrap_content"
+                    android:text="收藏" />
+            </RelativeLayout>
+
+            <TextView style="@style/horizontal_line" />
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_margin="@dimen/activity_horizontal_margin"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/zsjp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="撞色简拼"
+                    android:textSize="@dimen/textSize_dp_38px"
+                    android:textColor="#f35d35" />
+
+                <TextView
+                    android:layout_marginTop="@dimen/title_margin"
+                    android:textSize="@dimen/textSize_dp_30px"
+                    android:layout_below="@id/zsjp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="来美甲咯，美玩甲抓老公，保证不生气！来美甲咯，美玩甲抓老公，保证不生气！来美甲咯，美玩甲抓老公，保证不生气！" />
+
+                <TextView
+                    android:layout_marginTop="5dp"
+                    android:layout_width="wrap_content"
+                    android:drawableLeft="@drawable/ic_time"
+                    android:text="耗时120分钟"
+                    android:textSize="@dimen/textSize_dp_30px"
+                    android:gravity="center_vertical"
+                    android:textColor="@color/textColorGray"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:textSize="@dimen/textSize_dp_30px"
+                    android:layout_width="wrap_content"
+                    android:drawableLeft="@drawable/ic_circle_arrow"
+                    android:text="保持10000年"
+                    android:gravity="center_vertical"
+                    android:textColor="@color/textColorGray"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+
+            <TextView style="@style/horizontal_line" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_margin="@dimen/activity_horizontal_margin"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/iv_avatar"
+                    android:layout_width="@dimen/avatar_size"
+                    android:layout_height="@dimen/avatar_size"
+                    android:src="@drawable/default_user" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_toRightOf="@id/iv_avatar"
+                    android:layout_marginLeft="10dp"
+                    android:layout_centerVertical="true"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tv_artist_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/textSize_dp_36px"
+                        android:textColor="@color/textColorBlack"
+                        android:text="花花" />
+
+                    <com.finger.support.widget.RatingWidget
+                        android:id="@+id/rating"
+                        app:stars="3"
+                        android:layout_marginTop="10dp"
+                        app:drawable="@drawable/star1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:orientation="horizontal"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:layout_marginRight="@dimen/activity_horizontal_margin"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/textSize_dp_24px"
+                    android:textColor="@color/textColorBlack"
+                    android:text="专业：" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:textColor="@color/textColorBlack"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/textSize_dp_30px"
+                    android:text="5.0" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/textSize_dp_24px"
+                    android:textColor="@color/textColorBlack"
+                    android:text="沟通：" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/textSize_dp_30px"
+                    android:textColor="@color/textColorBlack"
+                    android:text="5.0" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+
+                <TextView
+                    android:textSize="@dimen/textSize_dp_24px"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/textColorBlack"
+                    android:text="守时：" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/textSize_dp_30px"
+                    android:textColor="@color/textColorBlack"
+                    android:text="5.0" />
+            </LinearLayout>
+
+            <TextView
+                style="@style/horizontal_line"
+                android:layout_marginTop="8dp" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="@dimen/activity_horizontal_margin">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:textSize="@dimen/textSize_2"
+                    android:drawableLeft="@drawable/ic_comment"
+                    android:layout_alignParentLeft="true"
+                    android:textColor="@color/textColorBlack"
+                    android:text="评价" />
+
+                <TextView
+                    android:layout_alignParentRight="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:drawablePadding="5dp"
+                    android:textSize="@dimen/textSize_2"
+                    android:textColor="#f46751"
+                    android:drawableRight="@drawable/right_arrow"
+                    android:text="10086条" />
+            </RelativeLayout>
+
+            <TextView style="@style/horizontal_line" />
+
+            <Button
+                style="@style/button_large"
+                android:layout_marginTop="@dimen/button_to_bottom"
+                android:text="@string/choose_nail"
+                android:layout_marginBottom="@dimen/button_to_bottom" />
+        </LinearLayout>
+
+    </ScrollView>
+</LinearLayout>

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.finger.support.widget.EditItem
+        android:id="@+id/item_plan_time"
+        app:edit_text="选择预约时间"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        app:edit_drawable="@drawable/ic_clock"
+        android:layout_width="match_parent"
+        app:edit_editable="false"
+        android:layout_height="wrap_content" />
+
+    <com.finger.support.widget.EditItem
+        android:id="@+id/item_gps"
+        app:edit_text="Gps定位"
+        android:layout_marginTop="@dimen/item_margin_top"
+        app:edit_editable="false"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        app:edit_drawable="@drawable/ic_mark"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <com.finger.support.widget.EditItem
+        android:id="@+id/item_address"
+        app:edit_hint="点击输入详细地址"
+        android:layout_marginTop="@dimen/item_margin_top"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        app:edit_editable="true"
+        app:edit_drawable="@drawable/ic_fly"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <com.baidu.mapapi.map.MapView
+        android:id="@+id/map"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/mapHeight" />
+
+    <View
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <Button
+        style="@style/button_large"
+        android:layout_marginBottom="20dp"
+        android:id="@+id/choose_nail_artist"
+        android:text="@string/choose_nail_artist" />
+</LinearLayout>

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="#2e2"
+        android:layout_toLeftOf="@+id/button_contain"
+        android:text="2014-4-4 12:90:11"
+        android:id="@+id/tv_time" />
+
+    <ScrollView
+        android:layout_below="@+id/tv_time"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_toLeftOf="@+id/button_contain">
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#ff2222"
+            android:text="1111"
+            android:layout_toLeftOf="@+id/button_contain"
+            android:id="@+id/tv_logs" />
+    </ScrollView>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        android:layout_centerVertical="true"
+        android:paddingRight="10dp"
+        android:paddingTop="6dp"
+        android:id="@+id/button_contain"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true">
+
+        <TextView
+            android:id="@+id/tv_page"
+            android:layout_width="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            android:textColor="#fff"
+            android:text="0/0" />
+
+        <Button
+            android:id="@+id/delete"
+            android:onClick="onDelete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="删除" />
+
+        <Button
+            android:id="@+id/next"
+            android:onClick="onNext"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="前进" />
+
+        <Button
+            android:id="@+id/prev"
+            android:onClick="onPrev"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="后退" />
+
+        <Button
+            android:id="@+id/send"
+            android:onClick="onSend"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="发送" />
+    </LinearLayout>
+
+</RelativeLayout>

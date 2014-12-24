@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="6dp"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <RelativeLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        style="@style/activity_padding"
+        android:background="@drawable/ic_discount_bg"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_title"
+            android:textColor="@color/textColorBlack"
+            android:textSize="@dimen/textSize_dp_30px"
+            android:text="优惠啦，买100，送1000！" />
+
+        <TextView
+            android:id="@+id/divider"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            style="@style/horizontal_line"
+            android:layout_below="@+id/tv_title" />
+
+        <TextView
+            android:id="@+id/price"
+            android:layout_below="@+id/divider"
+            android:layout_width="wrap_content"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/textSize_dp_28px"
+            android:textColor="@color/textColorGray"
+            android:text="价格：￥240" />
+
+        <TextView
+            android:layout_below="@+id/price"
+            android:layout_width="wrap_content"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/textSize_dp_28px"
+            android:textColor="@color/textColorGray"
+            android:text="使用期限：2014.12.31-2015.01.30" />
+
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/tv_is_expired"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="失效"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="3dp"
+        android:paddingBottom="3dp"
+        android:textColor="@color/textColorWhite"
+        android:background="#f00" />
+</RelativeLayout>

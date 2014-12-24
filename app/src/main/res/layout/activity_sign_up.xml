@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:gravity="center_horizontal"
+    android:layout_height="match_parent">
+
+    <include layout="@layout/head_2" />
+
+    <TableLayout
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:background="@drawable/solid_white_stroke_black"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TableRow style="@style/tab_item_style">
+
+            <TextView
+                style="@style/tab_item_name_style"
+                android:text="账号：" />
+
+            <EditText
+                style="@style/tab_item_value_style"
+                android:inputType="phone"
+                android:hint="请输入手机号" />
+        </TableRow>
+
+        <TextView style="@style/horizontal_line" />
+
+        <TableRow style="@style/tab_item_style">
+
+            <TextView
+                style="@style/tab_item_name_style"
+                android:text="密码：" />
+
+            <EditText
+                android:inputType="textPassword"
+                style="@style/tab_item_value_style"
+                android:hint="@string/hint_password" />
+        </TableRow>
+
+        <TextView style="@style/horizontal_line" />
+
+        <TableRow style="@style/tab_item_style">
+
+            <TextView
+                style="@style/tab_item_name_style"
+                android:text="确认密码：" />
+
+            <EditText
+                style="@style/tab_item_value_style"
+                android:hint="两次密码必须输入一致" />
+        </TableRow>
+    </TableLayout>
+
+    <LinearLayout
+        style="@style/forget_edit_style"
+        android:orientation="horizontal">
+
+        <EditText
+            style="@style/edit"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:hint="请输入验证码" />
+
+        <Button
+            style="@style/button"
+            android:text="获取验证码" />
+    </LinearLayout>
+    <Button
+        style="@style/button_large"
+        android:text="@string/done" />
+</LinearLayout>

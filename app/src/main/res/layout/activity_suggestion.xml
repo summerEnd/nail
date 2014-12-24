@@ -1,0 +1,29 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_height="match_parent"
+    tools:context="com.finger.activity.other.setting.SuggestionActivity">
+
+    <include
+        layout="@layout/head_2"
+        android:id="@+id/head" />
+
+    <EditText
+        android:id="@+id/edit"
+        android:layout_width="match_parent"
+        android:layout_height="280dp"
+        android:gravity="top"
+        android:padding="7dp"
+        android:background="@color/white"
+        android:hint="@string/hint_suggestion"
+        android:singleLine="false" />
+
+    <TextView style="@style/horizontal_line" />
+
+    <Button
+        style="@style/button_large"
+        android:id="@+id/commit"
+        android:layout_marginTop="@dimen/button_to_text"
+        android:text="提交" />
+</LinearLayout>

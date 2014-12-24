@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="RatingWidget">
+        <attr name="stars" format="integer" />
+        <attr name="drawable" format="reference|color" />
+    </declare-styleable>
+
+    <declare-styleable name="NailItem">
+        <attr name="nail_title" format="string" />
+        <attr name="nail_price" format="string" />
+        <attr name="nail_src" format="reference" />
+        <attr name="nail_imageSize" format="dimension" />
+    </declare-styleable>
+
+    <declare-styleable name="ArtistItem">
+
+        <attr name="artist_title" format="string" />
+        <attr name="artist_price" format="string" />
+        <attr name="artist_src" format="reference" />
+        <attr name="artist_imageSize" format="dimension" />
+
+        <attr name="artist_rating_stars" format="integer" />
+        <attr name="artist_rating_drawable" format="reference|color" />
+        <attr name="artist_avatar" format="reference" />
+        <attr name="artist_name" format="string" />
+    </declare-styleable>
+
+    <declare-styleable name="EditItem">
+        <attr name="edit_drawable" format="reference" />
+        <attr name="edit_text" format="string" />
+        <attr name="edit_hint" format="string" />
+        <attr name="edit_editable" format="boolean" />
+    </declare-styleable>
+</resources>

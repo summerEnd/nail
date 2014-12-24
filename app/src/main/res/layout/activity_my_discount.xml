@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include layout="@layout/head_2" />
+
+    <RadioGroup
+        android:id="@+id/rg"
+        android:background="@drawable/tab_bg_2"
+        android:layout_width="match_parent"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:orientation="horizontal"
+        android:layout_height="wrap_content">
+
+        <RadioButton
+            style="@style/tab_login_style"
+            android:id="@+id/rb_remain"
+            android:checked="true"
+            android:text="未使用"
+            android:button="@null" />
+
+        <RadioButton
+            style="@style/tab_login_style"
+            android:id="@+id/rb_expired"
+            android:text="已过期"
+            android:button="@null" />
+    </RadioGroup>
+
+    <android.support.v4.view.ViewPager
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/pager" />
+</LinearLayout>

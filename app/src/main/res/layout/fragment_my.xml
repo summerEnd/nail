@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView style="@style/horizontal_line" />
+
+    <TextView
+        style="@style/text_click_item"
+        android:text="@string/my_care" />
+
+    <TextView style="@style/horizontal_line" />
+
+    <TextView
+        style="@style/text_click_item"
+        android:text="@string/my_discount" />
+
+    <TextView style="@style/horizontal_line" />
+
+    <TextView
+        style="@style/text_click_item"
+        android:text="@string/my_collection" />
+
+    <TextView style="@style/horizontal_line" />
+
+    <TextView
+        style="@style/text_click_item"
+        android:text="@string/settings" />
+
+    <TextView style="@style/horizontal_line" />
+</LinearLayout>

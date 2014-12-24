@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:background="@drawable/windowBackground"
+    android:layout_height="match_parent">
+    <include layout="@layout/head_1"/>
+    <TextView style="@style/horizontal_line" />
+
+    <TextView
+        android:id="@id/publish_nail"
+        style="@style/text_click_item"
+        android:text="发布作品" />
+
+    <TextView style="@style/horizontal_line" />
+
+    <TextView
+        android:id="@id/published_nail"
+        style="@style/text_click_item"
+        android:text="我的作品" />
+
+
+    <TextView style="@style/horizontal_line" />
+
+    <TextView
+        android:id="@id/settings"
+        style="@style/text_click_item"
+        android:text="荣誉等级" />
+
+    <TextView style="@style/horizontal_line" />
+
+    <TextView
+        android:id="@id/settings"
+        style="@style/text_click_item"
+        android:text="@string/settings" />
+
+    <TextView style="@style/horizontal_line" />
+</LinearLayout>

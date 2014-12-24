@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="white">#ffffff</color>
+    <color name="black">#000</color>
+    <color name="light_gray">#d5d5d5</color>
+    <color name="tran_bg">#66666666</color>
+    <color name="pink">#fa8faf</color>
+    <color name="chocolate">#ac3c2e</color>
+    <!-- reference-->
+    <color name="textColorBlack">#3a3a3a</color>
+    <color name="textColorWhite">#ffffff</color>
+    <color name="textColorGray">#808080</color>
+    <color name="textColorPink">#e5376b</color>
+    <drawable name="windowBackground">#f5f5f5</drawable>
+    <drawable name="titleBackground">#fa8faf</drawable>
+    <color name="home_horizontal_line">#c9c9c9</color>
+
+    <color name="tab_text_selected">#fadd71</color>
+    <color name="tab_text_unSelected">#b7b7b7</color>
+    <color name="money_color">#ffffff</color>
+
+    <!-- for test -->
+    <drawable name="test_01">#eb3232</drawable>
+    <drawable name="test_02">#22e222</drawable>
+    <drawable name="test_03">#22e2e2</drawable>
+
+    <!--tab-->
+    <color name="tab_frame">#ac3c2e</color>
+    <color name="tab_select">#ffffff</color>
+    <color name="tab_bg">#e5386b</color>
+</resources>

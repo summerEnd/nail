@@ -1,0 +1,233 @@
+<resources xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="android:Theme.Holo.Light">
+        <!-- Customize your theme here. -->
+        <item name="android:windowBackground">@drawable/windowBackground</item>
+        <item name="android:windowNoTitle">true</item>
+    </style>
+
+    <style name="activity_padding">
+        <item name="android:paddingRight">@dimen/activity_horizontal_margin</item>
+        <item name="android:paddingLeft">@dimen/activity_horizontal_margin</item>
+        <item name="android:paddingBottom">@dimen/activity_vertical_margin</item>
+        <item name="android:paddingTop">@dimen/activity_vertical_margin</item>
+    </style>
+
+    <style name="text_click_item" parent="click_item_padding">
+        <item name="android:background">@drawable/bg_with_shadow</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/textColorBlack</item>
+        <item name="android:textSize">@dimen/textSize_2</item>
+        <item name="android:clickable">true</item>
+        <item name="android:drawableRight">@drawable/right_arrow</item>
+        <item name="android:drawablePadding">6dp</item>
+        <item name="android:gravity">center_vertical</item>
+    </style>
+
+    <style name="setting_click_item" parent="text_click_item">
+        <item name="android:onClick">onClick</item>
+        <item name="android:clickable">true</item>
+    </style>
+
+    <style name="horizontal_line">
+        <item name="android:background">#d5d5d5</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1px</item>
+    </style>
+
+    <style name="vertical_line">
+        <item name="android:background">#d5d5d5</item>
+        <item name="android:layout_width">1px</item>
+        <item name="android:layout_height">match_parent</item>
+    </style>
+
+    <style name="main_activity_tab_style">
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:paddingTop">4dp</item>
+        <item name="android:paddingBottom">3dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:onClick">onTabClick</item>
+        <item name="android:clickable">true</item>
+    </style>
+
+    <style name="main_tab_image_style">
+        <item name="android:layout_width">26dp</item>
+        <item name="android:layout_centerHorizontal">true</item>
+        <item name="android:layout_height">26dp</item>
+    </style>
+
+    <style name="main_tab_text_style">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_centerHorizontal">true</item>
+        <item name="android:textSize">@dimen/textSize_5</item>
+        <item name="android:textColor">@color/textColorBlack</item>
+    </style>
+    <!--title-->
+    <style name="title_text_style">
+        <item name="android:textSize">21sp</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:id">@id/title_text</item>
+    </style>
+
+    <!--首页 背景有横线的文字-->
+    <style name="text_with_horizontal_line">
+
+        <item name="android:paddingLeft">8dp</item>
+        <item name="android:paddingRight">8dp</item>
+        <item name="android:textColor">@color/textColorBlack</item>
+        <item name="android:textSize">@dimen/textSize_2</item>
+        <item name="android:background">@drawable/windowBackground</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+    </style>
+    <!--首页 更多 文字style-->
+    <style name="text_home_more">
+        <item name="android:layout_marginRight">7dp</item>
+        <item name="android:layout_gravity">right|center_vertical</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:drawableRight">@drawable/right_arrow</item>
+        <item name="android:textSize">@dimen/textSize_2</item>
+        <item name="android:textColor">@color/textColorBlack</item>
+        <item name="android:text">更多</item>
+        <item name="android:layout_marginTop">4dp</item>
+        <item name="android:drawablePadding">6dp</item>
+    </style>
+
+    <style name="home_item_style">
+
+        <item name="android:gravity">center</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:padding">2dp</item>
+    </style>
+
+    <style name="home_second_title_margin">
+        <item name="android:layout_marginLeft">5dp</item>
+        <item name="android:layout_marginRight">5dp</item>
+        <item name="android:layout_marginBottom">10dp</item>
+        <item name="android:layout_marginTop">10dp</item>
+    </style>
+
+    <style name="tab_login_style">
+        <item name="android:background">@drawable/tab_selector_2</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@drawable/tab_text_drawable</item>
+        <item name="android:padding">8dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">@dimen/textSize_dp_24px</item>
+
+    </style>
+
+    <style name="tab_order_style" parent="tab_login_style">
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="tab_item_name_style">
+        <item name="android:textColor">@color/textColorBlack</item>
+        <item name="android:textSize">@dimen/textSize_3</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="tab_item_value_style" parent="edit">
+        <item name="android:textColor">@color/textColorGray</item>
+        <item name="android:textSize">@dimen/textSize_3</item>
+    </style>
+
+    <style name="tab_item_style">
+        <item name="android:paddingLeft">9dp</item>
+        <item name="android:paddingTop">6dp</item>
+        <item name="android:paddingBottom">6dp</item>
+    </style>
+
+    <style name="tabRow_item_change_data">
+        <item name="android:paddingLeft">10dp</item>
+        <item name="android:paddingRight">10dp</item>
+        <item name="android:paddingTop">14dp</item>
+        <item name="android:paddingBottom">14dp</item>
+    </style>
+
+    <style name="forget_edit_style" parent="edit">
+        <item name="android:layout_marginTop">@dimen/edit_margin_top</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginLeft">@dimen/activity_horizontal_margin</item>
+        <item name="android:layout_marginRight">@dimen/activity_horizontal_margin</item>
+    </style>
+
+    <style name="plan_text_style">
+        <item name="android:textSize">@dimen/textSize_3</item>
+        <item name="android:textColor">@color/textColorBlack</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="edit_item_style">
+        <item name="android:textColor">@color/textColorBlack</item>
+        <item name="android:textSize">@dimen/textSize_3</item>
+    </style>
+
+    <style name="list_style">
+        <item name="android:divider">@color/light_gray</item>
+        <item name="android:dividerHeight">1px</item>
+    </style>
+
+    <style name="choose_artist_select_style">
+        <item name="android:clickable">true</item>
+        <item name="android:onClick">onClick</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:paddingLeft">8dp</item>
+        <item name="android:paddingRight">8dp</item>
+        <item name="android:paddingTop">12dp</item>
+        <item name="android:paddingBottom">12dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:background">@drawable/click_whit_bg</item>
+        <item name="android:orientation">vertical</item>
+
+    </style>
+
+    <style name="schedule_item_free">
+        <item name="android:background">#fe5000</item>
+        <item name="android:textColor">#ffffff</item>
+        <item name="android:textSize">@dimen/textSize_dp_36px</item>
+    </style>
+
+    <style name="schedule_item_busy">
+
+    </style>
+
+    <style name="schedule_tab_style">
+        <item name="android:background">@drawable/schedule_tab_bg</item>
+        <item name="android:textColor">@color/textColorGray</item>
+        <item name="android:textSize">@dimen/textSize_dp_30px</item>
+        <item name="android:button">@null</item>
+        <item name="android:layout_height">45dp</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="ww" parent="android:Theme.Holo" />
+    <!--
+    <item name="android:paddingLeft"></item>
+    <item name="android:paddingRight"></item>
+    <item name="android:paddingTop"></item>
+    <item name="android:paddingBottom"></item>
+
+    <item name="android:layout_marginLeft"></item>
+    <item name="android:layout_marginRight"></item>
+    <item name="android:layout_marginBottom"></item>
+    <item name="android:layout_marginTop"></item>
+    -->
+</resources>

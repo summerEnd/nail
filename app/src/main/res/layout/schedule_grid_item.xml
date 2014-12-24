@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:background="#fe5000"
+    android:padding="10dp"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="10:00"
+        android:textColor="#ffffff"
+        android:layout_alignParentRight="true"
+        android:textSize="@dimen/textSize_dp_36px"
+        android:id="@+id/time" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="可预约"
+        android:textColor="#ffffff"
+        android:layout_alignParentRight="true"
+        android:textSize="@dimen/textSize_dp_24px"
+        android:layout_below="@+id/time"
+        android:id="@+id/schedule_state" />
+</RelativeLayout>

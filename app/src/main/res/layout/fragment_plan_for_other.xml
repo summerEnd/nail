@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.finger.support.widget.EditItem
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        app:edit_drawable="@drawable/ic_user"
+        android:layout_width="match_parent"
+        app:edit_hint="请输入联系人姓名"
+        android:layout_height="wrap_content" />
+
+    <com.finger.support.widget.EditItem
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        app:edit_drawable="@drawable/ic_mobile"
+        android:layout_width="match_parent"
+        app:edit_hint="点击输入联系人手机号"
+        android:layout_height="wrap_content" />
+
+    <com.finger.support.widget.EditItem
+        android:id="@+id/item_choose_time"
+        style="@style/click"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        app:edit_drawable="@drawable/ic_clock"
+        android:layout_width="match_parent"
+        app:edit_hint="选择预约时间"
+        app:edit_editable="true"
+        android:layout_height="wrap_content" />
+
+    <com.finger.support.widget.EditItem
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        app:edit_drawable="@drawable/ic_fly"
+        android:layout_width="match_parent"
+        app:edit_hint="点击输入详细地址"
+        android:layout_height="wrap_content" />
+
+    <View
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <Button
+        style="@style/button_large"
+        android:layout_marginBottom="20dp"
+        android:id="@+id/choose_nail_artist"
+        android:text="@string/choose_nail_artist" />
+</LinearLayout>

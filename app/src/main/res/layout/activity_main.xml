@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <FrameLayout
+        android:id="@+id/frag_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/tab_layout" />
+
+    <LinearLayout
+        android:id="@+id/tab_layout"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@color/white"
+        android:checkedButton="@+id/r1"
+        android:layout_gravity="center_horizontal">
+
+        <RelativeLayout style="@style/main_activity_tab_style" android:id="@+id/tab1">
+
+            <ImageView
+                style="@style/main_tab_image_style"
+                android:src="@drawable/tab_home_02"
+                android:id="@+id/r1" />
+
+            <TextView
+                android:id="@+id/t1"
+                style="@style/main_tab_text_style"
+                android:text="首页"
+                android:layout_below="@+id/r1" />
+        </RelativeLayout>
+
+        <RelativeLayout style="@style/main_activity_tab_style" android:id="@+id/tab2">
+
+            <ImageView
+                style="@style/main_tab_image_style"
+                android:src="@drawable/tab_order_01"
+                android:id="@+id/r2" />
+
+            <TextView
+                android:id="@+id/t2"
+                style="@style/main_tab_text_style"
+                android:text="订单"
+                android:layout_below="@+id/r2" />
+        </RelativeLayout>
+
+        <RelativeLayout style="@style/main_activity_tab_style" android:id="@+id/tab3">
+
+            <ImageView
+                style="@style/main_tab_image_style"
+                android:src="@drawable/tab_my_01"
+                android:id="@+id/r3" />
+
+            <TextView
+                android:id="@+id/t3"
+                style="@style/main_tab_text_style"
+                android:text="我的"
+                android:layout_below="@+id/r3" />
+        </RelativeLayout>
+
+        <RelativeLayout style="@style/main_activity_tab_style" android:id="@+id/tab4">
+
+            <ImageView
+                style="@style/main_tab_image_style"
+                android:src="@drawable/tab_service_01"
+                android:id="@+id/r4" />
+
+            <TextView
+                android:id="@+id/t4"
+                style="@style/main_tab_text_style"
+                android:text="客服"
+                android:layout_below="@+id/r4" />
+        </RelativeLayout>
+
+    </LinearLayout>
+</RelativeLayout>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--设置-->
+    <item name="about" type="id" />
+    <item name="service_area" type="id" />
+    <item name="suggestion" type="id" />
+    <item name="update_software" type="id" />
+    <item name="clear_cache" type="id" />
+    <item name="update_password" type="id" />
+    <item name="logout" type="id" />
+
+    <!--个人中心-->
+    <item name="settings" type="id" />
+
+    <item name="my_discount_card" type="id" />
+    <item name="my_collection" type="id" />
+    <item name="my_attention" type="id" />
+
+    <item name="publish_nail" type="id" />
+    <item name="published_nail" type="id" />
+    <item name="honor_level" type="id" />
+
+    <!--标题栏-->
+    <item name="title_text" type="id" />
+    <item name="title_back" type="id" />
+    <item name="title_list" type="id" />
+</resources>

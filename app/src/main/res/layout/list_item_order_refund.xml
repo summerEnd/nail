@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:paddingTop="@dimen/order_item_vertical_padding"
+    android:paddingBottom="@dimen/order_item_vertical_padding"
+    android:layout_height="wrap_content">
+
+    <TextView
+        style="@style/horizontal_line"
+        android:background="#999999" />
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:background="@drawable/clicked_white"
+        android:paddingBottom="@dimen/order_item_vertical_padding"
+        android:paddingLeft="@dimen/order_list_padding_horizontal"
+        android:paddingRight="@dimen/order_list_padding_horizontal"
+        android:paddingTop="@dimen/order_list_padding_horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:layout_marginTop="@dimen/order_list_margin_top"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/avatar"
+                android:layout_width="@dimen/avatar_size"
+                android:src="@drawable/default_user"
+                android:layout_height="@dimen/avatar_size" />
+
+            <TextView
+                android:id="@+id/tv_title"
+                android:textSize="@dimen/textSize_dp_30px"
+                android:textColor="@color/black"
+                android:layout_width="wrap_content"
+                android:text="梅超风系列"
+                android:layout_toRightOf="@id/avatar"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/tv_price"
+                android:layout_marginTop="@dimen/order_list_margin_top"
+                android:textSize="@dimen/textSize_dp_24px"
+                android:textColor="@color/textColorGray"
+                android:layout_width="wrap_content"
+                android:text="价格：￥100"
+                android:layout_below="@+id/tv_title"
+                android:layout_toRightOf="@id/avatar"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:textSize="@dimen/textSize_dp_24px"
+                android:layout_marginTop="@dimen/order_list_margin_top"
+                android:textColor="@color/textColorGray"
+                android:layout_width="wrap_content"
+                android:text="下单时间：2014.05.11"
+                android:layout_below="@+id/tv_price"
+                android:layout_toRightOf="@id/avatar"
+                android:layout_height="wrap_content" />
+        </RelativeLayout>
+
+        <TextView style="@style/horizontal_line" />
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:paddingTop="@dimen/item_margin_top"
+            android:paddingBottom="@dimen/item_margin_top"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:text="实付："
+                android:layout_centerVertical="true"
+                android:layout_alignParentLeft="true"
+                android:id="@+id/sf"
+                android:textSize="@dimen/textSize_dp_28px"
+                android:textColor="@color/textColorGray"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:layout_toRightOf="@+id/sf"
+                android:layout_width="wrap_content"
+                android:text="￥108"
+                android:layout_centerVertical="true"
+                android:textSize="@dimen/textSize_dp_30px"
+                android:textColor="@color/textColorBlack"
+                android:layout_height="wrap_content" />
+
+            <Button
+                style="@style/button_mid"
+                android:layout_width="@dimen/small_button_width"
+                android:layout_height="@dimen/small_button_height"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:background="@drawable/button_green"
+                android:text="申请退款" />
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <TextView
+        style="@style/horizontal_line"
+        android:background="#999999" />
+</LinearLayout>

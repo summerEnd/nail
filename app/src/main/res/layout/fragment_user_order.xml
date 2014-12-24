@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum="1">
+
+    <include layout="@layout/head_1" />
+
+    <RadioGroup
+        android:id="@+id/rg"
+        android:layout_margin="3dp"
+        android:background="@drawable/tab_bg_2"
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:layout_height="wrap_content">
+
+        <RadioButton
+            style="@style/tab_order_style"
+            android:id="@+id/rb1"
+            android:checked="true"
+            android:text="已下订单"
+            android:button="@null" />
+
+        <RadioButton
+            style="@style/tab_order_style"
+            android:id="@+id/rb2"
+            android:text="等待美甲"
+            android:button="@null" />
+
+        <RadioButton
+            style="@style/tab_order_style"
+            android:id="@+id/rb3"
+            android:text="等待评价"
+            android:button="@null" />
+
+        <RadioButton
+            style="@style/tab_order_style"
+            android:id="@+id/rb4"
+            android:text="退款服务"
+            android:button="@null" />
+    </RadioGroup>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/frag_container" />
+</LinearLayout>

@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:button="@null"
+        android:id="@+id/cb"
+        android:checked="true"
+        android:layout_marginLeft="@dimen/my_care_margin"
+        android:layout_centerVertical="true"
+        android:background="@drawable/cb"
+        />
+    <RelativeLayout
+        android:layout_toRightOf="@+id/cb"
+        android:layout_margin="@dimen/my_care_margin"
+        android:id="@+id/content"
+        android:orientation="vertical"
+        android:background="@drawable/corner_frame_white_solid"
+        style="@style/list_padding_style"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/avatar"
+            android:layout_centerVertical="true"
+            android:src="@drawable/default_user"
+            android:layout_width="@dimen/avatar_size"
+            android:layout_height="@dimen/avatar_size" />
+
+        <TextView
+            android:id="@+id/tv_nick_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/textSize_dp_30px"
+            android:text="大超神"
+            android:textColor="@color/black"
+            android:layout_toRightOf="@id/avatar" />
+
+        <TextView
+            android:id="@+id/tv_distance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/textSize_dp_24px"
+            android:text="距您200公里"
+            android:layout_alignBottom="@+id/avatar"
+            android:textColor="@color/black"
+            android:layout_toRightOf="@id/avatar" />
+
+        <TextView
+            android:id="@+id/tv_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/textSize_dp_30px"
+            android:text="均价：￥20000"
+            android:layout_alignParentTop="true"
+            android:textColor="@color/black"
+            android:layout_alignParentRight="true" />
+
+        <com.finger.support.widget.RatingWidget
+            app:stars="4"
+            app:drawable="@drawable/star2"
+            android:layout_below="@+id/tv_price"
+            android:layout_above="@+id/tv_order_number"
+            android:layout_width="wrap_content"
+            android:gravity="center"
+            android:layout_alignParentRight="true"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/tv_order_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/textSize_dp_24px"
+            android:text="共接单3000次"
+            android:layout_alignParentRight="true"
+            android:layout_alignBottom="@+id/avatar"
+            android:textColor="@color/textColorGray" />
+
+
+
+    </RelativeLayout>
+    <TextView
+        android:layout_width="@dimen/number_size"
+        android:background="@drawable/number_bg"
+        android:layout_alignRight="@+id/content"
+        android:layout_height="@dimen/number_size"
+        android:gravity="center"
+        android:layout_marginRight="-12dp"
+        android:textColor="@color/textColorWhite"
+        android:text="5" />
+</RelativeLayout>
