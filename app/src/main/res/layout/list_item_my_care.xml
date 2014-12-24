@@ -6,18 +6,20 @@
 
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <CheckBox
+
+    <ImageView
         android:layout_width="wrap_content"
+        android:padding="8dp"
         android:layout_height="wrap_content"
-        android:button="@null"
-        android:id="@+id/cb"
-        android:checked="true"
+        android:gravity="center"
+        android:id="@+id/iv_delete"
+        android:scaleType="centerInside"
         android:layout_marginLeft="@dimen/my_care_margin"
         android:layout_centerVertical="true"
-        android:background="@drawable/cb"
-        />
+        android:src="@drawable/attention_checked" />
+
     <RelativeLayout
-        android:layout_toRightOf="@+id/cb"
+        android:layout_toRightOf="@+id/iv_delete"
         android:layout_margin="@dimen/my_care_margin"
         android:id="@+id/content"
         android:orientation="vertical"
@@ -83,8 +85,8 @@
             android:textColor="@color/textColorGray" />
 
 
-
     </RelativeLayout>
+
     <TextView
         android:layout_width="@dimen/number_size"
         android:background="@drawable/number_bg"

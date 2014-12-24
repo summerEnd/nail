@@ -74,10 +74,10 @@
 
         <Button
             style="@style/button_mid"
-            android:layout_width="100dp"
+            android:layout_width="wrap_content"
             android:layout_marginTop="@dimen/item_margin_top"
             android:layout_marginBottom="@dimen/item_margin_top"
-            android:layout_height="35dp"
+            android:layout_height="@dimen/small_button_height"
             android:layout_gravity="right"
             android:background="@drawable/button_green"
             android:text="付款" />

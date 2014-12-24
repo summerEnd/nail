@@ -35,6 +35,7 @@
     <ListView
         android:layout_width="match_parent"
         android:divider="@null"
+        android:listSelector="@null"
         android:layout_height="wrap_content"
         android:id="@+id/listView" />
 </LinearLayout>

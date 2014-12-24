@@ -11,6 +11,7 @@
 
     <style name="button_mid" parent="button">
         <item name="android:layout_width">160dp</item>
+        <item name="android:textSize">@dimen/textSize_dp_30px</item>
     </style>
 
     <style name="button_large" parent="button">
