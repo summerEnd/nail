@@ -2,7 +2,7 @@ package com.finger.activity.other.setting;
 
 import android.os.Bundle;
 
-import com.finger.BaseActivity;
+import com.finger.activity.BaseActivity;
 import com.finger.R;
 
 public class About extends BaseActivity {

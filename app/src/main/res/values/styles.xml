@@ -5,6 +5,7 @@
         <!-- Customize your theme here. -->
         <item name="android:windowBackground">@drawable/windowBackground</item>
         <item name="android:windowNoTitle">true</item>
+        <item name="android:textColorHint">#e1e1e1</item>
     </style>
 
     <style name="activity_padding">
@@ -151,6 +152,12 @@
         <item name="android:paddingBottom">6dp</item>
     </style>
 
+    <style name="tab_item_style_publish">
+        <item name="android:paddingLeft">9dp</item>
+        <item name="android:paddingTop">10dp</item>
+        <item name="android:paddingBottom">10dp</item>
+    </style>
+
     <style name="tabRow_item_change_data">
         <item name="android:paddingLeft">10dp</item>
         <item name="android:paddingRight">10dp</item>
@@ -230,6 +237,21 @@
         <item name="android:paddingRight">7dp</item>
     </style>
 
+    <style name="order_confirm_item_style" parent="activity_padding">
+        <item name="android:paddingTop">10dp</item>
+        <item name="android:paddingBottom">10dp</item>
+    </style>
+
+    <style name="order_confirm_item_name">
+        <item name="android:textSize">@dimen/textSize_dp_30px</item>
+        <item name="android:textColor">@color/textColorBlack</item>
+    </style>
+
+    <style name="order_confirm_item_value">
+        <item name="android:textSize">@dimen/textSize_dp_30px</item>
+        <item name="android:textColor">@color/textColorGray</item>
+        <item name="android:layout_marginLeft">9dp</item>
+    </style>
     <!--
     <item name="android:paddingLeft"></item>
     <item name="android:paddingRight"></item>

@@ -70,7 +70,7 @@ public class ArtistItem extends LinearLayout {
         tv_name = (TextView) v.findViewById(R.id.tv_name);
 
         iv = (ImageView) v.findViewById(R.id.im_nail);
-        avatar = (ImageView) v.findViewById(R.id.avatar);
+        avatar = (ImageView) v.findViewById(R.id.iv_avatar);
 
         rating = (RatingWidget) v.findViewById(R.id.rating);
 

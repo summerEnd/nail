@@ -7,19 +7,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
-import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.finger.BaseActivity;
+import com.finger.activity.BaseActivity;
 import com.finger.R;
 import com.finger.support.entity.ArtistItemBean;
-import com.finger.support.entity.NailItemBean;
-import com.finger.support.widget.ArtistItem;
 
-import java.text.DecimalFormat;
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 

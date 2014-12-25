@@ -13,7 +13,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.GridView;
 
-import com.finger.BaseActivity;
+import com.finger.activity.BaseActivity;
 import com.finger.R;
 import com.finger.support.entity.NailItemBean;
 import com.finger.support.widget.ItemUtil;

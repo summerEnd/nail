@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <drawable name="album_btn_normal">#485050</drawable>
+    <drawable name="album_btn_pressed">#808383</drawable>
+    <color name="album_btn_pressed_color">#333333</color>
+    <color name="album_btn_normal_color">#cfcfcf</color>
+    <dimen name="photo_album_item_size">120dp</dimen>
+
+    <style name="popup_window_animation">
+        <item name="android:windowEnterAnimation">@anim/window_enter</item>
+        <item name="android:windowExitAnimation">@anim/window_exit</item>
+    </style>
+</resources>

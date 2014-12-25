@@ -2,7 +2,7 @@ package com.finger.activity.other.info;
 
 import android.os.Bundle;
 
-import com.finger.BaseActivity;
+import com.finger.activity.BaseActivity;
 import com.finger.R;
 import com.finger.activity.other.plan.NailItemListFragment;
 

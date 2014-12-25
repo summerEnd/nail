@@ -1,10 +1,16 @@
 package com.finger.support.net;
 
+import com.finger.BuildConfig;
 import com.finger.support.Constant;
 import com.finger.FingerApp;
+import com.finger.support.util.ContextUtil;
 import com.loopj.android.http.RequestParams;
 import com.sp.lib.support.SHttpClient;
 import com.sp.lib.support.WebJsonHttpHandler;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.Date;
 
@@ -18,16 +24,16 @@ public class FingerHttpClient {
     private static final String host = "http://192.168.1.142/Manicures/index.php?s=/Home/Api/";
     private static String MIEI = "miei";
 
-    public static void setDialogCreator(SHttpClient.ProgressDialogCreator creator){
+    public static void setDialogCreator(SHttpClient.ProgressDialogCreator creator) {
         SHttpClient.setDialogCreator(creator);
     }
 
     /**
-     * @param method 调用的方法名称
-     * @param params 参数
+     * @param method  调用的方法名称
+     * @param params  参数
      * @param handler
      */
-    public static void post(String method, RequestParams params, WebJsonHttpHandler handler) {
+    public static void post(String method, RequestParams params, final FingerHttpHandler handler) {
 
         String time = String.valueOf(new Date().getTime());
         String uuId = getImei();
@@ -38,7 +44,31 @@ public class FingerHttpClient {
         params.put("version", getVersion());
         params.put("os", "android");
         params.put("uid", ((FingerApp) getContext()).getUser().id);
-        SHttpClient.post(host+method, params, handler);
+        SHttpClient.post(host + method, params, new WebJsonHttpHandler() {
+            @Override
+            public void onSuccess(JSONObject object, JSONArray array) {
+                JSONObject response = null;
+                try {
+                    response = object.getJSONObject("response");
+                    if (!"100".equals(response.getString("code"))) {
+                        handler.onFail(object);
+
+                    }else{
+                        handler.onSuccess(response);
+                    }
+                    String msg = response.getString("msg");
+                    ContextUtil.toast(msg);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFail(String msg) {
+                ContextUtil.toast(msg);
+            }
+        }, BuildConfig.DEBUG);
     }
 
 

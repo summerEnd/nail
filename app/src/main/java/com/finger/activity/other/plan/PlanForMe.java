@@ -9,7 +9,6 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,14 +23,18 @@ import com.baidu.mapapi.map.MapView;
 import com.baidu.mapapi.map.MarkerOptions;
 import com.baidu.mapapi.map.Overlay;
 import com.baidu.mapapi.model.LatLng;
-import com.finger.BaseActivity;
+import com.finger.activity.BaseActivity;
 import com.finger.R;
 import com.finger.support.api.BaiduAPI;
+import com.finger.support.entity.OrderBean;
+import com.finger.support.entity.OrderManager;
 import com.finger.support.entity.RoleBean;
 import com.finger.support.widget.EditItem;
 import com.finger.support.util.ContextUtil;
 
-public class PlanForMe extends Fragment implements View.OnClickListener {
+import static com.finger.activity.other.plan.PlanActivity.PlanFragment;
+
+public class PlanForMe extends PlanFragment implements View.OnClickListener {
     MapView mMapView;
     EditItem edit_gps;
     EditItem edit_address;
@@ -60,6 +63,7 @@ public class PlanForMe extends Fragment implements View.OnClickListener {
         if (mMapView != null) mMapView.onPause();
     }
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_plan_for_me, null);
@@ -67,9 +71,9 @@ public class PlanForMe extends Fragment implements View.OnClickListener {
         edit_plan_time = (EditItem) v.findViewById(R.id.item_plan_time);
         edit_gps = (EditItem) v.findViewById(R.id.item_gps);
         edit_address = (EditItem) v.findViewById(R.id.item_address);
-
         edit_gps.setOnClickListener(this);
         edit_plan_time.setOnClickListener(this);
+        v.findViewById(R.id.choose_nail_artist).setOnClickListener(this);
         RoleBean bean = ((BaseActivity) getActivity()).getApp().getUser();
         addMark(bean.latitude, bean.longitude);
 
@@ -107,15 +111,16 @@ public class PlanForMe extends Fragment implements View.OnClickListener {
                 ContextUtil.toast_debug("click");
                 if (!BaiduAPI.isGpsEnabled(getActivity())) {
 
-                    AlertDialog.Builder builder=new AlertDialog.Builder(getActivity());
-                    builder.setTitle("温馨提示");
-                    builder.setPositiveButton(R.string.yes,new DialogInterface.OnClickListener() {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                    builder.setTitle(getString(R.string.warn));
+                    builder.setMessage(getString(R.string.open_gps_msg));
+                    builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             gpsActivity();
                         }
                     });
-                    builder.setNegativeButton(R.string.cancel,new DialogInterface.OnClickListener() {
+                    builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
 
@@ -134,6 +139,16 @@ public class PlanForMe extends Fragment implements View.OnClickListener {
             }
             case R.id.item_plan_time: {
                 ((BaseActivity) getActivity()).onClick(v);
+                break;
+            }
+            case R.id.choose_nail_artist: {
+                OrderBean bean = OrderManager.getCurrentOrder();
+                if (bean == null) {
+                    bean = OrderManager.createOrder();
+                    bean.location = "location";
+                }
+                bean.location = "location";
+                submit();
                 break;
             }
         }

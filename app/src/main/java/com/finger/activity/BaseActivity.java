@@ -1,4 +1,4 @@
-package com.finger;
+package com.finger.activity;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -10,6 +10,8 @@ import android.view.View;
 import android.widget.TextView;
 
 
+import com.finger.FingerApp;
+import com.finger.R;
 import com.finger.support.util.Logger;
 
 import static com.finger.support.util.Logger.i;

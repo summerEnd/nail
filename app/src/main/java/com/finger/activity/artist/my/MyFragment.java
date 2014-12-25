@@ -29,12 +29,13 @@ public class MyFragment extends Fragment implements View.OnClickListener {
     TextView settings;
     ImageView iv_avatar;
     GridView gridView;
+
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         View v = inflater.inflate(R.layout.fragment_center_artist, null);
         ((TextView) v.findViewById(R.id.title_text)).setText(R.string.personal_center);
-        gridView= (GridView) v.findViewById(R.id.grid);
+        gridView = (GridView) v.findViewById(R.id.grid);
         gridView.setAdapter(new NailListAdapter(getActivity()));
         findIds(v);
         setAvatar();
@@ -43,6 +44,7 @@ public class MyFragment extends Fragment implements View.OnClickListener {
 
     void findIds(View v) {
         settings = (TextView) v.findViewById(R.id.settings);
+        v.findViewById(R.id.publish_nail).setOnClickListener(this);
         iv_avatar = (ImageView) v.findViewById(R.id.iv_avatar);
         settings.setOnClickListener(this);
         iv_avatar.setOnClickListener(this);
@@ -80,8 +82,8 @@ public class MyFragment extends Fragment implements View.OnClickListener {
                     break;
                 }
                 case R.id.publish_nail: {
-//                Intent intent=new Intent(context,MyDiscountActivity.class);
-//                context.startActivity(intent);
+                Intent intent=new Intent(context,PublishNailActivity.class);
+                context.startActivity(intent);
                     break;
                 }
                 case R.id.published_nail: {

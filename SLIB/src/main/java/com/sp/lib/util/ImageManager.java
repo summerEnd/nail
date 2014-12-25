@@ -44,9 +44,11 @@ public class ImageManager {
         ImageLoader.getInstance().displayImage(uri,iv,options);
     }
 
+
     public static void clear(){
         ImageLoader.getInstance().clearDiskCache();
         ImageLoader.getInstance().clearMemoryCache();
     }
+
 
 }

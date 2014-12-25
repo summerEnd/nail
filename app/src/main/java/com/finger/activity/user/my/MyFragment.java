@@ -33,7 +33,7 @@ public class MyFragment extends Fragment implements View.OnClickListener {
         my_discount_card.setOnClickListener(this);
         v.findViewById(R.id.my_attention).setOnClickListener(this);
         v.findViewById(R.id.my_collection).setOnClickListener(this);
-        v.findViewById(R.id.avatar).setOnClickListener(this);
+        v.findViewById(R.id.iv_avatar).setOnClickListener(this);
         return v;
     }
 
@@ -49,7 +49,7 @@ public class MyFragment extends Fragment implements View.OnClickListener {
         {
             Context context = v.getContext();
             switch (v.getId()) {
-                case R.id.avatar: {
+                case R.id.iv_avatar: {
                     startActivity(new Intent(getActivity(), ChangeMyData.class));
                     break;
                 }

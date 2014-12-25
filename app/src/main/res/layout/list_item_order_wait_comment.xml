@@ -27,7 +27,7 @@
             android:layout_height="wrap_content">
 
             <ImageView
-                android:id="@+id/avatar"
+                android:id="@+id/iv_avatar"
                 android:layout_width="@dimen/avatar_size"
                 android:src="@drawable/default_user"
                 android:layout_height="@dimen/avatar_size" />
@@ -38,7 +38,7 @@
                 android:textColor="@color/black"
                 android:layout_width="wrap_content"
                 android:text="梅超风系列"
-                android:layout_toRightOf="@id/avatar"
+                android:layout_toRightOf="@id/iv_avatar"
                 android:layout_height="wrap_content" />
 
             <TextView
@@ -49,7 +49,7 @@
                 android:layout_width="wrap_content"
                 android:text="价格：￥100"
                 android:layout_below="@+id/tv_title"
-                android:layout_toRightOf="@id/avatar"
+                android:layout_toRightOf="@id/iv_avatar"
                 android:layout_height="wrap_content" />
 
             <TextView
@@ -59,7 +59,7 @@
                 android:layout_width="wrap_content"
                 android:text="下单时间：2014.05.11"
                 android:layout_below="@+id/tv_price"
-                android:layout_toRightOf="@id/avatar"
+                android:layout_toRightOf="@id/iv_avatar"
                 android:layout_height="wrap_content" />
         </RelativeLayout>
 

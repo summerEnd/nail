@@ -11,7 +11,6 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.finger.BaseActivity;
 import com.finger.R;
 import com.finger.activity.other.login.LoginActivity;
 import com.finger.activity.artist.my.MyFragment;

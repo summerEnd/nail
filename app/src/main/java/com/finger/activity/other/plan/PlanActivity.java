@@ -2,17 +2,20 @@ package com.finger.activity.other.plan;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.Button;
 import android.widget.RadioGroup;
 
 import com.baidu.location.BDLocation;
-import com.finger.BaseActivity;
+import com.finger.activity.BaseActivity;
 import com.finger.R;
 import com.finger.support.api.BaiduAPI;
+import com.finger.support.entity.OrderBean;
+import com.finger.support.entity.OrderManager;
 import com.finger.support.entity.RoleBean;
-import com.finger.support.util.ContextUtil;
 
 public class PlanActivity extends BaseActivity implements RadioGroup.OnCheckedChangeListener {
     RadioGroup rg_plan;
@@ -20,6 +23,7 @@ public class PlanActivity extends BaseActivity implements RadioGroup.OnCheckedCh
     PlanForOther mPlanForOther = new PlanForOther();
     int REQUEST_CODE_GPS = 101;
     Schedule mSchedule;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,6 +31,7 @@ public class PlanActivity extends BaseActivity implements RadioGroup.OnCheckedCh
 
         rg_plan = (RadioGroup) findViewById(R.id.rg_plan);
         rg_plan.setOnCheckedChangeListener(this);
+
         getSupportFragmentManager().beginTransaction()
                 .add(R.id.frag_container, mPlanForMe)
                 .commit();
@@ -53,6 +58,7 @@ public class PlanActivity extends BaseActivity implements RadioGroup.OnCheckedCh
         ft.commit();
     }
 
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_CODE_GPS) {
@@ -68,20 +74,62 @@ public class PlanActivity extends BaseActivity implements RadioGroup.OnCheckedCh
 
     @Override
     public void onClick(View v) {
-        ContextUtil.toast_debug("click:"+v);
+
         switch (v.getId()) {
 
             case R.id.item_plan_time: {
-                if (mSchedule==null){
-                    mSchedule=new Schedule(this);
+                if (mSchedule == null) {
+                    mSchedule = new Schedule(this);
                 }
-                mSchedule.showAtLocation(v, Gravity.BOTTOM,0,0);
+                mSchedule.showAtLocation(v, Gravity.BOTTOM, 0, 0);
                 break;
             }
 
             default:
                 super.onClick(v);
 
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        //此界面关闭，订单取消
+        OrderManager.cancel();
+    }
+
+
+
+    public static class PlanFragment extends Fragment {
+
+
+        @Override
+        public void onViewCreated(View view, Bundle savedInstanceState) {
+            Button commit = (Button) view.findViewById(R.id.choose_nail_artist);
+            OrderBean bean= OrderManager.getCurrentOrder();
+            if (bean == null) {
+                commit.setText(R.string.choose_nail_artist);
+            } else {
+                commit.setText(R.string.next_step);
+            }
+        }
+
+        /**
+         * 提交订单
+         */
+        public void submit() {
+
+            OrderBean bean=OrderManager.getCurrentOrder();
+
+            if (bean == null) {
+                return;
+            }
+
+            if (bean.nail_id == null) {
+                startActivity(new Intent(getActivity(),ChooseArtist.class));
+            }else{
+                startActivity(new Intent(getActivity(),OrderConfirm.class));
+            }
         }
     }
 }

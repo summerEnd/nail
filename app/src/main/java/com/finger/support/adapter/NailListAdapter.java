@@ -1,10 +1,12 @@
 package com.finger.support.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
+import com.finger.activity.other.info.NailInfo;
 import com.finger.support.widget.ItemUtil;
 import com.finger.support.widget.NailItem;
 
@@ -47,5 +49,7 @@ public class NailListAdapter extends BaseAdapter {
         item.setTitle("hi" + position);
         return convertView;
     }
+
+
 }
 

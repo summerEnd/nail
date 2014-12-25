@@ -2,7 +2,7 @@ package com.finger.activity.other.login;
 
 import android.os.Bundle;
 
-import com.finger.BaseActivity;
+import com.finger.activity.BaseActivity;
 import com.finger.R;
 
 public class UpdatePasswordActivity extends BaseActivity {

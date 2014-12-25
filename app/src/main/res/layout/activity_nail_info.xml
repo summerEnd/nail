@@ -245,6 +245,7 @@
             <TextView style="@style/horizontal_line" />
 
             <Button
+                android:id="@+id/choose_nail"
                 style="@style/button_large"
                 android:layout_marginTop="@dimen/button_to_bottom"
                 android:text="@string/choose_nail"

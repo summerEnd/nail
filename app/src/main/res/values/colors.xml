@@ -31,4 +31,8 @@
     <color name="tab_frame">#ac3c2e</color>
     <color name="tab_select">#ffffff</color>
     <color name="tab_bg">#e5386b</color>
+
+    <!--shadow-->
+    <drawable name="shadow_1">#9999</drawable>
+    <drawable name="shadow_2">#fff</drawable>
 </resources>

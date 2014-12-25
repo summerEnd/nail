@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include layout="@layout/head_2" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/activity_padding"
+            android:orientation="vertical">
+
+            <TextView
+                android:padding="8dp"
+                android:layout_width="wrap_content"
+                android:textColor="@color/textColorGray"
+                android:textSize="@dimen/textSize_dp_30px"
+                android:background="@drawable/corner_frame_white_solid"
+                android:text="在一段时间后，平台会根据普通用户对美甲师的评价做一次信用评分。\n具体情况是：\n好评加1分，中评不加分，差评减1分。"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
+                android:layout_width="wrap_content"
+                android:textColor="@color/textColorGray"
+                android:textSize="@dimen/textSize_dp_30px"
+                android:text="下面是美甲师的评分标准图示："
+                android:layout_height="wrap_content" />
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:src="@drawable/honor_1" />
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:src="@drawable/honor_2" />
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:src="@drawable/honor_3" />
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:src="@drawable/honor_4" />
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:src="@drawable/honor_5" />
+
+
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

@@ -19,6 +19,7 @@ import android.widget.TextView;
 
 import com.finger.R;
 import com.finger.support.adapter.NailListAdapter;
+import com.finger.support.entity.OrderBean;
 import com.finger.support.util.ContextUtil;
 import com.sp.lib.util.DisplayUtil;
 
@@ -31,6 +32,7 @@ public class NailItemListFragment extends Fragment implements View.OnClickListen
     PopupWindow price_area;
     View layout;
     int width;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {

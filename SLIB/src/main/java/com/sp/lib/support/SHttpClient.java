@@ -19,6 +19,7 @@ import java.util.logging.Logger;
 
 public class SHttpClient {
 
+    private static final String SLOG = "SLOG";
     private static ProgressDialogCreator mDialogCreator;
     private static Dialog mDialog;
     private static Utf8JsonHandler utf8JsonHandler = new Utf8JsonHandler();
@@ -65,25 +66,29 @@ public class SHttpClient {
                 sendSuccess(new JSONObject(responseString), null);
             } catch (JSONException e) {
                 e.printStackTrace();
+                sendSuccess(null,null);
             }
         }
 
         @Override
         public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
             super.onFailure(statusCode, headers, responseString, throwable);
+            Log.i(SLOG, "Throwable:"+responseString);
             sendFail("net error:" + statusCode);
         }
 
         @Override
         public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
             super.onFailure(statusCode, headers, throwable, errorResponse);
-            sendFail("data error");
+            Log.i(SLOG, "JSONObject:"+errorResponse );
+            sendFail("data error" + statusCode);
         }
 
         @Override
         public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
             super.onFailure(statusCode, headers, throwable, errorResponse);
-            sendFail("data error");
+            Log.i(SLOG, "JSONArray:"+errorResponse );
+            sendFail("data error" + statusCode);
         }
 
         void sendSuccess(JSONObject object, JSONArray array) {
@@ -91,11 +96,7 @@ public class SHttpClient {
                 return;
             }
 
-            if (object!=null){
-                Log.i("SLOG",object+"");
-            }else{
-                Log.i("SLOG",array+"");
-            }
+            Log.i("SLOG","sendSuccess:"+ object );
 
             handler.onSuccess(object, array);
         }
@@ -104,6 +105,7 @@ public class SHttpClient {
             if (handler == null) {
                 return;
             }
+            Log.i("SLOG","sendFail:"+ msg);
             handler.onFail(msg);
         }
 
@@ -124,14 +126,26 @@ public class SHttpClient {
     }
 
 
-    public static void post(String url, RequestParams params, WebJsonHttpHandler handler) {
+    public static void post(String url, RequestParams params, WebJsonHttpHandler handler, boolean showLog) {
         utf8JsonHandler.setHandler(handler);
         if (handler.showDialog) createDialog();
-        post(url, params, utf8JsonHandler);
+        post(url, params, utf8JsonHandler, showLog);
 
     }
 
-    public static void post(String url, RequestParams params, ResponseHandlerInterface handlerInterface) {
+    public static void post(String url, RequestParams params, ResponseHandlerInterface handlerInterface, boolean showLog) {
+
+        if (showLog) {
+            Log.i("SHTTP", params.toString());
+            String[] strings = params.toString().split("&");
+            StringBuilder builder = new StringBuilder();
+            builder.append(url + "{\n");
+            for (int i = 0; i < strings.length; i++) {
+                builder.append(strings[i] + "\n");
+            }
+            builder.append("}");
+            Log.i("SHTTP", builder.toString());
+        }
 
         client.post(url, params, handlerInterface);
     }

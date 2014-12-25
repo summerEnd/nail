@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include layout="@layout/head_2" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:paddingBottom="@dimen/button_to_bottom"
+            android:layout_height="wrap_content">
+
+            <RelativeLayout
+                android:background="@color/white"
+                android:paddingTop="@dimen/activity_vertical_margin"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:paddingRight="@dimen/activity_horizontal_margin"
+                android:paddingBottom="@dimen/activity_vertical_margin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/nail_image"
+                    android:layout_width="100dp"
+                    android:scaleType="centerCrop"
+                    android:layout_height="100dp"
+                    android:src="@drawable/test_image_01" />
+
+                <LinearLayout
+                    android:layout_toRightOf="@id/nail_image"
+                    android:layout_width="match_parent"
+                    android:orientation="vertical"
+                    android:layout_marginLeft="6dp"
+                    android:layout_alignBottom="@+id/nail_image"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="#ac3c2e"
+                        android:textSize="@dimen/textSize_dp_36px"
+                        android:text="撞色器" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="#ff0e03"
+                        android:textSize="@dimen/textSize_dp_60px"
+                        android:text="￥326.22" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/textColorGray"
+                        android:textSize="@dimen/textSize_dp_24px"
+                        android:text="店面价:￥800.00" />
+                </LinearLayout>
+            </RelativeLayout>
+
+            <TextView style="@style/horizontal_line" />
+
+            <TableLayout
+                android:layout_width="match_parent"
+                android:background="@color/white"
+                android:layout_height="wrap_content">
+
+                <TableRow style="@style/order_confirm_item_style">
+
+                    <TextView
+                        style="@style/order_confirm_item_name"
+                        android:text="联  系  人" />
+
+                    <TextView
+                        style="@style/order_confirm_item_value"
+                        android:text="赵文卓" />
+                </TableRow>
+
+                <TextView style="@style/horizontal_line" />
+
+                <TableRow style="@style/order_confirm_item_style">
+
+                    <TextView
+                        style="@style/order_confirm_item_name"
+                        android:text="手       机" />
+
+                    <TextView
+                        style="@style/order_confirm_item_value"
+                        android:text="130123455122" />
+                </TableRow>
+
+                <TextView style="@style/horizontal_line" />
+
+                <TableRow style="@style/order_confirm_item_style">
+
+                    <TextView
+                        style="@style/order_confirm_item_name"
+                        android:text="预约时间" />
+
+                    <TextView
+                        style="@style/order_confirm_item_value"
+                        android:text="12:00" />
+                </TableRow>
+
+                <TextView style="@style/horizontal_line" />
+
+                <TableRow style="@style/order_confirm_item_style">
+
+                    <TextView
+                        style="@style/order_confirm_item_name"
+                        android:text="详细地址" />
+
+                    <TextView
+                        style="@style/order_confirm_item_value"
+                        android:text="美国洛杉矶" />
+                </TableRow>
+
+                <TextView style="@style/horizontal_line" />
+
+                <TableRow style="@style/order_confirm_item_style">
+
+                    <TextView
+                        style="@style/order_confirm_item_name"
+                        android:text="备注信息" />
+
+                    <TextView
+                        style="@style/order_confirm_item_value"
+                        android:text="nonono" />
+                </TableRow>
+
+                <TextView style="@style/horizontal_line" />
+            </TableLayout>
+
+            <TextView
+                style="@style/horizontal_line"
+                android:layout_marginTop="@dimen/order_confirm_margin_top" />
+
+            <TableLayout
+                android:layout_width="match_parent"
+                android:background="@color/white"
+                android:layout_height="wrap_content">
+
+                <TableRow style="@style/order_confirm_item_style">
+
+                    <TextView
+                        style="@style/order_confirm_item_name"
+                        android:text="优惠券" />
+
+                    <Button
+                        style="@style/button_mid"
+                        android:text="选择优惠券"
+                        android:textSize="@dimen/textSize_dp_30px"
+                        android:layout_height="28dp"
+                        android:layout_width="100dp"
+                        android:layout_marginLeft="14dp" />
+                </TableRow>
+
+                <TextView style="@style/horizontal_line" />
+
+                <TableRow style="@style/order_confirm_item_style">
+
+                    <TextView
+                        style="@style/order_confirm_item_name"
+                        android:text="车费" />
+
+                    <TextView
+                        style="@style/order_confirm_item_value"
+                        android:text="20万" />
+                </TableRow>
+
+
+            </TableLayout>
+
+            <TextView style="@style/horizontal_line" />
+
+            <TextView
+                android:background="@color/white"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/textColorBlack"
+                android:textSize="@dimen/textSize_dp_30px"
+                android:gravity="right|center_vertical"
+                android:paddingTop="6dp"
+                android:paddingBottom="6dp"
+                android:paddingRight="@dimen/activity_horizontal_margin"
+                android:text="实付金额：￥399" />
+
+            <TextView style="@style/horizontal_line" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="选择支付方式"
+                android:textColor="#3a3a3a"
+                android:layout_marginTop="@dimen/order_confirm_margin_top"
+                android:layout_marginBottom="@dimen/order_confirm_margin_top"
+                android:textSize="@dimen/textSize_dp_36px"
+                android:layout_gravity="center_horizontal" />
+
+            <Button
+                style="@style/button_large"
+                android:id="@+id/commit"
+                android:text="确定下单" />
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include layout="@layout/head_2" />
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:background="@drawable/corner_frame_white_solid"
+        android:layout_height="wrap_content">
+
+        <TableRow style="@style/tab_item_style_publish">
+
+            <TextView
+                style="@style/tab_item_name_style"
+                android:text="标题：" />
+
+            <TextView
+                style="@style/tab_item_value_style"
+                android:text="新款法式白边美甲" />
+        </TableRow>
+
+        <TextView style="@style/horizontal_line" />
+
+        <TableRow style="@style/tab_item_style_publish">
+
+            <TextView
+                style="@style/tab_item_name_style"
+                android:text="价格：" />
+
+            <TextView
+                style="@style/tab_item_value_style"
+                android:text="999元" />
+        </TableRow>
+
+        <TextView style="@style/horizontal_line" />
+
+        <TableRow style="@style/tab_item_style_publish">
+
+            <TextView
+                style="@style/tab_item_name_style"
+                android:text="耗时：" />
+
+            <TextView
+                style="@style/tab_item_value_style"
+                android:text="一个半小时~2小时" />
+        </TableRow>
+
+        <TextView style="@style/horizontal_line" />
+
+        <TableRow style="@style/tab_item_style_publish">
+
+            <TextView
+                style="@style/tab_item_name_style"
+                android:text="保持时间：" />
+
+            <TextView
+                style="@style/tab_item_value_style"
+                android:text="一个月" />
+        </TableRow>
+
+        <TextView style="@style/horizontal_line" />
+
+
+        <EditText
+            android:layout_margin="1dp"
+            android:layout_height="@dimen/publish_edit_height"
+            android:gravity="top"
+            style="@style/tab_item_style_publish"
+            android:background="@color/white"
+            android:textSize="@dimen/textSize_dp_28px"
+            android:textColor="@color/textColorGray"
+            android:hint="请输入详细内容" />
+
+        <TextView style="@style/horizontal_line" />
+
+    </TableLayout>
+
+    <ImageView
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_width="wrap_content"
+        android:id="@+id/add_image"
+        android:src="@drawable/iv_add_image"
+        android:layout_height="wrap_content" />
+</LinearLayout>

@@ -2,8 +2,6 @@ package com.finger.activity;
 
 import android.os.Bundle;
 
-import com.finger.BaseActivity;
-
 /**
  * Created by acer on 2014/12/22.
  */

@@ -23,14 +23,14 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:src="@drawable/default_user"
-            android:id="@+id/avatar" />
+            android:id="@+id/iv_avatar" />
 
         <TextView
             android:id="@+id/tv_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="猪八戒"
-            android:layout_toRightOf="@id/avatar" />
+            android:layout_toRightOf="@id/iv_avatar" />
 
         <com.finger.support.widget.RatingWidget
             android:id="@+id/rating"
@@ -38,6 +38,6 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_below="@id/tv_name"
-            android:layout_toRightOf="@id/avatar" />
+            android:layout_toRightOf="@id/iv_avatar" />
     </RelativeLayout>
 </RelativeLayout>

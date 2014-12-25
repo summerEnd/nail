@@ -77,6 +77,7 @@ public class ContextUtil {
     }
 
     public static final void toast(Object o) {
+        if (null==o)return;
         Toast toast = new Toast(context);
         View v = View.inflate(context, R.layout.toast_view, null);
         toast.setView(v);

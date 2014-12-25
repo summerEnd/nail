@@ -6,7 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
-import com.finger.BaseActivity;
+import com.finger.activity.BaseActivity;
 import com.finger.BuildConfig;
 import com.finger.R;
 import com.finger.activity.other.login.UpdatePasswordActivity;

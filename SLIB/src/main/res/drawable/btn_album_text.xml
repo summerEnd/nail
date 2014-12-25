@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_pressed="true" android:color="@color/album_btn_pressed_color">
+        <shape>
+            <solid android:color="@color/album_btn_pressed_color" />
+        </shape>
+    </item>
+    <item android:state_pressed="false" android:color="@color/album_btn_normal_color">
+        <shape>
+            <solid android:color="@color/album_btn_normal_color" />
+        </shape>
+    </item>
+</selector>

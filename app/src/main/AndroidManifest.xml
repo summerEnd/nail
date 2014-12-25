@@ -24,6 +24,7 @@
     <uses-permission android:name="android.permission.READ_LOGS" />
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
 
     <application
         android:name=".FingerApp"
@@ -142,6 +143,22 @@
             android:name=".activity.other.common.ChangeMyData"
             android:screenOrientation="portrait"
             android:label="@string/change_data"></activity>
+        <activity
+            android:name=".activity.other.plan.OrderConfirm"
+            android:screenOrientation="portrait"
+            android:label="@string/order_confirm"></activity>
+        <activity
+            android:name=".activity.other.info.HonorInfoActivity"
+            android:screenOrientation="portrait"
+            android:label="@string/nail_honor_info"/>
+        <activity
+            android:name=".activity.artist.my.PublishNailActivity"
+            android:screenOrientation="portrait"
+            android:label="@string/publish_nail"/>
+        <activity
+            android:name="com.sp.lib.activity.PhotoAlbumActivity"
+            android:screenOrientation="portrait"
+            />
     </application>
 
 </manifest>

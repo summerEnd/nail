@@ -1,6 +1,7 @@
 package com.finger.support.widget;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -9,6 +10,7 @@ import android.util.AttributeSet;
 import android.view.View;
 
 import com.finger.R;
+import com.finger.activity.other.info.HonorInfoActivity;
 import com.finger.support.util.Logger;
 
 public class RatingWidget extends View {
@@ -38,7 +40,16 @@ public class RatingWidget extends View {
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.RatingWidget);
         num_star = a.getInt(R.styleable.RatingWidget_stars, 0);
         starRecourseId = a.getResourceId(R.styleable.RatingWidget_drawable, 0);
+        setOnClickListener(defaultListener);
     }
+
+    private OnClickListener defaultListener=new OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            Context context=v.getContext();
+            context.startActivity(new Intent(context, HonorInfoActivity.class));
+        }
+    };
 
     public int getStarRecourseId() {
         return starRecourseId;
@@ -66,7 +77,7 @@ public class RatingWidget extends View {
         int heightMode = MeasureSpec.getMode(heightMeasureSpec);
         int width = MeasureSpec.getSize(widthMeasureSpec);
         int height = MeasureSpec.getSize(heightMeasureSpec);
-        int horizontal_padding = getPaddingLeft() + getPaddingRight()+(num_star-1)*STAR_PADDING;
+        int horizontal_padding = getPaddingLeft() + getPaddingRight() + (num_star - 1) * STAR_PADDING;
         int vertical_padding = getPaddingTop() + getPaddingBottom();
 
         int demandWidth;
@@ -99,9 +110,10 @@ public class RatingWidget extends View {
         invalidateStars();
     }
 
+
     void invalidateStars() {
         if (starRecourseId == 0) {
-            star=null;
+            star = null;
             return;
         }
         BitmapFactory.Options options = new BitmapFactory.Options();
@@ -117,15 +129,15 @@ public class RatingWidget extends View {
     }
 
     public void onDraw(Canvas canvas) {
-        Logger.d(star+" starRecourseId:"+Integer.toHexString(starRecourseId)+" num_star:"+num_star);
+        Logger.d(star + " starRecourseId:" + Integer.toHexString(starRecourseId) + " num_star:" + num_star);
         if (star == null) {
             return;
         }
-        int top=getHeight()/2-star.getHeight()/2;
+        int top = getHeight() / 2 - star.getHeight() / 2;
         canvas.save();
         for (int i = 0; i < num_star; i++) {
-            canvas.drawBitmap(star, getPaddingLeft(), getPaddingTop()+top, null);
-            canvas.translate(star.getWidth()+ STAR_PADDING, 0);
+            canvas.drawBitmap(star, getPaddingLeft(), getPaddingTop() + top, null);
+            canvas.translate(star.getWidth() + STAR_PADDING, 0);
         }
         canvas.restore();
     }

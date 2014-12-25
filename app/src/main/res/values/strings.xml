@@ -54,5 +54,19 @@
     <string name="personal_center">个人中心</string>
     <string name="publish">发布</string>
     <string name="home_page">首页</string>
+    <string name="next_step">下一步</string>
+    <string name="order_confirm">订单确认</string>
+    <string name="nail_honor_info">美甲师荣誉等级</string>
+    <string name="s_low_to_high">%s从低到高</string>
+    <string name="s_high_to_low">%s从高到低</string>
+    <string name="distance">距离</string>
+    <string name="price">价格</string>
+    <string name="star_level">星级</string>
+    <string name="publish_nail">发布作品</string>
+    <string name="loading">加载中...</string>
+    <string name="congratulation">恭喜您！</string>
+    <string name="congrate_reg">恭喜你注册成功！</string>
+    <string name="warn">温馨提示</string>
+    <string name="open_gps_msg">打开GPS可以更精确的定位，确定打开？</string>
 
 </resources>
