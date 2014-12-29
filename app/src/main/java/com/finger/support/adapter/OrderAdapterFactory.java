@@ -269,7 +269,7 @@ public class OrderAdapterFactory {
             ViewHolder holder;
             if (convertView == null) {
                 holder = new ViewHolder();
-                convertView = inflater.inflate(R.layout.list_item_order_notice, null);
+                convertView = inflater.inflate(R.layout.list_item_refund_notice, null);
             } else {
                 holder = (ViewHolder) convertView.getTag();
             }
