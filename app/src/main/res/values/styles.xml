@@ -252,6 +252,57 @@
         <item name="android:textColor">@color/textColorGray</item>
         <item name="android:layout_marginLeft">9dp</item>
     </style>
+
+    <style name="comment_ratingBar">
+        <item name="android:progressDrawable">@drawable/rating_drawable</item>
+    </style>
+
+    <style name="comment_rb_style">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:drawableRight">@drawable/comment_radio</item>
+        <item name="android:textSize">@dimen/textSize_dp_30px</item>
+        <item name="android:button">@null</item>
+    </style>
+    <style name="comment_star_style">
+       <item name="android:layout_width">match_parent</item>
+       <item name="android:gravity">center_vertical</item>
+       <item name="android:layout_height">wrap_content</item>
+       <item name="android:layout_marginLeft">@dimen/activity_horizontal_margin</item>
+       <item name="android:orientation">horizontal</item>
+    </style>
+    <style name="comment_star_text_style">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginLeft">8dp</item>
+        <item name="android:textColor">@color/textColorBlack</item>
+        <item name="android:textSize">@dimen/textSize_dp_30px</item>
+    </style>
+    <style name="resume_text_pink_style">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/textColorPink</item>
+        <item name="android:textSize">@dimen/textSize_dp_28px</item>
+    </style>
+    <style name="resume_num_pink_style" parent="resume_text_pink_style">
+        <item name="android:textSize">@dimen/textSize_dp_28px</item>
+    </style>
+    <style name="white_item_area">
+        <item name="android:padding">8dp</item>
+        <item name="android:background">@drawable/corner_frame_white_solid</item>
+    </style>
+    <style name="my_resume_white_item" parent="white_item_area">
+        <item name="android:layout_marginLeft">8dp</item>
+        <item name="android:layout_marginRight">8dp</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">6dp</item>
+    </style>
+    <style name="home_item_text_style">
+        <item name="android:textColor">#fff</item>
+        <item name="android:textSize">@dimen/textSize_dp_30px</item>
+        <item name="android:gravity">center</item>
+    </style>
     <!--
     <item name="android:paddingLeft"></item>
     <item name="android:paddingRight"></item>

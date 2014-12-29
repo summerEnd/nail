@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include layout="@layout/head_2" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        style="@style/activity_padding"
+        android:orientation="vertical">
+
+        <RadioGroup
+            android:layout_width="wrap_content"
+            android:orientation="horizontal"
+            android:layout_height="wrap_content">
+
+            <RadioButton
+                android:id="@+id/rb_good"
+                style="@style/comment_rb_style"
+                android:checked="true"
+                android:textColor="#e45b63"
+                android:text="@string/comment_good" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent" />
+
+            <RadioButton
+                android:id="@+id/rb_normal"
+                android:textColor="#c99918"
+                style="@style/comment_rb_style"
+                android:text="@string/comment_normal" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent" />
+
+            <RadioButton
+                android:id="@+id/rb_bad"
+                android:textColor="#808080"
+                style="@style/comment_rb_style"
+                android:text="@string/bad_comment" />
+        </RadioGroup>
+
+        <EditText
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:gravity="top"
+            android:padding="6dp"
+            android:background="@drawable/corner_frame_white_solid" />
+
+        <LinearLayout style="@style/comment_star_style" android:layout_marginTop="20dp">
+
+            <TextView
+                style="@style/comment_star_text_style"
+                android:text="专业：" />
+
+            <RatingBar
+                android:layout_width="wrap_content"
+                android:layout_height="23dp"
+                android:numStars="5"
+                style="@style/comment_ratingBar"
+                android:rating="2" />
+        </LinearLayout>
+
+        <LinearLayout style="@style/comment_star_style">
+
+            <TextView
+                style="@style/comment_star_text_style"
+                android:text="沟通：" />
+
+            <RatingBar
+                android:layout_width="wrap_content"
+                android:layout_height="23dp"
+                android:numStars="5"
+                style="@style/comment_ratingBar"
+                android:rating="2" />
+        </LinearLayout>
+
+        <LinearLayout style="@style/comment_star_style">
+
+            <TextView
+                style="@style/comment_star_text_style"
+                android:text="守时：" />
+
+            <RatingBar
+                android:layout_width="wrap_content"
+                android:layout_height="23dp"
+                android:numStars="5"
+                style="@style/comment_ratingBar"
+                android:rating="2" />
+        </LinearLayout>
+
+        <Button
+            android:layout_marginTop="@dimen/button_to_text"
+            style="@style/button_large"
+            android:text="提    交" />
+    </LinearLayout>
+</LinearLayout>

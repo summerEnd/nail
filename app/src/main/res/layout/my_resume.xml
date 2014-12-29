@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include layout="@layout/head_2" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:background="@drawable/user_background"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/iv_avatar"
+
+                    android:layout_width="@dimen/avatar_center_size"
+                    android:layout_height="@dimen/avatar_center_size"
+                    android:src="@drawable/default_user" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/textColorBlack"
+                    android:textSize="@dimen/textSize_2"
+                    android:text="昵称" />
+
+                <com.finger.support.widget.RatingWidget
+                    android:layout_width="wrap_content"
+                    app:drawable="@drawable/star2"
+                    app:stars="5"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/zgs"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                style="@style/my_resume_white_item">
+
+                <TextView
+                    style="@style/resume_text_pink_style"
+                    android:text="专业：" />
+
+                <TextView
+                    style="@style/resume_num_pink_style"
+                    android:text="5.0" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1" />
+
+                <TextView
+                    style="@style/resume_text_pink_style"
+                    android:text="沟通：" />
+
+                <TextView
+                    style="@style/resume_num_pink_style"
+                    android:text="5.0" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1" />
+
+                <TextView
+                    style="@style/resume_text_pink_style"
+                    android:text="守时：" />
+
+                <TextView
+                    style="@style/resume_num_pink_style"
+                    android:text="5.0" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1" />
+
+                <TextView
+                    style="@style/resume_num_pink_style"
+                    android:textColor="@color/textColorGray"
+                    android:textSize="@dimen/textSize_dp_24px"
+                    android:text="共接单2222335次" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:gravity="center_vertical"
+                style="@style/my_resume_white_item"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#e45b63"
+                    android:textSize="@dimen/textSize_dp_28px"
+                    android:text="好评" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:textSize="@dimen/textSize_dp_28px"
+                    android:textColor="@color/textColorGray"
+                    android:layout_marginLeft="6dp"
+                    android:layout_height="wrap_content"
+                    android:text="5912369条" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#c99918"
+                    android:textSize="@dimen/textSize_dp_28px"
+                    android:text="中评" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="6dp"
+                    android:textSize="@dimen/textSize_dp_28px"
+                    android:textColor="@color/textColorGray"
+                    android:text="5969条" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/textColorGray"
+                    android:textSize="@dimen/textSize_dp_28px"
+                    android:text="差评" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_marginLeft="6dp"
+                    android:textSize="@dimen/textSize_dp_28px"
+                    android:textColor="@color/textColorGray"
+                    android:layout_height="wrap_content"
+                    android:text="0条" />
+            </LinearLayout>
+
+            <RelativeLayout style="@style/my_resume_white_item">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="个人简历"
+                    android:id="@+id/my_resume"
+                    android:textSize="@dimen/textSize_dp_30px"
+                    android:textColor="@color/textColorBlack" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="修改"
+                    android:id="@+id/modify"
+                    android:layout_alignParentRight="true"
+                    android:textSize="@dimen/textSize_dp_24px"
+                    android:textColor="@color/textColorBlack" />
+
+                <TextView
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:id="@+id/line"
+                    style="@style/horizontal_line"
+                    android:layout_below="@+id/modify" />
+
+                <TextView
+                    android:layout_below="@id/line"
+                    android:textColor="@color/textColorGray"
+                    android:textSize="@dimen/textSize_dp_24px"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="一直以来，对于中国这个古老国度的新征程，外界充满好奇，2014年尤甚。人们试图破译大国领袖习近平的执政密码，以获知这位被美国前驻华大使洪博培评价为“邓小平之后最具变革性中国领导人”的“习大大”有着怎样的多重魅力。" />
+            </RelativeLayout>
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

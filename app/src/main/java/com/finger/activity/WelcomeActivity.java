@@ -6,8 +6,7 @@ import android.os.Bundle;
 import android.os.Handler;
 
 import com.finger.R;
-import com.finger.activity.other.setting.About;
-import com.finger.activity.user.my.MyCareActivity;
+import com.finger.activity.artist.my.ChangeResume;
 import com.finger.support.widget.ItemUtil;
 
 
@@ -23,7 +22,7 @@ public class WelcomeActivity extends Activity {
             @Override
             public void run() {
                 startActivity(new Intent(WelcomeActivity.this, MainActivity.class));
-//                startActivity(new Intent(WelcomeActivity.this, About.class));
+//                startActivity(new Intent(WelcomeActivity.this, ChangeResume.class));
                 finish();
             }
         }, 1500);

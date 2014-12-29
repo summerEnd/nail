@@ -12,6 +12,8 @@ import android.widget.TextView;
 
 import com.finger.R;
 import com.finger.activity.other.common.ChangeMyData;
+import com.finger.activity.other.common.MyCareActivity;
+import com.finger.activity.other.common.MyCollectionActivity;
 import com.finger.activity.other.setting.SettingActivity;
 import com.finger.support.annotion.User;
 

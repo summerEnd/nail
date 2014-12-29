@@ -99,14 +99,13 @@ public class PlanActivity extends BaseActivity implements RadioGroup.OnCheckedCh
     }
 
 
-
     public static class PlanFragment extends Fragment {
 
 
         @Override
         public void onViewCreated(View view, Bundle savedInstanceState) {
             Button commit = (Button) view.findViewById(R.id.choose_nail_artist);
-            OrderBean bean= OrderManager.getCurrentOrder();
+            OrderBean bean = OrderManager.getCurrentOrder();
             if (bean == null) {
                 commit.setText(R.string.choose_nail_artist);
             } else {
@@ -119,16 +118,16 @@ public class PlanActivity extends BaseActivity implements RadioGroup.OnCheckedCh
          */
         public void submit() {
 
-            OrderBean bean=OrderManager.getCurrentOrder();
+            OrderBean bean = OrderManager.getCurrentOrder();
 
             if (bean == null) {
                 return;
             }
 
             if (bean.nail_id == null) {
-                startActivity(new Intent(getActivity(),ChooseArtist.class));
-            }else{
-                startActivity(new Intent(getActivity(),OrderConfirm.class));
+                startActivity(new Intent(getActivity(), ChooseArtist.class));
+            } else {
+                startActivity(new Intent(getActivity(), OrderConfirm.class));
             }
         }
     }

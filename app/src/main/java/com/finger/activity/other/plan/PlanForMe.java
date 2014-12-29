@@ -152,8 +152,6 @@ public class PlanForMe extends PlanFragment implements View.OnClickListener {
                 break;
             }
         }
-
-
     }
 
     private void gpsActivity() {

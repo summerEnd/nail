@@ -42,8 +42,9 @@
                 android:layout_height="wrap_content" />
 
             <TextView
+
                 android:id="@+id/tv_price"
-                android:layout_marginTop="@dimen/order_list_margin_top"
+                android:layout_marginTop="12dp"
                 android:textSize="@dimen/textSize_dp_24px"
                 android:textColor="@color/textColorGray"
                 android:layout_width="wrap_content"
@@ -53,14 +54,13 @@
                 android:layout_height="wrap_content" />
 
             <TextView
-                android:textSize="@dimen/textSize_dp_24px"
-                android:layout_marginTop="@dimen/order_list_margin_top"
-                android:textColor="@color/textColorGray"
                 android:layout_width="wrap_content"
-                android:text="下单时间：2014.05.11"
-                android:layout_below="@+id/tv_price"
-                android:layout_toRightOf="@id/iv_avatar"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:id="@+id/refund_state"
+                android:text="正在退款"
+                android:textSize="@dimen/textSize_dp_30px"
+                android:textColor="@color/textColorPink"
+                android:layout_alignParentRight="true" />
         </RelativeLayout>
 
         <TextView style="@style/horizontal_line" />
@@ -73,32 +73,33 @@
             android:orientation="horizontal">
 
             <TextView
+                android:textSize="@dimen/textSize_dp_24px"
+                android:layout_marginTop="@dimen/order_list_margin_top"
+                android:textColor="@color/textColorGray"
+                android:layout_width="wrap_content"
+                android:text="下单时间：2014.05.11"
+                android:layout_height="wrap_content" />
+
+            <TextView
                 android:layout_width="wrap_content"
                 android:text="实付："
+                android:layout_toLeftOf="@+id/tv_real_price"
                 android:layout_centerVertical="true"
-                android:layout_alignParentLeft="true"
                 android:id="@+id/sf"
                 android:textSize="@dimen/textSize_dp_28px"
                 android:textColor="@color/textColorGray"
                 android:layout_height="wrap_content" />
 
             <TextView
-                android:layout_toRightOf="@+id/sf"
+                android:id="@+id/tv_real_price"
                 android:layout_width="wrap_content"
                 android:text="￥108"
+                android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:textSize="@dimen/textSize_dp_30px"
                 android:textColor="@color/textColorBlack"
                 android:layout_height="wrap_content" />
 
-            <Button
-                style="@style/button_mid"
-                android:layout_width="wrap_content"
-                android:layout_height="@dimen/small_button_height"
-                android:layout_centerVertical="true"
-                android:layout_alignParentRight="true"
-                android:background="@drawable/button_green"
-                android:text="申请退款" />
         </RelativeLayout>
 
     </LinearLayout>

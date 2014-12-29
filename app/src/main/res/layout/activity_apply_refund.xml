@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include layout="@layout/head_2" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        style="@style/activity_padding"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/corner_frame_white_solid"
+            android:padding="10dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/textSize_dp_28px"
+                android:textColor="@color/textColorGray"
+                android:text="退款金额：" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/textSize_dp_28px"
+                android:textColor="@color/textColorBlack"
+                android:text="￥108" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/corner_frame_white_solid"
+            android:padding="10dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/textSize_dp_28px"
+                android:textColor="@color/textColorGray"
+                android:text="退款原因：" />
+
+            <EditText
+                android:layout_marginTop="9dp"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:gravity="top"
+                android:textSize="@dimen/textSize_dp_28px"
+                android:background="@color/white"
+                android:textColor="@color/textColorBlack"
+                android:text="这个美甲师是个冒牌的！" />
+        </LinearLayout>
+
+        <com.sp.lib.widget.AddImageItem
+            android:id="@+id/addImage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <Button
+            android:layout_marginTop="@dimen/button_to_text"
+            style="@style/button_large"
+            android:text="@string/commit_apply" />
+    </LinearLayout>
+</LinearLayout>

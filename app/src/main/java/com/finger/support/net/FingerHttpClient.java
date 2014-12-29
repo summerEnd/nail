@@ -21,7 +21,7 @@ import static com.finger.support.util.ContextUtil.getVersion;
 
 public class FingerHttpClient {
     private static final String SECRET = "ju34s4&6d567nuwe678l89kjdf56o34iw!e";
-    private static final String host = "http://192.168.1.142/Manicures/index.php?s=/Home/Api/";
+    private static final String host = "http://192.168.1.141/Manicures/index.php?s=/Home/Api/";
     private static String MIEI = "miei";
 
     public static void setDialogCreator(SHttpClient.ProgressDialogCreator creator) {
@@ -66,6 +66,7 @@ public class FingerHttpClient {
 
             @Override
             public void onFail(String msg) {
+                handler.onFail(null);
                 ContextUtil.toast(msg);
             }
         }, BuildConfig.DEBUG);

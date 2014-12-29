@@ -17,8 +17,13 @@ import com.finger.support.entity.ArtistBean;
 import com.finger.support.entity.RoleBean;
 import com.finger.support.entity.UserBean;
 import com.finger.support.Constant;
+import com.finger.support.net.FingerHttpClient;
+import com.finger.support.net.FingerHttpHandler;
 import com.finger.support.widget.EditItem;
 import com.finger.support.util.ContextUtil;
+import com.loopj.android.http.RequestParams;
+
+import org.json.JSONObject;
 
 /**
  * Created by acer on 2014/12/8.
@@ -54,21 +59,49 @@ public class LoginActivity extends BaseActivity implements RadioGroup.OnCheckedC
      * @param password
      * @param type     登录类型：美甲师、用户
      */
-    public void doLogin(String mobile, String password, String type) {
+    public void doLogin(final String mobile,final String password, final String type) {
+        RequestParams params=new RequestParams();
+        params.put("mobile",mobile);
+        params.put("password",password);
 
-        RoleBean bean;
+        FingerHttpClient.post("login",params,new FingerHttpHandler() {
+            @Override
+            public void onSuccess(JSONObject o) {
 
-        if (type.equals(Constant.LOGIN_TYPE_ARTIST)) {
-            bean = new ArtistBean();
-        } else {
-            bean = new UserBean();
-        }
-        bean.mobile = mobile;
-        bean.password = password;
-        bean.id = 1;
-        getApp().setUser(bean);
-        setResult(RESULT_OK);
-        finish();
+                RoleBean bean;
+
+                if (type.equals(Constant.LOGIN_TYPE_ARTIST)) {
+                    bean = new ArtistBean();
+                } else {
+                    bean = new UserBean();
+                }
+                bean.mobile = mobile;
+                bean.password = password;
+                bean.id = 1;
+                getApp().setUser(bean);
+                setResult(RESULT_OK);
+                finish();
+            }
+
+            @Override
+            public void onFail(JSONObject o) {
+
+                RoleBean bean;
+
+                if (type.equals(Constant.LOGIN_TYPE_ARTIST)) {
+                    bean = new ArtistBean();
+                } else {
+                    bean = new UserBean();
+                }
+                bean.mobile = mobile;
+                bean.password = password;
+                bean.id = 1;
+                getApp().setUser(bean);
+                setResult(RESULT_OK);
+                finish();
+            }
+        });
+
     }
 
     public void doRegister(String mobile, String password) {

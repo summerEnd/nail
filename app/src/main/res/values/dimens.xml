@@ -58,6 +58,7 @@
     <dimen name="center_nick_margin">6dp</dimen>
     <dimen name="order_confirm_margin_top">12dp</dimen>
     <dimen name="publish_edit_height">90dp</dimen>
+    <dimen name="home_item_spacing">4dp</dimen>
 
     <style name="click_item_padding">
         <item name="android:paddingTop">13dp</item>

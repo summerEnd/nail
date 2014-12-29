@@ -90,6 +90,7 @@
                 android:textColor="@color/textColorBlack"
                 android:layout_height="wrap_content" />
             <Button
+                android:id="@+id/comment"
                 style="@style/button_mid"
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/small_button_height"

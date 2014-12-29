@@ -68,5 +68,17 @@
     <string name="congrate_reg">恭喜你注册成功！</string>
     <string name="warn">温馨提示</string>
     <string name="open_gps_msg">打开GPS可以更精确的定位，确定打开？</string>
+    <string name="bad_comment">差评</string>
+    <string name="comment_normal">中评</string>
+    <string name="comment_good">好评</string>
+    <string name="comment_order">评价订单</string>
+    <string name="apply_refund">申请退款</string>
+    <string name="commit_apply">提交申请</string>
+    <string name="my_info">我的信息</string>
+    <string name="my_resume">我的简历</string>
+    <string name="change_resume">修改简历</string>
+    <string name="plan_nail">预约美甲</string>
+    <string name="refunding">正在退款</string>
+    <string name="refund_complete">退款成功</string>
 
 </resources>

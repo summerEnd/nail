@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:background="@color/white"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView style="@style/horizontal_line" />
+
+    <RelativeLayout
+        style="@style/list_padding_style"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/avatar"
+            android:src="@drawable/default_user"
+            android:layout_width="@dimen/avatar_size"
+            android:layout_height="@dimen/avatar_size" />
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_marginLeft="6dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/textSize_dp_34px"
+            android:textColor="@color/black"
+            android:text="奥巴马"
+            android:layout_toRightOf="@+id/avatar" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="下单时间：2014.11.12"
+            android:layout_alignParentRight="true"
+            android:textSize="@dimen/textSize_dp_24px"
+            android:textColor="@color/textColorGray" />
+
+        <TextView
+            android:id="@+id/tv_state"
+            android:layout_toRightOf="@+id/avatar"
+            android:layout_below="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="已取消"
+            android:layout_marginLeft="6dp"
+            android:padding="4dp"
+            android:layout_marginTop="15dp"
+            android:background="#bebebe"
+            android:textSize="@dimen/textSize_dp_24px"
+            android:textColor="@color/textColorWhite" />
+
+    </RelativeLayout>
+
+    <TextView style="@style/horizontal_line" />
+
+    <RelativeLayout
+        style="@style/list_padding_style"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/nail_image"
+            android:src="@drawable/test_image_02"
+            android:layout_width="@dimen/avatar_size"
+            android:layout_height="@dimen/avatar_size" />
+
+        <TextView
+            android:id="@+id/nail_title"
+            android:layout_marginLeft="6dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/textSize_dp_34px"
+            android:textColor="@color/textColorGray"
+            android:text="闪闪闪，闪瞎你丫的~"
+            android:layout_toRightOf="@+id/nail_image" />
+
+        <TextView
+            android:id="@+id/price"
+            android:layout_toRightOf="@+id/nail_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="价格：￥102"
+            android:layout_marginLeft="6dp"
+            android:layout_marginTop="16dp"
+            android:layout_below="@+id/nail_title"
+            android:textSize="@dimen/textSize_dp_30px"
+            android:textColor="@color/textColorGray" />
+
+        <LinearLayout
+            android:layout_alignParentRight="true"
+            android:layout_alignBottom="@+id/price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="实付："
+                android:textSize="@dimen/textSize_dp_28px"
+                android:textColor="@color/textColorGray" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="￥108"
+                android:textStyle="bold"
+                android:textSize="@dimen/textSize_dp_34px"
+                android:textColor="@color/textColorBlack" />
+        </LinearLayout>
+    </RelativeLayout>
+
+    <TextView style="@style/horizontal_line" />
+
+</LinearLayout>

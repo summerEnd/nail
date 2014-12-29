@@ -27,6 +27,7 @@ import com.finger.support.widget.ItemUtil;
 import com.finger.support.util.Dimension;
 import com.finger.support.widget.ArtistItem;
 import com.finger.support.widget.NailItem;
+import com.finger.support.widget.SearchWindow;
 
 import java.util.ArrayList;
 import java.util.Timer;
@@ -41,7 +42,7 @@ public class MainFragment extends Fragment implements View.OnClickListener {
     ArrayList<ImageView> images = new ArrayList<ImageView>();
     int bannerIndex = 0;
     int artist_bottom_height;
-
+    View layout;
     class ArtistBean {
         String title;
         String price;
@@ -58,11 +59,14 @@ public class MainFragment extends Fragment implements View.OnClickListener {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_home, null);
+        layout=v;
         dot_group = (RadioGroup) v.findViewById(R.id.dot_group);
         switch_banner = (ViewPager) v.findViewById(R.id.switch_banner);
         v.findViewById(R.id.plan_nail_artist).setOnClickListener(this);
         v.findViewById(R.id.nail_prd).setOnClickListener(this);
         v.findViewById(R.id.choose_nail_artist).setOnClickListener(this);
+        v.findViewById(R.id.hot_things).setOnClickListener(this);
+        v.findViewById(R.id.title_search).setOnClickListener(this);
         addBanner();
         addBanner();
         addBanner();
@@ -78,19 +82,19 @@ public class MainFragment extends Fragment implements View.OnClickListener {
 
 
         artist_bottom_height = getResources().getDimensionPixelOffset(R.dimen.artist_item_bottom_height);
-        setArtistHalfScreen(v, R.id.artist_00);
-        setArtistHalfScreen(v, R.id.artist_01);
-        setArtistHalfScreen(v, R.id.artist_02);
-        setArtistHalfScreen(v, R.id.artist_03);
-        setArtistHalfScreen(v, R.id.artist_04);
-        setArtistHalfScreen(v, R.id.artist_05);
-
-        setNailSizeHalfScreen(v, R.id.nail_00);
-        setNailSizeHalfScreen(v, R.id.nail_01);
-        setNailSizeHalfScreen(v, R.id.nail_02);
-        setNailSizeHalfScreen(v, R.id.nail_03);
-        setNailSizeHalfScreen(v, R.id.nail_04);
-        setNailSizeHalfScreen(v, R.id.nail_05);
+//        setArtistHalfScreen(v, R.id.artist_00);
+//        setArtistHalfScreen(v, R.id.artist_01);
+//        setArtistHalfScreen(v, R.id.artist_02);
+//        setArtistHalfScreen(v, R.id.artist_03);
+//        setArtistHalfScreen(v, R.id.artist_04);
+//        setArtistHalfScreen(v, R.id.artist_05);
+//
+//        setNailSizeHalfScreen(v, R.id.nail_00);
+//        setNailSizeHalfScreen(v, R.id.nail_01);
+//        setNailSizeHalfScreen(v, R.id.nail_02);
+//        setNailSizeHalfScreen(v, R.id.nail_03);
+//        setNailSizeHalfScreen(v, R.id.nail_04);
+//        setNailSizeHalfScreen(v, R.id.nail_05);
     }
 
     void setArtistHalfScreen(View v, int id) {
@@ -217,7 +221,28 @@ public class MainFragment extends Fragment implements View.OnClickListener {
 
                 break;
             }
+            case R.id.hot_things: {
+                scale(v, new Runnable() {
+                    @Override
+                    public void run() {
+                        startActivity(new Intent(getActivity(), ChooseArtist.class));
+                    }
+                });
 
+                break;
+            }
+            case R.id.title_search: {
+                final View anchor=v;
+                scale(v, new Runnable() {
+                    @Override
+                    public void run() {
+                        SearchWindow searchWindow=new SearchWindow(getActivity());
+                        searchWindow.showAsDropDown(anchor,0,-layout.findViewById(R.id.head).getHeight());
+                    }
+                });
+
+                break;
+            }
             default: {
                 if (v instanceof ArtistItem) {
 

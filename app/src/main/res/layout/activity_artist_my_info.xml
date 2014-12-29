@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include layout="@layout/head_2" />
+
+    <TextView
+        android:drawableLeft="@drawable/ic_pencil"
+        android:id="@+id/change_data"
+        style="@style/text_click_item"
+        android:onClick="onClick"
+        android:text="@string/change_data" />
+
+    <TextView
+        android:drawableLeft="@drawable/ic_my_discount"
+        android:id="@+id/my_resume"
+        style="@style/text_click_item"
+        android:onClick="onClick"
+        android:text="@string/my_resume" />
+
+    <TextView
+        android:drawableLeft="@drawable/ic_my_care"
+        android:id="@+id/my_attention"
+        style="@style/text_click_item"
+        android:onClick="onClick"
+        android:text="@string/my_care" />
+
+    <TextView
+        android:drawableLeft="@drawable/ic_my_collect"
+        android:id="@+id/my_collection"
+        style="@style/text_click_item"
+        android:onClick="onClick"
+        android:text="@string/my_collection" />
+
+
+</LinearLayout>

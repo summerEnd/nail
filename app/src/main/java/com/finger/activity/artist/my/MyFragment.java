@@ -16,8 +16,8 @@ import android.widget.TextView;
 
 import com.finger.R;
 import com.finger.activity.other.setting.SettingActivity;
-import com.finger.activity.user.my.MyCareActivity;
-import com.finger.activity.user.my.MyCollectionActivity;
+import com.finger.activity.other.common.MyCareActivity;
+import com.finger.activity.other.common.MyCollectionActivity;
 import com.finger.activity.user.my.MyDiscountActivity;
 import com.finger.support.adapter.NailListAdapter;
 import com.finger.support.annotion.Artist;
@@ -82,13 +82,18 @@ public class MyFragment extends Fragment implements View.OnClickListener {
                     break;
                 }
                 case R.id.publish_nail: {
-                Intent intent=new Intent(context,PublishNailActivity.class);
-                context.startActivity(intent);
+                    Intent intent = new Intent(context, PublishNailActivity.class);
+                    context.startActivity(intent);
                     break;
                 }
                 case R.id.published_nail: {
            /*     Intent intent=new Intent(context,MyDiscountActivity.class);
                 context.startActivity(intent);*/
+                    break;
+                }
+                case R.id.iv_avatar: {
+                    Intent intent = new Intent(context, MyInfoActivity.class);
+                    context.startActivity(intent);
                     break;
                 }
             }

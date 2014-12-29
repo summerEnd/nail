@@ -4,12 +4,14 @@ import android.app.Application;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.util.DisplayMetrics;
 import android.view.WindowManager;
 
 import com.finger.support.entity.RoleBean;
 import com.finger.support.net.FingerHttpClient;
 import com.finger.support.net.Http;
 import com.finger.support.util.ContextUtil;
+import com.finger.support.util.Logger;
 import com.sp.lib.Slib;
 
 import com.finger.support.api.BaiduAPI;
@@ -28,7 +30,7 @@ public class FingerApp extends Application {
         FingerHttpClient.setDialogCreator(new SHttpClient.ProgressDialogCreator() {
             @Override
             public Dialog onCreateDialog() {
-                ProgressDialog dialog=new ProgressDialog(getApplicationContext(),android.R.style.Theme_Holo_Light);
+                ProgressDialog dialog=new ProgressDialog(getApplicationContext());
                 dialog.getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);
                 dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
                 dialog.setMessage(getString(R.string.loading));
@@ -39,6 +41,8 @@ public class FingerApp extends Application {
         ContextUtil.toast_debug(String.format("type:%s  id=%d",getUser().getType(),getUser().id));
         BaiduAPI.mLocationClient.start();
         Http.init(this);
+        DisplayMetrics d = getResources().getDisplayMetrics();
+        Logger.i_format("w:%d  h:%d density:%f densityDpi:%d",d.widthPixels,d.heightPixels,d.density,d.densityDpi);
     }
 
     public RoleBean getUser() {

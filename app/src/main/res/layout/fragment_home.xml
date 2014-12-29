@@ -1,18 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/windowBackground">
 
-    <ImageView
-        android:src="@drawable/home_title"
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical"
+        android:id="@+id/head"
         android:layout_width="match_parent"
-        android:scaleType="centerInside"
-        android:layout_height="@dimen/title_height"
-        android:background="@drawable/titleBackground" />
+        android:background="@drawable/titleBackground"
+        android:layout_height="@dimen/title_height">
+
+        <TextView
+            android:layout_width="@dimen/title_height"
+            android:layout_height="@dimen/title_height"
+            android:text="南京"
+            android:textColor="@color/white"
+            android:gravity="center"
+            android:layout_centerVertical="true" />
+
+        <TextView
+            style="@style/title_text_style"
+            android:text="首 页"
+            android:layout_centerInParent="true" />
+
+        <TextView
+            android:layout_width="@dimen/title_height"
+            android:layout_height="@dimen/title_height"
+            android:text="搜索"
+            android:textColor="@color/white"
+            android:gravity="center"
+            android:id="@+id/title_search"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true" />
+    </RelativeLayout>
 
     <ScrollView
         android:layout_width="match_parent"
@@ -44,271 +67,89 @@
                     android:orientation="horizontal" />
             </RelativeLayout>
 
-            <FrameLayout
-                android:layout_width="match_parent"
-                style="@style/home_second_title_margin"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    style="@style/horizontal_line"
-                    android:layout_gravity="center"
-                    android:background="@color/home_horizontal_line" />
-
-                <ImageView
-                    android:id="@+id/tv_01"
-                    style="@style/text_with_horizontal_line"
-                    android:layout_gravity="center"
-                    android:src="@drawable/ic_nice_category" />
-            </FrameLayout>
-
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:layout_height="300dp"
+                android:weightSum="3"
+                android:layout_margin="@dimen/home_item_spacing"
 
-                <View
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content" />
+                android:orientation="vertical">
 
-                <ImageView
-                    android:id="@+id/plan_nail_artist"
-                    android:src="@drawable/home_plan_artist"
-                    android:layout_width="@dimen/home_category_image_size"
-                    android:layout_height="@dimen/home_category_image_size" />
-
-                <View
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content" />
-
-                <ImageView
-                    android:id="@+id/nail_prd"
-                    android:src="@drawable/home_nail_things"
-                    android:layout_width="@dimen/home_category_image_size"
-                    android:layout_height="@dimen/home_category_image_size" />
-
-                <View
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content" />
-
-                <ImageView
-                    android:id="@+id/choose_nail_artist"
-                    android:src="@drawable/home_nail_artist"
-                    android:layout_width="@dimen/home_category_image_size"
-                    android:layout_height="@dimen/home_category_image_size" />
-
-                <View
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content" />
-            </LinearLayout>
-
-            <FrameLayout
-                android:id="@+id/frame_02"
-                android:layout_width="match_parent"
-                style="@style/home_second_title_margin"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    style="@style/horizontal_line"
-                    android:layout_gravity="center"
-                    android:background="@color/home_horizontal_line" />
-
-                <ImageView
-                    style="@style/text_with_horizontal_line"
-                    android:src="@drawable/ic_nice_nail"
-                    android:layout_gravity="center" />
-            </FrameLayout>
-
-
-            <TableLayout
-                android:layout_width="match_parent"
-                android:stretchColumns="0,1"
-                android:padding="@dimen/item_spacing"
-                android:layout_height="wrap_content">
-
-                <TableRow
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:weightSum="2">
+                    android:orientation="horizontal"
+                    android:layout_weight="2"
+                    android:layout_height="wrap_content">
 
-                    <com.finger.support.widget.NailItem
-                        style="@style/home_item_style"
-                        android:id="@+id/nail_00"
-                        app:nail_title="hello"
-                        app:nail_price="￥90"
-                        app:nail_src="@drawable/test_image_01" />
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:weightSum="2"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
 
-                    <com.finger.support.widget.NailItem
-                        style="@style/home_item_style"
-                        android:id="@+id/nail_01"
-                        app:nail_price="￥90"
-                        app:nail_src="@drawable/test_image_01"
-                        app:nail_title="hello" />
-                </TableRow>
+                        <TextView
+                            android:id="@+id/plan_nail_artist"
+                            style="@style/home_item_text_style"
+                            android:background="#e53766"
+                            android:text="@string/plan_nail"
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="2" />
 
-                <TableRow android:layout_width="match_parent">
+                    </LinearLayout>
 
-                    <com.finger.support.widget.NailItem
-                        style="@style/home_item_style"
-                        android:id="@+id/nail_02"
-                        app:nail_title="hello"
-                        app:nail_price="￥90"
-                        app:nail_src="@drawable/test_image_01" />
+                    <TextView
+                        android:layout_width="@dimen/home_item_spacing"
+                        android:layout_height="match_parent" />
 
-                    <com.finger.support.widget.NailItem
-                        style="@style/home_item_style"
-                        android:id="@+id/nail_03"
-                        app:nail_price="￥90"
-                        app:nail_src="@drawable/test_image_01"
-                        app:nail_title="hello" />
-                </TableRow>
+                    <LinearLayout
+                        android:weightSum="2"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:layout_height="match_parent">
 
-                <TableRow android:layout_width="match_parent">
+                        <TextView
+                            android:id="@+id/choose_nail_artist"
+                            style="@style/home_item_text_style"
+                            android:background="#45c9ff"
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:text="选美甲师"
+                            android:layout_weight="1" />
 
-                    <com.finger.support.widget.NailItem
-                        style="@style/home_item_style"
-                        android:id="@+id/nail_04"
-                        app:nail_title="hello"
-                        app:nail_price="￥90"
-                        app:nail_src="@drawable/test_image_01" />
+                        <TextView
+                            android:layout_height="@dimen/home_item_spacing"
+                            android:layout_width="match_parent" />
 
-                    <com.finger.support.widget.NailItem
-                        style="@style/home_item_style"
-                        android:id="@+id/nail_05"
-                        app:nail_price="￥90"
-                        app:nail_src="@drawable/test_image_01"
-                        app:nail_title="hello" />
-                </TableRow>
-            </TableLayout>
-
-            <RelativeLayout
-                android:id="@+id/nail_content"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                        <TextView
+                            android:id="@+id/nail_prd"
+                            style="@style/home_item_text_style"
+                            android:background="#54e976"
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:text="美甲作品"
+                            android:layout_weight="1" />
 
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/test_01" />
-            </RelativeLayout>
-
-            <TextView
-                android:id="@+id/tv_more_nail"
-                style="@style/text_home_more" />
-
-            <FrameLayout
-                android:layout_width="match_parent"
-                style="@style/home_second_title_margin"
-                android:layout_height="wrap_content">
+                    </LinearLayout>
+                </LinearLayout>
 
                 <TextView
-                    style="@style/horizontal_line"
-                    android:layout_gravity="center"
-                    android:background="@color/home_horizontal_line"
-                    android:layout_below="@id/switch_banner" />
+                    android:layout_height="@dimen/home_item_spacing"
+                    android:layout_width="match_parent" />
 
-                <ImageView
-                    android:id="@+id/tv_03"
-                    style="@style/text_with_horizontal_line"
-                    android:layout_gravity="center"
-                    android:src="@drawable/ic_hot_artist" />
-            </FrameLayout>
-
-
-            <TableLayout
-                android:padding="@dimen/item_spacing"
-                android:layout_width="match_parent"
-                android:stretchColumns="0,1"
-                android:layout_height="wrap_content">
-
-                <TableRow android:layout_width="match_parent">
-
-                    <com.finger.support.widget.ArtistItem
-                        style="@style/home_item_style"
-                        android:id="@+id/artist_00"
-                        app:artist_rating_stars="1"
-                        app:artist_rating_drawable="@drawable/star1"
-                        app:artist_title="hello"
-                        app:artist_price="￥90"
-                        app:artist_name="陈妍希"
-                        app:artist_avatar="@drawable/default_user"
-                        app:artist_src="@drawable/test_image_01" />
-
-                    <com.finger.support.widget.ArtistItem
-                        style="@style/home_item_style"
-                        android:id="@+id/artist_01"
-                        app:artist_rating_stars="2"
-                        app:artist_rating_drawable="@drawable/star2"
-                        app:artist_title="hello"
-                        app:artist_price="￥90"
-                        app:artist_name="刘亦菲"
-                        app:artist_avatar="@drawable/default_user"
-                        app:artist_src="@drawable/test_image_02" />
-
-                </TableRow>
-
-                <TableRow android:layout_width="match_parent">
-
-                    <com.finger.support.widget.ArtistItem
-                        style="@style/home_item_style"
-                        android:id="@+id/artist_02"
-                        app:artist_rating_stars="4"
-                        app:artist_rating_drawable="@drawable/star1"
-                        app:artist_title="hello"
-                        app:artist_price="￥90"
-                        app:artist_name="大兵"
-                        app:artist_avatar="@drawable/default_user"
-                        app:artist_src="@drawable/test_image_01" />
-
-                    <com.finger.support.widget.ArtistItem
-                        style="@style/home_item_style"
-                        android:id="@+id/artist_03"
-                        app:artist_rating_stars="2"
-                        app:artist_rating_drawable="@drawable/star1"
-                        app:artist_title="hello"
-                        app:artist_price="￥90"
-                        app:artist_name="大兵"
-                        app:artist_avatar="@drawable/default_user"
-                        app:artist_src="@drawable/test_image_01" />
-                </TableRow>
-
-                <TableRow android:layout_width="match_parent">
-
-                    <com.finger.support.widget.ArtistItem
-                        style="@style/home_item_style"
-                        android:id="@+id/artist_04"
-                        app:artist_rating_stars="4"
-                        app:artist_rating_drawable="@drawable/star1"
-                        app:artist_title="hello"
-                        app:artist_price="￥90"
-                        app:artist_name="大兵"
-                        app:artist_avatar="@drawable/default_user"
-                        app:artist_src="@drawable/test_image_01" />
-
-                    <com.finger.support.widget.ArtistItem
-                        style="@style/home_item_style"
-                        android:id="@+id/artist_05"
-                        app:artist_rating_stars="4"
-                        app:artist_rating_drawable="@drawable/star1"
-                        app:artist_title="hello"
-                        app:artist_price="￥90"
-                        app:artist_name="大兵"
-                        app:artist_avatar="@drawable/default_user"
-                        app:artist_src="@drawable/test_image_01" />
-                </TableRow>
-            </TableLayout>
-
-            <TextView
-                android:id="@+id/tv_more_artist"
-                style="@style/text_home_more" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="30dp" />
-
+                <TextView
+                    android:id="@+id/hot_things"
+                    style="@style/home_item_text_style"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:background="#e92"
+                    android:text="新品热门"
+                    android:orientation="vertical" />
+            </LinearLayout>
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

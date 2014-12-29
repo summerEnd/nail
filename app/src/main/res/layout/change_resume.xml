@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include layout="@layout/head_2" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        style="@style/activity_padding"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:padding="5dp"
+            android:textColor="@color/textColorGray"
+            android:textSize="@dimen/textSize_dp_28px"
+            android:layout_width="match_parent"
+            android:layout_height="180dp"
+            android:hint="个性展示"
+            android:gravity="top"
+            android:background="@drawable/corner_frame_white_solid" />
+
+        <com.sp.lib.widget.AddImageItem
+            android:id="@+id/add_image"
+            android:layout_marginTop="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:layout_marginTop="10dp"
+            style="@style/button_large"
+            android:text="@string/yes"/>
+    </LinearLayout>
+</LinearLayout>

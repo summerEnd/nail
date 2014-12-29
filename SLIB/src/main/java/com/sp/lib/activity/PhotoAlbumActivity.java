@@ -121,6 +121,7 @@ public class PhotoAlbumActivity extends BaseActivity implements AdapterView.OnIt
     /**
      * 加载图片
      */
+    @SuppressWarnings("deprecation")
     private void loadPictures() {
         String[] projection = {
                 MediaStore.Images.ImageColumns.DATA,
@@ -278,6 +279,7 @@ public class PhotoAlbumActivity extends BaseActivity implements AdapterView.OnIt
         View header;
         int width;
 
+        @SuppressWarnings("deprecation")
         AlbumAdapter(Context context) {
             this.mContext = context;
             options = new DisplayImageOptions.Builder()

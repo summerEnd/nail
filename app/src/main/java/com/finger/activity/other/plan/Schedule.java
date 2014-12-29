@@ -10,6 +10,8 @@ import android.widget.AbsListView;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.PopupWindow;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.finger.R;
@@ -17,14 +19,16 @@ import com.finger.support.widget.ItemUtil;
 
 import java.util.ArrayList;
 
-public class Schedule extends PopupWindow {
+public class Schedule extends PopupWindow implements ViewPager.OnPageChangeListener, RadioGroup.OnCheckedChangeListener {
     View contentView;
     ViewPager pager;
+    RadioGroup rg;
     ArrayList<View> views = new ArrayList<View>();
     int column_Num = 4;
-    final int item_w = ItemUtil.halfScreen /2-1;
+    final int item_w = ItemUtil.halfScreen / 2 - 1;
     final int item_h = item_w;
     private Context context;
+    RadioButton[] radioButtons = new RadioButton[4];
 
     public Schedule(Context context) {
         super(context);
@@ -32,7 +36,16 @@ public class Schedule extends PopupWindow {
         contentView = View.inflate(context, R.layout.fragment_schedule, null);
         setContentView(contentView);
         pager = (ViewPager) contentView.findViewById(R.id.pager);
+        rg = (RadioGroup) contentView.findViewById(R.id.rg);
+        radioButtons[0] = (RadioButton) rg.findViewById(R.id.r1);
+        radioButtons[1] = (RadioButton) rg.findViewById(R.id.r2);
+        radioButtons[2] = (RadioButton) rg.findViewById(R.id.r3);
+        radioButtons[3] = (RadioButton) rg.findViewById(R.id.r4);
+
+        rg.setOnCheckedChangeListener(this);
+        pager.setOnPageChangeListener(this);
         addSchedule();
+        setFocusable(true);
         setBackgroundDrawable(new ColorDrawable(0));
         pager.setAdapter(new SchedulePageAdapter());
         setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
@@ -55,6 +68,31 @@ public class Schedule extends PopupWindow {
             object.setBackgroundColor(context.getResources().getColor(R.color.light_gray));
             object.setVerticalScrollBarEnabled(false);
             views.add(object);
+        }
+    }
+
+    @Override
+    public void onPageScrolled(int i, float v, int i2) {
+
+    }
+
+    @Override
+    public void onPageSelected(int i) {
+        radioButtons[i].setChecked(true);
+
+    }
+
+    @Override
+    public void onPageScrollStateChanged(int i) {
+
+    }
+
+    @Override
+    public void onCheckedChanged(RadioGroup group, int checkedId) {
+        for (int i = 0; i < radioButtons.length; i++) {
+            if (radioButtons[i].getId() == checkedId) {
+                pager.setCurrentItem(i);
+            }
         }
     }
 

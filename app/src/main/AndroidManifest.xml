@@ -39,7 +39,7 @@
         <!-- meta-data需要写在application中 -->
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
-            android:value="KDF8uslpDCiIyHlmMvkLuXqT" />
+            android:value="VGNAx8IuYg8RUvpM5Z8A0HcT" />
 
         <activity
             android:name=".MyActivity"
@@ -132,11 +132,11 @@
             android:screenOrientation="portrait"
             android:label="@string/title_activity_service_area"></activity>
         <activity
-            android:name=".activity.user.my.MyCareActivity"
+            android:name=".activity.other.common.MyCareActivity"
             android:screenOrientation="portrait"
             android:label="@string/my_care"></activity>
         <activity
-            android:name=".activity.user.my.MyCollectionActivity"
+            android:name=".activity.other.common.MyCollectionActivity"
             android:screenOrientation="portrait"
             android:label="@string/my_collection"></activity>
         <activity
@@ -150,15 +150,34 @@
         <activity
             android:name=".activity.other.info.HonorInfoActivity"
             android:screenOrientation="portrait"
-            android:label="@string/nail_honor_info"/>
+            android:label="@string/nail_honor_info" />
         <activity
             android:name=".activity.artist.my.PublishNailActivity"
             android:screenOrientation="portrait"
-            android:label="@string/publish_nail"/>
+            android:label="@string/publish_nail" />
         <activity
             android:name="com.sp.lib.activity.PhotoAlbumActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.user.order.CommentOrder"
             android:screenOrientation="portrait"
-            />
+            android:label="@string/comment_order" />
+        <activity
+            android:name=".activity.user.order.ApplyRefund"
+            android:screenOrientation="portrait"
+            android:label="@string/apply_refund" />
+        <activity
+            android:name=".activity.artist.my.MyInfoActivity"
+            android:screenOrientation="portrait"
+            android:label="@string/my_info" />
+        <activity
+            android:name=".activity.artist.my.MyResumeActivity"
+            android:screenOrientation="portrait"
+            android:label="@string/my_resume" />
+        <activity
+            android:name=".activity.artist.my.ChangeResume"
+            android:screenOrientation="portrait"
+            android:label="@string/change_resume" />
     </application>
 
 </manifest>

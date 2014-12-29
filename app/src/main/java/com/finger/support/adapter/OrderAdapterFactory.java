@@ -1,13 +1,18 @@
 package com.finger.support.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.finger.R;
+import com.finger.activity.user.order.ApplyRefund;
+import com.finger.activity.user.order.CommentOrder;
 
 import java.util.List;
 
@@ -43,12 +48,12 @@ public class OrderAdapterFactory {
                 adapter = new Refund(context, data);
                 break;
             }
-            case ORDER_NOTICE:{
-                adapter=new OrderNotice(context,data);
+            case ORDER_NOTICE: {
+                adapter = new OrderNotice(context, data);
                 break;
             }
-            case REFUND_NOTICE:{
-                adapter=new RefundNotice(context,data);
+            case REFUND_NOTICE: {
+                adapter = new RefundNotice(context, data);
                 break;
             }
         }
@@ -58,17 +63,17 @@ public class OrderAdapterFactory {
     static class ViewHolder {
         TextView tv1;
         TextView tv2;
+        Button button1;
     }
 
     /**
      * 已下订单
      */
     static class OrderToPay extends OrderAdapter {
-        LayoutInflater inflater;
 
-        OrderToPay(Context context, List data) {
-            this.data = data;
-            inflater = LayoutInflater.from(context);
+
+        public OrderToPay(Context context, List data) {
+            super(context, data);
         }
 
         @Override
@@ -104,11 +109,10 @@ public class OrderAdapterFactory {
      * 等待美甲
      */
     static class WaitService extends OrderAdapter {
-        LayoutInflater inflater;
 
-        WaitService(Context context, List data) {
-            this.data = data;
-            inflater = LayoutInflater.from(context);
+
+        public WaitService(Context context, List data) {
+            super(context, data);
         }
 
         @Override
@@ -144,12 +148,11 @@ public class OrderAdapterFactory {
      * 等待评价
      */
     static class WaitComment extends OrderAdapter {
-        LayoutInflater inflater;
 
-        WaitComment(Context context, List data) {
-            this.data = data;
-            inflater = LayoutInflater.from(context);
+        public WaitComment(Context context, List data) {
+            super(context, data);
         }
+
 
         @Override
         public int getCount() {
@@ -172,6 +175,13 @@ public class OrderAdapterFactory {
             if (convertView == null) {
                 holder = new ViewHolder();
                 convertView = inflater.inflate(R.layout.list_item_order_wait_comment, null);
+                holder.button1 = (Button) convertView.findViewById(R.id.comment);
+                holder.button1.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        context.startActivity(new Intent(context, CommentOrder.class));
+                    }
+                });
             } else {
                 holder = (ViewHolder) convertView.getTag();
             }
@@ -184,11 +194,10 @@ public class OrderAdapterFactory {
      * 退款
      */
     static class Refund extends OrderAdapter {
-        LayoutInflater inflater;
 
-        Refund(Context context, List data) {
-            this.data = data;
-            inflater = LayoutInflater.from(context);
+
+        public Refund(Context context, List data) {
+            super(context, data);
         }
 
         @Override
@@ -212,9 +221,19 @@ public class OrderAdapterFactory {
             if (convertView == null) {
                 holder = new ViewHolder();
                 convertView = inflater.inflate(R.layout.list_item_order_refund, null);
+                holder.tv1 = (TextView) convertView.findViewById(R.id.refund_state);
             } else {
                 holder = (ViewHolder) convertView.getTag();
             }
+
+            if (position%2==1){
+                holder.tv1.setTextColor(context.getResources().getColor(R.color.textColorGray));
+                holder.tv1.setText(context.getString(R.string.refund_complete));
+            }else{
+                holder.tv1.setTextColor(context.getResources().getColor(R.color.textColorPink));
+                holder.tv1.setText(context.getString(R.string.refunding));
+            }
+
             convertView.setTag(holder);
             return convertView;
         }
@@ -224,11 +243,10 @@ public class OrderAdapterFactory {
      * 退款通知
      */
     static class RefundNotice extends OrderAdapter {
-        LayoutInflater inflater;
 
-        RefundNotice(Context context, List data) {
-            this.data = data;
-            inflater = LayoutInflater.from(context);
+
+        public RefundNotice(Context context, List data) {
+            super(context, data);
         }
 
         @Override
@@ -259,16 +277,16 @@ public class OrderAdapterFactory {
             return convertView;
         }
     }
+
     /**
      * 退款通知
      */
     static class OrderNotice extends OrderAdapter {
-        LayoutInflater inflater;
 
-        OrderNotice(Context context, List data) {
-            this.data = data;
-            inflater = LayoutInflater.from(context);
+        public OrderNotice(Context context, List data) {
+            super(context, data);
         }
+
 
         @Override
         public int getCount() {
@@ -298,11 +316,24 @@ public class OrderAdapterFactory {
             return convertView;
         }
     }
+
     public abstract static class OrderAdapter extends BaseAdapter {
         protected List data;
+        protected LayoutInflater inflater;
+        protected Context context;
+
+        public OrderAdapter(Context context, List data) {
+            this.data = data;
+            this.context = context;
+            inflater = LayoutInflater.from(context);
+        }
 
         public final List getData() {
             return data;
+        }
+
+        public AdapterView.OnItemClickListener getOnItemClickListener() {
+            return null;
         }
     }
 }
