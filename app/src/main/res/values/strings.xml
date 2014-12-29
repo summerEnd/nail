@@ -80,5 +80,7 @@
     <string name="plan_nail">预约美甲</string>
     <string name="refunding">正在退款</string>
     <string name="refund_complete">退款成功</string>
+    <string name="service_city">已开通城市</string>
+    <string name="choose_city">选择城市</string>
 
 </resources>

@@ -64,8 +64,8 @@
         <ImageView
             android:id="@+id/nail_image"
             android:src="@drawable/test_image_02"
-            android:layout_width="@dimen/avatar_size"
-            android:layout_height="@dimen/avatar_size" />
+            android:layout_width="@dimen/order_image_size"
+            android:layout_height="@dimen/order_image_size" />
 
         <TextView
             android:id="@+id/nail_title"

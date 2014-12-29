@@ -15,9 +15,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 
 import com.finger.R;
 import com.finger.activity.other.info.NailListActivity;
@@ -27,6 +29,7 @@ import com.finger.support.widget.ItemUtil;
 import com.finger.support.util.Dimension;
 import com.finger.support.widget.ArtistItem;
 import com.finger.support.widget.NailItem;
+import com.finger.support.widget.PopupList;
 import com.finger.support.widget.SearchWindow;
 
 import java.util.ArrayList;
@@ -67,6 +70,7 @@ public class MainFragment extends Fragment implements View.OnClickListener {
         v.findViewById(R.id.choose_nail_artist).setOnClickListener(this);
         v.findViewById(R.id.hot_things).setOnClickListener(this);
         v.findViewById(R.id.title_search).setOnClickListener(this);
+        v.findViewById(R.id.title_city).setOnClickListener(this);
         addBanner();
         addBanner();
         addBanner();
@@ -237,7 +241,19 @@ public class MainFragment extends Fragment implements View.OnClickListener {
                     @Override
                     public void run() {
                         SearchWindow searchWindow=new SearchWindow(getActivity());
-                        searchWindow.showAsDropDown(anchor,0,-layout.findViewById(R.id.head).getHeight());
+                        searchWindow.showAsDropDown(anchor, 0, -layout.findViewById(R.id.head).getHeight());
+                    }
+                });
+
+                break;
+            }
+            case R.id.title_city: {
+                final View anchor=v;
+                scale(v, new Runnable() {
+                    @Override
+                    public void run() {
+                        PopupList popupList=new PopupList(getActivity(),new CityAdapter(getActivity()),200);
+                        popupList.showAsDropDown(anchor);
                     }
                 });
 
@@ -296,6 +312,47 @@ public class MainFragment extends Fragment implements View.OnClickListener {
         @Override
         public void destroyItem(ViewGroup container, int position, Object object) {
             container.removeView(images.get(position));
+        }
+    }
+
+    class CityAdapter extends BaseAdapter{
+
+        private Context context;
+
+       public CityAdapter(Context context) {
+            this.context = context;
+        }
+
+        @Override
+        public int getCount() {
+            return 2;
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return null;
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            if (convertView==null){
+                convertView=new TextView(context);
+            }
+            TextView tv= (TextView) convertView;
+
+            if (position==0){
+                tv.setText(context.getString(R.string.service_city));
+
+            }else{
+                tv.setText("city"+position);
+
+            }
+            return convertView;
         }
     }
 }

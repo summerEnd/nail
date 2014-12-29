@@ -178,6 +178,10 @@
             android:name=".activity.artist.my.ChangeResume"
             android:screenOrientation="portrait"
             android:label="@string/change_resume" />
+        <activity
+            android:name=".activity.LocationActivity"
+            android:screenOrientation="portrait"
+            android:label="@string/choose_city" />
     </application>
 
 </manifest>
