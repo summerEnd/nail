@@ -5,25 +5,10 @@
     android:layout_height="match_parent">
 
     <include layout="@layout/head_2" />
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="当前定位城市" />
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="太平洋" />
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="已开通服务城市" />
-
     <ListView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:scrollbarStyle="insideInset"
+        android:divider="@color/light_gray"
+        android:dividerHeight="1px"
         android:id="@+id/listView" />
 </LinearLayout>

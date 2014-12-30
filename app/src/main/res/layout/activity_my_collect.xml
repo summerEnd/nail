@@ -12,11 +12,12 @@
         android:layout_height="match_parent">
 
         <GridView
-            android:layout_margin="3dp"
+            android:layout_margin="@dimen/item_spacing"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:numColumns="2"
             android:verticalSpacing="@dimen/item_spacing"
+            android:horizontalSpacing="@dimen/item_spacing"
             android:id="@+id/grid" />
 
         <LinearLayout

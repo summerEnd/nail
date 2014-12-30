@@ -23,6 +23,7 @@ public class BaiduAPI {
     public static LocationClient mLocationClient;
     private static L l;
     private static Callback mCallback;
+    public static BDLocation mBDLocation;
     /**
      * 定位的时间间隔
      */
@@ -115,14 +116,17 @@ public class BaiduAPI {
 
 
         public void onReceiveLocation(final BDLocation location) {
-
+            mBDLocation=location;
             Logger.debug(new Runnable() {
                 @Override
                 public void run() {
                     if (location == null)
                         return;
+
                     StringBuffer sb = new StringBuffer(256);
-                    sb.append("time : ");
+                    sb.append("cityCode : ");
+                    sb.append(location.getCityCode());
+                    sb.append("\ntime : ");
                     sb.append(location.getTime());
                     sb.append("\nerror code : ");
                     sb.append(location.getLocType());

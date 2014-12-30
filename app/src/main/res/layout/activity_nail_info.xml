@@ -29,18 +29,18 @@
                 android:layout_height="wrap_content">
 
                 <TextView
-                    android:id="@+id/tv_money"
+                    android:id="@+id/tv_price"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="#ff0e03"
                     android:textSize="@dimen/textSize_dp_60px"
                     android:textStyle="bold"
-                    android:text="￥4040" />
+                    android:text="@string/rmb_s" />
 
                 <TextView
                     android:id="@+id/dmj"
                     android:layout_marginLeft="4dp"
-                    android:layout_below="@id/tv_money"
+                    android:layout_below="@id/tv_price"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/textSize_dp_24px"
@@ -48,8 +48,8 @@
                     android:text="店面价：" />
 
                 <TextView
-                    android:id="@+id/tv_dmj"
-                    android:layout_below="@id/tv_money"
+                    android:id="@+id/tv_shop_price"
+                    android:layout_below="@id/tv_price"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/textSize_dp_24px"
@@ -58,10 +58,10 @@
                     android:text="900" />
 
                 <TextView
-                    android:layout_below="@id/tv_money"
+                    android:layout_below="@id/tv_price"
                     android:layout_alignParentRight="true"
                     android:textSize="@dimen/textSize_dp_36px"
-                    android:layout_alignBaseline="@id/tv_dmj"
+                    android:layout_alignBaseline="@id/tv_shop_price"
                     android:layout_width="wrap_content"
                     android:drawableLeft="@drawable/ic_collect"
                     android:layout_height="wrap_content"
@@ -77,36 +77,38 @@
                 android:layout_height="wrap_content">
 
                 <TextView
-                    android:id="@+id/zsjp"
+                    android:id="@+id/tv_info_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="撞色简拼"
                     android:textSize="@dimen/textSize_dp_38px"
                     android:textColor="#f35d35" />
 
                 <TextView
+                    android:id="@+id/tv_info_text"
                     android:layout_marginTop="@dimen/title_margin"
                     android:textSize="@dimen/textSize_dp_30px"
-                    android:layout_below="@id/zsjp"
+                    android:layout_below="@id/tv_info_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="来美甲咯，美玩甲抓老公，保证不生气！来美甲咯，美玩甲抓老公，保证不生气！来美甲咯，美玩甲抓老公，保证不生气！" />
+                    />
 
                 <TextView
+                    android:id="@+id/tv_time_cost"
                     android:layout_marginTop="5dp"
                     android:layout_width="wrap_content"
                     android:drawableLeft="@drawable/ic_time"
-                    android:text="耗时120分钟"
+                    android:text="@string/time_cost_s"
                     android:textSize="@dimen/textSize_dp_30px"
                     android:gravity="center_vertical"
                     android:textColor="@color/textColorGray"
                     android:layout_height="wrap_content" />
 
                 <TextView
+                    android:id="@+id/tv_time_keep"
                     android:textSize="@dimen/textSize_dp_30px"
                     android:layout_width="wrap_content"
                     android:drawableLeft="@drawable/ic_circle_arrow"
-                    android:text="保持10000年"
+                    android:text="@string/time_keep_s"
                     android:gravity="center_vertical"
                     android:textColor="@color/textColorGray"
                     android:layout_height="wrap_content" />
@@ -139,13 +141,11 @@
                         android:layout_height="wrap_content"
                         android:textSize="@dimen/textSize_dp_36px"
                         android:textColor="@color/textColorBlack"
-                        android:text="花花" />
+                        />
 
                     <com.finger.support.widget.RatingWidget
                         android:id="@+id/rating"
-                        app:stars="3"
                         android:layout_marginTop="10dp"
-                        app:drawable="@drawable/star1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
                 </LinearLayout>
@@ -166,11 +166,12 @@
                     android:text="专业：" />
 
                 <TextView
+                    android:id="@id/tv_pro"
                     android:layout_width="wrap_content"
                     android:textColor="@color/textColorBlack"
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/textSize_dp_30px"
-                    android:text="5.0" />
+                    />
 
                 <View
                     android:layout_width="0dp"
@@ -185,11 +186,12 @@
                     android:text="沟通：" />
 
                 <TextView
+                    android:id="@id/tv_com"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/textSize_dp_30px"
                     android:textColor="@color/textColorBlack"
-                    android:text="5.0" />
+                    />
 
                 <View
                     android:layout_width="0dp"
@@ -204,11 +206,12 @@
                     android:text="守时：" />
 
                 <TextView
+                    android:id="@id/tv_on_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/textSize_dp_30px"
                     android:textColor="@color/textColorBlack"
-                    android:text="5.0" />
+                    />
             </LinearLayout>
 
             <TextView
@@ -231,6 +234,7 @@
                     android:text="评价" />
 
                 <TextView
+                    android:id="@+id/tv_comment_num"
                     android:layout_alignParentRight="true"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -239,7 +243,7 @@
                     android:textSize="@dimen/textSize_2"
                     android:textColor="#f46751"
                     android:drawableRight="@drawable/right_arrow"
-                    android:text="10086条" />
+                    />
             </RelativeLayout>
 
             <TextView style="@style/horizontal_line" />

@@ -12,28 +12,23 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
 /**
- * 操作 /data/data/<package_name>/文件夹的工具类，写入文件的都是工具类
+ * Created by acer on 2014/9/25.
  */
 public class FileUtil {
-
-    private Context mContext;
-
-    public FileUtil(Context context) {
-        this.mContext = context;
-    }
 
     /**
      * 读取缓存文件
      */
-    public Object readCache(String name) {
-        return read(getCacheFile(name));
+    public static Object readCache(Context context,String user, String name) {
+        return read(getCacheFile(context,user, name));
+
     }
 
     /**
-     * 将object写入对象
+     * 将object写入缓存
      */
-    public void saveCache(String name, Object o) {
-        save(getCacheFile(name), o);
+    public static void saveCache(Context context, String user, String name, Object o) {
+        save(getCacheFile(context, user, name), o);
     }
 
     /**
@@ -42,8 +37,8 @@ public class FileUtil {
      * @param name
      * @return
      */
-    public Object readFile(String name) {
-        return read(getFile(name));
+    public static Object readFile(Context context, String name) {
+        return read(getFile(context, name));
     }
 
     /**
@@ -52,8 +47,8 @@ public class FileUtil {
      * @param name
      * @param o
      */
-    public void saveFile(String name, Object o) {
-        save(getFile(name), o);
+    public static void saveFile(Context context, String name, Object o) {
+        save(getFile(context, name), o);
     }
 
     /**
@@ -62,17 +57,16 @@ public class FileUtil {
      * @param file
      * @return
      */
-    public <T> T read(File file) {
+    public static Object read(File file) {
         Object obj = null;
         try {
             FileInputStream is = new FileInputStream(file);
             ObjectInputStream ois = new ObjectInputStream(is);
             obj = ois.readObject();
         } catch (Exception e) {
-            e.printStackTrace();
+            Log.w("FileUtil", e.getMessage());
         }
-        Log.i("--->", "read:" + file + "===" + obj);
-        return (T) obj;
+        return obj;
     }
 
     /**
@@ -81,8 +75,7 @@ public class FileUtil {
      * @param file
      * @param o
      */
-    public void save(File file, Object o) {
-        Log.i("--->", "save:" + file + "--->" + o);
+    public static void save(File file, Object o) {
         try {
             FileOutputStream os = new FileOutputStream(file);
             ObjectOutputStream oos = new ObjectOutputStream(os);
@@ -94,41 +87,61 @@ public class FileUtil {
         }
     }
 
-    public void delete(File file) {
-        if (file.isDirectory()) {
-            File files[] = file.listFiles();
-            for (File f : files) {
+    /**
+     * 鍒犻櫎鏂囦欢
+     *
+     * @param file
+     */
+    public static void delete(File file) {
+        if (!file.isDirectory()) {
+            file.delete();
+        } else {
+            for (File f : file.listFiles()) {
                 delete(f);
             }
-        } else {
-            file.delete();
         }
-
     }
 
+    /**
+     * 鍒犻櫎鏂囦欢
+     *
+     * @param context
+     * @param name
+     */
+    public static void deleteFile(Context context, String name) {
+        delete(getFile(context, name));
+    }
 
     /**
-     * 缓存文件路径 /cache/<directory_name>/name
+     * 缂撳瓨鏂囦欢璺緞 cache/<company_id>/name
      *
+     * @param context
      * @param name
      * @return
      */
-    private File getCacheFile(String name) {
-        //创建用户目录
-        File dir = new File(mContext.getCacheDir(), "directory_name");
+    private static File getCacheFile(Context context, String user, String name) {
+
+        //鍒涘缓缂撳瓨鏂囦欢
+        return new File(getCacheDir(context, user), name);
+    }
+
+    /**
+     * 鑾峰彇缂撳瓨鐩綍
+     *
+     * @param context
+     * @return
+     */
+    private static File getCacheDir(Context context, String name) {
+        File dir = new File(context.getCacheDir(), name);
         if (!dir.exists()) dir.mkdir();
-        //创建缓存文件
-        return new File(dir, name);
+        return dir;
     }
 
-    /**
-     * 文件路径：/file/name
-     *
-     * @param name
-     * @return
-     */
-    private File getFile(String name) {
-        return new File(mContext.getFilesDir(), name);
+    private static File getFile(Context context, String name) {
+        return new File(context.getFilesDir(), name);
     }
 
+    public static void clearCache(Context context, String name) {
+        delete(getCacheDir(context, name));
+    }
 }

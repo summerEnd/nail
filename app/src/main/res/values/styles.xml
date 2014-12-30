@@ -285,7 +285,7 @@
         <item name="android:textSize">@dimen/textSize_dp_28px</item>
     </style>
     <style name="resume_num_pink_style" parent="resume_text_pink_style">
-        <item name="android:textSize">@dimen/textSize_dp_28px</item>
+        <item name="android:textSize">@dimen/textSize_dp_30px</item>
     </style>
     <style name="white_item_area">
         <item name="android:padding">8dp</item>
@@ -302,6 +302,23 @@
         <item name="android:textColor">#fff</item>
         <item name="android:textSize">@dimen/textSize_dp_30px</item>
         <item name="android:gravity">center</item>
+    </style>
+    <style name="city_item_style">
+        <item name="android:paddingLeft">@dimen/activity_horizontal_margin</item>
+        <item name="android:paddingRight">@dimen/activity_horizontal_margin</item>
+        <item name="android:paddingTop">7dp</item>
+        <item name="android:paddingBottom">7dp</item>
+        <item name="android:background">@drawable/clicked_white</item>
+        <item name="android:textColor">@color/textColorBlack</item>
+        <item name="android:textSize">@dimen/textSize_dp_34px</item>
+
+    </style>
+    <style name="city_item_title">
+        <item name="android:paddingLeft">@dimen/activity_horizontal_margin</item>
+        <item name="android:paddingRight">@dimen/activity_horizontal_margin</item>
+        <item name="android:paddingTop">10dp</item>
+        <item name="android:paddingBottom">4dp</item>
+        <item name="android:textColor">@color/black</item>
     </style>
     <!--
     <item name="android:paddingLeft"></item>

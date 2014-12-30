@@ -20,9 +20,10 @@
                 style="@style/tab_item_name_style"
                 android:text="标题：" />
 
-            <TextView
-                style="@style/tab_item_value_style"
-                android:text="新款法式白边美甲" />
+            <EditText
+                android:id="@+id/edit_title"
+                android:hint="请输入标题"
+                style="@style/tab_item_value_style" />
         </TableRow>
 
         <TextView style="@style/horizontal_line" />
@@ -33,9 +34,10 @@
                 style="@style/tab_item_name_style"
                 android:text="价格：" />
 
-            <TextView
-                style="@style/tab_item_value_style"
-                android:text="999元" />
+            <EditText
+                android:id="@+id/edit_price"
+                android:hint="请输入价格"
+                style="@style/tab_item_value_style" />
         </TableRow>
 
         <TextView style="@style/horizontal_line" />
@@ -46,9 +48,10 @@
                 style="@style/tab_item_name_style"
                 android:text="耗时：" />
 
-            <TextView
+            <EditText
+                android:id="@+id/edit_time_cost"
                 style="@style/tab_item_value_style"
-                android:text="一个半小时~2小时" />
+                android:hint="请输入耗时" />
         </TableRow>
 
         <TextView style="@style/horizontal_line" />
@@ -59,32 +62,40 @@
                 style="@style/tab_item_name_style"
                 android:text="保持时间：" />
 
-            <TextView
+            <EditText
+                android:id="@+id/edit_time_keep"
                 style="@style/tab_item_value_style"
-                android:text="一个月" />
+                android:hint="请输入保持时间" />
         </TableRow>
 
         <TextView style="@style/horizontal_line" />
 
 
         <EditText
-            android:layout_margin="1dp"
+            android:id="@+id/edit_detail"
+            android:layout_margin="3dp"
             android:layout_height="@dimen/publish_edit_height"
             android:gravity="top"
             style="@style/tab_item_style_publish"
             android:background="@color/white"
             android:textSize="@dimen/textSize_dp_28px"
+
             android:textColor="@color/textColorGray"
             android:hint="请输入详细内容" />
 
-        <TextView style="@style/horizontal_line" />
 
     </TableLayout>
 
-    <ImageView
+    <com.sp.lib.widget.AddImageItem
+        android:layout_marginTop="7dp"
         android:layout_marginLeft="@dimen/activity_horizontal_margin"
         android:layout_width="wrap_content"
         android:id="@+id/add_image"
-        android:src="@drawable/iv_add_image"
         android:layout_height="wrap_content" />
+
+    <Button
+        android:layout_marginTop="5dp"
+        android:id="@+id/publish"
+        style="@style/button_large"
+        android:text="@string/publish" />
 </LinearLayout>

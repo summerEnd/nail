@@ -51,6 +51,38 @@ public class BaseActivity extends FragmentActivity implements View.OnClickListen
         }
     }
 
+    /**
+     * 设置专业沟通守时
+     *
+     * @param pro    专业 对应TextView 的id为tv_pro
+     * @param com    沟通 对应TextView 的id为tv_com
+     * @param onTime 守时 对应TextView 的id为tv_on_time
+     */
+    public void setArtistZGS(float pro, float com, float onTime) {
+        TextView tv_pro = (TextView) findViewById(R.id.tv_pro);
+        TextView tv_com = (TextView) findViewById(R.id.tv_com);
+        TextView tv_on_time = (TextView) findViewById(R.id.tv_on_time);
+        tv_pro.setText(String.format("%.1f", pro));
+        tv_com.setText(String.format("%.1f", com));
+        tv_on_time.setText(String.format("%.1f", onTime));
+    }
+
+    /**
+     * 好评中评差评
+     *
+     * @param good
+     * @param mid
+     * @param bad
+     */
+    public void setArtistComment(int good, int mid, int bad) {
+        TextView tv_good_comment = (TextView) findViewById(R.id.tv_good_comment);
+        TextView tv_bad_comment = (TextView) findViewById(R.id.tv_bad_comment);
+        TextView tv_mid_comment = (TextView) findViewById(R.id.tv_mid_comment);
+        tv_good_comment.setText(getString(R.string.d_num,good));
+        tv_mid_comment.setText(getString(R.string.d_num,mid));
+        tv_bad_comment.setText(getString(R.string.d_num,bad));
+    }
+
     @Override
     public void setTitle(int titleId) {
         setTitle(getString(titleId));

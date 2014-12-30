@@ -13,6 +13,7 @@
         android:layout_height="wrap_content">
 
         <EditText
+            android:id="@+id/edit_resume"
             android:padding="5dp"
             android:textColor="@color/textColorGray"
             android:textSize="@dimen/textSize_dp_28px"
@@ -29,6 +30,7 @@
             android:layout_height="wrap_content" />
 
         <Button
+            android:id="@+id/commit"
             android:layout_marginTop="10dp"
             style="@style/button_large"
             android:text="@string/yes"/>

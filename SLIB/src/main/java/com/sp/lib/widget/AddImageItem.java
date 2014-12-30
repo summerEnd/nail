@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.util.AttributeSet;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -13,6 +14,7 @@ import android.widget.Toast;
 
 import com.sp.lib.R;
 import com.sp.lib.activity.PhotoAlbumActivity;
+import com.sp.lib.util.DisplayUtil;
 
 /**
  * Created by acer on 2014/12/26.
@@ -45,6 +47,10 @@ public class AddImageItem extends HorizontalScrollView {
         addView(layout);
         layout.setOrientation(LinearLayout.HORIZONTAL);
         add = new ImageView(context);
+        int width= (int) DisplayUtil.dp(100,getResources());
+        int height= (int) DisplayUtil.dp(100,getResources());
+        add.setLayoutParams(new ViewGroup.LayoutParams(width,height));
+        add.setScaleType(ImageView.ScaleType.CENTER_CROP);
         add.setImageResource(R.drawable.iv_add_image);
         add.setOnClickListener(iv_add_click_listener);
         layout.addView(add);

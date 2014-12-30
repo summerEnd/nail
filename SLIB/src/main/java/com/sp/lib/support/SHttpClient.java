@@ -73,7 +73,7 @@ public class SHttpClient {
         @Override
         public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
             super.onFailure(statusCode, headers, responseString, throwable);
-            Log.i(SLOG, "Throwable:"+responseString);
+            Log.i(SLOG, "Throwable:"+throwable);
             sendFail("net error:" + statusCode);
         }
 

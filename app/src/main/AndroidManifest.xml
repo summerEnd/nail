@@ -106,7 +106,7 @@
         <activity
             android:name=".activity.other.info.NailInfo"
             android:screenOrientation="portrait"
-            android:label="@string/title_activity_plan" />
+            android:label="@string/nail_info" />
         <activity
             android:name=".activity.other.info.NailListActivity"
             android:screenOrientation="portrait"
@@ -182,6 +182,14 @@
             android:name=".activity.LocationActivity"
             android:screenOrientation="portrait"
             android:label="@string/choose_city" />
+        <activity
+            android:name=".activity.artist.my.PlanTimeActivity"
+            android:screenOrientation="portrait"
+            android:label="@string/plan_time" />
+        <activity
+            android:name=".activity.other.common.SearchResult"
+            android:screenOrientation="portrait"
+            android:label="@string/search_result" />
     </application>
 
 </manifest>

@@ -5,7 +5,12 @@
     android:layout_height="match_parent">
 
     <include layout="@layout/head_2" />
-
+    <TextView
+        android:drawableLeft="@drawable/ic_plan_time"
+        android:id="@+id/plan_time"
+        style="@style/text_click_item"
+        android:onClick="onClick"
+        android:text="@string/plan_time" />
     <TextView
         android:drawableLeft="@drawable/ic_pencil"
         android:id="@+id/change_data"

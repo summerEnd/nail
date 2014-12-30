@@ -1,8 +1,9 @@
 package com.finger.support;
 
 public class Constant {
-    public static final String HOST="http://192.168.1.142/Manicures/index.php?s=/Home/Api/";
-    public static final String LOGIN_TYPE_ARTIST = "0";
-    public static final String LOGIN_TYPE_USER = "1";
-    public static final String LOGIN_TYPE_EMPTY = "2";
+    public static final String FILE_CITIES = "file_city";
+    public static final String FILE_TAGS = "file_tag";
+    public static final String LOGIN_TYPE_ARTIST = "1";
+    public static final String LOGIN_TYPE_USER = "2";
+    public static final String LOGIN_TYPE_EMPTY = "0";
 }

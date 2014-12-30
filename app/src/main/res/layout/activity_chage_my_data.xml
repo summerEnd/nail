@@ -22,6 +22,7 @@
             android:src="@drawable/default_user" />
 
         <TextView
+            android:id="@+id/tv_nick_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/textColorBlack"
@@ -39,11 +40,12 @@
 
             <TextView
                 style="@style/tab_item_name_style"
-                android:text="昵称：" />
+                android:text="昵        称：" />
 
-            <TextView
+            <EditText
+                android:id="@+id/edit_nick"
                 style="@style/tab_item_value_style"
-                android:text="小思思" />
+                />
         </TableRow>
 
         <TextView style="@style/horizontal_line" />
@@ -54,13 +56,15 @@
                 style="@style/tab_item_name_style"
                 android:text="手机号码：" />
 
-            <TextView
+            <EditText
+                android:id="@+id/edit_phone"
                 style="@style/tab_item_value_style"
-                android:text="18761844666" />
+                />
         </TableRow>
     </TableLayout>
 
     <Button
+        android:id="@+id/commit"
         android:layout_marginTop="@dimen/login_btn_margin_top"
         style="@style/button_large"
         android:text="@string/yes" />

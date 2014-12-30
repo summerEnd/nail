@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:background="@drawable/titleBackground"
+        android:layout_height="@dimen/title_height">
+
+        <ImageView
+            style="@style/title_back_style"
+            android:layout_centerVertical="true" />
+
+        <TextView
+            style="@style/title_text_style"
+            android:text="首 页"
+            android:layout_centerInParent="true" />
+        <TextView
+            android:id="@+id/commit"
+            android:onClick="onClick"
+            android:clickable="true"
+            style="@style/title_click_text"
+            android:text="@string/yes"
+            android:layout_alignParentRight="true"
+            android:layout_centerInParent="true" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_gravity="bottom"
+        android:orientation="vertical"
+        android:layout_height="wrap_content">
+
+        <RadioGroup
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:weightSum="4"
+            android:id="@+id/rg"
+            android:layout_height="wrap_content">
+
+            <RadioButton
+                android:id="@+id/r1"
+                android:checked="true"
+                android:layout_weight="1"
+                style="@style/schedule_tab_style"
+                android:text="今天（忙）" />
+
+            <TextView style="@style/vertical_line" />
+
+            <RadioButton
+                android:id="@+id/r2"
+                android:layout_weight="1"
+                style="@style/schedule_tab_style"
+                android:text="明天（忙）" />
+
+            <TextView style="@style/vertical_line" />
+
+            <RadioButton
+                android:id="@+id/r3"
+                android:layout_weight="1"
+                style="@style/schedule_tab_style"
+                android:text="后天（忙）" />
+
+            <TextView style="@style/vertical_line" />
+
+            <RadioButton
+                android:id="@+id/r4"
+                android:layout_weight="1"
+                style="@style/schedule_tab_style"
+                android:text="12.24（忙）" />
+        </RadioGroup>
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/pager"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent" />
+    </LinearLayout>
+</LinearLayout>

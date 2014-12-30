@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,9 +14,9 @@ import android.widget.RadioGroup;
 
 import com.finger.activity.BaseActivity;
 import com.finger.R;
-import com.finger.support.entity.ArtistBean;
+import com.finger.support.entity.ArtistRole;
 import com.finger.support.entity.RoleBean;
-import com.finger.support.entity.UserBean;
+import com.finger.support.entity.UserRole;
 import com.finger.support.Constant;
 import com.finger.support.net.FingerHttpClient;
 import com.finger.support.net.FingerHttpHandler;
@@ -23,6 +24,7 @@ import com.finger.support.widget.EditItem;
 import com.finger.support.util.ContextUtil;
 import com.loopj.android.http.RequestParams;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
@@ -59,25 +61,30 @@ public class LoginActivity extends BaseActivity implements RadioGroup.OnCheckedC
      * @param password
      * @param type     登录类型：美甲师、用户
      */
-    public void doLogin(final String mobile,final String password, final String type) {
-        RequestParams params=new RequestParams();
-        params.put("mobile",mobile);
-        params.put("password",password);
+    public void doLogin(final String mobile, final String password, final String type) {
+        RequestParams params = new RequestParams();
+        params.put("phone_num", mobile);
+        params.put("password", password);
+        params.put("type", type);
 
-        FingerHttpClient.post("login",params,new FingerHttpHandler() {
+        FingerHttpClient.post("login", params, new FingerHttpHandler() {
             @Override
             public void onSuccess(JSONObject o) {
 
                 RoleBean bean;
 
                 if (type.equals(Constant.LOGIN_TYPE_ARTIST)) {
-                    bean = new ArtistBean();
+                    bean = new ArtistRole();
                 } else {
-                    bean = new UserBean();
+                    bean = new UserRole();
                 }
                 bean.mobile = mobile;
                 bean.password = password;
-                bean.id = 1;
+                try {
+                    bean.id = o.getInt("data");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
                 getApp().setUser(bean);
                 setResult(RESULT_OK);
                 finish();
@@ -86,25 +93,8 @@ public class LoginActivity extends BaseActivity implements RadioGroup.OnCheckedC
             @Override
             public void onFail(JSONObject o) {
 
-                RoleBean bean;
-
-                if (type.equals(Constant.LOGIN_TYPE_ARTIST)) {
-                    bean = new ArtistBean();
-                } else {
-                    bean = new UserBean();
-                }
-                bean.mobile = mobile;
-                bean.password = password;
-                bean.id = 1;
-                getApp().setUser(bean);
-                setResult(RESULT_OK);
-                finish();
             }
         });
-
-    }
-
-    public void doRegister(String mobile, String password) {
 
     }
 
@@ -158,6 +148,7 @@ public class LoginActivity extends BaseActivity implements RadioGroup.OnCheckedC
             v.findViewById(R.id.register).setOnClickListener(this);
             edit_phone = (EditItem) v.findViewById(R.id.edit_phone);
             edit_password = (EditItem) v.findViewById(R.id.edit_password);
+            edit_password.getTextView().setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
             return v;
         }
 
@@ -190,6 +181,7 @@ public class LoginActivity extends BaseActivity implements RadioGroup.OnCheckedC
             v.findViewById(R.id.login).setOnClickListener(this);
             edit_phone = (EditItem) v.findViewById(R.id.edit_phone);
             edit_password = (EditItem) v.findViewById(R.id.edit_password);
+            edit_password.getTextView().setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
             return v;
         }
 

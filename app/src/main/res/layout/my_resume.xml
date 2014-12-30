@@ -52,9 +52,10 @@
 
                 <TextView
                     style="@style/resume_text_pink_style"
-                    android:text="专业：" />
+                    android:text="@string/pro_" />
 
                 <TextView
+                    android:id="@id/tv_pro"
                     style="@style/resume_num_pink_style"
                     android:text="5.0" />
 
@@ -65,9 +66,10 @@
 
                 <TextView
                     style="@style/resume_text_pink_style"
-                    android:text="沟通：" />
+                    android:text="@string/com_" />
 
                 <TextView
+                    android:id="@id/tv_com"
                     style="@style/resume_num_pink_style"
                     android:text="5.0" />
 
@@ -78,9 +80,10 @@
 
                 <TextView
                     style="@style/resume_text_pink_style"
-                    android:text="守时：" />
+                    android:text="@string/on_time_" />
 
                 <TextView
+                    android:id="@id/tv_on_time"
                     style="@style/resume_num_pink_style"
                     android:text="5.0" />
 
@@ -90,10 +93,11 @@
                     android:layout_weight="1" />
 
                 <TextView
+                    android:id="@+id/tv_order_num"
                     style="@style/resume_num_pink_style"
                     android:textColor="@color/textColorGray"
                     android:textSize="@dimen/textSize_dp_24px"
-                    android:text="共接单2222335次" />
+                    android:text="@string/order_d_num" />
             </LinearLayout>
 
             <LinearLayout
@@ -109,12 +113,13 @@
                     android:text="好评" />
 
                 <TextView
+                    android:id="@id/tv_good_comment"
                     android:layout_width="wrap_content"
                     android:textSize="@dimen/textSize_dp_28px"
                     android:textColor="@color/textColorGray"
                     android:layout_marginLeft="6dp"
                     android:layout_height="wrap_content"
-                    android:text="5912369条" />
+                    android:text="@string/d_num" />
 
                 <View
                     android:layout_width="0dp"
@@ -129,12 +134,13 @@
                     android:text="中评" />
 
                 <TextView
+                    android:id="@id/tv_mid_comment"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="6dp"
                     android:textSize="@dimen/textSize_dp_28px"
                     android:textColor="@color/textColorGray"
-                    android:text="5969条" />
+                    android:text="@string/d_num" />
 
                 <View
                     android:layout_width="0dp"
@@ -149,12 +155,13 @@
                     android:text="差评" />
 
                 <TextView
+                    android:id="@id/tv_bad_comment"
                     android:layout_width="wrap_content"
                     android:layout_marginLeft="6dp"
                     android:textSize="@dimen/textSize_dp_28px"
                     android:textColor="@color/textColorGray"
                     android:layout_height="wrap_content"
-                    android:text="0条" />
+                    android:text="@string/d_num" />
             </LinearLayout>
 
             <RelativeLayout style="@style/my_resume_white_item">
@@ -168,6 +175,8 @@
                     android:textColor="@color/textColorBlack" />
 
                 <TextView
+                    android:onClick="onClick"
+                    android:clickable="true"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="修改"
@@ -184,6 +193,7 @@
                     android:layout_below="@+id/modify" />
 
                 <TextView
+                    android:id="@+id/tv_short_content"
                     android:layout_below="@id/line"
                     android:textColor="@color/textColorGray"
                     android:textSize="@dimen/textSize_dp_24px"

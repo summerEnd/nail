@@ -5,9 +5,6 @@ import android.os.Bundle;
 import com.finger.activity.BaseActivity;
 import com.finger.R;
 
-/**
- * Created by acer on 2014/12/25.
- */
 public class HonorInfoActivity extends BaseActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {

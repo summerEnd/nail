@@ -4,6 +4,7 @@ import com.finger.BuildConfig;
 import com.finger.support.Constant;
 import com.finger.FingerApp;
 import com.finger.support.util.ContextUtil;
+import com.finger.support.util.Logger;
 import com.loopj.android.http.RequestParams;
 import com.sp.lib.support.SHttpClient;
 import com.sp.lib.support.WebJsonHttpHandler;
@@ -21,7 +22,7 @@ import static com.finger.support.util.ContextUtil.getVersion;
 
 public class FingerHttpClient {
     private static final String SECRET = "ju34s4&6d567nuwe678l89kjdf56o34iw!e";
-    private static final String host = "http://192.168.1.141/Manicures/index.php?s=/Home/Api/";
+    private static final String host = "http://218.244.149.129/pnail/index.php?s=/Home/Api/";
     private static String MIEI = "miei";
 
     public static void setDialogCreator(SHttpClient.ProgressDialogCreator creator) {
@@ -60,7 +61,7 @@ public class FingerHttpClient {
                     ContextUtil.toast(msg);
 
                 } catch (JSONException e) {
-                    e.printStackTrace();
+                    Logger.w(e.getLocalizedMessage());
                 }
             }
 

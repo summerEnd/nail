@@ -23,6 +23,11 @@ public class MyInfoActivity extends BaseActivity{
     @Override
     public void onClick(View v) {
         switch (v.getId()){
+            case R.id.plan_time:{
+                Intent intent=new Intent(this, PlanTimeActivity.class);
+                startActivity(intent);
+                break;
+            }
             case R.id.change_data:{
                 Intent intent=new Intent(this, ChangeMyData.class);
                 startActivity(intent);

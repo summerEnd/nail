@@ -7,7 +7,7 @@ import java.io.Serializable;
 /**
  * 当前登录的角色,使用的逻辑是：
  * 调用{@link com.finger.FingerApp}的getRole方法获取{@link com.finger.support.entity.RoleBean}。
- * 返回的RoleBean不为空，类型为{@link com.finger.support.entity.UserBean} 、{@link com.finger.support.entity.ArtistBean}、{@link com.finger.support.entity.RoleBean.EmptyRole}
+ * 返回的RoleBean不为空，类型为{@link UserRole} 、{@link ArtistRole}、{@link com.finger.support.entity.RoleBean.EmptyRole}
  * 例如：
  *
  */

@@ -386,10 +386,11 @@ public class PhotoAlbumActivity extends BaseActivity implements AdapterView.OnIt
 //            LogCat.d("dir-->" + dirsNameArarry);
             String dirName = dirsNameArarry[position];
             LinkedList<String> list = urlsMap.get(dirName);
-            String image = list.get(0);
-
+           if (list.size()>0){
+               String image = list.get(0);
+               ImageManager.loadImage("file://" + image, holder.imageView, options);
+           }
             holder.dir_name.setText(dirName);
-            ImageManager.loadImage("file://" + image, holder.imageView, options);
             holder.num_pics.setText(list.size() + "张");
             holder.selected.setVisibility(selectedItem == position ? View.VISIBLE : View.INVISIBLE);
             convertView.setTag(holder);

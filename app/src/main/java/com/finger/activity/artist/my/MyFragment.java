@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.finger.R;
+import com.finger.activity.BaseActivity;
 import com.finger.activity.other.setting.SettingActivity;
 import com.finger.activity.other.common.MyCareActivity;
 import com.finger.activity.other.common.MyCollectionActivity;
@@ -29,18 +30,46 @@ public class MyFragment extends Fragment implements View.OnClickListener {
     TextView settings;
     ImageView iv_avatar;
     GridView gridView;
+    TextView tv_on_time;
+    TextView tv_com;
+    TextView tv_pro;
+    TextView tv_nick_name;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         View v = inflater.inflate(R.layout.fragment_center_artist, null);
         ((TextView) v.findViewById(R.id.title_text)).setText(R.string.personal_center);
+
+        tv_on_time = (TextView) v.findViewById(R.id.tv_on_time);
+        tv_com = (TextView) v.findViewById(R.id.tv_com);
+        tv_pro = (TextView) v.findViewById(R.id.tv_pro);
+        tv_nick_name = (TextView) v.findViewById(R.id.tv_nick_name);
+
         gridView = (GridView) v.findViewById(R.id.grid);
         gridView.setAdapter(new NailListAdapter(getActivity()));
         findIds(v);
         setAvatar();
+        setArtistZGS(v,3, 3, 6);
         return v;
     }
+
+    /**
+     * 设置专业沟通守时
+     *
+     * @param pro    专业 对应TextView 的id为tv_pro
+     * @param com    沟通 对应TextView 的id为tv_com
+     * @param onTime 守时 对应TextView 的id为tv_on_time
+     */
+    public void setArtistZGS(View v, float pro, float com, float onTime) {
+        TextView tv_pro = (TextView) v.findViewById(R.id.tv_pro);
+        TextView tv_com = (TextView) v.findViewById(R.id.tv_com);
+        TextView tv_on_time = (TextView) v.findViewById(R.id.tv_on_time);
+        tv_pro.setText(String.format("%.1f", pro));
+        tv_com.setText(String.format("%.1f", com));
+        tv_on_time.setText(String.format("%.1f", onTime));
+    }
+
 
     void findIds(View v) {
         settings = (TextView) v.findViewById(R.id.settings);
@@ -94,6 +123,10 @@ public class MyFragment extends Fragment implements View.OnClickListener {
                 case R.id.iv_avatar: {
                     Intent intent = new Intent(context, MyInfoActivity.class);
                     context.startActivity(intent);
+                    break;
+                }
+                case R.id.commit: {
+
                     break;
                 }
             }

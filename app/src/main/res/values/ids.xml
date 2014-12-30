@@ -24,4 +24,14 @@
     <item name="title_text" type="id" />
     <item name="title_back" type="id" />
     <item name="title_list" type="id" />
+
+    <!--好评 中评 差评-->
+    <item name="tv_good_comment" type="id"/>
+    <item name="tv_mid_comment" type="id"/>
+    <item name="tv_bad_comment" type="id"/>
+
+    <!--专业 沟通 守时-->
+    <item name="tv_pro" type="id"/>
+    <item name="tv_com" type="id"/>
+    <item name="tv_on_time" type="id"/>
 </resources>

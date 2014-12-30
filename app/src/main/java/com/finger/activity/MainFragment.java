@@ -21,16 +21,28 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import com.baidu.location.BDLocation;
 import com.finger.R;
 import com.finger.activity.other.info.NailListActivity;
 import com.finger.activity.other.plan.ChooseArtist;
 import com.finger.activity.other.plan.PlanActivity;
+import com.finger.support.Constant;
+import com.finger.support.api.BaiduAPI;
+import com.finger.support.entity.CityBean;
+import com.finger.support.entity.HotTagBean;
+import com.finger.support.net.FingerHttpClient;
+import com.finger.support.net.FingerHttpHandler;
+import com.finger.support.util.JsonUtil;
 import com.finger.support.widget.ItemUtil;
 import com.finger.support.util.Dimension;
 import com.finger.support.widget.ArtistItem;
 import com.finger.support.widget.NailItem;
-import com.finger.support.widget.PopupList;
 import com.finger.support.widget.SearchWindow;
+import com.loopj.android.http.RequestParams;
+import com.sp.lib.util.FileUtil;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Timer;
@@ -46,6 +58,11 @@ public class MainFragment extends Fragment implements View.OnClickListener {
     int bannerIndex = 0;
     int artist_bottom_height;
     View layout;
+    TextView title_city;
+
+    ArrayList<HotTagBean> tags = new ArrayList<HotTagBean>();
+
+
     class ArtistBean {
         String title;
         String price;
@@ -60,9 +77,33 @@ public class MainFragment extends Fragment implements View.OnClickListener {
     }
 
     @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        RequestParams params = new RequestParams();
+        FingerHttpClient.post("getIndex", params, new FingerHttpHandler() {
+            @Override
+            public void onSuccess(JSONObject o) {
+                try {
+                    ArrayList<CityBean> cities = new ArrayList<CityBean>();
+                    JSONObject data = o.getJSONObject("data");
+                    JSONArray json_cityList = data.getJSONArray("city_list");
+                    JSONArray json_tags = data.getJSONArray("hot_tags");
+                    JsonUtil.getArray(json_cityList, CityBean.class, cities);
+                    JsonUtil.getArray(json_tags, HotTagBean.class, tags);
+                    FileUtil.saveFile(getActivity(), Constant.FILE_CITIES, cities);
+                    FileUtil.saveFile(getActivity(), Constant.FILE_TAGS, tags);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            }
+        });
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_home, null);
-        layout=v;
+        layout = v;
         dot_group = (RadioGroup) v.findViewById(R.id.dot_group);
         switch_banner = (ViewPager) v.findViewById(R.id.switch_banner);
         v.findViewById(R.id.plan_nail_artist).setOnClickListener(this);
@@ -70,7 +111,9 @@ public class MainFragment extends Fragment implements View.OnClickListener {
         v.findViewById(R.id.choose_nail_artist).setOnClickListener(this);
         v.findViewById(R.id.hot_things).setOnClickListener(this);
         v.findViewById(R.id.title_search).setOnClickListener(this);
-        v.findViewById(R.id.title_city).setOnClickListener(this);
+        title_city = (TextView) v.findViewById(R.id.title_city);
+        title_city.setOnClickListener(this);
+        getLocation();
         addBanner();
         addBanner();
         addBanner();
@@ -80,6 +123,20 @@ public class MainFragment extends Fragment implements View.OnClickListener {
         startRunBanner();
         setItemSize(v);
         return v;
+    }
+
+    void getLocation() {
+        BDLocation mBDLocation = BaiduAPI.mBDLocation;
+        if (mBDLocation != null) {
+            title_city.setText(mBDLocation.getCity() + mBDLocation.getCityCode());
+        } else {
+            BaiduAPI.locate(new BaiduAPI.Callback() {
+                @Override
+                public void onLocated(BDLocation bdLocation) {
+                    title_city.setText(bdLocation.getCity() + bdLocation.getCityCode());
+                }
+            });
+        }
     }
 
     void setItemSize(View v) {
@@ -229,18 +286,18 @@ public class MainFragment extends Fragment implements View.OnClickListener {
                 scale(v, new Runnable() {
                     @Override
                     public void run() {
-                        startActivity(new Intent(getActivity(), ChooseArtist.class));
+                        startActivity(new Intent(getActivity(), NailListActivity.class));
                     }
                 });
 
                 break;
             }
             case R.id.title_search: {
-                final View anchor=v;
+                final View anchor = v;
                 scale(v, new Runnable() {
                     @Override
                     public void run() {
-                        SearchWindow searchWindow=new SearchWindow(getActivity());
+                        SearchWindow searchWindow = new SearchWindow(getActivity());
                         searchWindow.showAsDropDown(anchor, 0, -layout.findViewById(R.id.head).getHeight());
                     }
                 });
@@ -248,12 +305,11 @@ public class MainFragment extends Fragment implements View.OnClickListener {
                 break;
             }
             case R.id.title_city: {
-                final View anchor=v;
+
                 scale(v, new Runnable() {
                     @Override
                     public void run() {
-                        PopupList popupList=new PopupList(getActivity(),new CityAdapter(getActivity()),200);
-                        popupList.showAsDropDown(anchor);
+                        startActivity(new Intent(getActivity(), LocationActivity.class));
                     }
                 });
 
@@ -315,11 +371,11 @@ public class MainFragment extends Fragment implements View.OnClickListener {
         }
     }
 
-    class CityAdapter extends BaseAdapter{
+    class CityAdapter extends BaseAdapter {
 
         private Context context;
 
-       public CityAdapter(Context context) {
+        public CityAdapter(Context context) {
             this.context = context;
         }
 
@@ -340,16 +396,16 @@ public class MainFragment extends Fragment implements View.OnClickListener {
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-            if (convertView==null){
-                convertView=new TextView(context);
+            if (convertView == null) {
+                convertView = new TextView(context);
             }
-            TextView tv= (TextView) convertView;
+            TextView tv = (TextView) convertView;
 
-            if (position==0){
+            if (position == 0) {
                 tv.setText(context.getString(R.string.service_city));
 
-            }else{
-                tv.setText("city"+position);
+            } else {
+                tv.setText("city" + position);
 
             }
             return convertView;

@@ -2,7 +2,7 @@ package com.sp.lib.exception;
 
 import android.content.Context;
 
-import com.sp.lib.FileUtil;
+import com.sp.lib.util.FileUtil;
 
 import java.io.PrintWriter;
 import java.io.Serializable;
