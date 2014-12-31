@@ -96,5 +96,7 @@
     <string name="remain_time_d">剩余时间%d秒</string>
     <string name="get_yzm">获取验证码</string>
     <string name="search_result">搜索结果</string>
+    <string name="location_failed">定位失败</string>
+    <string name="average_price_s">均价：￥%s</string>
 
 </resources>

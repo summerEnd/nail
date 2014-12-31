@@ -60,6 +60,8 @@
     <dimen name="publish_edit_height">90dp</dimen>
     <dimen name="home_item_spacing">4dp</dimen>
     <dimen name="order_image_size">90dp</dimen>
+    <dimen name="home_image_corner">4px</dimen>
+    <dimen name="search_horizontal_spacing">11dp</dimen>
 
     <style name="click_item_padding">
         <item name="android:paddingTop">13dp</item>

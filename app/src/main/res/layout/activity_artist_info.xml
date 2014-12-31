@@ -19,10 +19,12 @@
         <ImageView
             android:id="@+id/iv_avatar"
             android:src="@drawable/default_user"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_marginRight="5dp"
+            android:layout_width="@dimen/avatar_size"
+            android:layout_height="@dimen/avatar_size" />
 
         <TextView
+            android:id="@+id/name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="美甲超"
@@ -31,9 +33,10 @@
             android:textColor="#000" />
 
         <TextView
+            android:id="@+id/tv_average_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="均价：￥111.88"
+            android:text="@string/average_price_s"
             android:textSize="@dimen/textSize_dp_28px"
             android:layout_alignParentRight="true"
             android:textColor="@color/textColorBlack" />
@@ -81,6 +84,7 @@
                 android:text="专业：" />
 
             <TextView
+                android:id="@id/tv_pro"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/textColorGray"
@@ -100,6 +104,7 @@
                 android:text="沟通：" />
 
             <TextView
+                android:id="@id/tv_com"
                 android:layout_width="wrap_content"
                 android:textColor="@color/textColorGray"
                 android:layout_height="wrap_content"
@@ -119,6 +124,7 @@
                 android:text="守时：" />
 
             <TextView
+                android:id="@id/tv_on_time"
                 android:layout_width="wrap_content"
                 android:textColor="@color/textColorGray"
                 android:layout_height="wrap_content"

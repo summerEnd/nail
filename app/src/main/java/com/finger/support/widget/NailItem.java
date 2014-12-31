@@ -11,7 +11,9 @@ import android.widget.TextView;
 
 import com.finger.R;
 import com.finger.activity.other.info.NailInfo;
+import com.finger.support.entity.NailInfoBean;
 import com.finger.support.util.Logger;
+import com.sp.lib.util.ImageManager;
 
 /**
  * Created by acer on 2014/12/15.
@@ -27,6 +29,8 @@ public class NailItem extends LinearLayout {
     TextView tv_price;
     ImageView iv;
     View contentView;
+    NailInfoBean infoBean;
+
     public NailItem(Context context) {
         super(context);
         init(context, null);
@@ -44,6 +48,22 @@ public class NailItem extends LinearLayout {
         init(context, attrs);
     }
 
+    public NailInfoBean getInfoBean() {
+        return infoBean;
+    }
+
+    /**
+     * 设置一个NailInfoBean展示
+     *
+     * @param infoBean
+     */
+    public void setInfoBean(NailInfoBean infoBean) {
+        this.infoBean = infoBean;
+        setPrice(infoBean.price);
+        setTitle(infoBean.name);
+        ImageManager.loadImage(infoBean.cover, iv);
+    }
+
     public void init(final Context context, AttributeSet attrs) {
 
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.NailItem);
@@ -52,7 +72,7 @@ public class NailItem extends LinearLayout {
         drawableId = a.getResourceId(R.styleable.NailItem_nail_src, 0);
         imageSize = a.getDimensionPixelSize(R.styleable.NailItem_nail_imageSize, 0);
         a.recycle();
-        contentView= inflate(context, R.layout.nail_item, null);
+        contentView = inflate(context, R.layout.nail_item, null);
         addView(contentView);
 
         tv_title = (TextView) contentView.findViewById(R.id.tv_title);
@@ -70,27 +90,34 @@ public class NailItem extends LinearLayout {
         contentView.setOnClickListener(defaultListener);
     }
 
-    private OnClickListener defaultListener=new OnClickListener() {
+    private OnClickListener defaultListener = new OnClickListener() {
         @Override
         public void onClick(View v) {
-            Logger.d("nailitem click--->");
-            Context context=v.getContext();
-            context.startActivity(new Intent(context, NailInfo.class));
+            int id = 0;
+            if (infoBean != null)
+                id = infoBean.id;
+            Context context = v.getContext();
+
+            context.startActivity(new Intent(context, NailInfo.class).putExtra("id", id));
         }
     };
 
-    public void setExtraOnClickListener(OnClickListener l){
-        if (l!=null){
+    public void setExtraOnClickListener(OnClickListener l) {
+        if (l != null) {
             contentView.setOnClickListener(l);
-        }else{
+        } else {
             contentView.setOnClickListener(defaultListener);
         }
     }
 
-    public View getContentView(){
+    public View getContentView() {
         return contentView;
     }
 
+
+    public ImageView getImage() {
+        return iv;
+    }
 
     public String getTitle() {
         return title;

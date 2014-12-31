@@ -1,5 +1,6 @@
 package com.finger.support.entity;
 
+import com.finger.activity.other.info.NailInfo;
 import com.finger.support.Constant;
 
 /**
@@ -7,7 +8,6 @@ import com.finger.support.Constant;
  */
 public class ArtistRole extends RoleBean {
     public String honor;
-
     public ArtistRole(){
         type= Constant.LOGIN_TYPE_ARTIST;
     }

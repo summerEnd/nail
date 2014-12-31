@@ -5,10 +5,13 @@
     android:layout_height="match_parent">
 
     <include layout="@layout/head_2" />
+
     <ListView
+        android:layout_margin="@dimen/item_spacing"
+        android:id="@+id/list"
+        android:dividerHeight="@dimen/item_spacing"
+        android:divider="#0000"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:divider="@color/light_gray"
-        android:dividerHeight="1px"
-        android:id="@+id/listView" />
+        android:layout_height="match_parent" />
+
 </LinearLayout>

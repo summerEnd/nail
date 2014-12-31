@@ -18,9 +18,9 @@
             android:orientation="vertical">
 
             <ImageView
+                android:id="@+id/cover"
                 android:layout_width="match_parent"
                 android:scaleType="centerCrop"
-                android:src="@drawable/test_image_02"
                 android:layout_height="wrap_content" />
 
             <RelativeLayout
@@ -71,9 +71,10 @@
             <TextView style="@style/horizontal_line" />
 
             <LinearLayout
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:layout_marginRight="@dimen/activity_horizontal_margin"
                 android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_margin="@dimen/activity_horizontal_margin"
                 android:layout_height="wrap_content">
 
                 <TextView
@@ -89,18 +90,31 @@
                     android:textSize="@dimen/textSize_dp_30px"
                     android:layout_below="@id/tv_info_title"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    />
+                    android:text="123123"
+                    android:layout_height="wrap_content" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/activity_horizontal_margin"
+                android:orientation="horizontal">
 
                 <TextView
                     android:id="@+id/tv_time_cost"
-                    android:layout_marginTop="5dp"
                     android:layout_width="wrap_content"
                     android:drawableLeft="@drawable/ic_time"
                     android:text="@string/time_cost_s"
                     android:textSize="@dimen/textSize_dp_30px"
                     android:gravity="center_vertical"
                     android:textColor="@color/textColorGray"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
                     android:layout_height="wrap_content" />
 
                 <TextView
@@ -113,6 +127,35 @@
                     android:textColor="@color/textColorGray"
                     android:layout_height="wrap_content" />
             </LinearLayout>
+
+            <TextView style="@style/horizontal_line" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="@dimen/activity_horizontal_margin">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:textSize="@dimen/textSize_2"
+                    android:drawableLeft="@drawable/ic_comment"
+                    android:layout_alignParentLeft="true"
+                    android:textColor="@color/textColorBlack"
+                    android:text="评价" />
+
+                <TextView
+                    android:id="@+id/tv_comment_num"
+                    android:layout_alignParentRight="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:drawablePadding="5dp"
+                    android:textSize="@dimen/textSize_2"
+                    android:textColor="#f46751"
+                    android:drawableRight="@drawable/right_arrow" />
+            </RelativeLayout>
 
             <TextView style="@style/horizontal_line" />
 
@@ -140,8 +183,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="@dimen/textSize_dp_36px"
-                        android:textColor="@color/textColorBlack"
-                        />
+                        android:textColor="@color/textColorBlack" />
 
                     <com.finger.support.widget.RatingWidget
                         android:id="@+id/rating"
@@ -170,8 +212,7 @@
                     android:layout_width="wrap_content"
                     android:textColor="@color/textColorBlack"
                     android:layout_height="wrap_content"
-                    android:textSize="@dimen/textSize_dp_30px"
-                    />
+                    android:textSize="@dimen/textSize_dp_30px" />
 
                 <View
                     android:layout_width="0dp"
@@ -190,8 +231,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/textSize_dp_30px"
-                    android:textColor="@color/textColorBlack"
-                    />
+                    android:textColor="@color/textColorBlack" />
 
                 <View
                     android:layout_width="0dp"
@@ -211,40 +251,9 @@
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/textSize_dp_30px"
                     android:textColor="@color/textColorBlack"
-                    />
+                    android:layout_marginBottom="8dp" />
             </LinearLayout>
 
-            <TextView
-                style="@style/horizontal_line"
-                android:layout_marginTop="8dp" />
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_margin="@dimen/activity_horizontal_margin">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:textSize="@dimen/textSize_2"
-                    android:drawableLeft="@drawable/ic_comment"
-                    android:layout_alignParentLeft="true"
-                    android:textColor="@color/textColorBlack"
-                    android:text="评价" />
-
-                <TextView
-                    android:id="@+id/tv_comment_num"
-                    android:layout_alignParentRight="true"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:drawablePadding="5dp"
-                    android:textSize="@dimen/textSize_2"
-                    android:textColor="#f46751"
-                    android:drawableRight="@drawable/right_arrow"
-                    />
-            </RelativeLayout>
 
             <TextView style="@style/horizontal_line" />
 

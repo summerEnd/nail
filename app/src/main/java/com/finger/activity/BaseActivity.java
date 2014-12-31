@@ -12,7 +12,14 @@ import android.widget.TextView;
 
 import com.finger.FingerApp;
 import com.finger.R;
+import com.finger.support.Constant;
+import com.finger.support.entity.ArtistGrade;
 import com.finger.support.util.Logger;
+import com.finger.support.widget.RatingWidget;
+import com.sp.lib.util.FileUtil;
+
+import java.util.LinkedList;
+import java.util.List;
 
 import static com.finger.support.util.Logger.i;
 
@@ -78,9 +85,9 @@ public class BaseActivity extends FragmentActivity implements View.OnClickListen
         TextView tv_good_comment = (TextView) findViewById(R.id.tv_good_comment);
         TextView tv_bad_comment = (TextView) findViewById(R.id.tv_bad_comment);
         TextView tv_mid_comment = (TextView) findViewById(R.id.tv_mid_comment);
-        tv_good_comment.setText(getString(R.string.d_num,good));
-        tv_mid_comment.setText(getString(R.string.d_num,mid));
-        tv_bad_comment.setText(getString(R.string.d_num,bad));
+        tv_good_comment.setText(getString(R.string.d_num, good));
+        tv_mid_comment.setText(getString(R.string.d_num, mid));
+        tv_bad_comment.setText(getString(R.string.d_num, bad));
     }
 
     @Override
@@ -180,6 +187,62 @@ public class BaseActivity extends FragmentActivity implements View.OnClickListen
             Logger.e(e.getLocalizedMessage());
         }
     }
+
+    public void setStars(RatingWidget ratingWidget, int score) {
+        LinkedList<ArtistGrade> grades = (LinkedList<ArtistGrade>) FileUtil.readFile(this, Constant.FILE_ARTIST_GRADE);
+        int grade = 0;
+        for (ArtistGrade artistGrade : grades) {
+            if (artistGrade.contains(score)) {
+                grade = artistGrade.value;
+                break;
+            }
+        }
+        int level = grade / 5 + 1;
+        int stars = grade % 5;
+
+        if (grade % 5 == 0) {
+            level -= 1;
+            stars = 5;
+        }
+
+        int starId;
+        switch (level) {
+            case 1: {
+                starId = R.drawable.star1;
+                break;
+            }
+
+            case 2: {
+                starId = R.drawable.star2;
+                break;
+            }
+
+            case 3: {
+                starId = R.drawable.star3;
+                break;
+            }
+
+            case 4: {
+                starId = R.drawable.star4;
+                break;
+            }
+
+            case 5: {
+                starId = R.drawable.star5;
+                break;
+            }
+
+            default: {
+                starId = R.drawable.star1;
+                break;
+            }
+
+        }
+
+        ratingWidget.setStarRecourseId(starId);
+        ratingWidget.setNum_star(stars);
+    }
+
 
     /**
      * 当前登录的用户发生改变时，会调用这个方法

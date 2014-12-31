@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.os.Handler;
 
 import com.finger.R;
+import com.finger.activity.other.info.ArtistInfo;
 import com.finger.support.entity.ArtistRole;
 import com.finger.support.entity.UserRole;
 import com.finger.support.util.ContextUtil;
@@ -16,15 +17,14 @@ public class WelcomeActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//
         ItemUtil.init(this);
         setContentView(R.layout.activity_welcome);
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
 //                testArtist();//测试美甲师
-//                testUser();//测试用户
-                startActivity(new Intent(WelcomeActivity.this, MainActivity.class));
+                testUser();//测试用户
+                startActivity(new Intent(WelcomeActivity.this, ArtistInfo.class));
                 finish();
             }
         }, 1500);
@@ -32,13 +32,14 @@ public class WelcomeActivity extends BaseActivity {
 
     void testArtist() {
         ArtistRole role = new ArtistRole();
-        role.id=6;
+        role.id = 6;
         getApp().setUser(role);
         ContextUtil.toast("test artist--->");
     }
+
     void testUser() {
         UserRole role = new UserRole();
-        role.id=6;
+        role.id = 6;
         getApp().setUser(role);
         ContextUtil.toast("test user--->");
     }

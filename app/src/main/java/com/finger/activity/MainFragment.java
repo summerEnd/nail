@@ -28,6 +28,7 @@ import com.finger.activity.other.plan.ChooseArtist;
 import com.finger.activity.other.plan.PlanActivity;
 import com.finger.support.Constant;
 import com.finger.support.api.BaiduAPI;
+import com.finger.support.entity.AdsBean;
 import com.finger.support.entity.CityBean;
 import com.finger.support.entity.HotTagBean;
 import com.finger.support.net.FingerHttpClient;
@@ -40,6 +41,7 @@ import com.finger.support.widget.NailItem;
 import com.finger.support.widget.SearchWindow;
 import com.loopj.android.http.RequestParams;
 import com.sp.lib.util.FileUtil;
+import com.sp.lib.util.ImageManager;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -56,11 +58,10 @@ public class MainFragment extends Fragment implements View.OnClickListener {
     ViewPager switch_banner;
     ArrayList<ImageView> images = new ArrayList<ImageView>();
     int bannerIndex = 0;
-    int artist_bottom_height;
     View layout;
     TextView title_city;
 
-    ArrayList<HotTagBean> tags = new ArrayList<HotTagBean>();
+    ArrayList<AdsBean> ads = new ArrayList<AdsBean>();
 
 
     class ArtistBean {
@@ -76,22 +77,33 @@ public class MainFragment extends Fragment implements View.OnClickListener {
         String avatar;
     }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    void requestIndexData() {
         RequestParams params = new RequestParams();
         FingerHttpClient.post("getIndex", params, new FingerHttpHandler() {
             @Override
             public void onSuccess(JSONObject o) {
                 try {
+                    ArrayList<HotTagBean> tags = new ArrayList<HotTagBean>();
+
                     ArrayList<CityBean> cities = new ArrayList<CityBean>();
                     JSONObject data = o.getJSONObject("data");
                     JSONArray json_cityList = data.getJSONArray("city_list");
                     JSONArray json_tags = data.getJSONArray("hot_tags");
+                    JSONArray json_ads = data.getJSONArray("ads_list");
                     JsonUtil.getArray(json_cityList, CityBean.class, cities);
                     JsonUtil.getArray(json_tags, HotTagBean.class, tags);
+                    JsonUtil.getArray(json_ads, AdsBean.class, ads);
                     FileUtil.saveFile(getActivity(), Constant.FILE_CITIES, cities);
                     FileUtil.saveFile(getActivity(), Constant.FILE_TAGS, tags);
+
+                    for (AdsBean bean : ads) {
+                        addBanner(bean.cover);
+                    }
+                    switch_banner.setAdapter(new BannerAdapter());
+                    switch_banner.setOnPageChangeListener(pageChangeListener);
+                    dot_group.setOnCheckedChangeListener(dotMoveListener);
+                    startRunBanner();
+
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -99,6 +111,7 @@ public class MainFragment extends Fragment implements View.OnClickListener {
             }
         });
     }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -113,64 +126,28 @@ public class MainFragment extends Fragment implements View.OnClickListener {
         v.findViewById(R.id.title_search).setOnClickListener(this);
         title_city = (TextView) v.findViewById(R.id.title_city);
         title_city.setOnClickListener(this);
+
         getLocation();
-        addBanner();
-        addBanner();
-        addBanner();
-        switch_banner.setAdapter(new BannerAdapter());
-        switch_banner.setOnPageChangeListener(pageChangeListener);
-        dot_group.setOnCheckedChangeListener(dotMoveListener);
-        startRunBanner();
-        setItemSize(v);
+        requestIndexData();
+
         return v;
     }
 
     void getLocation() {
         BDLocation mBDLocation = BaiduAPI.mBDLocation;
         if (mBDLocation != null) {
-            title_city.setText(mBDLocation.getCity() + mBDLocation.getCityCode());
+            title_city.setText(mBDLocation.getCity());
         } else {
             BaiduAPI.locate(new BaiduAPI.Callback() {
                 @Override
                 public void onLocated(BDLocation bdLocation) {
-                    title_city.setText(bdLocation.getCity() + bdLocation.getCityCode());
+                    title_city.setText(bdLocation.getCity());
                 }
             });
         }
     }
 
-    void setItemSize(View v) {
-
-
-        artist_bottom_height = getResources().getDimensionPixelOffset(R.dimen.artist_item_bottom_height);
-//        setArtistHalfScreen(v, R.id.artist_00);
-//        setArtistHalfScreen(v, R.id.artist_01);
-//        setArtistHalfScreen(v, R.id.artist_02);
-//        setArtistHalfScreen(v, R.id.artist_03);
-//        setArtistHalfScreen(v, R.id.artist_04);
-//        setArtistHalfScreen(v, R.id.artist_05);
-//
-//        setNailSizeHalfScreen(v, R.id.nail_00);
-//        setNailSizeHalfScreen(v, R.id.nail_01);
-//        setNailSizeHalfScreen(v, R.id.nail_02);
-//        setNailSizeHalfScreen(v, R.id.nail_03);
-//        setNailSizeHalfScreen(v, R.id.nail_04);
-//        setNailSizeHalfScreen(v, R.id.nail_05);
-    }
-
-    void setArtistHalfScreen(View v, int id) {
-        ArtistItem item = (ArtistItem) v.findViewById(id);
-        item.setImageSize(ItemUtil.item_size);
-
-    }
-
-    void setNailSizeHalfScreen(View v, int id) {
-        NailItem item = (NailItem) v.findViewById(id);
-        item.setImageSize(ItemUtil.item_size);
-        item.setOnClickListener(this);
-    }
-
-    void addBanner() {
+    void addBanner(String url) {
         Context context = getActivity();
         RadioButton rb = new RadioButton(context);
         rb.setBackgroundResource(R.drawable.home_dot);
@@ -181,8 +158,8 @@ public class MainFragment extends Fragment implements View.OnClickListener {
         rb.setId(bannerIndex++);
         dot_group.addView(rb);
         ImageView imageView = new ImageView(context);
-        imageView.setImageResource(R.drawable.banner_test);
         imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+        ImageManager.loadImage(url, imageView);
         images.add(imageView);
     }
 
@@ -195,7 +172,6 @@ public class MainFragment extends Fragment implements View.OnClickListener {
         if (!hidden) {
             getActivity().setTitle(getString(R.string.home_page));
         }
-
     }
 
     Timer timer;

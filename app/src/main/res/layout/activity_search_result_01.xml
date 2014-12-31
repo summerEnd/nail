@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include layout="@layout/head_2" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:shrinkColumns="0,1"
+                android:visibility="gone"
+                android:paddingLeft="@dimen/item_spacing"
+                android:paddingRight="@dimen/item_spacing"
+                android:orientation="vertical">
+
+                <TableRow>
+
+                    <com.finger.support.widget.NailItem
+                        style="@style/home_item_style"
+                        app:nail_title="闪闪惹人爱"
+                        app:nail_price="1231.9" />
+
+                    <com.finger.support.widget.NailItem
+                        style="@style/home_item_style"
+                        android:layout_marginLeft="@dimen/item_spacing"
+                        app:nail_title="闪闪惹人爱"
+                        app:nail_price="1231.9" />
+
+                </TableRow>
+
+                <TableRow android:layout_marginTop="@dimen/item_spacing">
+
+                    <com.finger.support.widget.NailItem
+                        style="@style/home_item_style"
+                        app:nail_title="闪闪惹人爱"
+                        app:nail_price="1231.9" />
+
+                    <com.finger.support.widget.NailItem
+                        style="@style/home_item_style"
+                        android:layout_marginLeft="@dimen/item_spacing"
+                        app:nail_title="闪闪惹人爱"
+                        app:nail_price="1231.9" />
+
+                </TableRow>
+
+                <TableRow android:layout_marginTop="@dimen/item_spacing">
+
+                    <com.finger.support.widget.NailItem
+                        style="@style/home_item_style"
+                        app:nail_title="闪闪惹人爱"
+                        app:nail_price="1231.9" />
+
+                    <com.finger.support.widget.NailItem
+                        style="@style/home_item_style"
+                        android:layout_marginLeft="@dimen/item_spacing"
+                        app:nail_title="闪闪惹人爱"
+                        app:nail_price="1231.9" />
+
+                </TableRow>
+
+                <TableRow android:layout_marginTop="@dimen/item_spacing">
+
+                    <com.finger.support.widget.NailItem
+                        style="@style/home_item_style"
+                        app:nail_title="闪闪惹人爱"
+                        app:nail_price="1231.9" />
+
+                    <com.finger.support.widget.NailItem
+                        style="@style/home_item_style"
+                        android:layout_marginLeft="@dimen/item_spacing"
+                        app:nail_title="闪闪惹人爱"
+                        app:nail_price="1231.9" />
+
+                </TableRow>
+
+                <TableRow android:layout_marginTop="@dimen/item_spacing">
+
+                    <com.finger.support.widget.NailItem
+                        style="@style/home_item_style"
+                        app:nail_title="闪闪惹人爱"
+                        app:nail_price="1231.9" />
+
+                    <com.finger.support.widget.NailItem
+                        style="@style/home_item_style"
+                        android:layout_marginLeft="@dimen/item_spacing"
+                        app:nail_title="闪闪惹人爱"
+                        app:nail_price="1231.9" />
+
+                </TableRow>
+
+
+            </TableLayout>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    style="@style/horizontal_line"
+                    android:layout_gravity="center_vertical" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:padding="7dp"
+                    android:textSize="@dimen/textSize_dp_34px"
+                    android:textColor="@color/textColorGray"
+                    android:background="@drawable/windowBackground"
+                    android:text="人气推荐" />
+            </FrameLayout>
+
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:shrinkColumns="0,1"
+                android:paddingLeft="@dimen/item_spacing"
+                android:paddingRight="@dimen/item_spacing"
+                android:orientation="vertical">
+
+                <TableRow>
+
+                    <com.finger.support.widget.NailItem
+                        style="@style/home_item_style"
+                        app:nail_title="闪闪惹人爱"
+                        app:nail_price="1231.9" />
+
+                    <com.finger.support.widget.NailItem
+                        style="@style/home_item_style"
+                        android:layout_marginLeft="@dimen/item_spacing"
+                        app:nail_title="闪闪惹人爱"
+                        app:nail_price="1231.9" />
+
+                </TableRow>
+
+                <TableRow android:layout_marginTop="@dimen/item_spacing">
+
+                    <com.finger.support.widget.NailItem
+                        style="@style/home_item_style"
+                        app:nail_title="闪闪惹人爱"
+                        app:nail_price="1231.9" />
+
+                    <com.finger.support.widget.NailItem
+                        style="@style/home_item_style"
+                        android:layout_marginLeft="@dimen/item_spacing"
+                        app:nail_title="闪闪惹人爱"
+                        app:nail_price="1231.9" />
+
+                </TableRow>
+
+                <TableRow android:layout_marginTop="@dimen/item_spacing">
+
+                    <com.finger.support.widget.NailItem
+                        style="@style/home_item_style"
+                        app:nail_title="闪闪惹人爱"
+                        app:nail_price="1231.9" />
+
+                    <com.finger.support.widget.NailItem
+                        style="@style/home_item_style"
+                        android:layout_marginLeft="@dimen/item_spacing"
+                        app:nail_title="闪闪惹人爱"
+                        app:nail_price="1231.9" />
+
+                </TableRow>
+
+                <TableRow android:layout_marginTop="@dimen/item_spacing">
+
+                    <com.finger.support.widget.NailItem
+                        style="@style/home_item_style"
+                        app:nail_title="闪闪惹人爱"
+                        app:nail_price="1231.9" />
+
+                    <com.finger.support.widget.NailItem
+                        style="@style/home_item_style"
+                        android:layout_marginLeft="@dimen/item_spacing"
+                        app:nail_title="闪闪惹人爱"
+                        app:nail_price="1231.9" />
+
+                </TableRow>
+
+                <TableRow android:layout_marginTop="@dimen/item_spacing">
+
+                    <com.finger.support.widget.NailItem
+                        style="@style/home_item_style"
+                        app:nail_title="闪闪惹人爱"
+                        app:nail_price="1231.9" />
+
+                    <com.finger.support.widget.NailItem
+                        style="@style/home_item_style"
+                        android:layout_marginLeft="@dimen/item_spacing"
+                        app:nail_title="闪闪惹人爱"
+                        app:nail_price="1231.9" />
+
+                </TableRow>
+
+
+            </TableLayout>
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

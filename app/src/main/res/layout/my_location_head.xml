@@ -2,26 +2,33 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
+    android:background="@drawable/windowBackground"
     android:layout_height="match_parent">
 
     <TextView
-        android:layout_width="wrap_content"
+        android:id="@+id/tv_title_gps"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         style="@style/city_item_title"
         android:text="GPS定位城市" />
 
     <TextView style="@style/horizontal_line" />
 
-    <TextView
+    <CheckedTextView
+        android:id="@+id/tv_gps_city"
+        android:orientation="vertical"
         android:layout_width="match_parent"
         style="@style/city_item_style"
-        android:layout_height="wrap_content"
-        android:text="GPS定位城市" />
+        android:text="nihao"
+        android:gravity="center_vertical"
+        android:checkMark="@drawable/check_mark"
+        android:layout_height="wrap_content" />
 
     <TextView style="@style/horizontal_line" />
 
     <TextView
-        android:layout_width="wrap_content"
+        android:id="@+id/tv_title_service_city"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         style="@style/city_item_title"
         android:text="已开通服务城市" />

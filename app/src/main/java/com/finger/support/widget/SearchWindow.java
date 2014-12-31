@@ -2,6 +2,7 @@ package com.finger.support.widget;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.drawable.ColorDrawable;
@@ -16,6 +17,7 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.finger.R;
+import com.finger.activity.other.common.SearchResult;
 import com.finger.support.Constant;
 import com.finger.support.entity.HotTagBean;
 import com.sp.lib.util.DisplayUtil;
@@ -24,7 +26,7 @@ import com.sp.lib.util.FileUtil;
 import java.util.ArrayList;
 
 
-public class SearchWindow extends PopupWindow implements View.OnTouchListener{
+public class SearchWindow extends PopupWindow implements View.OnTouchListener,View.OnClickListener{
     private Activity activity;
 
     public SearchWindow(Activity context) {
@@ -37,6 +39,7 @@ public class SearchWindow extends PopupWindow implements View.OnTouchListener{
                 dismiss();
             }
         });
+        v.findViewById(R.id.search).setOnClickListener(this);
         setBackgroundDrawable(new ColorDrawable(Color.argb(0x50, 0, 0, 0)));
         Point p = new Point();
         DisplayUtil.getScreenSize(context, p);
@@ -59,6 +62,17 @@ public class SearchWindow extends PopupWindow implements View.OnTouchListener{
     @Override
     public boolean onTouch(View v, MotionEvent event) {
         return event.getAction()==MotionEvent.ACTION_MOVE;
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.search:{
+                Context context=v.getContext();
+                context.startActivity(new Intent(context, SearchResult.class));
+                break;
+            }
+        }
     }
 
     class TagAdapter extends BaseAdapter{

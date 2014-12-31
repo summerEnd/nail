@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+<CheckedTextView xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
     style="@style/city_item_style"
     android:text="nihao"
+    android:gravity="center_vertical"
+    android:checkMark="@drawable/check_mark"
     android:layout_height="wrap_content" />
 

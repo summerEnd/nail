@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<grade xmlns:android="http://schemas.android.com/apk/res/android">
+   <item value="1"  from="0"    to="1"/>
+   <item value="2"  from="2"    to="3"/>
+   <item value="3"  from="4"    to="8"/>
+   <item value="4"  from="9"    to="14"/>
+   <item value="5"  from="15"   to="30"/>
+   <item value="6"  from="31"   to="57"/>
+   <item value="7"  from="58"   to="93"/>
+   <item value="8"  from="94"   to="146"/>
+   <item value="9"  from="147"  to="210"/>
+   <item value="10" from="211"  to="285"/>
+   <item value="11" from="286"  to="384"/>
+   <item value="12" from="385"  to="507"/>
+   <item value="13" from="508"  to="655"/>
+   <item value="14" from="656"  to="828"/>
+   <item value="15" from="829"  to="1025"/>
+   <item value="16" from="1026" to="1306"/>
+   <item value="17" from="1307" to="1643"/>
+   <item value="18" from="1644" to="2036"/>
+   <item value="19" from="2037" to="2485"/>
+   <item value="20" from="2486" to="2990"/>
+   <item value="21" from="2991" to="3607"/>
+   <item value="22" from="3608" to="4336"/>
+   <item value="23" from="4337" to="5177"/>
+   <item value="24" from="5178" to="6130"/>
+   <item value="25" from="6131" to="7195"/>
+</grade>

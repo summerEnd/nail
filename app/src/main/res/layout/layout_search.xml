@@ -4,40 +4,50 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:paddingLeft="@dimen/search_horizontal_spacing"
+        android:paddingRight="@dimen/search_horizontal_spacing"
+        android:gravity="center_vertical"
         android:background="@drawable/titleBackground"
         android:layout_height="@dimen/title_height">
 
-        <EditText
-
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
             android:background="@drawable/corner_frame_white_solid"
-            android:id="@+id/edit_search"
-            android:layout_margin="5dp"
-            android:layout_centerVertical="true"
-            android:layout_width="match_parent"
-            android:layout_toLeftOf="@+id/cancel"
-            android:hint="请输入您想要的美甲作品"
-            android:layout_height="match_parent" />
+            android:orientation="horizontal">
 
-        <Button
-            style="@style/button"
-            android:layout_centerVertical="true"
-            android:layout_alignParentRight="true"
+            <ImageView
+                android:src="@drawable/ic_search"
+                android:id="@+id/search"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                />
+
+            <EditText
+                android:id="@+id/edit_search"
+                android:background="#0000"
+                android:layout_margin="5dp"
+                android:textSize="@dimen/textSize_dp_30px"
+                android:layout_width="wrap_content"
+                android:hint="请输入关键字"
+                android:layout_height="match_parent" />
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_marginLeft="@dimen/search_horizontal_spacing"
+            android:textColor="@color/textColorWhite"
             android:id="@+id/cancel"
             android:layout_width="wrap_content"
-            android:layout_height="40dp"
+            android:gravity="center"
+            android:textSize="@dimen/textSize_dp_34px"
+            android:layout_height="match_parent"
             android:text="取消" />
-
-        <ImageView
-            android:src="@android:drawable/ic_menu_search"
-            android:layout_centerVertical="true"
-            android:id="@+id/search"
-            android:layout_alignRight="@id/edit_search"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="搜索" />
-    </RelativeLayout>
+    </LinearLayout>
 
     <GridView
         android:id="@+id/grid"
