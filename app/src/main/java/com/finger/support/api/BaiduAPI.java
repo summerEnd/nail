@@ -80,6 +80,14 @@ public class BaiduAPI {
         return manager.isProviderEnabled(LocationManager.GPS_PROVIDER);
     }
 
+    public static String getCityCode(){
+        if (mBDLocation!=null){
+            return mBDLocation.getCityCode();
+        }else {
+            return null;
+        }
+    }
+
     /**
      * 计算两点间的距离
      *

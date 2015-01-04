@@ -1,6 +1,7 @@
 package com.finger.activity.other.plan;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -24,9 +25,8 @@ public class Schedule extends PopupWindow implements ViewPager.OnPageChangeListe
     ViewPager pager;
     RadioGroup rg;
     ArrayList<View> views = new ArrayList<View>();
-    int column_Num = 4;
-    final int item_w = ItemUtil.halfScreen / 2 - 1;
-    final int item_h = item_w;
+    int column_Num = 2;
+
     private Context context;
     RadioButton[] radioButtons = new RadioButton[4];
 
@@ -54,8 +54,9 @@ public class Schedule extends PopupWindow implements ViewPager.OnPageChangeListe
 
 
     void addSchedule() {
-        int w = item_w * 4;
-        int h = item_h * 3;
+        final int halfScreen = ItemUtil.halfScreen;
+        int w = halfScreen * 2;
+        int h = (int) (halfScreen * 1.5);
         pager.getLayoutParams().height = h;
         for (int i = 0; i < 4; i++) {
             GridView object = new GridView(context);
@@ -65,7 +66,7 @@ public class Schedule extends PopupWindow implements ViewPager.OnPageChangeListe
             object.setNumColumns(column_Num);
             object.setHorizontalSpacing(1);
             object.setVerticalSpacing(1);
-            object.setBackgroundColor(context.getResources().getColor(R.color.light_gray));
+            object.setBackgroundColor(0xff808080);
             object.setVerticalScrollBarEnabled(false);
             views.add(object);
         }
@@ -121,10 +122,12 @@ public class Schedule extends PopupWindow implements ViewPager.OnPageChangeListe
     }
 
     class ScheduleItemAdapter extends BaseAdapter {
+        final int item_w = ItemUtil.halfScreen-1 ;
+        final int item_h = item_w/2;
 
         @Override
         public int getCount() {
-            return 12;
+            return 6;
         }
 
         @Override
@@ -153,13 +156,13 @@ public class Schedule extends PopupWindow implements ViewPager.OnPageChangeListe
 
             if (position % 3 == 0) {
                 convertView.setBackgroundColor(0xffffffff);
-                holder.tv_time.setTextColor(0xffb3b3b3);
+                holder.tv_time.setTextColor(0xff808080);
             } else {
-                convertView.setBackgroundColor(0xfffe5000);
+                convertView.setBackgroundColor(Color.rgb(0x96,0xd4,0xa0));
                 holder.tv_time.setTextColor(0xffffffff);
             }
 
-            holder.tv_time.setText(String.format("%d:00", position + 10));
+            holder.tv_time.setText(String.format("%d:00~%d:00", position*2 + 9,position*2+11));
             convertView.setTag(holder);
             return convertView;
         }

@@ -1,6 +1,7 @@
 package com.finger.activity.other.plan;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -12,6 +13,7 @@ import android.view.WindowManager;
 import android.view.animation.RotateAnimation;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ListView;
 import android.widget.PopupWindow;
@@ -19,35 +21,76 @@ import android.widget.TextView;
 
 import com.finger.R;
 import com.finger.support.adapter.NailListAdapter;
+import com.finger.support.api.BaiduAPI;
+import com.finger.support.entity.NailInfoBean;
 import com.finger.support.entity.OrderBean;
+import com.finger.support.net.FingerHttpClient;
+import com.finger.support.net.FingerHttpHandler;
 import com.finger.support.util.ContextUtil;
+import com.finger.support.util.JsonUtil;
+import com.loopj.android.http.RequestParams;
 import com.sp.lib.util.DisplayUtil;
 
-/**
- * Created by acer on 2014/12/19.
- */
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.LinkedList;
+import java.util.List;
+
+
 public class NailItemListFragment extends Fragment implements View.OnClickListener {
     GridView gridView;
     PopupWindow orderList;
     PopupWindow price_area;
     View layout;
     int width;
-
+    List<NailInfoBean> beans = new LinkedList<NailInfoBean>();
+    String sort;
+    String price;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         layout = inflater.inflate(R.layout.fragment_nail_list, null);
         gridView = (GridView) layout.findViewById(R.id.grid);
-        gridView.setAdapter(new NailListAdapter(getActivity()));
         layout.findViewById(R.id.order_item).setOnClickListener(this);
         layout.findViewById(R.id.sort_item).setOnClickListener(this);
-
+        getData();
         return layout;
+    }
+
+
+    void getData() {
+        RequestParams params = new RequestParams();
+        JSONObject condition = new JSONObject();
+        try {
+            condition.put("sort", sort);//（normal / price_desc / price_asc）
+            condition.put("price", price);// (40 - 80 之间)
+            condition.put("city_code", BaiduAPI.getCityCode());//(百度城市代码)
+            Bundle args = getArguments();
+            if (args != null) condition.put("mid", args.getInt("id", -1));// (美甲师id);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        FingerHttpClient.post("getProductList", params, new FingerHttpHandler() {
+            @Override
+            public void onSuccess(JSONObject o) {
+                try {
+
+                    JSONObject data = o.getJSONObject("data");
+                    JsonUtil.getArray(data.getJSONArray("normal"), NailInfoBean.class, beans);
+                    gridView.setAdapter(new NailListAdapter(getActivity(), beans));
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
     @Override
     public void onClick(View v) {
-        ContextUtil.toast_debug(v);
         if (width == 0) {
             width = layout.findViewById(R.id.select_layout).getWidth();
         }
@@ -61,6 +104,7 @@ public class NailItemListFragment extends Fragment implements View.OnClickListen
                     orderList.setFocusable(true);
                     orderList.setBackgroundDrawable(new ColorDrawable(0xffffffff));
                     orderList.setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
+                    final String[] sorts = new String[]{"normal", "price_desc", "price_asc"};
                     View contentView = View.inflate(getActivity(), R.layout.order_list, null);
                     ListView listView = (ListView) contentView.findViewById(R.id.listView);
                     listView.setAdapter(new OrderListAdapter(getActivity(), getResources().getStringArray(R.array.orders)));
@@ -68,6 +112,7 @@ public class NailItemListFragment extends Fragment implements View.OnClickListen
                         @Override
                         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                             ((OrderListAdapter) parent.getAdapter()).select(position);
+                            sort = sorts[position];
                             orderList.dismiss();
                         }
                     });
@@ -94,7 +139,19 @@ public class NailItemListFragment extends Fragment implements View.OnClickListen
                     price_area.setBackgroundDrawable(new ColorDrawable(0xffffffff));
                     price_area.setFocusable(true);
 
-                    View contentView = View.inflate(getActivity(), R.layout.price_area, null);
+                    final View contentView = View.inflate(getActivity(), R.layout.price_area, null);
+                    contentView.findViewById(R.id.confirm).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            EditText from= (EditText) contentView.findViewById(R.id.edit_from);
+                            EditText to= (EditText) contentView.findViewById(R.id.edit_to);
+                            price=new StringBuilder()
+                                    .append(from.getText().toString())
+                                    .append("_")
+                                    .append(to.getText().toString())
+                                    .toString();
+                        }
+                    });
                     price_area.setContentView(contentView);
 
                 }

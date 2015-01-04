@@ -1,6 +1,7 @@
 package com.finger.activity.artist.my;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
@@ -37,6 +38,8 @@ public class PlanTimeActivity extends BaseActivity implements RadioGroup.OnCheck
 
     class ScheduleBean {
         String time;
+        String from;
+        String to;
         public Boolean free;
     }
 
@@ -66,7 +69,7 @@ public class PlanTimeActivity extends BaseActivity implements RadioGroup.OnCheck
             ArrayList<ScheduleBean> schedule = new ArrayList<ScheduleBean>();
             for (int j = 0; j < 12; j++) {
                 ScheduleBean scheduleBean = new ScheduleBean();
-                scheduleBean.time = String.format("%d:00", j + 10);
+                scheduleBean.time = String.format("%d:00~%d:00", i * 2 + 9, i * 2 + 110);
                 scheduleBean.free = i == j;
                 schedule.add(scheduleBean);
             }
@@ -78,9 +81,9 @@ public class PlanTimeActivity extends BaseActivity implements RadioGroup.OnCheck
      * 添加视图
      */
     void addSchedule() {
-        final int item_w = ItemUtil.halfScreen / 2 - 1;
-        final int item_h = item_w;
-        int w = item_w * 4;
+        final int item_w = ItemUtil.halfScreen - 1;
+        final int item_h = item_w / 2;
+        int w = item_w * 2;
         int h = item_h * 3;
         pager.getLayoutParams().height = h;
         for (int i = 0; i < 4; i++) {
@@ -90,7 +93,7 @@ public class PlanTimeActivity extends BaseActivity implements RadioGroup.OnCheck
             ScheduleItemAdapter adapter = new ScheduleItemAdapter(this, item_w, item_h, schedules.get(i));
             object.setAdapter(adapter);
             object.setOnItemClickListener(adapter);
-            object.setNumColumns(4);
+            object.setNumColumns(2);
             object.setHorizontalSpacing(1);
             object.setVerticalSpacing(1);
             object.setBackgroundColor(getResources().getColor(R.color.light_gray));
@@ -147,7 +150,7 @@ public class PlanTimeActivity extends BaseActivity implements RadioGroup.OnCheck
         }
     }
 
-    class ScheduleItemAdapter extends BaseAdapter implements AdapterView.OnItemClickListener{
+    class ScheduleItemAdapter extends BaseAdapter implements AdapterView.OnItemClickListener {
         private int item_w, item_h;
         private Context context;
         private ArrayList<ScheduleBean> beans;
@@ -161,7 +164,7 @@ public class PlanTimeActivity extends BaseActivity implements RadioGroup.OnCheck
 
         @Override
         public int getCount() {
-            return 12;
+            return 6;
         }
 
         @Override
@@ -203,8 +206,8 @@ public class PlanTimeActivity extends BaseActivity implements RadioGroup.OnCheck
 
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            ScheduleBean bean=beans.get(position);
-            bean.free=!bean.free;
+            ScheduleBean bean = beans.get(position);
+            bean.free = !bean.free;
             notifyDataSetChanged();
         }
     }

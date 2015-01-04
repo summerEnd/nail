@@ -16,17 +16,33 @@ import android.widget.TextView;
 
 import com.finger.R;
 import com.finger.activity.BaseActivity;
-import com.finger.activity.other.setting.SettingActivity;
 import com.finger.activity.other.common.MyCareActivity;
 import com.finger.activity.other.common.MyCollectionActivity;
+import com.finger.activity.other.setting.SettingActivity;
 import com.finger.activity.user.my.MyDiscountActivity;
 import com.finger.support.adapter.NailListAdapter;
 import com.finger.support.annotion.Artist;
+import com.finger.support.api.BaiduAPI;
+import com.finger.support.entity.ArtistRole;
+import com.finger.support.entity.NailInfoBean;
+import com.finger.support.net.FingerHttpClient;
+import com.finger.support.net.FingerHttpHandler;
+import com.finger.support.util.JsonUtil;
+import com.finger.support.widget.RatingWidget;
+import com.loopj.android.http.RequestParams;
+import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
+import com.sp.lib.util.ImageManager;
 import com.sp.lib.util.ImageUtil;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.LinkedList;
 
 @Artist
 public class MyFragment extends Fragment implements View.OnClickListener {
-
+    ArtistRole role;
+    RatingWidget rating;
     TextView settings;
     ImageView iv_avatar;
     GridView gridView;
@@ -34,6 +50,12 @@ public class MyFragment extends Fragment implements View.OnClickListener {
     TextView tv_com;
     TextView tv_pro;
     TextView tv_nick_name;
+    TextView tv_good_comment;
+    TextView tv_mid_comment;
+    TextView tv_bad_comment;
+    String sort;
+    String price;
+    LinkedList<NailInfoBean> beans = new LinkedList<NailInfoBean>();
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -46,12 +68,88 @@ public class MyFragment extends Fragment implements View.OnClickListener {
         tv_pro = (TextView) v.findViewById(R.id.tv_pro);
         tv_nick_name = (TextView) v.findViewById(R.id.tv_nick_name);
 
+        tv_good_comment = (TextView) v.findViewById(R.id.tv_good_comment);
+        tv_mid_comment = (TextView) v.findViewById(R.id.tv_mid_comment);
+        tv_bad_comment = (TextView) v.findViewById(R.id.tv_bad_comment);
+
+        rating = (RatingWidget) v.findViewById(R.id.rating);
         gridView = (GridView) v.findViewById(R.id.grid);
-        gridView.setAdapter(new NailListAdapter(getActivity()));
+        role = (ArtistRole) ((BaseActivity) getActivity()).getApp().getUser();
+
         findIds(v);
-        setAvatar();
-        setArtistZGS(v,3, 3, 6);
+        getInfo();
+        setData(role);
         return v;
+    }
+
+    void getInfo() {
+
+        RequestParams params = new RequestParams();
+        final int id = role.id;
+        params.put("mid", role.id);
+        FingerHttpClient.post("getSellerDetail", params, new FingerHttpHandler() {
+            @Override
+            public void onSuccess(JSONObject o) {
+                try {
+                    role = JsonUtil.get(o.getString("data"), ArtistRole.class);
+                    role.id = id;
+                    ((BaseActivity) getActivity()).getApp().setUser(role);
+                    setData(role);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                getData();
+            }
+        });
+    }
+
+    void setData(ArtistRole bean) {
+        //设置头像
+        ImageManager.loadImage(bean.avatar, new SimpleImageLoadingListener() {
+            @Override
+            public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+                if (loadedImage == null) {
+                    iv_avatar.setImageResource(R.drawable.default_user);
+                    return;
+                }
+                int radius = getResources().getDimensionPixelSize(R.dimen.avatar_center_size) / 2;
+                iv_avatar.setImageBitmap(ImageUtil.roundBitmap(loadedImage, radius));
+            }
+        });
+
+        setArtistZGS(bean.professional, bean.talk, bean.on_time);
+        rating.setScore(bean.score);
+        tv_nick_name.setText(bean.username);
+
+    }
+
+    void getData() {
+        ArtistRole role = (ArtistRole) ((BaseActivity) getActivity()).getApp().getUser();
+        RequestParams params = new RequestParams();
+        JSONObject condition = new JSONObject();
+        try {
+            condition.put("sort", sort);//（normal / price_desc / price_asc）
+            condition.put("price", price);// (40 - 80 之间)
+            condition.put("city_code", BaiduAPI.getCityCode());//(百度城市代码)
+            condition.put("mid", role.id);// (美甲师id);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        FingerHttpClient.post("getProductList", params, new FingerHttpHandler() {
+            @Override
+            public void onSuccess(JSONObject o) {
+                try {
+
+                    JSONObject data = o.getJSONObject("data");
+                    JsonUtil.getArray(data.getJSONArray("normal"), NailInfoBean.class, beans);
+                    gridView.setAdapter(new NailListAdapter(getActivity(), beans));
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
     /**
@@ -61,10 +159,8 @@ public class MyFragment extends Fragment implements View.OnClickListener {
      * @param com    沟通 对应TextView 的id为tv_com
      * @param onTime 守时 对应TextView 的id为tv_on_time
      */
-    public void setArtistZGS(View v, float pro, float com, float onTime) {
-        TextView tv_pro = (TextView) v.findViewById(R.id.tv_pro);
-        TextView tv_com = (TextView) v.findViewById(R.id.tv_com);
-        TextView tv_on_time = (TextView) v.findViewById(R.id.tv_on_time);
+    public void setArtistZGS(float pro, float com, float onTime) {
+
         tv_pro.setText(String.format("%.1f", pro));
         tv_com.setText(String.format("%.1f", com));
         tv_on_time.setText(String.format("%.1f", onTime));
@@ -79,11 +175,6 @@ public class MyFragment extends Fragment implements View.OnClickListener {
         iv_avatar.setOnClickListener(this);
     }
 
-    void setAvatar() {
-        Bitmap avatar = BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher);
-        int radius = getResources().getDimensionPixelSize(R.dimen.avatar_center_size) / 2;
-        iv_avatar.setImageBitmap(ImageUtil.roundBitmap(avatar, radius));
-    }
 
     @Override
     public void onClick(View v) {

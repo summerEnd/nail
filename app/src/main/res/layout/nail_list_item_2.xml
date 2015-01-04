@@ -5,28 +5,8 @@
     android:paddingLeft="@dimen/item_spacing"
     android:paddingRight="@dimen/item_spacing"
     android:layout_height="wrap_content">
-    <FrameLayout
-        android:id="@+id/title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <TextView
-            style="@style/horizontal_line"
-            android:layout_gravity="center_vertical" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:padding="7dp"
-            android:textSize="@dimen/textSize_dp_34px"
-            android:textColor="@color/textColorGray"
-            android:background="@drawable/windowBackground"
-            android:text="人气推荐" />
-    </FrameLayout>
 
     <com.finger.support.widget.NailItem
-
         android:id="@+id/item_1"
         android:layout_width="0dp"
         android:layout_weight="1"

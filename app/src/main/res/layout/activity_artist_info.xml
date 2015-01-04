@@ -27,7 +27,6 @@
             android:id="@+id/name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="美甲超"
             android:textSize="@dimen/textSize_dp_36px"
             android:layout_toRightOf="@+id/iv_avatar"
             android:textColor="#000" />
@@ -89,7 +88,7 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/textColorGray"
                 android:textSize="@dimen/textSize_dp_30px"
-                android:text="5.0" />
+                android:text="0.0" />
 
             <View
                 android:layout_width="0dp"
@@ -109,7 +108,7 @@
                 android:textColor="@color/textColorGray"
                 android:layout_height="wrap_content"
                 android:textSize="@dimen/textSize_dp_30px"
-                android:text="5.0" />
+                android:text="0.0" />
 
             <View
                 android:layout_width="0dp"
@@ -129,7 +128,7 @@
                 android:textColor="@color/textColorGray"
                 android:layout_height="wrap_content"
                 android:textSize="@dimen/textSize_dp_30px"
-                android:text="5.0" />
+                android:text="0.0" />
         </LinearLayout>
     </RelativeLayout>
 
@@ -156,12 +155,14 @@
                 android:text="好评" />
 
             <TextView
+                android:id="@id/tv_good_comment"
+
                 android:layout_width="wrap_content"
                 android:textSize="@dimen/textSize_dp_28px"
                 android:textColor="@color/textColorGray"
                 android:layout_marginLeft="6dp"
                 android:layout_height="wrap_content"
-                android:text="5912369条" />
+                android:text="0条" />
 
             <View
                 android:layout_width="0dp"
@@ -176,12 +177,13 @@
                 android:text="中评" />
 
             <TextView
+                android:id="@id/tv_mid_comment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="6dp"
                 android:textSize="@dimen/textSize_dp_28px"
                 android:textColor="@color/textColorGray"
-                android:text="5969条" />
+                android:text="0条" />
 
             <View
                 android:layout_width="0dp"
@@ -197,6 +199,7 @@
                 android:text="差评" />
 
             <TextView
+                android:id="@+id/tv_bad_comment"
                 android:layout_width="wrap_content"
                 android:layout_marginLeft="6dp"
                 android:textSize="@dimen/textSize_dp_28px"

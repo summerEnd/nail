@@ -14,7 +14,7 @@ import java.io.Serializable;
 public class RoleBean implements Serializable{
     public Integer id;
     protected String type;
-    public String name;
+    public String username;
     public String avatar;
     public String mobile;
     public String password;

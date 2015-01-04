@@ -112,7 +112,7 @@
             android:screenOrientation="portrait"
             android:label="@string/nail_items" />
         <activity
-            android:name=".activity.other.plan.ChooseArtist"
+            android:name=".activity.other.info.ChooseArtistList"
             android:screenOrientation="portrait"
             android:label="@string/choose_artist" />
         <activity
@@ -190,6 +190,14 @@
             android:name=".activity.other.common.SearchResult"
             android:screenOrientation="portrait"
             android:label="@string/search_result" />
+        <activity
+            android:name=".activity.other.setting.TaxiFeeActivity"
+            android:screenOrientation="portrait"
+            android:label="@string/taxi_fee" />
+        <activity
+            android:name=".activity.other.setting.DiscountRuleActivity"
+            android:screenOrientation="portrait"
+            android:label="@string/discount_rule" />
     </application>
 
 </manifest>

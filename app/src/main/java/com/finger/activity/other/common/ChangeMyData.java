@@ -34,13 +34,13 @@ public class ChangeMyData extends BaseActivity{
         RoleBean bean=getApp().getUser();
         //设置头像
         ImageView iv_avatar= (ImageView) findViewById(R.id.iv_avatar);
-        Bitmap avatar = BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher);
+        Bitmap avatar = BitmapFactory.decodeResource(getResources(), R.drawable.default_user);
         int radius = getResources().getDimensionPixelSize(R.dimen.avatar_center_size) / 2;
         iv_avatar.setImageBitmap(ImageUtil.roundBitmap(avatar, radius));
 
-        edit_nick.setText(bean.name);
+        edit_nick.setText(bean.username);
         edit_phone.setText(bean.mobile);
-        ((TextView) findViewById(R.id.tv_nick_name)).setText(bean.name);
+        ((TextView) findViewById(R.id.tv_nick_name)).setText(bean.username);
     }
 
     @Override

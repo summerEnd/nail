@@ -97,7 +97,7 @@ public class RegisterActivity extends BaseActivity {
     }
 
     Timer timer;
-    final int MAX_TIME = 10;
+    final int MAX_TIME = 100;
     int remainTime;
 
     void startTimer() {

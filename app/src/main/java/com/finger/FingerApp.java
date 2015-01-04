@@ -4,17 +4,21 @@ import android.app.Application;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.XmlResourceParser;
 import android.util.DisplayMetrics;
 import android.view.WindowManager;
 
 import com.finger.support.Constant;
 import com.finger.support.entity.ArtistGrade;
+import com.finger.support.entity.ArtistRole;
 import com.finger.support.entity.RoleBean;
+import com.finger.support.entity.UserRole;
 import com.finger.support.net.FingerHttpClient;
 import com.finger.support.net.Http;
 import com.finger.support.util.ContextUtil;
 import com.finger.support.util.Logger;
+import com.finger.support.util.SharedPreferenceUtil;
 import com.sp.lib.Slib;
 
 import com.finger.support.api.BaiduAPI;
@@ -90,6 +94,28 @@ public class FingerApp extends Application {
 
     public void setUser(RoleBean bean) {
         this.bean = bean;
+
+        String type;
+        if (bean instanceof UserRole) {
+            type = Constant.LOGIN_TYPE_USER;
+        } else if (bean instanceof ArtistRole) {
+            type = Constant.LOGIN_TYPE_ARTIST;
+        } else {
+            type = Constant.LOGIN_TYPE_EMPTY;
+        }
+        SharedPreferences sp = getSharedPreferences("user", MODE_PRIVATE);
+
+        if (bean!=null){
+            sp.edit()
+                    .putString("mobile", bean.mobile)
+                    .putString("password", bean.password)
+                    .putString("type", type)
+                    .commit();
+        }else{
+            sp.edit().clear().commit();
+        }
+
+
         sendBroadcast(new Intent(ACTION_ROLE_CHANGED).putExtra("role", getUser().getType()));
     }
 

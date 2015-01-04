@@ -20,6 +20,7 @@ import com.finger.activity.other.setting.SettingActivity;
 import com.finger.support.annotion.User;
 import com.finger.support.entity.RoleBean;
 import com.finger.support.entity.UserRole;
+import com.sp.lib.util.ImageManager;
 
 @User
 public class MyFragment extends Fragment implements View.OnClickListener {
@@ -34,7 +35,7 @@ public class MyFragment extends Fragment implements View.OnClickListener {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_center_user, null);
-        ((TextView) v.findViewById(R.id.title_text)).setText("我的");
+        ((TextView) v.findViewById(R.id.title_text)).setText(R.string.personal_center);
         findIds(v);
         settings.setOnClickListener(this);
         my_discount_card.setOnClickListener(this);
@@ -43,6 +44,7 @@ public class MyFragment extends Fragment implements View.OnClickListener {
         avatar = (ImageView) v.findViewById(R.id.iv_avatar);
         tv_nick_name = (TextView) v.findViewById(R.id.tv_nick_name);
         avatar.setOnClickListener(this);
+        setUserInfo();
         return v;
     }
 
@@ -62,7 +64,7 @@ public class MyFragment extends Fragment implements View.OnClickListener {
 
     void setUserInfo(){
         RoleBean role= ((FingerApp) getActivity().getApplication()).getUser();
-        tv_nick_name.setText(role.name);
+        tv_nick_name.setText(role.username);
     }
 
     @Override

@@ -1,11 +1,9 @@
 package com.sp.lib.support;
 
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.util.Log;
 
 import com.loopj.android.http.AsyncHttpClient;
-import com.loopj.android.http.FileAsyncHttpResponseHandler;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 import com.loopj.android.http.ResponseHandlerInterface;
@@ -15,14 +13,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.logging.Logger;
-
 public class SHttpClient {
 
     private static final String SLOG = "SLOG";
     private static ProgressDialogCreator mDialogCreator;
     private static Dialog mDialog;
-    private static Utf8JsonHandler utf8JsonHandler = new Utf8JsonHandler();
     private static AsyncHttpClient client = new AsyncHttpClient();
 
     static {
@@ -39,8 +34,10 @@ public class SHttpClient {
     private static class Utf8JsonHandler extends JsonHttpResponseHandler {
         private WebJsonHttpHandler handler;
 
-        public Utf8JsonHandler() {
+
+        private Utf8JsonHandler(WebJsonHttpHandler handler) {
             super("UTF-8");
+            this.handler = handler;
         }
 
         public void setHandler(WebJsonHttpHandler handler) {
@@ -66,28 +63,28 @@ public class SHttpClient {
                 sendSuccess(new JSONObject(responseString), null);
             } catch (JSONException e) {
                 e.printStackTrace();
-                sendSuccess(null,null);
+                sendSuccess(null, null);
             }
         }
 
         @Override
         public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
             super.onFailure(statusCode, headers, responseString, throwable);
-            Log.i(SLOG, "Throwable:"+throwable);
+            Log.i(SLOG, "Throwable:" + throwable);
             sendFail("net error:" + statusCode);
         }
 
         @Override
         public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
             super.onFailure(statusCode, headers, throwable, errorResponse);
-            Log.i(SLOG, "JSONObject:"+errorResponse );
+            Log.i(SLOG, "JSONObject:" + errorResponse);
             sendFail("data error" + statusCode);
         }
 
         @Override
         public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
             super.onFailure(statusCode, headers, throwable, errorResponse);
-            Log.i(SLOG, "JSONArray:"+errorResponse );
+            Log.i(SLOG, "JSONArray:" + errorResponse);
             sendFail("data error" + statusCode);
         }
 
@@ -96,7 +93,7 @@ public class SHttpClient {
                 return;
             }
 
-            Log.i("SLOG","sendSuccess:"+ object );
+            Log.i("SLOG", "sendSuccess:" + object);
 
             handler.onSuccess(object, array);
         }
@@ -105,7 +102,7 @@ public class SHttpClient {
             if (handler == null) {
                 return;
             }
-            Log.i("SLOG","sendFail:"+ msg);
+            Log.i("SLOG", "sendFail:" + msg);
             handler.onFail(msg);
         }
 
@@ -123,13 +120,18 @@ public class SHttpClient {
      */
     public static void setDialogCreator(ProgressDialogCreator dialogCreator) {
         SHttpClient.mDialogCreator = dialogCreator;
+        if (mDialogCreator == null) {
+            if (mDialog != null) {
+                mDialog.dismiss();
+            }
+            mDialog = null;
+        }
     }
 
 
     public static void post(String url, RequestParams params, WebJsonHttpHandler handler, boolean showLog) {
-        utf8JsonHandler.setHandler(handler);
         if (handler.showDialog) createDialog();
-        post(url, params, utf8JsonHandler, showLog);
+        post(url, params, new Utf8JsonHandler(handler), showLog);
 
     }
 
@@ -152,7 +154,9 @@ public class SHttpClient {
 
     private static void createDialog() {
         if (mDialogCreator == null) return;
-        mDialog = mDialogCreator.onCreateDialog();
+        if (mDialog == null) {
+            mDialog = mDialogCreator.onCreateDialog();
+        }
         mDialog.show();
     }
 }

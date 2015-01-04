@@ -17,7 +17,7 @@ import java.io.ObjectOutputStream;
 public class FileUtil {
 
     /**
-     * ¶ÁÈ¡»º´æÎÄ¼ş
+     * è¯»å–ç¼“å­˜æ–‡ä»¶
      */
     public static Object readCache(Context context,String user, String name) {
         return read(getCacheFile(context,user, name));
@@ -25,14 +25,14 @@ public class FileUtil {
     }
 
     /**
-     * ½«objectĞ´Èë»º´æ
+     * å°†objectå†™å…¥ç¼“å­˜
      */
     public static void saveCache(Context context, String user, String name, Object o) {
         save(getCacheFile(context, user, name), o);
     }
 
     /**
-     * ¶ÁÈ¡Ò»¸ö·Ç»º´æÎÄ¼ş
+     * è¯»å–ä¸€ä¸ªéç¼“å­˜æ–‡ä»¶
      *
      * @param name
      * @return
@@ -42,7 +42,7 @@ public class FileUtil {
     }
 
     /**
-     * ½²Ò»¸ö¶ÔÏó±£´æµ½ Ò»¸ö·Ç»º´æÎÄ¼şÖĞ
+     * è®²ä¸€ä¸ªå¯¹è±¡ä¿å­˜åˆ° ä¸€ä¸ªéç¼“å­˜æ–‡ä»¶ä¸­
      *
      * @param name
      * @param o
@@ -52,7 +52,7 @@ public class FileUtil {
     }
 
     /**
-     * ½«Ò»¸öÎÄ¼ş¶Á³ö£¬Õâ¸öÎÄ¼ş±ØĞëÎªÒ»¸öĞòÁĞ»¯µÄ¶ÔÏó
+     * å°†ä¸€ä¸ªæ–‡ä»¶è¯»å‡ºï¼Œè¿™ä¸ªæ–‡ä»¶å¿…é¡»ä¸ºä¸€ä¸ªåºåˆ—åŒ–çš„å¯¹è±¡
      *
      * @param file
      * @return
@@ -70,7 +70,7 @@ public class FileUtil {
     }
 
     /**
-     * ½²Ò»¸ö¶ÔÏóoĞ´Èëµ½fileÖĞ
+     * è®²ä¸€ä¸ªå¯¹è±¡oå†™å…¥åˆ°fileä¸­
      *
      * @param file
      * @param o
@@ -88,7 +88,7 @@ public class FileUtil {
     }
 
     /**
-     * åˆ é™¤æ–‡ä»¶
+     * é’çŠ»æ«é‚å›¦æ¬¢
      *
      * @param file
      */
@@ -103,7 +103,7 @@ public class FileUtil {
     }
 
     /**
-     * åˆ é™¤æ–‡ä»¶
+     * é’çŠ»æ«é‚å›¦æ¬¢
      *
      * @param context
      * @param name
@@ -113,7 +113,7 @@ public class FileUtil {
     }
 
     /**
-     * ç¼“å­˜æ–‡ä»¶è·¯å¾„ cache/<company_id>/name
+     * ç¼‚æ’³ç“¨é‚å›¦æ¬¢ç’ºîˆšç· cache/<company_id>/name
      *
      * @param context
      * @param name
@@ -121,12 +121,12 @@ public class FileUtil {
      */
     private static File getCacheFile(Context context, String user, String name) {
 
-        //åˆ›å»ºç¼“å­˜æ–‡ä»¶
+        //é’æ¶˜ç¼“ç¼‚æ’³ç“¨é‚å›¦æ¬¢
         return new File(getCacheDir(context, user), name);
     }
 
     /**
-     * è·å–ç¼“å­˜ç›®å½•
+     * é‘¾å³°å½‡ç¼‚æ’³ç“¨é©î†¼ç¶
      *
      * @param context
      * @return

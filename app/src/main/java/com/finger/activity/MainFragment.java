@@ -24,7 +24,7 @@ import android.widget.TextView;
 import com.baidu.location.BDLocation;
 import com.finger.R;
 import com.finger.activity.other.info.NailListActivity;
-import com.finger.activity.other.plan.ChooseArtist;
+import com.finger.activity.other.info.ChooseArtistList;
 import com.finger.activity.other.plan.PlanActivity;
 import com.finger.support.Constant;
 import com.finger.support.api.BaiduAPI;
@@ -34,10 +34,8 @@ import com.finger.support.entity.HotTagBean;
 import com.finger.support.net.FingerHttpClient;
 import com.finger.support.net.FingerHttpHandler;
 import com.finger.support.util.JsonUtil;
-import com.finger.support.widget.ItemUtil;
 import com.finger.support.util.Dimension;
 import com.finger.support.widget.ArtistItem;
-import com.finger.support.widget.NailItem;
 import com.finger.support.widget.SearchWindow;
 import com.loopj.android.http.RequestParams;
 import com.sp.lib.util.FileUtil;
@@ -252,7 +250,7 @@ public class MainFragment extends Fragment implements View.OnClickListener {
                 scale(v, new Runnable() {
                     @Override
                     public void run() {
-                        startActivity(new Intent(getActivity(), ChooseArtist.class));
+                        startActivity(new Intent(getActivity(), ChooseArtistList.class));
                     }
                 });
 

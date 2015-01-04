@@ -4,25 +4,32 @@ import android.content.Context;
 import android.content.Intent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.BaseAdapter;
 
 import com.finger.activity.other.info.NailInfo;
+import com.finger.support.entity.NailInfoBean;
 import com.finger.support.widget.ItemUtil;
 import com.finger.support.widget.NailItem;
+import com.sp.lib.util.ImageManager;
+
+import java.util.List;
 
 /**
  * Created by acer on 2014/12/24.
  */
 public class NailListAdapter extends BaseAdapter {
     private Context context;
+    private List<NailInfoBean> beans;
 
-    public NailListAdapter(Context context) {
+    public NailListAdapter(Context context, List<NailInfoBean> beans) {
         this.context = context;
+        this.beans = beans;
     }
 
     @Override
     public int getCount() {
-        return 7;
+        return beans.size();
     }
 
     @Override
@@ -40,13 +47,14 @@ public class NailListAdapter extends BaseAdapter {
         NailItem item;
         if (convertView == null) {
             item = new NailItem(context);
-            item.setImageSize(ItemUtil.item_size);
+            ViewGroup.LayoutParams lp=new AbsListView.LayoutParams(ItemUtil.item_size,ItemUtil.item_size);
+            item.setLayoutParams(lp);
             convertView = item;
         } else {
             item = (NailItem) convertView;
         }
-        item.setPrice("200" + position);
-        item.setTitle("hi" + position);
+        NailInfoBean bean=beans.get(position);
+        item.setInfoBean(bean);
         return convertView;
     }
 

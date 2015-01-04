@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include layout="@layout/head_2" />
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scaleType="centerCrop"
+        android:src="@drawable/taxi_fee" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_margin="@dimen/activity_horizontal_margin"
+        android:background="@drawable/corner_frame_white_solid"
+        android:textColor="@color/textColorBlack"
+        android:textSize="@dimen/textSize_dp_28px"
+        android:padding="8dp"
+        android:text="你好中国！你好中国！你好中国！你好中国！你好中国！你好中国！你好中国！" />
+</LinearLayout>

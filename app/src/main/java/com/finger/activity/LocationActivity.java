@@ -100,7 +100,7 @@ public class LocationActivity extends BaseActivity implements AdapterView.OnItem
 
     @Override
     public void onClick(View v) {
-        ContextUtil.toast_debug(v);
+
         switch (v.getId()) {
             case R.id.tv_gps_city: {
                 CheckedTextView checked = (CheckedTextView) listView.getChildAt(listView.getCheckedItemPosition());

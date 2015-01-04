@@ -1,22 +1,127 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    android:paddingLeft="@dimen/item_spacing"
+    android:paddingRight="@dimen/item_spacing"
+    android:layout_height="wrap_content">
 
-    <TextView
-        style="@style/horizontal_line"
-        android:layout_height="1dp"
-        android:layout_gravity="center_vertical" />
+    <FrameLayout
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-    <TextView
-        android:layout_width="wrap_content"
+        <TextView
+            style="@style/horizontal_line"
+            android:layout_gravity="center_vertical" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:padding="7dp"
+            android:textSize="@dimen/textSize_dp_34px"
+            android:textColor="@color/textColorGray"
+            android:background="@drawable/windowBackground"
+            android:text="人气推荐" />
+    </FrameLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-        android:background="@drawable/windowBackground"
-        android:layout_gravity="center"
-        android:textColor="@color/textColorGray"
-        android:textSize="@dimen/textSize_dp_34px"
-        android:text="人气推荐" />
-</FrameLayout>
+        android:orientation="horizontal">
+
+        <com.finger.support.widget.NailItem
+            android:id="@+id/item_1"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="100dp" />
+
+        <com.finger.support.widget.NailItem
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:id="@+id/item_2"
+            android:layout_marginLeft="@dimen/item_spacing"
+            android:layout_height="100dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/item_spacing"
+        android:orientation="horizontal">
+
+        <com.finger.support.widget.NailItem
+            android:id="@+id/item_3"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="100dp" />
+
+        <com.finger.support.widget.NailItem
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:id="@+id/item_4"
+            android:layout_marginLeft="@dimen/item_spacing"
+            android:layout_height="100dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/item_spacing"
+        android:orientation="horizontal">
+
+        <com.finger.support.widget.NailItem
+            android:id="@+id/item_5"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="100dp" />
+
+        <com.finger.support.widget.NailItem
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:id="@+id/item_6"
+            android:layout_marginLeft="@dimen/item_spacing"
+            android:layout_height="100dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/item_spacing"
+        android:orientation="horizontal">
+
+        <com.finger.support.widget.NailItem
+            android:id="@+id/item_7"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content" />
+
+        <com.finger.support.widget.NailItem
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:id="@+id/item_8"
+            android:layout_marginLeft="@dimen/item_spacing"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/item_spacing"
+        android:orientation="horizontal">
+
+        <com.finger.support.widget.NailItem
+            android:id="@+id/item_9"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="100dp" />
+
+        <com.finger.support.widget.NailItem
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:id="@+id/item_10"
+            android:layout_marginLeft="@dimen/item_spacing"
+            android:layout_height="100dp" />
+    </LinearLayout>
+</LinearLayout>

@@ -43,6 +43,7 @@
 
         <ImageView
             android:id="@+id/iv_avatar"
+            android:layout_marginRight="5dp"
             android:src="@drawable/default_user"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
@@ -57,12 +58,11 @@
             android:textColor="#000" />
 
         <com.finger.support.widget.RatingWidget
+            android:id="@+id/rating"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:drawable="@drawable/star1"
             android:layout_centerVertical="true"
             android:layout_toRightOf="@+id/iv_avatar"
-            app:stars="5"
              />
 
 

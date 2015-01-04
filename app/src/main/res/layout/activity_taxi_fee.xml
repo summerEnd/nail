@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:background="#34995d"
+    android:layout_height="match_parent">
+
+    <include layout="@layout/head_2" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scaleType="centerCrop"
+                android:src="@drawable/taxi_fee" />
+
+            <TableLayout
+                android:layout_width="match_parent"
+                style="@style/activity_padding"
+                android:stretchColumns="0,1"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    style="@style/taxi_fee_textStyle"
+                    android:textColor="@color/textColorBlack"
+                    android:textSize="12dp"
+                    android:background="@color/white"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="left"
+                    android:text="为确保您享受更好的服务，美甲师需打车到您指定的预约地点，超过一定的距离需要您支付一定的车费，具体规则如下："
+                    android:singleLine="false" />
+
+
+                <TableRow style="@style/taxi_fee">
+
+                    <TextView
+                        android:background="@color/white"
+                        style="@style/taxi_fee_textStyle_title"
+                        android:text="@string/taxi_tab_title" />
+
+                    <TextView
+                        android:background="@color/white"
+                        android:layout_marginLeft="1px"
+                        style="@style/taxi_fee_textStyle_title"
+                        android:text="车费（元）" />
+                </TableRow>
+
+                <TableRow style="@style/taxi_fee">
+
+                    <TextView
+                        android:background="@color/white"
+                        style="@style/taxi_fee_textStyle"
+                        android:text="@string/fee_05" />
+
+                    <TextView
+                        android:id="@+id/tv_fee_0_5"
+                        android:background="@color/white"
+                        android:layout_marginLeft="1px"
+                        style="@style/taxi_fee_textStyle"
+                        android:text="0" />
+                </TableRow>
+
+                <TableRow style="@style/taxi_fee">
+
+                    <TextView
+                        android:background="@color/white"
+                        style="@style/taxi_fee_textStyle"
+                        android:text="@string/fee_510" />
+
+                    <TextView
+                        android:id="@+id/tv_fee_5_10"
+                        android:background="@color/white"
+                        android:layout_marginLeft="1px"
+                        style="@style/taxi_fee_textStyle"
+                        android:text="0" />
+                </TableRow>
+
+                <TableRow style="@style/taxi_fee">
+
+                    <TextView
+                        android:background="@color/white"
+                        style="@style/taxi_fee_textStyle"
+                        android:text="@string/fee_1015" />
+
+                    <TextView
+                        android:id="@+id/tv_fee_10_15"
+                        android:background="@color/white"
+                        android:layout_marginLeft="1px"
+                        style="@style/taxi_fee_textStyle"
+                        android:text="0" />
+                </TableRow>
+
+                <TableRow style="@style/taxi_fee">
+
+                    <TextView
+                        android:background="@color/white"
+                        style="@style/taxi_fee_textStyle"
+                        android:text="@string/fee_15_20" />
+
+                    <TextView
+                        android:id="@+id/tv_fee_15_20"
+                        android:background="@color/white"
+                        android:layout_marginLeft="1px"
+                        style="@style/taxi_fee_textStyle"
+                        android:text="0" />
+                </TableRow>
+
+                <TableRow style="@style/taxi_fee">
+
+                    <TextView
+                        android:background="@color/white"
+                        style="@style/taxi_fee_textStyle"
+                        android:text="@string/fee_20" />
+
+                    <TextView
+                        android:id="@+id/tv_fee_20_"
+                        android:background="@color/white"
+                        android:layout_marginLeft="1px"
+                        style="@style/taxi_fee_textStyle"
+                        android:text="0" />
+                </TableRow>
+            </TableLayout>
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

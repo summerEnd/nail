@@ -11,7 +11,7 @@ import com.finger.R;
 import com.finger.activity.BaseActivity;
 import com.finger.activity.other.plan.OrderConfirm;
 import com.finger.activity.other.plan.PlanActivity;
-import com.finger.support.entity.ArtistInfoBean;
+import com.finger.support.entity.ArtistRole;
 import com.finger.support.entity.NailInfoBean;
 import com.finger.support.entity.OrderBean;
 import com.finger.support.entity.OrderManager;
@@ -91,9 +91,9 @@ public class NailInfo extends BaseActivity {
         tv_comment_num.setText(getString(R.string.d_num, bean.comment_num));
         ImageManager.loadImage(bean.cover,cover);
 
-        ArtistInfoBean artist=bean.seller_info;
+        ArtistRole artist=bean.seller_info;
         setArtistZGS(artist.professional,artist.talk,artist.on_time);
-        setStars(ratingWidget,artist.score);
+        ratingWidget.setScore(artist.score);
         tv_artist_name.setText(artist.username);
 
         ImageManager.loadImage(artist.avatar,new SimpleImageLoadingListener(){

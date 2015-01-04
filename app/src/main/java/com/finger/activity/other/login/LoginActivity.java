@@ -103,14 +103,12 @@ public class LoginActivity extends BaseActivity implements RadioGroup.OnCheckedC
         switch (v.getId()) {
 
             case R.id.forget_password: {
-                ContextUtil.toast_debug("forget_password");
                 Intent intent = new Intent(this, FindPassword.class);
                 startActivity(intent);
                 break;
             }
 
             case R.id.update_password: {
-                ContextUtil.toast_debug("update_password");
                 Intent intent = new Intent(this, UpdatePasswordActivity.class);
                 startActivity(intent);
                 break;

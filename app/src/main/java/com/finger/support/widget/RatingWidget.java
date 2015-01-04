@@ -11,7 +11,12 @@ import android.view.View;
 
 import com.finger.R;
 import com.finger.activity.other.info.HonorInfoActivity;
+import com.finger.support.Constant;
+import com.finger.support.entity.ArtistGrade;
 import com.finger.support.util.Logger;
+import com.sp.lib.util.FileUtil;
+
+import java.util.LinkedList;
 
 public class RatingWidget extends View {
     public static final int STAR_PADDING = 2;
@@ -26,6 +31,9 @@ public class RatingWidget extends View {
     private int num_star;
 
     private Bitmap star;
+
+    private int score;
+
 
     public RatingWidget(Context context) {
         this(context, null);
@@ -43,13 +51,71 @@ public class RatingWidget extends View {
         setOnClickListener(defaultListener);
     }
 
-    private OnClickListener defaultListener=new OnClickListener() {
+    private OnClickListener defaultListener = new OnClickListener() {
         @Override
         public void onClick(View v) {
-            Context context=v.getContext();
+            Context context = v.getContext();
             context.startActivity(new Intent(context, HonorInfoActivity.class));
         }
     };
+
+    public int getScore() {
+        return score;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
+        LinkedList<ArtistGrade> grades = (LinkedList<ArtistGrade>) FileUtil.readFile(getContext(), Constant.FILE_ARTIST_GRADE);
+        int grade = 0;
+        for (ArtistGrade artistGrade : grades) {
+            if (artistGrade.contains(score)) {
+                grade = artistGrade.value;
+                break;
+            }
+        }
+        int level = grade / 5 + 1;
+        num_star = grade % 5;
+
+        if (grade % 5 == 0) {
+            level -= 1;
+            num_star = 5;
+        }
+
+        switch (level) {
+            case 1: {
+                starRecourseId = R.drawable.star1;
+                break;
+            }
+
+            case 2: {
+                starRecourseId = R.drawable.star2;
+                break;
+            }
+
+            case 3: {
+                starRecourseId = R.drawable.star3;
+                break;
+            }
+
+            case 4: {
+                starRecourseId = R.drawable.star4;
+                break;
+            }
+
+            case 5: {
+                starRecourseId = R.drawable.star5;
+                break;
+            }
+
+            default: {
+                starRecourseId = R.drawable.star1;
+                break;
+            }
+
+        }
+        invalidateStars();
+        invalidate();
+    }
 
     public int getStarRecourseId() {
         return starRecourseId;

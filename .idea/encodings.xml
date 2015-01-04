@@ -2,6 +2,7 @@
 <project version="4">
   <component name="Encoding" useUTFGuessing="false" native2AsciiForPropertiesFiles="false">
     <file url="file://$PROJECT_DIR$/SLIB/src/main/java/com/sp/lib/activity/PhotoAlbumActivity.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/SLIB/src/main/java/com/sp/lib/util/FileUtil.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/SLIB/src/main/java/com/sp/lib/util/ImageUtil.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/SLIB/src/main/java/com/sp/lib/widget/AddImageItem.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/SLIB/src/main/java/com/sp/lib/widget/PDialog.java" charset="UTF-8" />
@@ -9,6 +10,7 @@
     <file url="file://$PROJECT_DIR$/SLIB/src/main/res/drawable/btn_album.xml" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/SLIB/src/main/res/drawable/btn_album_text.xml" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/finger/activity/other/plan/NailItemListFragment.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/java/com/finger/support/util/ContextUtil.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/java/com/finger/support/util/Dimension.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/java/com/finger/support/util/JsonUtil.java" charset="UTF-8" />

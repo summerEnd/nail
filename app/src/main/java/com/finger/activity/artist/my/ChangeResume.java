@@ -9,6 +9,9 @@ import com.finger.R;
 import com.finger.activity.BaseActivity;
 import com.sp.lib.widget.AddImageItem;
 
+/**
+ * 修改简历
+ */
 public class ChangeResume extends BaseActivity {
     public static final String EXTRA_SHORT_TEXT = "short_text";
     public static final String EXTRA_SHORT_IMAGE = "short_image";

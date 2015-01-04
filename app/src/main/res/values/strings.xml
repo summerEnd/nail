@@ -98,5 +98,14 @@
     <string name="search_result">搜索结果</string>
     <string name="location_failed">定位失败</string>
     <string name="average_price_s">均价：￥%s</string>
+    <string name="find_ok">找回成功！</string>
+    <string name="taxi_fee">车费说明</string>
+    <string name="discount_rule">优惠券规则</string>
+    <string name="taxi_tab_title">里程数（公里）</string>
+    <string name="fee_05"><![CDATA[0<X≤5]]></string>
+    <string name="fee_510"><![CDATA[5<X≤10]]></string>
+    <string name="fee_1015"><![CDATA[10<X≤15]]></string>
+    <string name="fee_15_20"><![CDATA[15<X≤20]]></string>
+    <string name="fee_20"><![CDATA[X>20]]></string>
 
 </resources>

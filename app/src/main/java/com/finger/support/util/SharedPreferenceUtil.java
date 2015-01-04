@@ -10,4 +10,7 @@ public class SharedPreferenceUtil {
     public static final void get(Context context){
         SharedPreferences sp=context.getSharedPreferences("",Context.MODE_PRIVATE);
     }
+    public static final void save(){
+
+    }
 }

@@ -7,11 +7,10 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.finger.activity.BaseActivity;
 import com.finger.R;
+import com.finger.activity.BaseActivity;
 import com.finger.activity.other.plan.NailItemListFragment;
-import com.finger.support.entity.ArtistInfoBean;
-import com.finger.support.entity.NailInfoBean;
+import com.finger.support.entity.ArtistRole;
 import com.finger.support.net.FingerHttpClient;
 import com.finger.support.net.FingerHttpHandler;
 import com.finger.support.util.JsonUtil;
@@ -24,7 +23,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class ArtistInfo extends BaseActivity {
-    ArtistInfoBean bean;
+    ArtistRole bean;
     ImageView iv_avatar;
     TextView name;
     TextView tv_average_price;
@@ -38,20 +37,22 @@ public class ArtistInfo extends BaseActivity {
         name = (TextView) findViewById(R.id.name);
         tv_average_price = (TextView) findViewById(R.id.tv_average_price);
 
-
-        NailItemListFragment item = new NailItemListFragment();
-        getSupportFragmentManager().beginTransaction().add(R.id.frag_container, item).commit();
+        NailItemListFragment nailItemListFragment = new NailItemListFragment();
+        Bundle data=new Bundle();
+        data.putInt("id",getIntent().getIntExtra("id",-1));
+        nailItemListFragment.setArguments(data);
+        getSupportFragmentManager().beginTransaction().add(R.id.frag_container, nailItemListFragment).commit();
         getData();
     }
 
     void getData() {
         RequestParams params = new RequestParams();
-        params.put("mid", 2);
+        params.put("mid", getIntent().getIntExtra("id",-1));
         FingerHttpClient.post("getSellerDetail", params, new FingerHttpHandler() {
             @Override
             public void onSuccess(JSONObject o) {
                 try {
-                    bean = JsonUtil.get(o.getString("data"), ArtistInfoBean.class);
+                    bean = JsonUtil.get(o.getString("data"), ArtistRole.class);
                     setData(bean);
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -60,7 +61,7 @@ public class ArtistInfo extends BaseActivity {
         });
     }
 
-    void setData(ArtistInfoBean bean) {
+    void setData(ArtistRole bean) {
         ImageManager.loadImage(bean.avatar, new SimpleImageLoadingListener() {
             @Override
             public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
@@ -68,6 +69,7 @@ public class ArtistInfo extends BaseActivity {
             }
         });
         name.setText(bean.username);
+        setArtistComment(bean.comment_good,bean.comment_normal,bean.comment_bad);
         tv_average_price.setText(getString(R.string.average_price_s, bean.average_price));
         setArtistZGS(bean.professional, bean.talk, bean.on_time);
     }

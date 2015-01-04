@@ -71,6 +71,7 @@ public class MainActivity extends BaseActivity {
     }
 
     public void onTabClick(View v) {
+        Logger.d("login?=="+getApp().isLogin());
         int id = v.getId();
         clicked_tab = v;
         switch (id) {
@@ -235,6 +236,7 @@ public class MainActivity extends BaseActivity {
         super.onResume();
         if (sholdReturnHome) {
             returnHome();
+
             sholdReturnHome = false;
         }
     }

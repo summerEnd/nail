@@ -317,6 +317,25 @@
         <item name="android:paddingBottom">4dp</item>
         <item name="android:textColor">@color/black</item>
     </style>
+    <style name="taxi_fee">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_marginTop">1px</item>
+    </style>
+    <style name="taxi_fee_textStyle">
+        <item name="android:padding">10dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">@dimen/textSize_dp_30px</item>
+        <item name="android:textColor">@color/textColorGray</item>
+    </style>
+    <style name="taxi_fee_textStyle_title">
+        <item name="android:padding">10dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">12dp</item>
+        <item name="android:textColor">@color/textColorGray</item>
+    </style>
     <!--
     <item name="android:paddingLeft"></item>
     <item name="android:paddingRight"></item>

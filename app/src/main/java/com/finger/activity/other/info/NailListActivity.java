@@ -13,7 +13,10 @@ public class NailListActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nail_list);
-        getSupportFragmentManager().beginTransaction().add(R.id.frag_container, new NailItemListFragment()).commit();
+        NailItemListFragment nailItemListFragment = new NailItemListFragment();
+        Bundle data=new Bundle();
+        nailItemListFragment.setArguments(data);
+        getSupportFragmentManager().beginTransaction().add(R.id.frag_container, nailItemListFragment).commit();
     }
 
 

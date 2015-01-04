@@ -52,6 +52,21 @@ public class NailItem extends LinearLayout {
         return infoBean;
     }
 
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        int width = MeasureSpec.getSize(widthMeasureSpec);
+        int width_mode=MeasureSpec.getMode(widthMeasureSpec);
+        if (width_mode==MeasureSpec.EXACTLY){
+            imageSize=width;
+            setMeasuredDimension(width,width);
+            int childSpec = MeasureSpec.makeMeasureSpec(width, MeasureSpec.EXACTLY);
+            getChildAt(0).measure(childSpec,childSpec);
+        }else{
+            super.onMeasure(widthMeasureSpec,heightMeasureSpec);
+        }
+    }
+
+
     /**
      * 设置一个NailInfoBean展示
      *

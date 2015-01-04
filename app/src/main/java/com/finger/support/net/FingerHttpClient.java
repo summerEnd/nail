@@ -3,6 +3,9 @@ package com.finger.support.net;
 import com.finger.BuildConfig;
 import com.finger.support.Constant;
 import com.finger.FingerApp;
+import com.finger.support.entity.ArtistRole;
+import com.finger.support.entity.RoleBean;
+import com.finger.support.entity.UserRole;
 import com.finger.support.util.ContextUtil;
 import com.finger.support.util.Logger;
 import com.loopj.android.http.RequestParams;
@@ -44,7 +47,12 @@ public class FingerHttpClient {
         params.put("uuid", uuId);
         params.put("version", getVersion());
         params.put("os", "android");
-        params.put("uid", ((FingerApp) getContext()).getUser().id);
+        RoleBean user=((FingerApp) getContext()).getUser();
+        if (user instanceof ArtistRole){
+            params.put("mid",user.id );
+        }else if(user instanceof UserRole){
+            params.put("uid", user.id);
+        }
         SHttpClient.post(host + method, params, new WebJsonHttpHandler() {
             @Override
             public void onSuccess(JSONObject object, JSONArray array) {

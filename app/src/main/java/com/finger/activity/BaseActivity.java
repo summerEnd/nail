@@ -188,62 +188,6 @@ public class BaseActivity extends FragmentActivity implements View.OnClickListen
         }
     }
 
-    public void setStars(RatingWidget ratingWidget, int score) {
-        LinkedList<ArtistGrade> grades = (LinkedList<ArtistGrade>) FileUtil.readFile(this, Constant.FILE_ARTIST_GRADE);
-        int grade = 0;
-        for (ArtistGrade artistGrade : grades) {
-            if (artistGrade.contains(score)) {
-                grade = artistGrade.value;
-                break;
-            }
-        }
-        int level = grade / 5 + 1;
-        int stars = grade % 5;
-
-        if (grade % 5 == 0) {
-            level -= 1;
-            stars = 5;
-        }
-
-        int starId;
-        switch (level) {
-            case 1: {
-                starId = R.drawable.star1;
-                break;
-            }
-
-            case 2: {
-                starId = R.drawable.star2;
-                break;
-            }
-
-            case 3: {
-                starId = R.drawable.star3;
-                break;
-            }
-
-            case 4: {
-                starId = R.drawable.star4;
-                break;
-            }
-
-            case 5: {
-                starId = R.drawable.star5;
-                break;
-            }
-
-            default: {
-                starId = R.drawable.star1;
-                break;
-            }
-
-        }
-
-        ratingWidget.setStarRecourseId(starId);
-        ratingWidget.setNum_star(stars);
-    }
-
-
     /**
      * 当前登录的用户发生改变时，会调用这个方法
      *
