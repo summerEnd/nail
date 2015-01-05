@@ -11,6 +11,7 @@
         android:layout_marginLeft="@dimen/activity_horizontal_margin"
         android:layout_marginRight="@dimen/activity_horizontal_margin"
         android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:stretchColumns="1"
         android:background="@drawable/corner_frame_white_solid"
         android:layout_height="wrap_content">
 
@@ -36,6 +37,7 @@
 
             <EditText
                 android:id="@+id/edit_price"
+                android:inputType="numberDecimal"
                 android:hint="请输入价格"
                 style="@style/tab_item_value_style" />
         </TableRow>
@@ -79,7 +81,6 @@
             style="@style/tab_item_style_publish"
             android:background="@color/white"
             android:textSize="@dimen/textSize_dp_28px"
-
             android:textColor="@color/textColorGray"
             android:hint="请输入详细内容" />
 

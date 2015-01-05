@@ -12,7 +12,7 @@ import android.widget.RadioGroup;
 import com.baidu.location.BDLocation;
 import com.finger.activity.BaseActivity;
 import com.finger.R;
-import com.finger.activity.other.info.ChooseArtistList;
+import com.finger.activity.other.info.ArtistList;
 import com.finger.support.api.BaiduAPI;
 import com.finger.support.entity.OrderBean;
 import com.finger.support.entity.OrderManager;
@@ -126,7 +126,7 @@ public class PlanActivity extends BaseActivity implements RadioGroup.OnCheckedCh
             }
 
             if (bean.nail_id == null) {
-                startActivity(new Intent(getActivity(), ChooseArtistList.class));
+                startActivity(new Intent(getActivity(), ArtistList.class));
             } else {
                 startActivity(new Intent(getActivity(), OrderConfirm.class));
             }

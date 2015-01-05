@@ -37,6 +37,7 @@ import java.util.ArrayList;
 public class LocationActivity extends BaseActivity implements AdapterView.OnItemClickListener {
     ListView listView;
     CheckedTextView tv_gps_city;
+    ArrayList<CityBean> cities;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,24 +46,41 @@ public class LocationActivity extends BaseActivity implements AdapterView.OnItem
         listView = (ListView) findViewById(R.id.listView);
         View headView = View.inflate(this, R.layout.my_location_head, null);
         tv_gps_city = (CheckedTextView) headView.findViewById(R.id.tv_gps_city);
-        BDLocation location = BaiduAPI.mBDLocation;
         //拦截headView点击事件
         headView.findViewById(R.id.tv_title_service_city).setOnClickListener(this);
         headView.findViewById(R.id.tv_title_gps).setOnClickListener(this);
-        if (location != null) {
-            tv_gps_city.setText(location.getCity());
-            tv_gps_city.setChecked(true);
-        } else {
-            tv_gps_city.setText(getString(R.string.location_failed));
-            tv_gps_city.setChecked(false);
-        }
+        setLocationCity();
         tv_gps_city.setOnClickListener(this);
         listView.addHeaderView(headView);
-        ArrayList<CityBean> cities = (ArrayList<CityBean>) FileUtil.readFile(this, Constant.FILE_CITIES);
+        cities = (ArrayList<CityBean>) FileUtil.readFile(this, Constant.FILE_CITIES);
         if (cities != null) {
             setListAdapter(cities);
         } else {
             getCities();
+        }
+    }
+
+    void setLocationCity() {
+        BDLocation location = BaiduAPI.mBDLocation;
+
+        if (location != null) {
+            tv_gps_city.setText(location.getCity());
+            tv_gps_city.setChecked(true);
+        } else {
+            BaiduAPI.locate(new BaiduAPI.Callback() {
+                @Override
+                public void onLocated(BDLocation bdLocation) {
+                    if (bdLocation == null) {
+                        tv_gps_city.setText(getString(R.string.location_failed));
+                        tv_gps_city.setChecked(false);
+                    } else {
+                        tv_gps_city.setText(bdLocation.getCity());
+                        tv_gps_city.setChecked(true);
+                    }
+
+                }
+            });
+
         }
     }
 
@@ -84,7 +102,7 @@ public class LocationActivity extends BaseActivity implements AdapterView.OnItem
             @Override
             public void onSuccess(JSONObject o) {
                 try {
-                    ArrayList<CityBean> cities = new ArrayList<CityBean>();
+                    cities = new ArrayList<CityBean>();
                     JSONObject data = o.getJSONObject("data");
                     JSONArray json_cityList = data.getJSONArray("city_list");
                     JsonUtil.getArray(json_cityList, CityBean.class, cities);
@@ -103,22 +121,45 @@ public class LocationActivity extends BaseActivity implements AdapterView.OnItem
 
         switch (v.getId()) {
             case R.id.tv_gps_city: {
-                CheckedTextView checked = (CheckedTextView) listView.getChildAt(listView.getCheckedItemPosition());
-                if (checked != null) {
-                    checked.setChecked(false);
-                }
-                listView.clearChoices();
-
-                tv_gps_city.setChecked(true);
+                returnCity(check(-1));
                 break;
             }
         }
         super.onClick(v);
     }
 
+    /**
+     * @param position -1代表当前定位城市，0~max代表开通城市在列表中的位置
+     */
+    CityBean check(int position) {
+        CityBean city;
+
+        if (position < 0) {
+            CheckedTextView checked = (CheckedTextView) listView.getChildAt(listView.getCheckedItemPosition());
+            if (checked != null) {
+                checked.setChecked(false);
+            }
+            listView.clearChoices();
+            tv_gps_city.setChecked(true);
+            city = getApp().getCurCity();
+        } else {
+            //列表的check事件由sdk自动完成
+            tv_gps_city.setChecked(false);
+
+            city = cities.get(position);
+        }
+        return city;
+    }
+
+    void returnCity(CityBean bean) {
+        getApp().setCurCity(bean);
+        setResult(RESULT_OK);
+        finish();
+    }
+
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        tv_gps_city.setChecked(false);
-        Logger.d("checked:" + listView.getCheckedItemPosition());
+        //listView的点击事件是从headView开始的，而check()方法是不包括headView的
+        returnCity(check(position-1));
     }
 }

@@ -107,5 +107,11 @@
     <string name="fee_1015"><![CDATA[10<X≤15]]></string>
     <string name="fee_15_20"><![CDATA[15<X≤20]]></string>
     <string name="fee_20"><![CDATA[X>20]]></string>
+    <string name="load_failed">加载失败</string>
+    <string name="modify_ok">修改成功！</string>
+    <string name="artist_avatar_upload">美甲师的头像经过审核后才能显示。</string>
+    <string name="please_input_image">请选择图片！</string>
+    <string name="collect_ok">收藏成功！</string>
+    <string name="cancel_ok">取消成功</string>
 
 </resources>

@@ -57,15 +57,15 @@
                     android:textColor="@color/textColorGray"
                     android:text="900" />
 
-                <TextView
-                    android:layout_below="@id/tv_price"
+                <CheckBox
+                    android:id="@+id/collect"
                     android:layout_alignParentRight="true"
-                    android:textSize="@dimen/textSize_dp_36px"
-                    android:layout_alignBaseline="@id/tv_shop_price"
                     android:layout_width="wrap_content"
-                    android:drawableLeft="@drawable/ic_collect"
+                    android:scaleType="centerInside"
+                    android:button="@drawable/ic_collect"
+                    android:layout_alignBottom="@+id/tv_shop_price"
                     android:layout_height="wrap_content"
-                    android:text="收藏" />
+                    />
             </RelativeLayout>
 
             <TextView style="@style/horizontal_line" />

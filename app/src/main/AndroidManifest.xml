@@ -75,6 +75,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.other.setting.SettingActivity"
+            android:label="@string/settings"
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.MainActivity"
@@ -112,7 +113,7 @@
             android:screenOrientation="portrait"
             android:label="@string/nail_items" />
         <activity
-            android:name=".activity.other.info.ChooseArtistList"
+            android:name=".activity.other.info.ArtistList"
             android:screenOrientation="portrait"
             android:label="@string/choose_artist" />
         <activity

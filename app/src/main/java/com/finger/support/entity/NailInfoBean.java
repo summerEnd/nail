@@ -19,5 +19,6 @@ public class NailInfoBean {
     public int star_num;
     public int star_level;
     public int comment_num;
+    public int collection_id;
     public ArtistRole seller_info;
 }

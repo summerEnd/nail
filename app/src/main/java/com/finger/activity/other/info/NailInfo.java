@@ -1,10 +1,15 @@
 package com.finger.activity.other.info;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.finger.R;
@@ -17,7 +22,10 @@ import com.finger.support.entity.OrderBean;
 import com.finger.support.entity.OrderManager;
 import com.finger.support.net.FingerHttpClient;
 import com.finger.support.net.FingerHttpHandler;
+import com.finger.support.util.ContextUtil;
+import com.finger.support.util.DialogUtil;
 import com.finger.support.util.JsonUtil;
+import com.finger.support.widget.ItemUtil;
 import com.finger.support.widget.RatingWidget;
 import com.loopj.android.http.RequestParams;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
@@ -44,6 +52,7 @@ public class NailInfo extends BaseActivity {
     RatingWidget ratingWidget;
     ImageView cover;
     ImageView iv_avatar;
+    CheckBox cb_collect;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,25 +69,39 @@ public class NailInfo extends BaseActivity {
         ratingWidget = (RatingWidget) findViewById(R.id.rating);
         cover = (ImageView) findViewById(R.id.cover);
         iv_avatar = (ImageView) findViewById(R.id.iv_avatar);
+        cb_collect = (CheckBox) findViewById(R.id.collect);
+        cb_collect.setOnClickListener(this);
         TextPainUtil.addDeleteLine(tv_shop_price);
         getData();
     }
 
     void getData() {
         RequestParams params = new RequestParams();
-        params.put("product_id", getIntent().getIntExtra("id",-1));
+        params.put("product_id", getIntent().getIntExtra("id", -1));
         FingerHttpClient.post("getProductDetail", params, new FingerHttpHandler() {
-            @Override
-            public void onSuccess(JSONObject o) {
-                try {
-                    bean = JsonUtil.get(o.getString("data"), NailInfoBean.class);
-                    setData(bean);
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                    @Override
+                    public void onSuccess(JSONObject o) {
+                        try {
+                            bean = JsonUtil.get(o.getString("data"), NailInfoBean.class);
+                            setData(bean);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    @Override
+                    public void onFail(JSONObject o) {
+                        DialogUtil.showNetFail(NailInfo.this).setOnDismissListener(new DialogInterface.OnDismissListener() {
+                            @Override
+                            public void onDismiss(DialogInterface dialog) {
+                                onBackPressed();
+                            }
+                        });
+                    }
                 }
-            }
-        });
+        );
     }
+
 
     public void setData(NailInfoBean bean) {
         if (bean == null) return;
@@ -89,17 +112,20 @@ public class NailInfo extends BaseActivity {
         tv_info_title.setText(bean.name);
         tv_info_text.setText(bean.description);
         tv_comment_num.setText(getString(R.string.d_num, bean.comment_num));
-        ImageManager.loadImage(bean.cover,cover);
+        ImageManager.loadImage(bean.cover, cover);
+        if (!TextUtils.isEmpty(bean.cover))
+            cover.setLayoutParams(new LinearLayout.LayoutParams(ItemUtil.halfScreen * 2, ItemUtil.halfScreen * 2));
+        cb_collect.setChecked(bean.collection_id != 0);
 
-        ArtistRole artist=bean.seller_info;
-        setArtistZGS(artist.professional,artist.talk,artist.on_time);
+        ArtistRole artist = bean.seller_info;
+        setArtistZGS(artist.professional, artist.talk, artist.on_time);
         ratingWidget.setScore(artist.score);
         tv_artist_name.setText(artist.username);
 
-        ImageManager.loadImage(artist.avatar,new SimpleImageLoadingListener(){
+        ImageManager.loadImage(artist.avatar, new SimpleImageLoadingListener() {
             @Override
             public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-                iv_avatar.setImageBitmap(ImageUtil.roundBitmap(loadedImage,getResources().getDimensionPixelSize(R.dimen.avatar_size)));
+                iv_avatar.setImageBitmap(ImageUtil.roundBitmap(loadedImage, getResources().getDimensionPixelSize(R.dimen.avatar_size)));
             }
         });
 
@@ -121,11 +147,61 @@ public class NailInfo extends BaseActivity {
                 }
                 break;
             }
+            case R.id.collect: {
+                //注意：CheckBox先改变状态，再触发onClick
+                if (bean == null) return;
+                if (!cb_collect.isChecked()) {
+                    cancel(bean.collection_id);
+                } else {
+                    addCollection(bean.id);
+                }
+                break;
+            }
         }
         super.onClick(v);
     }
 
+    /**
+     * @param id 作品的id
+     */
+    void addCollection(int id) {
+        RequestParams params = new RequestParams();
+        params.put("product_id", id);
+        params.put("uid", id);
+        FingerHttpClient.post("addCollection", params, new FingerHttpHandler() {
+            @Override
+            public void onSuccess(JSONObject o) {
+                try {
+                    bean.collection_id = o.getInt("data");
+                    ContextUtil.toast(getString(R.string.collect_ok));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
 
+            @Override
+            public void onFail(JSONObject o) {
+                cb_collect.setChecked(false);
+            }
+        });
+    }
 
+    /**
+     * @param id 作品的collection_id
+     */
+    void cancel(int id) {
+        RequestParams params = new RequestParams();
+        params.put("collection_id", id);
+        FingerHttpClient.post("cancelCollection", params, new FingerHttpHandler() {
+            @Override
+            public void onSuccess(JSONObject o) {
+                ContextUtil.toast(getString(R.string.cancel_ok));
+            }
 
+            @Override
+            public void onFail(JSONObject o) {
+                cb_collect.setChecked(true);
+            }
+        });
+    }
 }

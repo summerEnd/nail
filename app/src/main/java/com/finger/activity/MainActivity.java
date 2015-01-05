@@ -185,7 +185,7 @@ public class MainActivity extends BaseActivity {
     }
 
     void showFragment(int index) {
-        Logger.i_format("index:%d  cur:%d",index,curIndex);
+//        Logger.i_format("index:%d  cur:%d",index,curIndex);
         if (curIndex == index) {
             return;
         }

@@ -15,18 +15,49 @@ import android.widget.TextView;
 
 import com.finger.activity.BaseActivity;
 import com.finger.R;
+import com.finger.support.entity.RoleBean;
+import com.finger.support.net.FingerHttpClient;
+import com.finger.support.net.FingerHttpHandler;
+import com.finger.support.util.JsonUtil;
+import com.loopj.android.http.RequestParams;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static android.view.ViewGroup.LayoutParams;
 
 /**
  * Created by acer on 2014/12/16.
  */
-public class MyDiscountActivity extends BaseActivity implements RadioGroup.OnCheckedChangeListener,ViewPager.OnPageChangeListener {
+public class MyDiscountActivity extends BaseActivity implements RadioGroup.OnCheckedChangeListener, ViewPager.OnPageChangeListener {
     ViewPager pager;
     ArrayList<View> views = new ArrayList<View>();
     RadioGroup rg;
+    List<CouponBean> usedCoupons = new ArrayList<CouponBean>();
+    List<CouponBean> freshCoupons = new ArrayList<CouponBean>();
+    DiscountAdapter usedAdapter;
+    DiscountAdapter freshAdapter;
+    /**
+     * 已使用
+     */
+    final int STATUS_USED = 1;
+    /**
+     * 未使用
+     */
+    final int STATUS_FRESH = 0;
+
+    class CouponBean {
+        int id;
+        String title;
+        String start_time;
+        String stop_time;
+        String price;
+        int status;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,30 +69,64 @@ public class MyDiscountActivity extends BaseActivity implements RadioGroup.OnChe
         DiscountPageAdapter adapter = new DiscountPageAdapter();
         pager.setAdapter(adapter);
 
-        rg= (RadioGroup) findViewById(R.id.rg);
+        rg = (RadioGroup) findViewById(R.id.rg);
         rg.setOnCheckedChangeListener(this);
+        getFreshCoupons();
+    }
 
+    void getFreshCoupons() {
+        RoleBean user = getApp().getUser();
+        RequestParams params = new RequestParams();
+        params.put("uid", user.id);
+        params.put("status", STATUS_FRESH);
+        FingerHttpClient.post("getCouponList", params, new FingerHttpHandler() {
+            @Override
+            public void onSuccess(JSONObject o) {
+                try {
+                    JsonUtil.getArray(o.getJSONArray("data"), CouponBean.class, freshCoupons);
+                    freshAdapter.notifyDataSetChanged();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
+    void getUsedCoupons() {
+        RoleBean user = getApp().getUser();
+        RequestParams params = new RequestParams();
+        params.put("uid", user.id);
+        params.put("status", STATUS_USED);
+        FingerHttpClient.post("getCouponList", params, new FingerHttpHandler() {
+            @Override
+            public void onSuccess(JSONObject o) {
+                try {
+                    JsonUtil.getArray(o.getJSONArray("data"), CouponBean.class, usedCoupons);
+                    usedAdapter.notifyDataSetChanged();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
     private void addView() {
+        usedAdapter=new DiscountAdapter(this,usedCoupons);
+        freshAdapter=new DiscountAdapter(this,freshCoupons);
 
         {
             ListView listView = new ListView(this);
             listView.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
             listView.setDivider(new ColorDrawable(0));
             listView.setSelector(new ColorDrawable(0));
-            DiscountAdapter adapter = new DiscountAdapter(this);
-            adapter.isExpire = false;
-            listView.setAdapter(adapter);
+            listView.setAdapter(freshAdapter);
             views.add(listView);
         }
         {
             ListView listView = new ListView(this);
             listView.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
             listView.setDivider(new ColorDrawable(0));
-            DiscountAdapter adapter = new DiscountAdapter(this);
-            adapter.isExpire = true;
-            listView.setAdapter(adapter);
+            listView.setAdapter(usedAdapter);
             views.add(listView);
         }
     }
@@ -87,11 +152,16 @@ public class MyDiscountActivity extends BaseActivity implements RadioGroup.OnChe
 
     @Override
     public void onPageSelected(int i) {
-        if (i==0){
-            rg.check( R.id.rb_remain);
-
-        }else{
-            rg.check( R.id.rb_expired);
+        if (i == 0) {
+            rg.check(R.id.rb_remain);
+            if (freshCoupons.size() == 0) {
+                getFreshCoupons();
+            }
+        } else {
+            rg.check(R.id.rb_expired);
+            if (usedCoupons.size() == 0) {
+                getUsedCoupons();
+            }
         }
     }
 
@@ -126,15 +196,16 @@ public class MyDiscountActivity extends BaseActivity implements RadioGroup.OnChe
 
     class DiscountAdapter extends BaseAdapter {
         LayoutInflater inflater;
-        boolean isExpire;
+        List<CouponBean> beans;
 
-        DiscountAdapter(Context context) {
+        DiscountAdapter(Context context, List<CouponBean> beans) {
+            this.beans = beans;
             inflater = LayoutInflater.from(context);
         }
 
         @Override
         public int getCount() {
-            return 12;
+            return beans.size();
         }
 
         @Override
@@ -157,8 +228,8 @@ public class MyDiscountActivity extends BaseActivity implements RadioGroup.OnChe
             } else {
                 holder = (ViewHolder) convertView.getTag();
             }
-
-            holder.tv_expire.setVisibility(isExpire ? View.VISIBLE : View.INVISIBLE);
+            CouponBean bean = beans.get(position);
+            holder.tv_expire.setVisibility(bean.status == STATUS_USED ? View.VISIBLE : View.INVISIBLE);
 
             convertView.setTag(holder);
             return convertView;

@@ -55,16 +55,13 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <ImageView
+            <CheckBox
+                android:scaleType="centerInside"
+                android:id="@+id/attention"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_collect" />
+                android:button="@drawable/ic_attention" />
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_five_star" />
         </LinearLayout>
 
         <LinearLayout

@@ -17,15 +17,12 @@ import android.widget.TextView;
 
 import com.finger.activity.BaseActivity;
 import com.finger.R;
-import com.finger.activity.other.info.ArtistInfo;
-import com.finger.support.entity.ArtistRole;
 import com.finger.support.net.FingerHttpClient;
 import com.finger.support.net.FingerHttpHandler;
 import com.finger.support.util.JsonUtil;
 import com.finger.support.util.Logger;
 import com.finger.support.widget.RatingWidget;
 import com.loopj.android.http.RequestParams;
-import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 import com.sp.lib.util.DisplayUtil;
 import com.sp.lib.util.ImageManager;
@@ -35,10 +32,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
-public class ChooseArtistList extends BaseActivity implements AdapterView.OnItemClickListener {
+public class ArtistList extends BaseActivity implements AdapterView.OnItemClickListener {
     ListView listView;
     PopupWindow orderList;
     int width;
@@ -77,7 +73,7 @@ public class ChooseArtistList extends BaseActivity implements AdapterView.OnItem
             public void onSuccess(JSONObject o) {
                 try {
                     JsonUtil.getArray(o.getJSONArray("data"),ArtistListBean.class,beans);
-                    listView.setAdapter(new ArtistAdapter(ChooseArtistList.this,beans));
+                    listView.setAdapter(new ArtistAdapter(ArtistList.this,beans));
 
                 } catch (JSONException e) {
                     e.printStackTrace();

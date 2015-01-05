@@ -2,6 +2,8 @@ package com.finger.activity.user.my;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -20,7 +22,10 @@ import com.finger.activity.other.setting.SettingActivity;
 import com.finger.support.annotion.User;
 import com.finger.support.entity.RoleBean;
 import com.finger.support.entity.UserRole;
+import com.nostra13.universalimageloader.core.assist.FailReason;
+import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 import com.sp.lib.util.ImageManager;
+import com.sp.lib.util.ImageUtil;
 
 @User
 public class MyFragment extends Fragment implements View.OnClickListener {
@@ -62,9 +67,33 @@ public class MyFragment extends Fragment implements View.OnClickListener {
         }
     }
 
-    void setUserInfo(){
-        RoleBean role= ((FingerApp) getActivity().getApplication()).getUser();
+    void setUserInfo() {
+        RoleBean role = ((FingerApp) getActivity().getApplication()).getUser();
         tv_nick_name.setText(role.username);
+        loadAvatar(role.avatar);
+    }
+
+    void loadAvatar(String uri) {
+        ImageManager.loadImage(uri, new SimpleImageLoadingListener() {
+            @Override
+            public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+                if (loadedImage == null) {
+                    loadedImage = BitmapFactory.decodeResource(getResources(), R.drawable.default_user);
+                }
+                setImage(loadedImage);
+            }
+
+            @Override
+            public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
+                Bitmap avatar = BitmapFactory.decodeResource(getResources(), R.drawable.default_user);
+                setImage(avatar);
+            }
+
+            void setImage(Bitmap bitmap) {
+                int radius = getResources().getDimensionPixelSize(R.dimen.avatar_center_size) / 2;
+                avatar.setImageBitmap(ImageUtil.roundBitmap(bitmap, radius));
+            }
+        });
     }
 
     @Override

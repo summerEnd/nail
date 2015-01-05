@@ -15,12 +15,20 @@ import android.widget.GridView;
 
 import com.finger.activity.BaseActivity;
 import com.finger.R;
+import com.finger.support.entity.NailInfoBean;
 import com.finger.support.entity.NailItemBean;
+import com.finger.support.entity.RoleBean;
+import com.finger.support.net.FingerHttpClient;
+import com.finger.support.net.FingerHttpHandler;
+import com.finger.support.util.JsonUtil;
 import com.finger.support.widget.ItemUtil;
 import com.finger.support.widget.NailItem;
 import com.finger.support.util.Logger;
+import com.loopj.android.http.RequestParams;
 
 import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.text.DecimalFormat;
 import java.util.LinkedList;
@@ -42,23 +50,23 @@ public class MyCollectionActivity extends BaseActivity {
         v.setVisibility(View.INVISIBLE);
         grid = (GridView) findViewById(R.id.grid);
         adapter = new CollectAdapter(this);
-        getData();
         grid.setAdapter(adapter);
+        getData();
     }
 
     void getData() {
-        try {
-            JSONArray array = new JSONArray();
-            for (int i=0;i<10;i++){
-                NailItemBean bean=new NailItemBean();
-                bean.title="title"+i;
-                bean.price= String.valueOf((i+3)*6);
-                beans.add(bean);
+        RequestParams params = new RequestParams();
+        FingerHttpClient.post("getCollectionList", params, new FingerHttpHandler() {
+            @Override
+            public void onSuccess(JSONObject o) {
+                try {
+                    JsonUtil.getArray(o.getJSONArray("data"), NailItemBean.class, beans);
+                    adapter.notifyDataSetChanged();
+                } catch (JSONException e) {
+                    Logger.w(e.getLocalizedMessage());
+                }
             }
-            adapter.notifyDataSetChanged();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        });
     }
 
     @Override
@@ -197,10 +205,7 @@ public class MyCollectionActivity extends BaseActivity {
             holder.cb.setTag(bean);
             holder.item.getContentView().setTag(bean);
             holder.cb.setChecked(bean.selected);
-
-
-            holder.item.setTitle(bean.title);
-            holder.item.setPrice(bean.price);
+            holder.item.setInfoBean(bean);
             convertView.setTag(holder);
             return convertView;
         }

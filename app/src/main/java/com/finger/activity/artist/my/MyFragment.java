@@ -14,6 +14,7 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.finger.FingerApp;
 import com.finger.R;
 import com.finger.activity.BaseActivity;
 import com.finger.activity.other.common.MyCareActivity;
@@ -77,31 +78,12 @@ public class MyFragment extends Fragment implements View.OnClickListener {
         role = (ArtistRole) ((BaseActivity) getActivity()).getApp().getUser();
 
         findIds(v);
-        getInfo();
         setData(role);
+        getData();
         return v;
     }
 
-    void getInfo() {
 
-        RequestParams params = new RequestParams();
-        final int id = role.id;
-        params.put("mid", role.id);
-        FingerHttpClient.post("getSellerDetail", params, new FingerHttpHandler() {
-            @Override
-            public void onSuccess(JSONObject o) {
-                try {
-                    role = JsonUtil.get(o.getString("data"), ArtistRole.class);
-                    role.id = id;
-                    ((BaseActivity) getActivity()).getApp().setUser(role);
-                    setData(role);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                getData();
-            }
-        });
-    }
 
     void setData(ArtistRole bean) {
         //设置头像
@@ -124,13 +106,14 @@ public class MyFragment extends Fragment implements View.OnClickListener {
     }
 
     void getData() {
-        ArtistRole role = (ArtistRole) ((BaseActivity) getActivity()).getApp().getUser();
+        FingerApp app = ((BaseActivity) getActivity()).getApp();
+        ArtistRole role = (ArtistRole) app.getUser();
         RequestParams params = new RequestParams();
         JSONObject condition = new JSONObject();
         try {
             condition.put("sort", sort);//（normal / price_desc / price_asc）
             condition.put("price", price);// (40 - 80 之间)
-            condition.put("city_code", BaiduAPI.getCityCode());//(百度城市代码)
+            condition.put("city_code", app.getCurCity().city_code);//(百度城市代码)
             condition.put("mid", role.id);// (美甲师id);
         } catch (JSONException e) {
             e.printStackTrace();

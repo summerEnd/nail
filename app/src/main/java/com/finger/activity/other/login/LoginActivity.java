@@ -14,12 +14,14 @@ import android.widget.RadioGroup;
 
 import com.finger.activity.BaseActivity;
 import com.finger.R;
+import com.finger.support.annotion.Artist;
 import com.finger.support.entity.ArtistRole;
 import com.finger.support.entity.RoleBean;
 import com.finger.support.entity.UserRole;
 import com.finger.support.Constant;
 import com.finger.support.net.FingerHttpClient;
 import com.finger.support.net.FingerHttpHandler;
+import com.finger.support.util.JsonUtil;
 import com.finger.support.widget.EditItem;
 import com.finger.support.util.ContextUtil;
 import com.loopj.android.http.RequestParams;
@@ -72,19 +74,19 @@ public class LoginActivity extends BaseActivity implements RadioGroup.OnCheckedC
             public void onSuccess(JSONObject o) {
 
                 RoleBean bean;
-
-                if (type.equals(Constant.LOGIN_TYPE_ARTIST)) {
-                    bean = new ArtistRole();
-                } else {
-                    bean = new UserRole();
-                }
-                bean.mobile = mobile;
-                bean.password = password;
+                JSONObject user= null;
                 try {
-                    bean.id = o.getInt("data");
+                    user = o.getJSONObject("data");
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+                if (type.equals(Constant.LOGIN_TYPE_ARTIST)) {
+                    bean = JsonUtil.get(user.toString(), ArtistRole.class);
+                } else {
+                    bean = JsonUtil.get(user.toString(), UserRole.class);
+                }
+                bean.password = password;
+
                 getApp().setUser(bean);
                 setResult(RESULT_OK);
                 finish();

@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 
+import com.finger.FingerApp;
 import com.finger.R;
 import com.finger.activity.BaseActivity;
 import com.finger.support.api.BaiduAPI;
@@ -43,9 +44,10 @@ public class SearchResult extends BaseActivity {
     void getData() {
         RequestParams params = new RequestParams();
         JSONObject condition = new JSONObject();
+        FingerApp app =getApp();
         try {
             Intent intent = getIntent();
-            condition.put("city_code", BaiduAPI.getCityCode());//(百度城市代码)
+            condition.put("city_code", app.getCurCity().city_code);//(百度城市代码)
             condition.put("category_id", intent.getIntExtra("category_id", -1));
             condition.put("keywords", intent.getStringExtra("keywords"));
         } catch (JSONException e) {

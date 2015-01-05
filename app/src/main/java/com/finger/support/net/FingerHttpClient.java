@@ -48,11 +48,12 @@ public class FingerHttpClient {
         params.put("version", getVersion());
         params.put("os", "android");
         RoleBean user=((FingerApp) getContext()).getUser();
-        if (user instanceof ArtistRole){
-            params.put("mid",user.id );
-        }else if(user instanceof UserRole){
-            params.put("uid", user.id);
-        }
+//        if (user instanceof ArtistRole){
+//            params.put("mid",user.id );
+//        }else if(user instanceof UserRole){
+//            params.put("uid", user.id);
+//        }
+        params.put("uid", user.id);
         SHttpClient.post(host + method, params, new WebJsonHttpHandler() {
             @Override
             public void onSuccess(JSONObject object, JSONArray array) {

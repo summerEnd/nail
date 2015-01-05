@@ -3,7 +3,9 @@ package com.sp.lib.widget;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
+import android.provider.MediaStore;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,24 +14,33 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.loopj.android.http.RequestParams;
 import com.sp.lib.R;
 import com.sp.lib.activity.PhotoAlbumActivity;
 import com.sp.lib.util.DisplayUtil;
+
+import org.json.JSONObject;
 
 /**
  * Created by acer on 2014/12/26.
  */
 public class AddImageItem extends HorizontalScrollView {
 
+    public interface Callback{
+        public void onAdd(Bitmap bitmap);
+    }
+
     /**
      * 图片的宽度 dp
      */
-    private int next_image_width = 0;
+    private int next_image_width = 120;
     /**
      * 图片的高度dp
      */
-    private int next_image_height = 0;
+    private int next_image_height = 120;
     private final int REQUEST_CODE = 7715;
+
+    Callback mCallback;
     LinearLayout layout;
     ImageView add;
 
@@ -47,9 +58,9 @@ public class AddImageItem extends HorizontalScrollView {
         addView(layout);
         layout.setOrientation(LinearLayout.HORIZONTAL);
         add = new ImageView(context);
-        int width= (int) DisplayUtil.dp(100,getResources());
-        int height= (int) DisplayUtil.dp(100,getResources());
-        add.setLayoutParams(new ViewGroup.LayoutParams(width,height));
+        int width = (int) DisplayUtil.dp(100, getResources());
+        int height = (int) DisplayUtil.dp(100, getResources());
+        add.setLayoutParams(new ViewGroup.LayoutParams(width, height));
         add.setScaleType(ImageView.ScaleType.CENTER_CROP);
         add.setImageResource(R.drawable.iv_add_image);
         add.setOnClickListener(iv_add_click_listener);
@@ -78,21 +89,41 @@ public class AddImageItem extends HorizontalScrollView {
             Activity context = (Activity) getContext();
             context.startActivityForResult(
                     new Intent(context, PhotoAlbumActivity.class)
-                            .putExtra(PhotoAlbumActivity.EXTRA_CAMERA_OUTPUT_HEIGHT, 80)
-                            .putExtra(PhotoAlbumActivity.EXTRA_CAMERA_OUTPUT_WIDTH, 80)
+                            .putExtra(PhotoAlbumActivity.EXTRA_CAMERA_OUTPUT_HEIGHT, next_image_height)
+                            .putExtra(PhotoAlbumActivity.EXTRA_CAMERA_OUTPUT_WIDTH, next_image_width)
                     , REQUEST_CODE);
 
         }
     };
 
+    public void stopAdd(){
+        add.setVisibility(GONE);
+    }
+
+    public void setCallback(Callback callback) {
+        this.mCallback = callback;
+    }
+
     private ImageView addImage(Context context, Uri uri) {
+        Bitmap bitmap = null;
+        try {
+            // 读取uri所在的图片
+            bitmap = MediaStore.Images.Media.getBitmap(context.getContentResolver(), uri);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if (mCallback!=null){
+            mCallback.onAdd(bitmap);
+        }
         ImageView imageView = new ImageView(context);
-        imageView.setImageURI(uri);
-        imageView.setLayoutParams(new LinearLayout.LayoutParams(add.getWidth(),add.getHeight()));
-        imageView.setPadding(4,4,4,4);
+        imageView.setLayoutParams(new LinearLayout.LayoutParams(add.getWidth(), add.getHeight()));
+        imageView.setPadding(4, 4, 4, 4);
+        imageView.setImageBitmap(bitmap);
         layout.addView(imageView, 0);
         return imageView;
     }
+
+
 
     /**
      * @param requestCode

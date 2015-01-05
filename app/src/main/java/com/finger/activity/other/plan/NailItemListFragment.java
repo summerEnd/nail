@@ -19,7 +19,9 @@ import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import com.finger.FingerApp;
 import com.finger.R;
+import com.finger.activity.BaseActivity;
 import com.finger.support.adapter.NailListAdapter;
 import com.finger.support.api.BaiduAPI;
 import com.finger.support.entity.NailInfoBean;
@@ -59,14 +61,14 @@ public class NailItemListFragment extends Fragment implements View.OnClickListen
         return layout;
     }
 
-
     void getData() {
         RequestParams params = new RequestParams();
         JSONObject condition = new JSONObject();
+        FingerApp app = ((BaseActivity) getActivity()).getApp();
         try {
             condition.put("sort", sort);//（normal / price_desc / price_asc）
             condition.put("price", price);// (40 - 80 之间)
-            condition.put("city_code", BaiduAPI.getCityCode());//(百度城市代码)
+            condition.put("city_code", app.getCurCity().city_code);//(百度城市代码)
             Bundle args = getArguments();
             if (args != null) condition.put("mid", args.getInt("id", -1));// (美甲师id);
         } catch (JSONException e) {
@@ -143,9 +145,9 @@ public class NailItemListFragment extends Fragment implements View.OnClickListen
                     contentView.findViewById(R.id.confirm).setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            EditText from= (EditText) contentView.findViewById(R.id.edit_from);
-                            EditText to= (EditText) contentView.findViewById(R.id.edit_to);
-                            price=new StringBuilder()
+                            EditText from = (EditText) contentView.findViewById(R.id.edit_from);
+                            EditText to = (EditText) contentView.findViewById(R.id.edit_to);
+                            price = new StringBuilder()
                                     .append(from.getText().toString())
                                     .append("_")
                                     .append(to.getText().toString())

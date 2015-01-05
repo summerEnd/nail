@@ -10,6 +10,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,9 +23,10 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.baidu.location.BDLocation;
+import com.finger.FingerApp;
 import com.finger.R;
 import com.finger.activity.other.info.NailListActivity;
-import com.finger.activity.other.info.ChooseArtistList;
+import com.finger.activity.other.info.ArtistList;
 import com.finger.activity.other.plan.PlanActivity;
 import com.finger.support.Constant;
 import com.finger.support.api.BaiduAPI;
@@ -92,6 +94,7 @@ public class MainFragment extends Fragment implements View.OnClickListener {
                     JsonUtil.getArray(json_tags, HotTagBean.class, tags);
                     JsonUtil.getArray(json_ads, AdsBean.class, ads);
                     FileUtil.saveFile(getActivity(), Constant.FILE_CITIES, cities);
+
                     FileUtil.saveFile(getActivity(), Constant.FILE_TAGS, tags);
 
                     for (AdsBean bean : ads) {
@@ -111,6 +114,7 @@ public class MainFragment extends Fragment implements View.OnClickListener {
     }
 
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_home, null);
@@ -124,14 +128,23 @@ public class MainFragment extends Fragment implements View.OnClickListener {
         v.findViewById(R.id.title_search).setOnClickListener(this);
         title_city = (TextView) v.findViewById(R.id.title_city);
         title_city.setOnClickListener(this);
-
-        getLocation();
         requestIndexData();
-
         return v;
     }
 
-    void getLocation() {
+    @Override
+    public void onResume() {
+        super.onResume();
+        setCity();
+    }
+
+    void setCity() {
+        FingerApp app=((BaseActivity) getActivity()).getApp();
+        CityBean cityBean=app.getCurCity();
+        if (!TextUtils.isEmpty(cityBean.name)){
+            title_city.setText(cityBean.name);
+            return;
+        }
         BDLocation mBDLocation = BaiduAPI.mBDLocation;
         if (mBDLocation != null) {
             title_city.setText(mBDLocation.getCity());
@@ -250,7 +263,7 @@ public class MainFragment extends Fragment implements View.OnClickListener {
                 scale(v, new Runnable() {
                     @Override
                     public void run() {
-                        startActivity(new Intent(getActivity(), ChooseArtistList.class));
+                        startActivity(new Intent(getActivity(), ArtistList.class));
                     }
                 });
 

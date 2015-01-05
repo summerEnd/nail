@@ -1,13 +1,9 @@
 package com.finger.activity.artist.my;
 
 import android.content.Context;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.util.SparseArray;
-import android.util.SparseIntArray;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
@@ -20,11 +16,16 @@ import android.widget.TextView;
 
 import com.finger.R;
 import com.finger.activity.BaseActivity;
-import com.finger.support.util.ContextUtil;
+import com.finger.support.net.FingerHttpClient;
+import com.finger.support.net.FingerHttpHandler;
+import com.finger.support.util.JsonUtil;
 import com.finger.support.widget.ItemUtil;
+import com.loopj.android.http.RequestParams;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 
 /**
  * Created by acer on 2014/12/30.
@@ -34,13 +35,20 @@ public class PlanTimeActivity extends BaseActivity implements RadioGroup.OnCheck
     RadioGroup rg;
     RadioButton[] radioButtons = new RadioButton[4];
     ArrayList<View> views = new ArrayList<View>();
-    ArrayList<ArrayList<ScheduleBean>> schedules = new ArrayList<ArrayList<ScheduleBean>>();
+    ArrayList<TimeBlock> blocks = new ArrayList<TimeBlock>();
+
+    class TimeBlock {
+        int time1;
+        int time2;
+        int time3;
+        int time4;
+        int time5;
+        int time6;
+    }
 
     class ScheduleBean {
         String time;
-        String from;
-        String to;
-        public Boolean free;
+        boolean free;
     }
 
     @Override
@@ -56,31 +64,32 @@ public class PlanTimeActivity extends BaseActivity implements RadioGroup.OnCheck
 
         rg.setOnCheckedChangeListener(this);
         pager.setOnPageChangeListener(this);
-        getData();
-        addSchedule();
-        pager.setAdapter(new SchedulePageAdapter());
+
+        getTimeBlock(getApp().getUser().id);
     }
 
-    /**
-     * 获取数据
-     */
-    void getData() {
-        for (int i = 0; i < 4; i++) {
-            ArrayList<ScheduleBean> schedule = new ArrayList<ScheduleBean>();
-            for (int j = 0; j < 12; j++) {
-                ScheduleBean scheduleBean = new ScheduleBean();
-                scheduleBean.time = String.format("%d:00~%d:00", i * 2 + 9, i * 2 + 110);
-                scheduleBean.free = i == j;
-                schedule.add(scheduleBean);
+    void getTimeBlock(int mid) {
+        RequestParams params = new RequestParams();
+        params.put("mid", mid);
+        FingerHttpClient.post("getTimeBlock", params, new FingerHttpHandler() {
+            @Override
+            public void onSuccess(JSONObject o) {
+                try {
+                    JsonUtil.getArray(o.getJSONArray("data"), TimeBlock.class, blocks);
+                    buildViews();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
-            schedules.add(schedule);
-        }
+        });
     }
 
+
+
     /**
-     * 添加视图
+     * 用数据构建视图
      */
-    void addSchedule() {
+    void buildViews() {
         final int item_w = ItemUtil.halfScreen - 1;
         final int item_h = item_w / 2;
         int w = item_w * 2;
@@ -90,7 +99,7 @@ public class PlanTimeActivity extends BaseActivity implements RadioGroup.OnCheck
             GridView object = new GridView(this);
             GridView.LayoutParams lp = new AbsListView.LayoutParams(w, h);
             object.setLayoutParams(lp);
-            ScheduleItemAdapter adapter = new ScheduleItemAdapter(this, item_w, item_h, schedules.get(i));
+            ScheduleItemAdapter adapter = new ScheduleItemAdapter(this, item_w, item_h, blocks.get(i));
             object.setAdapter(adapter);
             object.setOnItemClickListener(adapter);
             object.setNumColumns(2);
@@ -100,6 +109,8 @@ public class PlanTimeActivity extends BaseActivity implements RadioGroup.OnCheck
             object.setVerticalScrollBarEnabled(false);
             views.add(object);
         }
+        pager.setAdapter(new SchedulePageAdapter());
+
     }
 
     @Override
@@ -155,11 +166,28 @@ public class PlanTimeActivity extends BaseActivity implements RadioGroup.OnCheck
         private Context context;
         private ArrayList<ScheduleBean> beans;
 
-        ScheduleItemAdapter(Context context, int item_w, int item_h, ArrayList<ScheduleBean> beans) {
+        ScheduleItemAdapter(Context context, int item_w, int item_h, TimeBlock block) {
             this.context = context;
             this.item_h = item_h;
             this.item_w = item_w;
-            this.beans = beans;
+            beans = new ArrayList<ScheduleBean>();
+            addSchedule(block.time1 == 0);
+            addSchedule(block.time2 == 0);
+            addSchedule(block.time3 == 0);
+            addSchedule(block.time4 == 0);
+            addSchedule(block.time5 == 0);
+            addSchedule(block.time6 == 0);
+            for (int j = 0; j < beans.size(); j++) {
+                ScheduleBean scheduleBean = beans.get(j);
+                scheduleBean.time = String.format("%d:00~%d:00", j * 2 + 9, j * 2 + 110);
+            }
+            notifyDataSetChanged();
+        }
+
+        void addSchedule(boolean free) {
+            ScheduleBean bean = new ScheduleBean();
+            bean.free = free;
+            beans.add(bean);
         }
 
         @Override

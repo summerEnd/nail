@@ -9,7 +9,6 @@ import java.io.Serializable;
  * 美甲师
  */
 public class ArtistRole extends RoleBean implements Serializable {
-    public int mid;
     public int score;
     public String average_price;
     public float professional;

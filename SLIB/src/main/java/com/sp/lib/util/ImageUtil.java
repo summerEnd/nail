@@ -4,8 +4,11 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.PixelFormat;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Environment;
 import android.text.TextUtils;
@@ -27,17 +30,18 @@ import java.net.URL;
  */
 public class ImageUtil {
 
-    public static final String IMAGE_TEMP_PUBLISH_SUPPLY="publish_supply.png";
-    public static final String IMAGE_TEMP_COMPANY_IMAGE="company_image.png";
+    public static final String IMAGE_TEMP_PUBLISH_SUPPLY = "publish_supply.png";
+    public static final String IMAGE_TEMP_COMPANY_IMAGE = "company_image.png";
 
 
     /**
      * 获取图片暂存文件
+     *
      * @param name
      * @return
      */
-    public static File getImageTempFile(String name){
-        return new File(getImageDir(),name);
+    public static File getImageTempFile(String name) {
+        return new File(getImageDir(), name);
     }
 
     private static String getImageDir() {
@@ -108,15 +112,27 @@ public class ImageUtil {
      * @return
      */
     public static Bitmap roundBitmap(Bitmap src, int radius) {
+        int output_size = radius * 2;
 
+        if (src == null) {
+            ColorDrawable drawable = new ColorDrawable(0xDDe53769);
+            src = Bitmap.createBitmap(
+                    output_size,
+                    output_size,
+                    drawable.getOpacity() != PixelFormat.OPAQUE
+                            ? Bitmap.Config.ARGB_8888
+                            : Bitmap.Config.RGB_565);
+            Canvas canvas = new Canvas(src);
+            drawable.setBounds(0,0,output_size,output_size);
+            drawable.draw(canvas);
+        }
         int src_w = src.getWidth();
         int src_h = src.getHeight();
-        int result_length = radius * 2;
         float scale;
         if (src_w > src_h) {
-            scale = result_length / (float) src_h;
+            scale = output_size / (float) src_h;
         } else {
-            scale = result_length / (float) src_w;
+            scale = output_size / (float) src_w;
         }
         src_w *= scale;
         src_h *= scale;
@@ -124,7 +140,7 @@ public class ImageUtil {
 
         final Paint paint = new Paint();
         paint.setAntiAlias(true);
-        Bitmap result = Bitmap.createBitmap(result_length, result_length, Bitmap.Config.ARGB_8888);
+        Bitmap result = Bitmap.createBitmap(output_size, output_size, Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(result);
 //        canvas.drawARGB(0,0,0,0);//背景透明效果
         canvas.drawCircle(radius, radius, radius, paint);

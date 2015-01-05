@@ -12,6 +12,7 @@ import com.baidu.mapapi.model.LatLng;
 import com.baidu.mapapi.utils.CoordinateConverter;
 import com.baidu.mapapi.utils.DistanceUtil;
 import com.finger.FingerApp;
+import com.finger.support.entity.CityBean;
 import com.finger.support.util.ContextUtil;
 import com.finger.support.util.Logger;
 
@@ -24,6 +25,7 @@ public class BaiduAPI {
     private static L l;
     private static Callback mCallback;
     public static BDLocation mBDLocation;
+
     /**
      * 定位的时间间隔
      */
@@ -48,7 +50,6 @@ public class BaiduAPI {
         mLocationClient.registerLocationListener(l);
         mLocationClient.setLocOption(option);
         mLocationClient.start();
-
     }
 
     /**
@@ -80,13 +81,16 @@ public class BaiduAPI {
         return manager.isProviderEnabled(LocationManager.GPS_PROVIDER);
     }
 
-    public static String getCityCode(){
-        if (mBDLocation!=null){
+    public static String getCityCode() {
+
+        if (mBDLocation != null) {
             return mBDLocation.getCityCode();
-        }else {
+        } else {
             return null;
         }
     }
+
+
 
     /**
      * 计算两点间的距离
@@ -100,20 +104,6 @@ public class BaiduAPI {
         return Math.floor(distance);
     }
 
-    public static final String getDistanceStr(LatLng l1, LatLng l2) {
-        double distance = DistanceUtil.getDistance(l1, l2);
-
-        if (distance < 1000) {
-            return String.format("%dm", (int) distance);
-        } else {
-
-            return String.format("%.2f km", distance / 1000);
-        }
-    }
-
-    public static final void navi(final Context context, LatLng pt1, LatLng pt2) {
-
-    }
 
     public static final void locate(Callback callback) {
         mCallback = callback;
@@ -123,8 +113,19 @@ public class BaiduAPI {
     static class L implements BDLocationListener {
 
 
-        public void onReceiveLocation(final BDLocation location) {
-            mBDLocation=location;
+        public void onReceiveLocation(BDLocation location) {
+            mBDLocation = location;
+            debug(location);
+
+            if (mCallback != null) mCallback.onLocated(location);
+        }
+
+
+        public void onReceivePoi(BDLocation bdLocation) {
+
+        }
+
+        void debug(final BDLocation location) {
             Logger.debug(new Runnable() {
                 @Override
                 public void run() {
@@ -152,23 +153,11 @@ public class BaiduAPI {
                     } else if (location.getLocType() == BDLocation.TypeNetWorkLocation) {
                         sb.append("\naddr : ");
                         sb.append(location.getAddrStr());
-
-                        ContextUtil.toast("hello");
-                        Logger.d("--->" + sb.toString());
                     }
+                    Logger.d("--->" + sb.toString());
                 }
 
             });
-
-            FingerApp app = (FingerApp) ContextUtil.getContext();
-            app.getUser().latitude = location.getLatitude();
-            app.getUser().longitude = location.getLongitude();
-            if (mCallback != null) mCallback.onLocated(location);
-        }
-
-
-        public void onReceivePoi(BDLocation bdLocation) {
-
         }
     }
 }
