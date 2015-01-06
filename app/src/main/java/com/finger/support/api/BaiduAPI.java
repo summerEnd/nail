@@ -91,7 +91,6 @@ public class BaiduAPI {
     }
 
 
-
     /**
      * 计算两点间的距离
      *
@@ -156,7 +155,6 @@ public class BaiduAPI {
                     }
                     Logger.d("--->" + sb.toString());
                 }
-
             });
         }
     }

@@ -38,6 +38,8 @@ import com.sp.lib.util.ImageUtil;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.LinkedList;
 
 @Artist
@@ -83,7 +85,11 @@ public class MyFragment extends Fragment implements View.OnClickListener {
         return v;
     }
 
-
+    @Override
+    public void onResume() {
+        super.onResume();
+        setData(role);
+    }
 
     void setData(ArtistRole bean) {
         //设置头像
@@ -102,7 +108,6 @@ public class MyFragment extends Fragment implements View.OnClickListener {
         setArtistZGS(bean.professional, bean.talk, bean.on_time);
         rating.setScore(bean.score);
         tv_nick_name.setText(bean.username);
-
     }
 
     void getData() {
@@ -118,7 +123,11 @@ public class MyFragment extends Fragment implements View.OnClickListener {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
+        try {
+            params.put("condition", URLEncoder.encode(condition.toString(),"UTF-8"));
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
         FingerHttpClient.post("getProductList", params, new FingerHttpHandler() {
             @Override
             public void onSuccess(JSONObject o) {

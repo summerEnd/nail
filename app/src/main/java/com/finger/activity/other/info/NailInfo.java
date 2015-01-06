@@ -20,6 +20,7 @@ import com.finger.support.entity.ArtistRole;
 import com.finger.support.entity.NailInfoBean;
 import com.finger.support.entity.OrderBean;
 import com.finger.support.entity.OrderManager;
+import com.finger.support.entity.RoleBean;
 import com.finger.support.net.FingerHttpClient;
 import com.finger.support.net.FingerHttpHandler;
 import com.finger.support.util.ContextUtil;
@@ -53,6 +54,13 @@ public class NailInfo extends BaseActivity {
     ImageView cover;
     ImageView iv_avatar;
     CheckBox cb_collect;
+
+    public static class SellerInfoBean extends ArtistRole{
+        /**
+         * 应该使用uid，不要使用id
+         */
+        public int uid;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -117,17 +125,23 @@ public class NailInfo extends BaseActivity {
             cover.setLayoutParams(new LinearLayout.LayoutParams(ItemUtil.halfScreen * 2, ItemUtil.halfScreen * 2));
         cb_collect.setChecked(bean.collection_id != 0);
 
-        ArtistRole artist = bean.seller_info;
-        setArtistZGS(artist.professional, artist.talk, artist.on_time);
-        ratingWidget.setScore(artist.score);
-        tv_artist_name.setText(artist.username);
+        SellerInfoBean seller_info = bean.seller_info;
+        setArtistZGS(seller_info.professional, seller_info.talk, seller_info.on_time);
+        ratingWidget.setScore(seller_info.score);
+        tv_artist_name.setText(seller_info.username);
 
-        ImageManager.loadImage(artist.avatar, new SimpleImageLoadingListener() {
+        ImageManager.loadImage(seller_info.avatar, new SimpleImageLoadingListener() {
             @Override
             public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
                 iv_avatar.setImageBitmap(ImageUtil.roundBitmap(loadedImage, getResources().getDimensionPixelSize(R.dimen.avatar_size)));
             }
         });
+        RoleBean role=getApp().getUser();
+        if (role instanceof ArtistRole&&seller_info.uid==role.id){
+            findViewById(R.id.choose_nail).setVisibility(View.INVISIBLE);
+        }else{
+            findViewById(R.id.choose_nail).setVisibility(View.VISIBLE);
+        }
 
     }
 
@@ -138,11 +152,11 @@ public class NailInfo extends BaseActivity {
                 OrderBean bean = OrderManager.getCurrentOrder();
                 if (bean == null) {
                     bean = OrderManager.createOrder();
-                    bean.artist_id = 1;
-                    bean.nail_id = 1;
+                    bean.nailInfoBean = this.bean;
                     startActivity(new Intent(this, PlanActivity.class));
                     finish();
                 } else {
+                    bean.nailInfoBean = this.bean;
                     startActivity(new Intent(this, OrderConfirm.class));
                 }
                 break;

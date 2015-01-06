@@ -113,5 +113,19 @@
     <string name="please_input_image">请选择图片！</string>
     <string name="collect_ok">收藏成功！</string>
     <string name="cancel_ok">取消成功</string>
+    <string name="get_taxi_failed">获取打车费用失败！</string>
+    <string name="update_resume_notice">如需修改简历，请联系管理员！</string>
+    <string name="real_price_s">实付金额：￥%s</string>
+    <string name="input_plan_time">请输入预约时间</string>
+    <string name="input_address">请输入地址</string>
+    <string name="day1">今天</string>
+    <string name="day2">明天</string>
+    <string name="day3">后天</string>
+    <string name="day4">大后天</string>
+    <string name="busy">忙</string>
+    <string name="xian">闲</string>
+    <string name="input_contact">请输入联系人姓名</string>
+    <string name="input_mobile">点击输入联系人手机号</string>
+    <string name="input_planTime">请选择预约时间</string>
 
 </resources>

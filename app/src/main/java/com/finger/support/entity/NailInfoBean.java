@@ -1,5 +1,9 @@
 package com.finger.support.entity;
 
+import com.finger.activity.other.info.NailInfo;
+
+import static com.finger.activity.other.info.NailInfo.SellerInfoBean;
+
 /**
  * Created by acer on 2014/12/31.
  */
@@ -20,5 +24,5 @@ public class NailInfoBean {
     public int star_level;
     public int comment_num;
     public int collection_id;
-    public ArtistRole seller_info;
+    public SellerInfoBean seller_info;
 }

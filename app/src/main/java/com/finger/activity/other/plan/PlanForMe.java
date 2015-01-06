@@ -9,6 +9,7 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,24 +24,27 @@ import com.baidu.mapapi.map.MapView;
 import com.baidu.mapapi.map.MarkerOptions;
 import com.baidu.mapapi.map.Overlay;
 import com.baidu.mapapi.model.LatLng;
+import com.finger.FingerApp;
 import com.finger.activity.BaseActivity;
 import com.finger.R;
+import com.finger.activity.other.login.LoginActivity;
 import com.finger.support.api.BaiduAPI;
 import com.finger.support.entity.OrderBean;
 import com.finger.support.entity.OrderManager;
 import com.finger.support.entity.RoleBean;
+import com.finger.support.entity.UserRole;
 import com.finger.support.widget.EditItem;
 import com.finger.support.util.ContextUtil;
 
 import static com.finger.activity.other.plan.PlanActivity.PlanFragment;
 
-public class PlanForMe extends PlanFragment implements View.OnClickListener {
+public class PlanForMe extends PlanFragment implements View.OnClickListener{
     MapView mMapView;
     EditItem edit_gps;
     EditItem edit_address;
-    EditItem edit_plan_time;
     Bitmap mark;
     Overlay mOverlay;
+    EditItem edit_plan_time;
 
     @Override
     public void onDestroy() {
@@ -68,11 +72,11 @@ public class PlanForMe extends PlanFragment implements View.OnClickListener {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_plan_for_me, null);
         mMapView = (MapView) v.findViewById(R.id.map);
-        edit_plan_time = (EditItem) v.findViewById(R.id.item_plan_time);
         edit_gps = (EditItem) v.findViewById(R.id.item_gps);
+        edit_plan_time = (EditItem) v.findViewById(R.id.item_plan_time_for_me);
+        edit_plan_time.setOnClickListener(this);
         edit_address = (EditItem) v.findViewById(R.id.item_address);
         edit_gps.setOnClickListener(this);
-        edit_plan_time.setOnClickListener(this);
         v.findViewById(R.id.choose_nail_artist).setOnClickListener(this);
         RoleBean bean = ((BaseActivity) getActivity()).getApp().getUser();
         addMark(bean.latitude, bean.longitude);
@@ -137,20 +141,50 @@ public class PlanForMe extends PlanFragment implements View.OnClickListener {
                 }
                 break;
             }
-            case R.id.item_plan_time: {
-                ((BaseActivity) getActivity()).onClick(v);
-                break;
-            }
+
             case R.id.choose_nail_artist: {
                 OrderBean bean = OrderManager.getCurrentOrder();
                 if (bean == null) {
                     bean = OrderManager.createOrder();
-                    bean.location = "location";
                 }
-                bean.location = "location";
-                submit();
+                bean.address = edit_address.getContent();
+                RoleBean role = ((FingerApp) getActivity().getApplication()).getUser();
+                if (!(role instanceof RoleBean.EmptyRole)) {
+                    String address = edit_address.getContent();
+                    if (TextUtils.isEmpty(planTime)) {
+                        ContextUtil.toast(getString(R.string.input_plan_time));
+                        return;
+                    }
+                    if (TextUtils.isEmpty(address)) {
+                        ContextUtil.toast(getString(R.string.input_address));
+                        return;
+                    }
+                    bean.mobile = role.mobile;
+                    bean.contact = role.username;
+                    bean.planTime = planTime;
+                    bean.time_block=time_block;
+                    bean.book_date=book_date;
+                    bean.address = address;
+                    submit();
+                } else {
+                    Intent intent = new Intent(getActivity(), LoginActivity.class);
+                    startActivity(intent);
+                }
+
                 break;
             }
+
+            case R.id.item_plan_time_for_me: {
+                ((PlanActivity) getActivity()).getPlanTime(new Schedule.Callback() {
+                    @Override
+                    public void onSelect(String book_date, int time_block) {
+                        planTime=getPlanTimeStr(book_date,time_block);
+                        edit_plan_time.setContent(planTime);
+                    }
+                });
+                break;
+            }
+
         }
     }
 

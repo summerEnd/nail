@@ -73,7 +73,10 @@ public class EditItem extends LinearLayout {
     }
 
     public String getContent() {
-        if (editable) return edit.getText().toString();
-        else return edit.getText().toString();
+        return getTextView().getText().toString();
+    }
+
+    public void setContent(CharSequence text) {
+        getTextView().setText(text);
     }
 }

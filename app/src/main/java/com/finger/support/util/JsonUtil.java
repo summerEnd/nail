@@ -30,6 +30,7 @@ public class JsonUtil {
 
     public static <T> void getArray(JSONArray array, Class<T> cls, List<T> list) throws JSONException {
         Gson gson = new Gson();
+
         for (int i = 0; i < array.length(); i++) {
             T t = gson.fromJson(array.get(i).toString(), cls);
 

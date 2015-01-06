@@ -7,36 +7,40 @@
     android:layout_height="match_parent">
 
     <com.finger.support.widget.EditItem
+        android:id="@+id/edit_contact"
         android:layout_marginTop="@dimen/activity_vertical_margin"
         android:layout_marginLeft="@dimen/activity_horizontal_margin"
         android:layout_marginRight="@dimen/activity_horizontal_margin"
         app:edit_drawable="@drawable/ic_user"
         android:layout_width="match_parent"
-        app:edit_hint="请输入联系人姓名"
+        app:edit_hint="@string/input_contact"
         android:layout_height="wrap_content" />
 
     <com.finger.support.widget.EditItem
+        android:id="@+id/edit_mobile"
         android:layout_marginTop="@dimen/activity_vertical_margin"
         android:layout_marginLeft="@dimen/activity_horizontal_margin"
         android:layout_marginRight="@dimen/activity_horizontal_margin"
         app:edit_drawable="@drawable/ic_mobile"
         android:layout_width="match_parent"
-        app:edit_hint="点击输入联系人手机号"
+        app:edit_hint="@string/input_mobile"
         android:layout_height="wrap_content" />
 
     <com.finger.support.widget.EditItem
-        android:id="@+id/item_choose_time"
+        android:id="@+id/item_plan_time_for_other"
         style="@style/click"
         android:layout_marginTop="@dimen/activity_vertical_margin"
         android:layout_marginLeft="@dimen/activity_horizontal_margin"
         android:layout_marginRight="@dimen/activity_horizontal_margin"
         app:edit_drawable="@drawable/ic_clock"
         android:layout_width="match_parent"
-        app:edit_hint="选择预约时间"
-        app:edit_editable="true"
+        app:edit_text="选择预约时间"
+        app:edit_hint="@string/input_planTime"
+        app:edit_editable="false"
         android:layout_height="wrap_content" />
 
     <com.finger.support.widget.EditItem
+        android:id="@+id/edit_address"
         android:layout_marginTop="@dimen/activity_vertical_margin"
         android:layout_marginLeft="@dimen/activity_horizontal_margin"
         android:layout_marginRight="@dimen/activity_horizontal_margin"

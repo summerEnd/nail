@@ -17,6 +17,9 @@ import android.widget.TextView;
 
 import com.finger.activity.BaseActivity;
 import com.finger.R;
+import com.finger.support.entity.ArtistRole;
+import com.finger.support.entity.OrderBean;
+import com.finger.support.entity.OrderManager;
 import com.finger.support.net.FingerHttpClient;
 import com.finger.support.net.FingerHttpHandler;
 import com.finger.support.util.JsonUtil;
@@ -41,7 +44,7 @@ public class ArtistList extends BaseActivity implements AdapterView.OnItemClickL
     private PopListAdapter adapter;
     List<ArtistListBean> beans = new ArrayList<ArtistListBean>();
 
-    class ArtistListBean {
+    public class ArtistListBean {
         String username;
         String mobile;
         String avatar;
@@ -72,8 +75,8 @@ public class ArtistList extends BaseActivity implements AdapterView.OnItemClickL
             @Override
             public void onSuccess(JSONObject o) {
                 try {
-                    JsonUtil.getArray(o.getJSONArray("data"),ArtistListBean.class,beans);
-                    listView.setAdapter(new ArtistAdapter(ArtistList.this,beans));
+                    JsonUtil.getArray(o.getJSONArray("data"), ArtistListBean.class, beans);
+                    listView.setAdapter(new ArtistAdapter(ArtistList.this, beans));
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -148,7 +151,8 @@ public class ArtistList extends BaseActivity implements AdapterView.OnItemClickL
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        startActivity(getIntent().setClass(this, ArtistInfo.class).putExtra("id",beans.get(position).uid));
+
+        startActivity(getIntent().setClass(this, ArtistInfo.class).putExtra("id", beans.get(position).uid));
     }
 
     class PopListAdapter extends BaseAdapter {
@@ -204,6 +208,7 @@ public class ArtistList extends BaseActivity implements AdapterView.OnItemClickL
     class ArtistAdapter extends BaseAdapter {
         Context context;
         List<ArtistListBean> beans;
+
         ArtistAdapter(Context context, List<ArtistListBean> beans) {
             this.context = context;
             this.beans = beans;
@@ -229,26 +234,26 @@ public class ArtistList extends BaseActivity implements AdapterView.OnItemClickL
             final ViewHolder holder;
             if (convertView == null) {
                 convertView = LayoutInflater.from(context).inflate(R.layout.artist_list_item, null);
-                holder=new ViewHolder();
-                holder.iv_avatar= (ImageView) convertView.findViewById(R.id.iv_avatar);
-                holder.tv_name= (TextView) convertView.findViewById(R.id.tv_name);
-                holder.tv_distance= (TextView) convertView.findViewById(R.id.tv_distance);
-                holder.tv_price= (TextView) convertView.findViewById(R.id.tv_price);
-                holder.tv_order_num= (TextView) convertView.findViewById(R.id.tv_order_num);
-                holder.rating= (RatingWidget) convertView.findViewById(R.id.rating);
+                holder = new ViewHolder();
+                holder.iv_avatar = (ImageView) convertView.findViewById(R.id.iv_avatar);
+                holder.tv_name = (TextView) convertView.findViewById(R.id.tv_name);
+                holder.tv_distance = (TextView) convertView.findViewById(R.id.tv_distance);
+                holder.tv_price = (TextView) convertView.findViewById(R.id.tv_price);
+                holder.tv_order_num = (TextView) convertView.findViewById(R.id.tv_order_num);
+                holder.rating = (RatingWidget) convertView.findViewById(R.id.rating);
             } else {
                 holder = (ViewHolder) convertView.getTag();
             }
-            ArtistListBean bean=beans.get(position);
+            ArtistListBean bean = beans.get(position);
             holder.tv_name.setText(bean.username);
 //            holder.tv_distance.setText(bean.);
-            holder.tv_price.setText(getString(R.string.average_price_s,bean.average_price));
-            holder.tv_order_num.setText(getString(R.string.order_d_num,bean.order_num));
+            holder.tv_price.setText(getString(R.string.average_price_s, bean.average_price));
+            holder.tv_order_num.setText(getString(R.string.order_d_num, bean.order_num));
             holder.rating.setScore(bean.score);
-            ImageManager.loadImage(bean.avatar,new SimpleImageLoadingListener() {
+            ImageManager.loadImage(bean.avatar, new SimpleImageLoadingListener() {
                 @Override
                 public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-                    holder.iv_avatar.setImageBitmap(ImageUtil.roundBitmap(loadedImage,context.getResources().getDimensionPixelSize(R.dimen.avatar_size)/2));
+                    holder.iv_avatar.setImageBitmap(ImageUtil.roundBitmap(loadedImage, context.getResources().getDimensionPixelSize(R.dimen.avatar_size) / 2));
                 }
             });
             convertView.setTag(holder);

@@ -30,7 +30,7 @@
                     android:layout_width="100dp"
                     android:scaleType="centerCrop"
                     android:layout_height="100dp"
-                    android:src="@drawable/test_image_01" />
+                     />
 
                 <LinearLayout
                     android:layout_toRightOf="@id/nail_image"
@@ -41,6 +41,7 @@
                     android:layout_height="wrap_content">
 
                     <TextView
+                        android:id="@+id/tv_nail_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="#ac3c2e"
@@ -53,6 +54,7 @@
                         android:layout_weight="1" />
 
                     <TextView
+                        android:id="@+id/tv_price"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="#ff0e03"
@@ -64,12 +66,26 @@
                         android:layout_height="0dp"
                         android:layout_weight="1" />
 
-                    <TextView
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/textColorGray"
-                        android:textSize="@dimen/textSize_dp_24px"
-                        android:text="店面价:￥800.00" />
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/textColorGray"
+                            android:textSize="@dimen/textSize_dp_24px"
+                            android:text="店面价:￥" />
+
+                        <TextView
+                            android:id="@+id/tv_shop_price"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/textColorGray"
+                            android:textSize="@dimen/textSize_dp_24px"
+                            android:text="800.00" />
+                    </LinearLayout>
                 </LinearLayout>
             </RelativeLayout>
 
@@ -87,6 +103,7 @@
                         android:text="联  系  人" />
 
                     <TextView
+                        android:id="@+id/tv_contact"
                         style="@style/order_confirm_item_value"
                         android:text="赵文卓" />
                 </TableRow>
@@ -100,6 +117,7 @@
                         android:text="手       机" />
 
                     <TextView
+                        android:id="@+id/tv_mobile"
                         style="@style/order_confirm_item_value"
                         android:text="130123455122" />
                 </TableRow>
@@ -113,6 +131,7 @@
                         android:text="预约时间" />
 
                     <TextView
+                        android:id="@+id/tv_planTime"
                         style="@style/order_confirm_item_value"
                         android:text="12:00" />
                 </TableRow>
@@ -126,6 +145,7 @@
                         android:text="详细地址" />
 
                     <TextView
+                        android:id="@+id/tv_address"
                         style="@style/order_confirm_item_value"
                         android:text="美国洛杉矶" />
                 </TableRow>
@@ -139,6 +159,7 @@
                         android:text="备注信息" />
 
                     <TextView
+                        android:id="@+id/tv_summary"
                         style="@style/order_confirm_item_value"
                         android:text="nonono" />
                 </TableRow>
@@ -179,6 +200,7 @@
                         android:text="车费" />
 
                     <TextView
+                        android:id="@+id/tv_taxi_fee"
                         style="@style/order_confirm_item_value"
                         android:text="20万" />
                 </TableRow>
@@ -189,6 +211,7 @@
             <TextView style="@style/horizontal_line" />
 
             <TextView
+                android:id="@+id/tv_real_pay"
                 android:background="@color/white"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -198,7 +221,7 @@
                 android:paddingTop="6dp"
                 android:paddingBottom="6dp"
                 android:paddingRight="@dimen/activity_horizontal_margin"
-                android:text="实付金额：￥399" />
+                android:text="@string/real_price_s" />
 
             <TextView style="@style/horizontal_line" />
 

@@ -1,6 +1,7 @@
 package com.finger.activity.other.info;
 
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 
 import com.finger.R;
 import com.finger.activity.BaseActivity;
+import com.finger.activity.artist.my.MyResumeActivity;
 import com.finger.activity.other.plan.NailItemListFragment;
 import com.finger.support.entity.ArtistRole;
 import com.finger.support.net.FingerHttpClient;
@@ -36,6 +38,7 @@ public class ArtistInfo extends BaseActivity {
         setContentView(R.layout.activity_artist_info);
 
         iv_avatar = (ImageView) findViewById(R.id.iv_avatar);
+        iv_avatar.setOnClickListener(this);
         name = (TextView) findViewById(R.id.name);
         tv_average_price = (TextView) findViewById(R.id.tv_average_price);
         attention = (CheckBox) findViewById(R.id.attention);
@@ -58,6 +61,10 @@ public class ArtistInfo extends BaseActivity {
                 } else {
                     addAttention(bean.id);
                 }
+                break;
+            }
+            case R.id.iv_avatar: {
+                startActivity(new Intent(this, MyResumeActivity.class).putExtra("bean",bean));
                 break;
             }
         }

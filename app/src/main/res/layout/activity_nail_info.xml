@@ -258,6 +258,7 @@
             <TextView style="@style/horizontal_line" />
 
             <Button
+                android:visibility="gone"
                 android:id="@+id/choose_nail"
                 style="@style/button_large"
                 android:layout_marginTop="@dimen/button_to_bottom"

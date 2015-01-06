@@ -2,8 +2,8 @@
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
-    android:background="#fe5000"
     android:padding="10dp"
+    android:background="@color/textColorGray"
     android:layout_height="wrap_content">
 
     <TextView

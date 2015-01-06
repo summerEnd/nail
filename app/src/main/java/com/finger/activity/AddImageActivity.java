@@ -20,6 +20,9 @@ import java.util.LinkedList;
 public class AddImageActivity extends BaseActivity implements AddImageItem.Callback {
     protected AddImageItem addImageItem;
     protected LinkedList<String> image_url=new LinkedList<String>();
+    /**
+     * 最大图片数量
+     */
     protected int MAX_IMAGE=1;
     @Override
     public void onAdd(Bitmap bitmap) {

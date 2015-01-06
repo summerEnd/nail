@@ -15,7 +15,7 @@ import org.json.JSONObject;
 
 public class SHttpClient {
 
-    private static final String SLOG = "SLOG";
+    private static final String TAG = "SLOG";
     private static ProgressDialogCreator mDialogCreator;
     private static Dialog mDialog;
     private static AsyncHttpClient client = new AsyncHttpClient();
@@ -33,11 +33,13 @@ public class SHttpClient {
 
     private static class Utf8JsonHandler extends JsonHttpResponseHandler {
         private WebJsonHttpHandler handler;
+        private boolean showLog;
 
 
-        private Utf8JsonHandler(WebJsonHttpHandler handler) {
+        private Utf8JsonHandler(WebJsonHttpHandler handler, boolean showLog) {
             super("UTF-8");
             this.handler = handler;
+            this.showLog = showLog;
         }
 
         public void setHandler(WebJsonHttpHandler handler) {
@@ -70,21 +72,21 @@ public class SHttpClient {
         @Override
         public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
             super.onFailure(statusCode, headers, responseString, throwable);
-            Log.i(SLOG, "Throwable:" + throwable);
+            Log.i(TAG, "Throwable:" + throwable);
             sendFail("net error:" + statusCode);
         }
 
         @Override
         public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
             super.onFailure(statusCode, headers, throwable, errorResponse);
-            Log.i(SLOG, "JSONObject:" + errorResponse);
+            Log.i(TAG, "JSONObject:" + errorResponse);
             sendFail("data error" + statusCode);
         }
 
         @Override
         public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
             super.onFailure(statusCode, headers, throwable, errorResponse);
-            Log.i(SLOG, "JSONArray:" + errorResponse);
+            Log.i(TAG, "JSONArray:" + errorResponse);
             sendFail("data error" + statusCode);
         }
 
@@ -93,7 +95,12 @@ public class SHttpClient {
                 return;
             }
 
-            Log.i("SLOG", "sendSuccess:" + object);
+            try {
+                if (showLog)
+                    Log.i(TAG, "sendSuccess:" + (object == null ? null : object.toString(6)));
+            } catch (Exception e) {
+                Log.e(TAG, e.getLocalizedMessage());
+            }
 
             handler.onSuccess(object, array);
         }
@@ -102,7 +109,7 @@ public class SHttpClient {
             if (handler == null) {
                 return;
             }
-            Log.i("SLOG", "sendFail:" + msg);
+            Log.i(TAG, "sendFail:" + msg);
             handler.onFail(msg);
         }
 
@@ -131,7 +138,7 @@ public class SHttpClient {
 
     public static void post(String url, RequestParams params, WebJsonHttpHandler handler, boolean showLog) {
         if (handler.showDialog) createDialog();
-        post(url, params, new Utf8JsonHandler(handler), showLog);
+        post(url, params, new Utf8JsonHandler(handler,showLog), showLog);
 
     }
 

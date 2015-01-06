@@ -1,7 +1,6 @@
 package com.finger.activity.other.plan;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -23,20 +22,19 @@ import com.finger.FingerApp;
 import com.finger.R;
 import com.finger.activity.BaseActivity;
 import com.finger.support.adapter.NailListAdapter;
-import com.finger.support.api.BaiduAPI;
 import com.finger.support.entity.NailInfoBean;
-import com.finger.support.entity.OrderBean;
 import com.finger.support.net.FingerHttpClient;
 import com.finger.support.net.FingerHttpHandler;
-import com.finger.support.util.ContextUtil;
 import com.finger.support.util.JsonUtil;
+import com.finger.support.util.Logger;
 import com.loopj.android.http.RequestParams;
 import com.sp.lib.util.DisplayUtil;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -57,11 +55,11 @@ public class NailItemListFragment extends Fragment implements View.OnClickListen
         gridView = (GridView) layout.findViewById(R.id.grid);
         layout.findViewById(R.id.order_item).setOnClickListener(this);
         layout.findViewById(R.id.sort_item).setOnClickListener(this);
-        getData();
+        getProductList();
         return layout;
     }
 
-    void getData() {
+    void getProductList() {
         RequestParams params = new RequestParams();
         JSONObject condition = new JSONObject();
         FingerApp app = ((BaseActivity) getActivity()).getApp();
@@ -70,8 +68,20 @@ public class NailItemListFragment extends Fragment implements View.OnClickListen
             condition.put("price", price);// (40 - 80 之间)
             condition.put("city_code", app.getCurCity().city_code);//(百度城市代码)
             Bundle args = getArguments();
-            if (args != null) condition.put("mid", args.getInt("id", -1));// (美甲师id);
+            if (args != null){
+                int mid = args.getInt("id", -1);
+                if (mid!=-1){
+                    condition.put("mid", mid);// (美甲师id);
+                }
+
+            }
         } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            params.put("condition", URLEncoder.encode(condition.toString(), "UTF-8"));
+        } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
 
@@ -85,7 +95,7 @@ public class NailItemListFragment extends Fragment implements View.OnClickListen
                     gridView.setAdapter(new NailListAdapter(getActivity(), beans));
 
                 } catch (JSONException e) {
-                    e.printStackTrace();
+                    Logger.w(e.getLocalizedMessage());
                 }
             }
         });

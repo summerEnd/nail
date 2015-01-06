@@ -10,9 +10,6 @@ import com.finger.activity.other.common.ChangeMyData;
 import com.finger.activity.other.common.MyCareActivity;
 import com.finger.activity.other.common.MyCollectionActivity;
 
-/**
- * Created by acer on 2014/12/29.
- */
 public class MyInfoActivity extends BaseActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {

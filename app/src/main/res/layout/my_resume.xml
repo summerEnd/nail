@@ -25,12 +25,13 @@
 
                 <ImageView
                     android:id="@+id/iv_avatar"
-
                     android:layout_width="@dimen/avatar_center_size"
                     android:layout_height="@dimen/avatar_center_size"
                     android:src="@drawable/default_user" />
 
                 <TextView
+                    android:id="@+id/tv_nick_name"
+                    android:layout_marginTop="8dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/textColorBlack"
@@ -38,6 +39,7 @@
                     android:text="昵称" />
 
                 <com.finger.support.widget.RatingWidget
+                    android:id="@+id/rating"
                     android:layout_width="wrap_content"
                     app:drawable="@drawable/star2"
                     app:stars="5"
@@ -57,7 +59,7 @@
                 <TextView
                     android:id="@id/tv_pro"
                     style="@style/resume_num_pink_style"
-                    android:text="5.0" />
+                    android:text="0" />
 
                 <View
                     android:layout_width="0dp"
@@ -71,7 +73,7 @@
                 <TextView
                     android:id="@id/tv_com"
                     style="@style/resume_num_pink_style"
-                    android:text="5.0" />
+                    android:text="0" />
 
                 <View
                     android:layout_width="0dp"
@@ -85,7 +87,7 @@
                 <TextView
                     android:id="@id/tv_on_time"
                     style="@style/resume_num_pink_style"
-                    android:text="5.0" />
+                    android:text="0" />
 
                 <View
                     android:layout_width="0dp"
@@ -198,9 +200,12 @@
                     android:textColor="@color/textColorGray"
                     android:textSize="@dimen/textSize_dp_24px"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="一直以来，对于中国这个古老国度的新征程，外界充满好奇，2014年尤甚。人们试图破译大国领袖习近平的执政密码，以获知这位被美国前驻华大使洪博培评价为“邓小平之后最具变革性中国领导人”的“习大大”有着怎样的多重魅力。" />
+                    android:layout_height="wrap_content"/>
             </RelativeLayout>
+            <HorizontalScrollView
+                android:id="@+id/resume_images"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

@@ -37,18 +37,36 @@ public class PlanTimeActivity extends BaseActivity implements RadioGroup.OnCheck
     ArrayList<View> views = new ArrayList<View>();
     ArrayList<TimeBlock> blocks = new ArrayList<TimeBlock>();
 
-    class TimeBlock {
-        int time1;
-        int time2;
-        int time3;
-        int time4;
-        int time5;
-        int time6;
+    public static class TimeBlock {
+        public int time1;
+        public int time2;
+        public int time3;
+        public int time4;
+        public int time5;
+        public int time6;
+        ArrayList<ScheduleBean> beans = new ArrayList<ScheduleBean>();
+
+        public ArrayList<ScheduleBean> convert2Schedule() {
+            beans.clear();
+            addSchedule(time1 == 0);
+            addSchedule(time2 == 0);
+            addSchedule(time3 == 0);
+            addSchedule(time4 == 0);
+            addSchedule(time5 == 0);
+            addSchedule(time6 == 0);
+            return beans;
+        }
+
+        void addSchedule(boolean free) {
+            ScheduleBean bean = new ScheduleBean();
+            bean.free = free;
+            beans.add(bean);
+        }
     }
 
-    class ScheduleBean {
-        String time;
-        boolean free;
+    public static class ScheduleBean {
+        public String time;
+        public boolean free;
     }
 
     @Override
@@ -84,7 +102,32 @@ public class PlanTimeActivity extends BaseActivity implements RadioGroup.OnCheck
         });
     }
 
+    void setTimeBlock(){
+        RequestParams params = new RequestParams();
+        params.put("time_block_str", "");
+        FingerHttpClient.post("setTimeBlock", params, new FingerHttpHandler() {
+            @Override
+            public void onSuccess(JSONObject o) {
+                try {
+                    JsonUtil.getArray(o.getJSONArray("data"), TimeBlock.class, blocks);
+                    buildViews();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
 
+    @Override
+    public void onClick(View v) {
+        super.onClick(v);
+        switch (v.getId()) {
+            case R.id.commit: {
+                setTimeBlock();
+                break;
+            }
+        }
+    }
 
     /**
      * 用数据构建视图
@@ -170,13 +213,7 @@ public class PlanTimeActivity extends BaseActivity implements RadioGroup.OnCheck
             this.context = context;
             this.item_h = item_h;
             this.item_w = item_w;
-            beans = new ArrayList<ScheduleBean>();
-            addSchedule(block.time1 == 0);
-            addSchedule(block.time2 == 0);
-            addSchedule(block.time3 == 0);
-            addSchedule(block.time4 == 0);
-            addSchedule(block.time5 == 0);
-            addSchedule(block.time6 == 0);
+            beans=block.convert2Schedule();
             for (int j = 0; j < beans.size(); j++) {
                 ScheduleBean scheduleBean = beans.get(j);
                 scheduleBean.time = String.format("%d:00~%d:00", j * 2 + 9, j * 2 + 110);
@@ -184,11 +221,6 @@ public class PlanTimeActivity extends BaseActivity implements RadioGroup.OnCheck
             notifyDataSetChanged();
         }
 
-        void addSchedule(boolean free) {
-            ScheduleBean bean = new ScheduleBean();
-            bean.free = free;
-            beans.add(bean);
-        }
 
         @Override
         public int getCount() {

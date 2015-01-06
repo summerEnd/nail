@@ -7,7 +7,7 @@
     android:layout_height="match_parent">
 
     <com.finger.support.widget.EditItem
-        android:id="@+id/item_plan_time"
+        android:id="@+id/item_plan_time_for_me"
         app:edit_text="选择预约时间"
         android:layout_marginTop="@dimen/activity_vertical_margin"
         android:layout_marginLeft="@dimen/activity_horizontal_margin"
