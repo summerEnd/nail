@@ -16,16 +16,22 @@ import org.json.JSONObject;
 
 import java.util.LinkedList;
 
+
+/**
+ * 封装了一个AddImageItem,需要在布局文件中加入，并且id为R.id.add_image。
+ * 每当添加图片时，自动调用“uploadImage”接口上传图片，并将返回的url放在LinkedList<String> image_url中
+ */
 public class AddImageActivity extends BaseActivity implements AddImageItem.Callback {
     protected AddImageItem addImageItem;
-    protected LinkedList<String> image_url=new LinkedList<String>();
+    protected LinkedList<String> image_url = new LinkedList<String>();
     /**
      * 最大图片数量
      */
-    protected int MAX_IMAGE=1;
+    protected int MAX_IMAGE = 1;
+
     @Override
     public void onAdd(Bitmap bitmap) {
-        if (bitmap==null){
+        if (bitmap == null) {
             Logger.e("bitmap null!");
             return;
         }
@@ -37,7 +43,7 @@ public class AddImageActivity extends BaseActivity implements AddImageItem.Callb
             public void onSuccess(JSONObject o) {
                 try {
                     image_url.add(o.getString("data"));
-                    if (image_url.size()>=MAX_IMAGE){
+                    if (image_url.size() >= MAX_IMAGE) {
                         addImageItem.stopAdd();
                     }
                 } catch (JSONException e) {
@@ -46,7 +52,6 @@ public class AddImageActivity extends BaseActivity implements AddImageItem.Callb
             }
         });
     }
-
 
 
     @Override

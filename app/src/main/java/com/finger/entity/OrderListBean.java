@@ -1,9 +1,11 @@
 package com.finger.entity;
 
+import java.io.Serializable;
+
 /**
  * Created by acer on 2015/1/7.
  */
-public class OrderListBean {
+public class OrderListBean implements Serializable{
     public int id;
     public int status;
     public int product_id;

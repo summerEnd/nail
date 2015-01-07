@@ -24,6 +24,9 @@ import com.sp.lib.util.ImageUtil;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+/**
+ * 美甲师详细信息的展示
+ */
 public class ArtistInfo extends BaseActivity {
     ArtistRole bean;
     ImageView iv_avatar;

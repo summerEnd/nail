@@ -11,7 +11,7 @@
         android:background="@drawable/titleBackground"
         android:layout_width="match_parent"
         android:paddingBottom="@dimen/list_padding_vertical"
-        android:layout_height="wrap_content">
+        android:layout_height="@dimen/title_height">
 
         <RadioGroup
             android:id="@+id/rg_plan"

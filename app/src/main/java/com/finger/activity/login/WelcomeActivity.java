@@ -3,6 +3,7 @@ package com.finger.activity.login;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.WindowManager;
@@ -56,9 +57,12 @@ public class WelcomeActivity extends BaseActivity {
                     getApp().getCurCity().name = bdLocation.getCity();
                     getApp().getCurCity().city_code = bdLocation.getCityCode();
                 }
-                boolean isFirst = getSharedPreferences(FIRST_LOGIN, MODE_PRIVATE).getBoolean("first", true);
+                SharedPreferences sp = getSharedPreferences(FIRST_LOGIN, MODE_PRIVATE);
+                boolean isFirst = sp.getBoolean("first", true);
+                //如果是第一次进入,就跳转到向导页
                 if (isFirst) {
                     startActivity(new Intent(WelcomeActivity.this, GuideActivity.class));
+                    sp.edit().putBoolean("first", false).commit();
                     finish();
                 } else {
                     doLogin();

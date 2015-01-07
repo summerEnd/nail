@@ -41,20 +41,20 @@ public class NailInfo extends BaseActivity {
 
 
     NailInfoBean bean;
-    TextView tv_shop_price;
-    TextView tv_time_keep;
-    TextView tv_time_cost;
-    TextView tv_price;
-    TextView tv_artist_name;
-    TextView tv_info_text;
-    TextView tv_info_title;
-    TextView tv_comment_num;
+    TextView     tv_shop_price;
+    TextView     tv_time_keep;
+    TextView     tv_time_cost;
+    TextView     tv_price;
+    TextView     tv_artist_name;
+    TextView     tv_info_text;
+    TextView     tv_info_title;
+    TextView     tv_comment_num;
     RatingWidget ratingWidget;
-    ImageView cover;
-    ImageView iv_avatar;
-    CheckBox cb_collect;
+    ImageView    cover;
+    ImageView    iv_avatar;
+    CheckBox     cb_collect;
 
-    public static class SellerInfoBean extends ArtistRole{
+    public static class SellerInfoBean extends ArtistRole {
         /**
          * 应该使用uid，不要使用id
          */
@@ -111,7 +111,8 @@ public class NailInfo extends BaseActivity {
 
 
     public void setData(NailInfoBean bean) {
-        if (bean == null) return;
+        if (bean == null)
+            return;
         tv_price.setText(getString(R.string.rmb_s, bean.price));
         tv_shop_price.setText(getString(R.string.rmb_s, bean.store_price));
         tv_time_cost.setText(getString(R.string.time_cost_s, bean.spend_time));
@@ -135,10 +136,10 @@ public class NailInfo extends BaseActivity {
                 iv_avatar.setImageBitmap(ImageUtil.roundBitmap(loadedImage, getResources().getDimensionPixelSize(R.dimen.avatar_size)));
             }
         });
-        RoleBean role=getApp().getUser();
-        if (role instanceof ArtistRole&&seller_info.uid==role.id){
+        RoleBean role = getApp().getUser();
+        if (role instanceof ArtistRole && seller_info.uid == role.id) {
             findViewById(R.id.choose_nail).setVisibility(View.INVISIBLE);
-        }else{
+        } else {
             findViewById(R.id.choose_nail).setVisibility(View.VISIBLE);
         }
 
@@ -162,7 +163,8 @@ public class NailInfo extends BaseActivity {
             }
             case R.id.collect: {
                 //注意：CheckBox先改变状态，再触发onClick
-                if (bean == null) return;
+                if (bean == null)
+                    return;
                 if (!cb_collect.isChecked()) {
                     cancel(bean.collection_id);
                 } else {

@@ -34,6 +34,9 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 美甲师列表
+ */
 public class ArtistInfoList extends BaseActivity implements AdapterView.OnItemClickListener {
     ListView listView;
     PopupWindow orderList;
@@ -127,7 +130,7 @@ public class ArtistInfoList extends BaseActivity implements AdapterView.OnItemCl
         }
         if (orderList.isShowing()) {
             orderList.dismiss();
-        } else {
+        } else if (name != null) {
             openList(v, name);
         }
         super.onClick(v);

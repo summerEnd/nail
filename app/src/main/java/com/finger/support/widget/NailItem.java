@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.finger.R;
 import com.finger.activity.info.NailInfo;
 import com.finger.entity.NailInfoBean;
+import com.finger.support.util.ContextUtil;
 import com.sp.lib.util.ImageManager;
 
 /**
@@ -75,7 +76,7 @@ public class NailItem extends LinearLayout {
         this.infoBean = infoBean;
         setPrice(infoBean.price);
         setTitle(infoBean.name);
-        ImageManager.loadImage(infoBean.cover, iv);
+        ImageManager.loadImage(infoBean.cover, iv, ContextUtil.getSquareImgOptions());
     }
 
     public void init(final Context context, AttributeSet attrs) {

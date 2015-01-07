@@ -7,6 +7,7 @@
     <include layout="@layout/head_2" />
 
     <TextView
+        android:id="@+id/create_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/textColorGray"
@@ -42,6 +43,7 @@
 
 
         <TextView
+            android:id="@+id/tv_price"
             android:layout_toRightOf="@id/nail_image"
             android:layout_marginBottom="16dp"
             android:layout_alignBottom="@id/nail_image"
@@ -67,6 +69,7 @@
                 android:text="车    费" />
 
             <TextView
+                android:id="@+id/taxi_fee"
                 style="@style/order_confirm_item_value"
                 android:textSize="@dimen/textSize_dp_30px"
                 android:textColor="@color/textColorBlack"
@@ -83,6 +86,7 @@
                 android:text="优惠券" />
 
             <TextView
+                android:id="@+id/tv_coupon"
                 android:textSize="@dimen/textSize_dp_30px"
                 android:textColor="@color/textColorBlack"
                 android:textStyle="bold"
@@ -108,6 +112,7 @@
             android:layout_height="wrap_content" />
 
         <TextView
+            android:id="@+id/tv_real_pay"
             android:layout_width="wrap_content"
             android:text="@string/s_price"
             android:textSize="@dimen/textSize_dp_36px"
@@ -128,6 +133,7 @@
                 android:text="联  系  人" />
 
             <TextView
+
                 android:id="@+id/tv_contact"
                 style="@style/order_confirm_item_value"
                 android:text="赵文卓" />
@@ -143,6 +149,7 @@
                 android:text="预约时间" />
 
             <TextView
+
                 android:id="@+id/tv_planTime"
                 style="@style/order_confirm_item_value"
                 android:text="12:00" />

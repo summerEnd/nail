@@ -67,16 +67,16 @@ public class OrderAdapterFactory {
     }
 
     static class ViewHolder {
-        TextView artist_name;
-        TextView create_time;
-        TextView product_name;
-        TextView tv_price;
-        TextView tv_real_pay;
-        TextView refund_state;
-        TextView tv_pay_state;
+        TextView  artist_name;
+        TextView  create_time;
+        TextView  product_name;
+        TextView  tv_price;
+        TextView  tv_real_pay;
+        TextView  refund_state;
+        TextView  tv_pay_state;
         ImageView avatar;
         ImageView cover;
-        View button1;
+        View      button1;
     }
 
     /**
@@ -234,12 +234,14 @@ public class OrderAdapterFactory {
                 holder.button1.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        context.startActivity(new Intent(context, CommentOrder.class));
+                        context.startActivity(new Intent(context, CommentOrder.class).putExtra("bean", (OrderListBean) v.getTag()));
                     }
                 });
             } else {
                 holder = (ViewHolder) convertView.getTag();
             }
+            OrderListBean bean = (OrderListBean) data.get(position);
+            holder.button1.setTag(bean);
             convertView.setTag(holder);
             return convertView;
         }
@@ -375,11 +377,11 @@ public class OrderAdapterFactory {
                 holder = (ViewHolder) convertView.getTag();
             }
             OrderListBean bean = (OrderListBean) data.get(position);
-//            holder.artist_name.setText(bean.);
+            //            holder.artist_name.setText(bean.);
             holder.create_time.setText(bean.create_time);
             holder.product_name.setText(bean.product_name);
             holder.tv_price.setText(context.getString(R.string.price_r_s, bean.order_price));
-//            holder.tv_real_pay.setText(context.getString(R.string.real_price_s,));
+            //            holder.tv_real_pay.setText(context.getString(R.string.real_price_s,));
 
             ImageManager.loadImage(bean.product_cover, holder.cover);
             ImageManager.loadImage(bean.product_cover, holder.avatar);
@@ -389,9 +391,9 @@ public class OrderAdapterFactory {
     }
 
     public abstract static class OrderAdapter extends BaseAdapter {
-        protected List data;
+        protected List           data;
         protected LayoutInflater inflater;
-        protected Context context;
+        protected Context        context;
 
         public OrderAdapter(Context context, List data) {
             this.data = data;

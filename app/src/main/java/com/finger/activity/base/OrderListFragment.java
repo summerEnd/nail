@@ -10,7 +10,9 @@ import android.widget.ListView;
 import com.finger.activity.info.OrderInfoActivity;
 import com.finger.entity.OrderManager;
 
-
+/**
+ * 所有订单列表的父类
+ */
 public class OrderListFragment extends ListFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {

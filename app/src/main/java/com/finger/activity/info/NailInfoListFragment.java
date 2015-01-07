@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.animation.RotateAnimation;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
@@ -29,6 +30,7 @@ import com.finger.support.util.JsonUtil;
 import com.finger.support.util.Logger;
 import com.loopj.android.http.RequestParams;
 import com.sp.lib.util.DisplayUtil;
+import com.sp.lib.util.ListController;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -39,7 +41,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 
-public class NailInfoListFragment extends Fragment implements View.OnClickListener {
+public class NailInfoListFragment extends Fragment implements View.OnClickListener ,ListController.Callback{
     GridView gridView;
     PopupWindow orderList;
     PopupWindow price_area;
@@ -48,19 +50,28 @@ public class NailInfoListFragment extends Fragment implements View.OnClickListen
     List<NailInfoBean> beans = new LinkedList<NailInfoBean>();
     String sort;
     String price;
-
+    ListController controller;
+    NailListAdapter adapter;
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         layout = inflater.inflate(R.layout.fragment_nail_list, null);
         gridView = (GridView) layout.findViewById(R.id.grid);
         layout.findViewById(R.id.order_item).setOnClickListener(this);
         layout.findViewById(R.id.sort_item).setOnClickListener(this);
-        getProductList();
+        controller=new ListController(gridView,this);
+        adapter= new NailListAdapter(getActivity(), beans);
+        gridView.setAdapter(adapter);
+        getProductList(1);
+
         return layout;
     }
 
-    void getProductList() {
+    void getProductList(int page) {
+        Logger.d("page:"+page);
         RequestParams params = new RequestParams();
+        params.put("page",page);
+        params.put("pagesize",controller.getPageSize());
+
         JSONObject condition = new JSONObject();
         FingerApp app = ((BaseActivity) getActivity()).getApp();
         try {
@@ -92,7 +103,8 @@ public class NailInfoListFragment extends Fragment implements View.OnClickListen
 
                     JSONObject data = o.getJSONObject("data");
                     JsonUtil.getArray(data.getJSONArray("normal"), NailInfoBean.class, beans);
-                    gridView.setAdapter(new NailListAdapter(getActivity(), beans));
+
+                    adapter.notifyDataSetChanged();
 
                 } catch (JSONException e) {
                     Logger.w(e.getLocalizedMessage());
@@ -200,6 +212,11 @@ public class NailInfoListFragment extends Fragment implements View.OnClickListen
         rotateAnimation.setDuration(300);
         rotateAnimation.setFillAfter(true);
         v.startAnimation(rotateAnimation);
+    }
+
+    @Override
+    public void onLoadMore(AbsListView listView, int page) {
+        getProductList(page);
     }
 
     class OrderListAdapter extends BaseAdapter {
