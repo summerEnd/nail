@@ -33,7 +33,7 @@
                 android:layout_height="@dimen/avatar_size" />
 
             <TextView
-                android:id="@+id/tv_title"
+                android:id="@+id/product_name"
                 android:textSize="@dimen/textSize_dp_30px"
                 android:textColor="@color/black"
                 android:layout_width="wrap_content"
@@ -48,11 +48,12 @@
                 android:textColor="@color/textColorGray"
                 android:layout_width="wrap_content"
                 android:text="价格：￥100"
-                android:layout_below="@+id/tv_title"
+                android:layout_below="@+id/product_name"
                 android:layout_toRightOf="@id/iv_avatar"
                 android:layout_height="wrap_content" />
 
             <TextView
+                android:id="@+id/create_time"
                 android:textSize="@dimen/textSize_dp_24px"
                 android:layout_marginTop="@dimen/order_list_margin_top"
                 android:textColor="@color/textColorGray"
@@ -67,8 +68,6 @@
 
         <RelativeLayout
             android:layout_width="wrap_content"
-            android:paddingTop="@dimen/item_margin_top"
-            android:paddingBottom="@dimen/item_margin_top"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
@@ -81,7 +80,9 @@
                 android:textSize="@dimen/textSize_dp_28px"
                 android:textColor="@color/textColorGray"
                 android:layout_height="wrap_content" />
+
             <TextView
+                android:id="@+id/tv_real_pay"
                 android:layout_toRightOf="@+id/sf"
                 android:layout_width="wrap_content"
                 android:text="￥108"
@@ -89,14 +90,15 @@
                 android:textSize="@dimen/textSize_dp_30px"
                 android:textColor="@color/textColorBlack"
                 android:layout_height="wrap_content" />
-            <Button
-                style="@style/button_mid"
-                android:layout_width="wrap_content"
-                android:layout_height="@dimen/small_button_height"
+
+            <TextView
+                android:id="@+id/pay"
+                style="@style/order_list_button_style"
+                android:layout_gravity="right"
                 android:layout_centerVertical="true"
                 android:layout_alignParentRight="true"
-                android:background="@drawable/button_green"
                 android:text="确认付款" />
+
         </RelativeLayout>
 
     </LinearLayout>

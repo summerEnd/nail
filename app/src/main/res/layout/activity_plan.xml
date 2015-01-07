@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.finger.activity.other.plan.PlanActivity">
+    tools:context="com.finger.activity.plan.PlanActivity">
 
     <include layout="@layout/head_2" />
 

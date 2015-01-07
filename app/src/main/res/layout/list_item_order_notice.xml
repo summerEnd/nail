@@ -20,6 +20,7 @@
             android:layout_height="@dimen/avatar_size" />
 
         <TextView
+            android:id="@+id/artist_name"
             android:layout_marginLeft="6dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -30,9 +31,10 @@
             android:layout_toRightOf="@+id/avatar" />
 
         <TextView
+            android:id="@+id/create_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="下单时间：2014.11.12"
+            android:text="@string/order_date_s"
             android:layout_alignParentRight="true"
             android:textSize="@dimen/textSize_dp_24px"
             android:layout_centerVertical="true"
@@ -62,36 +64,36 @@
         android:orientation="horizontal">
 
         <ImageView
-            android:id="@+id/nail_image"
+            android:id="@+id/cover"
             android:src="@drawable/test_image_02"
             android:layout_width="@dimen/order_image_size"
             android:layout_height="@dimen/order_image_size" />
 
         <TextView
-            android:id="@+id/nail_title"
+            android:id="@+id/product_name"
             android:layout_marginLeft="6dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="@dimen/textSize_dp_34px"
             android:textColor="@color/textColorGray"
             android:text="闪闪闪，闪瞎你丫的~"
-            android:layout_toRightOf="@+id/nail_image" />
+            android:layout_toRightOf="@+id/cover" />
 
         <TextView
-            android:id="@+id/price"
-            android:layout_toRightOf="@+id/nail_image"
+            android:id="@+id/tv_price"
+            android:layout_toRightOf="@+id/cover"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="价格：￥102"
+            android:text="@string/price_r_s"
             android:layout_marginLeft="6dp"
             android:layout_marginTop="16dp"
-            android:layout_below="@+id/nail_title"
+            android:layout_below="@+id/product_name"
             android:textSize="@dimen/textSize_dp_30px"
             android:textColor="@color/textColorGray" />
 
         <LinearLayout
             android:layout_alignParentRight="true"
-            android:layout_alignBottom="@+id/price"
+            android:layout_alignBottom="@+id/tv_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
@@ -104,9 +106,10 @@
                 android:textColor="@color/textColorGray" />
 
             <TextView
+                android:id="@+id/tv_real_pay"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="￥108"
+                android:text="@string/s_price"
                 android:textStyle="bold"
                 android:textSize="@dimen/textSize_dp_34px"
                 android:textColor="@color/textColorBlack" />

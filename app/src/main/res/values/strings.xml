@@ -88,6 +88,7 @@
     <string name="on_time_">守时：</string>
     <string name="d_num">%d条</string>
     <string name="d_price">￥%d</string>
+    <string name="s_price">￥%s</string>
     <string name="time_cost_s">耗时%s</string>
     <string name="time_keep_s">保持%s</string>
     <string name="rmb_s">￥%s</string>
@@ -127,5 +128,8 @@
     <string name="input_contact">请输入联系人姓名</string>
     <string name="input_mobile">点击输入联系人手机号</string>
     <string name="input_planTime">请选择预约时间</string>
+    <string name="order_date_s">下单时间：%s</string>
+    <string name="price_r_s">价格：￥%s</string>
+    <string name="orderInfo">订单信息</string>
 
 </resources>

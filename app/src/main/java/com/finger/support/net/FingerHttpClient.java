@@ -1,11 +1,8 @@
 package com.finger.support.net;
 
 import com.finger.BuildConfig;
-import com.finger.support.Constant;
-import com.finger.FingerApp;
-import com.finger.support.entity.ArtistRole;
-import com.finger.support.entity.RoleBean;
-import com.finger.support.entity.UserRole;
+import com.finger.activity.FingerApp;
+import com.finger.entity.RoleBean;
 import com.finger.support.util.ContextUtil;
 import com.finger.support.util.Logger;
 import com.loopj.android.http.RequestParams;

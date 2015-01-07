@@ -10,9 +10,9 @@ import android.util.AttributeSet;
 import android.view.View;
 
 import com.finger.R;
-import com.finger.activity.other.info.HonorInfoActivity;
+import com.finger.activity.info.HonorInfoActivity;
 import com.finger.support.Constant;
-import com.finger.support.entity.ArtistGrade;
+import com.finger.entity.ArtistGrade;
 import com.finger.support.util.Logger;
 import com.sp.lib.util.FileUtil;
 

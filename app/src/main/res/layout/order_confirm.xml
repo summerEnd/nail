@@ -76,7 +76,7 @@
                             android:layout_height="wrap_content"
                             android:textColor="@color/textColorGray"
                             android:textSize="@dimen/textSize_dp_24px"
-                            android:text="店面价:￥" />
+                            android:text="店面价:" />
 
                         <TextView
                             android:id="@+id/tv_shop_price"

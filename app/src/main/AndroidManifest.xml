@@ -27,7 +27,7 @@
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
 
     <application
-        android:name=".FingerApp"
+        android:name=".activity.FingerApp"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
@@ -42,7 +42,7 @@
             android:value="VGNAx8IuYg8RUvpM5Z8A0HcT" />
 
         <activity
-            android:name=".MyActivity"
+            android:name=".TestActivity"
             android:label="@string/app_name" />
         <activity
             android:name="com.sp.lib.activity.DEBUGActivity"
@@ -57,11 +57,11 @@
             <!-- </intent-filter> -->
         </activity>
         <activity
-            android:name=".activity.other.login.LoginActivity"
+            android:name=".activity.login.LoginActivity"
             android:label="@string/login"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.WelcomeActivity"
+            android:name=".activity.login.WelcomeActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -74,131 +74,141 @@
             android:exported="true"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.other.setting.SettingActivity"
+            android:name=".activity.setting.SettingActivity"
             android:label="@string/settings"
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.MainActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.other.login.RegisterActivity"
+            android:name=".activity.login.RegisterActivity"
             android:label="@string/register"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.user.my.MyDiscountActivity"
+            android:name=".activity.main.user.my.MyDiscountActivity"
             android:label="@string/my_discount"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.other.plan.PlanActivity"
+            android:name=".activity.plan.PlanActivity"
             android:label="@string/title_activity_plan"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.other.login.UpdatePasswordActivity"
+            android:name=".activity.login.UpdatePasswordActivity"
             android:label="@string/title_activity_update_password"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.other.login.FindPassword"
+            android:name=".activity.login.FindPassword"
             android:label="@string/reset_password"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.other.login.SignUp"
+            android:name=".activity.login.SignUp"
             android:screenOrientation="portrait"
             android:label="@string/reg" />
         <activity
-            android:name=".activity.other.info.NailInfo"
+            android:name=".activity.info.NailInfo"
             android:screenOrientation="portrait"
             android:label="@string/nail_info" />
         <activity
-            android:name=".activity.other.info.NailListActivity"
+            android:name=".activity.info.NailListActivity"
             android:screenOrientation="portrait"
             android:label="@string/nail_items" />
         <activity
-            android:name=".activity.other.info.ArtistList"
+            android:name=".activity.info.ArtistInfoList"
             android:screenOrientation="portrait"
             android:label="@string/choose_artist" />
         <activity
-            android:name=".activity.other.info.ArtistInfo"
+            android:name=".activity.info.ArtistInfo"
             android:screenOrientation="portrait"
             android:label="@string/artist_name" />
         <activity
-            android:name=".activity.other.setting.About"
+            android:name=".activity.setting.About"
             android:screenOrientation="portrait"
             android:label="@string/title_activity_about"></activity>
         <activity
-            android:name=".activity.other.setting.SuggestionActivity"
+            android:name=".activity.setting.SuggestionActivity"
             android:screenOrientation="portrait"
             android:label="@string/title_activity_suggestion"></activity>
         <activity
-            android:name=".activity.other.setting.ServiceAreaActivity"
+            android:name=".activity.setting.ServiceAreaActivity"
             android:screenOrientation="portrait"
             android:label="@string/title_activity_service_area"></activity>
         <activity
-            android:name=".activity.other.common.MyCareActivity"
+            android:name=".activity.main.MyCareActivity"
             android:screenOrientation="portrait"
             android:label="@string/my_care"></activity>
         <activity
-            android:name=".activity.other.common.MyCollectionActivity"
+            android:name=".activity.main.MyCollectionActivity"
             android:screenOrientation="portrait"
             android:label="@string/my_collection"></activity>
         <activity
-            android:name=".activity.other.common.ChangeMyData"
+            android:name=".activity.setting.ChangeMyData"
             android:screenOrientation="portrait"
             android:label="@string/change_data"></activity>
         <activity
-            android:name=".activity.other.plan.OrderConfirm"
+            android:name=".activity.plan.OrderConfirm"
             android:screenOrientation="portrait"
             android:label="@string/order_confirm"></activity>
         <activity
-            android:name=".activity.other.info.HonorInfoActivity"
+            android:name=".activity.info.HonorInfoActivity"
             android:screenOrientation="portrait"
             android:label="@string/nail_honor_info" />
         <activity
-            android:name=".activity.artist.my.PublishNailActivity"
+            android:name=".activity.main.artist.my.PublishNailActivity"
             android:screenOrientation="portrait"
             android:label="@string/publish_nail" />
         <activity
             android:name="com.sp.lib.activity.PhotoAlbumActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.user.order.CommentOrder"
+            android:name=".activity.main.user.order.CommentOrder"
             android:screenOrientation="portrait"
             android:label="@string/comment_order" />
         <activity
-            android:name=".activity.user.order.ApplyRefund"
+            android:name=".activity.main.user.order.ApplyRefund"
             android:screenOrientation="portrait"
             android:label="@string/apply_refund" />
         <activity
-            android:name=".activity.artist.my.MyInfoActivity"
+            android:name=".activity.main.artist.my.MyInfoActivity"
             android:screenOrientation="portrait"
             android:label="@string/my_info" />
         <activity
-            android:name=".activity.artist.my.MyResumeActivity"
+            android:name=".activity.main.artist.my.MyResumeActivity"
             android:screenOrientation="portrait"
             android:label="@string/my_resume" />
         <activity
-            android:name=".activity.artist.my.ChangeResume"
+            android:name=".activity.main.artist.my.ChangeResume"
             android:screenOrientation="portrait"
             android:label="@string/change_resume" />
         <activity
-            android:name=".activity.LocationActivity"
+            android:name=".activity.setting.LocationActivity"
             android:screenOrientation="portrait"
             android:label="@string/choose_city" />
         <activity
-            android:name=".activity.artist.my.PlanTimeActivity"
+            android:name=".activity.main.artist.my.PlanTimeActivity"
             android:screenOrientation="portrait"
             android:label="@string/plan_time" />
         <activity
-            android:name=".activity.other.common.SearchResult"
+            android:name=".activity.main.SearchResult"
             android:screenOrientation="portrait"
             android:label="@string/search_result" />
         <activity
-            android:name=".activity.other.setting.TaxiFeeActivity"
+            android:name=".activity.setting.TaxiFeeActivity"
             android:screenOrientation="portrait"
             android:label="@string/taxi_fee" />
         <activity
-            android:name=".activity.other.setting.DiscountRuleActivity"
+            android:name=".activity.setting.DiscountRuleActivity"
             android:screenOrientation="portrait"
             android:label="@string/discount_rule" />
+        <activity
+            android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen"
+            android:name=".activity.login.GuideActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity
+            android:name=".activity.info.OrderInfoActivity"
+            android:screenOrientation="portrait"
+            android:label="@string/orderInfo"
+            />
     </application>
 
 </manifest>

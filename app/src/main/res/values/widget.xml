@@ -25,4 +25,17 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:background">@drawable/edit_bg</item>
     </style>
+
+    <style name="order_list_button_style">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:background">@drawable/button_green</item>
+        <item name="android:paddingLeft">9dp</item>
+        <item name="android:paddingRight">9dp</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">@dimen/textSize_dp_30px</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_height">@dimen/small_button_height</item>
+        <item name="android:layout_marginTop">8dp</item>
+        <item name="android:layout_marginBottom">8dp</item>
+    </style>
 </resources>

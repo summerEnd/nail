@@ -4,7 +4,7 @@ package com.finger.support.net;
 import android.content.Context;
 import android.telephony.TelephonyManager;
 
-import com.finger.FingerApp;
+import com.finger.activity.FingerApp;
 import com.finger.support.util.ContextUtil;
 import com.finger.support.util.Logger;
 import com.loopj.android.http.JsonHttpResponseHandler;

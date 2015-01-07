@@ -10,9 +10,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.finger.R;
-import com.finger.activity.other.info.NailInfo;
-import com.finger.support.entity.NailInfoBean;
-import com.finger.support.util.Logger;
+import com.finger.activity.info.NailInfo;
+import com.finger.entity.NailInfoBean;
 import com.sp.lib.util.ImageManager;
 
 /**

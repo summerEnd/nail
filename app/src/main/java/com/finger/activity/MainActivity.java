@@ -12,9 +12,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.finger.R;
-import com.finger.activity.other.login.LoginActivity;
-import com.finger.activity.artist.my.MyFragment;
-import com.finger.activity.artist.order.OrderFragment;
+import com.finger.activity.base.BaseActivity;
+import com.finger.activity.login.LoginActivity;
+import com.finger.activity.main.MainFragment;
+import com.finger.activity.main.artist.my.MyFragment;
+import com.finger.activity.main.artist.order.OrderFragment;
 import com.finger.support.Constant;
 import com.finger.support.util.ContextUtil;
 import com.finger.support.util.Logger;
@@ -32,11 +34,11 @@ public class MainActivity extends BaseActivity {
     ImageView imageView[] = new ImageView[4];
     TextView tvs[] = new TextView[4];
     /**
-     * fragments[0] {@link MainFragment}
-     * fragments[1] {@link com.finger.activity.user.order.OrderFragment}
-     * fragments[2] {@link com.finger.activity.user.my.MyFragment}
-     * fragments[3] {@link com.finger.activity.artist.order.OrderFragment}
-     * fragments[4] {@link com.finger.activity.artist.my.MyFragment}
+     * fragments[0] {@link com.finger.activity.main.MainFragment}
+     * fragments[1] {@link com.finger.activity.main.user.order.OrderFragment}
+     * fragments[2] {@link com.finger.activity.main.user.my.MyFragment}
+     * fragments[3] {@link com.finger.activity.main.artist.order.OrderFragment}
+     * fragments[4] {@link com.finger.activity.main.artist.my.MyFragment}
      */
     Fragment[] fragments = new Fragment[5];
 
@@ -94,7 +96,7 @@ public class MainActivity extends BaseActivity {
                     showFragment(3);
                 } else if (Constant.LOGIN_TYPE_USER.equals(type)) {
                     if (fragments[1] == null) {
-                        fragments[1] = new com.finger.activity.user.order.OrderFragment();
+                        fragments[1] = new com.finger.activity.main.user.order.OrderFragment();
                     }
                     showFragment(1);
                 }
@@ -113,7 +115,7 @@ public class MainActivity extends BaseActivity {
                     showFragment(4);
                 } else if (Constant.LOGIN_TYPE_USER.equals(type)) {
                     if (fragments[2] == null) {
-                        fragments[2] = new com.finger.activity.user.my.MyFragment();
+                        fragments[2] = new com.finger.activity.main.user.my.MyFragment();
                     }
                     showFragment(2);
                 }

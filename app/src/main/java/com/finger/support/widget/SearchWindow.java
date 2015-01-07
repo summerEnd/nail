@@ -17,9 +17,9 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.finger.R;
-import com.finger.activity.other.common.SearchResult;
+import com.finger.activity.main.SearchResult;
 import com.finger.support.Constant;
-import com.finger.support.entity.HotTagBean;
+import com.finger.entity.HotTagBean;
 import com.sp.lib.util.DisplayUtil;
 import com.sp.lib.util.FileUtil;
 

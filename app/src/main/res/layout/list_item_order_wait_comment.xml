@@ -67,8 +67,6 @@
 
         <RelativeLayout
             android:layout_width="wrap_content"
-            android:paddingTop="@dimen/item_margin_top"
-            android:paddingBottom="@dimen/item_margin_top"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
@@ -89,14 +87,13 @@
                 android:textSize="@dimen/textSize_dp_30px"
                 android:textColor="@color/textColorBlack"
                 android:layout_height="wrap_content" />
-            <Button
+
+            <TextView
                 android:id="@+id/comment"
-                style="@style/button_mid"
-                android:layout_width="wrap_content"
-                android:layout_height="@dimen/small_button_height"
+                style="@style/order_list_button_style"
+                android:layout_gravity="right"
                 android:layout_centerVertical="true"
                 android:layout_alignParentRight="true"
-                android:background="@drawable/button_green"
                 android:text="立即评价" />
         </RelativeLayout>
 

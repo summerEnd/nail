@@ -38,6 +38,11 @@
         <item name="android:layout_height">1px</item>
     </style>
 
+    <style name="horizontal_line_margin_style" parent="horizontal_line">
+        <item name="android:layout_marginLeft">8dp</item>
+        <item name="android:layout_marginRight">8dp</item>
+    </style>
+
     <style name="vertical_line">
         <item name="android:background">#d5d5d5</item>
         <item name="android:layout_width">1px</item>

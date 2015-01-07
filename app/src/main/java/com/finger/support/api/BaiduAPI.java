@@ -11,9 +11,6 @@ import com.baidu.mapapi.SDKInitializer;
 import com.baidu.mapapi.model.LatLng;
 import com.baidu.mapapi.utils.CoordinateConverter;
 import com.baidu.mapapi.utils.DistanceUtil;
-import com.finger.FingerApp;
-import com.finger.support.entity.CityBean;
-import com.finger.support.util.ContextUtil;
 import com.finger.support.util.Logger;
 
 /**
