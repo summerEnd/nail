@@ -41,6 +41,8 @@ public class MyResumeActivity extends BaseActivity {
 //                startActivity(new Intent(this, ChangeResume.class).putExtra(ChangeResume.EXTRA_SHORT_TEXT, tv_short_content.getText().toString()));
                 AlertDialog.Builder builder=new AlertDialog.Builder(this);
                 builder.setMessage(getString(R.string.update_resume_notice));
+                builder.setTitle(R.string.warn);
+                builder.setPositiveButton(R.string.yes,null);
                 builder.show();
                 break;
             }
@@ -103,8 +105,8 @@ public class MyResumeActivity extends BaseActivity {
         setArtistComment(bean.comment_good, bean.comment_normal, bean.comment_bad);
         rating.setScore(bean.score);
         tv_nick_name.setText(bean.username);
-//        tv_order_num.setText(getString(R.string.order_d_num,bean.));
-//        tv_short_content.setText(bean.);
+        tv_order_num.setText(getString(R.string.order_d_num,bean.total_num));
+        tv_short_content.setText(bean.resume);
     }
 
 }

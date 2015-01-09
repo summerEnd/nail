@@ -27,18 +27,19 @@
             android:layout_height="wrap_content">
 
             <ImageView
-                android:id="@+id/iv_avatar"
+                android:id="@+id/cover"
                 android:layout_width="@dimen/avatar_size"
+                android:layout_marginRight="@dimen/order_image_margin"
                 android:src="@drawable/default_user"
                 android:layout_height="@dimen/avatar_size" />
 
             <TextView
-                android:id="@+id/tv_title"
+                android:id="@+id/product_name"
                 android:textSize="@dimen/textSize_dp_30px"
                 android:textColor="@color/black"
                 android:layout_width="wrap_content"
                 android:text="梅超风系列"
-                android:layout_toRightOf="@id/iv_avatar"
+                android:layout_toRightOf="@id/cover"
                 android:layout_height="wrap_content" />
 
             <TextView
@@ -47,19 +48,20 @@
                 android:textSize="@dimen/textSize_dp_24px"
                 android:textColor="@color/textColorGray"
                 android:layout_width="wrap_content"
-                android:text="价格：￥100"
-                android:layout_below="@+id/tv_title"
-                android:layout_toRightOf="@id/iv_avatar"
+                android:text="@string/price_s"
+                android:layout_below="@+id/product_name"
+                android:layout_toRightOf="@id/cover"
                 android:layout_height="wrap_content" />
 
             <TextView
+                android:id="@id/create_time"
                 android:textSize="@dimen/textSize_dp_24px"
                 android:layout_marginTop="@dimen/order_list_margin_top"
                 android:textColor="@color/textColorGray"
                 android:layout_width="wrap_content"
                 android:text="下单时间：2014.05.11"
                 android:layout_below="@+id/tv_price"
-                android:layout_toRightOf="@id/iv_avatar"
+                android:layout_toRightOf="@id/cover"
                 android:layout_height="wrap_content" />
         </RelativeLayout>
 
@@ -80,6 +82,7 @@
                 android:textColor="@color/textColorGray"
                 android:layout_height="wrap_content" />
             <TextView
+                android:id="@+id/tv_real_pay"
                 android:layout_toRightOf="@+id/sf"
                 android:layout_width="wrap_content"
                 android:text="￥108"

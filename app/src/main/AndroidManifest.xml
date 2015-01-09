@@ -39,7 +39,7 @@
         <!-- meta-data需要写在application中 -->
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
-            android:value="VGNAx8IuYg8RUvpM5Z8A0HcT" />
+            android:value="KDF8uslpDCiIyHlmMvkLuXqT" />
 
         <activity
             android:name=".TestActivity"
@@ -70,7 +70,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".support.api.WXEntryActivity"
+            android:name=".api.WXEntryActivity"
             android:exported="true"
             android:screenOrientation="portrait" />
         <activity
@@ -208,6 +208,16 @@
             android:name=".activity.info.OrderInfoActivity"
             android:screenOrientation="portrait"
             android:label="@string/orderInfo"
+            />
+        <activity
+            android:name=".activity.info.CommentListActivity"
+            android:screenOrientation="portrait"
+            android:label="@string/comment"
+            />
+        <activity
+            android:name=".activity.plan.SearchAddress"
+            android:screenOrientation="portrait"
+            android:label="@string/select_address"
             />
     </application>
 

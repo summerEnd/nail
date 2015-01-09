@@ -46,7 +46,8 @@
         android:layout_marginRight="@dimen/activity_horizontal_margin"
         app:edit_drawable="@drawable/ic_fly"
         android:layout_width="match_parent"
-        app:edit_hint="点击输入详细地址"
+        app:edit_text="选择地址"
+        app:edit_editable="false"
         android:layout_height="wrap_content" />
 
     <View

@@ -14,7 +14,7 @@ import com.baidu.location.BDLocation;
 import com.finger.activity.base.BaseActivity;
 import com.finger.R;
 import com.finger.activity.info.ArtistInfoList;
-import com.finger.support.api.BaiduAPI;
+import com.finger.api.BaiduAPI;
 import com.finger.entity.OrderBean;
 import com.finger.entity.OrderManager;
 import com.finger.entity.RoleBean;
@@ -78,6 +78,7 @@ public class PlanActivity extends BaseActivity implements RadioGroup.OnCheckedCh
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode,resultCode,data);
         if (requestCode == REQUEST_CODE_GPS) {
             BaiduAPI.locate(new BaiduAPI.Callback() {
                 @Override

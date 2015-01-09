@@ -1,6 +1,12 @@
 apply plugin: 'com.android.library'
 
 android {
+    signingConfigs {
+        config {
+            storeFile file('D:/workspace/keystore/finger.jks')
+            storePassword 'finger2014'
+        }
+    }
     compileSdkVersion 20
     buildToolsVersion '20.0.0'
     defaultConfig {
@@ -13,6 +19,7 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.config
         }
     }
     productFlavors {

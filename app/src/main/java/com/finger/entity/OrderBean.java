@@ -26,6 +26,7 @@ public class OrderBean implements Serializable {
 
     public String book_date;
     public String time_block;
+    public AddressSearchBean addressSearchBean;
 
 
 }

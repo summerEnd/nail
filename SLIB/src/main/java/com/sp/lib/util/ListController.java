@@ -1,8 +1,13 @@
 package com.sp.lib.util;
 
+import android.app.Activity;
+import android.content.ComponentCallbacks2;
 import android.content.Context;
+import android.database.DataSetObserver;
 import android.util.Log;
 import android.widget.AbsListView;
+import android.widget.BaseAdapter;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 
 import java.util.logging.Logger;
@@ -14,27 +19,19 @@ public class ListController implements AbsListView.OnScrollListener {
 
 
     public interface Callback {
-        public void onLoadMore(AbsListView listView, int page);
+        public void onLoadMore(AbsListView listView, int nextPage);
     }
 
     private static final int DEFAULT_PAGE_SIZE = 15;
     Callback    callback;
     AbsListView mListView;
-    boolean isBottom = false;
-    int pageSize;
-    int mSavedSize = 0;
+    boolean isBottom                  = false;
+    int     pageSize                  = DEFAULT_PAGE_SIZE;
+    int     mSavedSize                = 0;
+    boolean dataSetObserverRegistered = false;
 
-    public ListController() {
-        this(DEFAULT_PAGE_SIZE);
-    }
-
-
-    public ListController(int pageSize) {
-        this.pageSize = pageSize;
-    }
 
     public ListController(AbsListView listView, Callback callback) {
-        this(DEFAULT_PAGE_SIZE);
         control(listView, callback);
     }
 
@@ -46,17 +43,55 @@ public class ListController implements AbsListView.OnScrollListener {
         this.callback = callback;
         this.mListView = listView;
         mListView.setOnScrollListener(this);
+
+
+    }
+
+    public void setPageSize(int pageSize) {
+        this.pageSize = pageSize;
+    }
+
+    private DataSetObserver dataSetObserver = new DataSetObserver() {
+        @Override
+        public void onChanged() {
+            BaseAdapter adapter = (BaseAdapter) mListView.getAdapter();
+            mSavedSize = adapter.getCount();
+        }
+    };
+
+    public void registerDataObserver() {
+        BaseAdapter adapter = (BaseAdapter) mListView.getAdapter();
+        if (adapter == null) {
+            throw new IllegalStateException("AbsListView doesn't have a adapter");
+        }
+        adapter.registerDataSetObserver(dataSetObserver);
+        dataSetObserverRegistered = true;
+    }
+
+    public void unRegisterDataObserver() {
+        BaseAdapter adapter = (BaseAdapter) mListView.getAdapter();
+        if (adapter == null) {
+            throw new IllegalStateException("AbsListView doesn't have a adapter");
+        }
+
+        if (dataSetObserverRegistered)
+            adapter.unregisterDataSetObserver(dataSetObserver);
+        dataSetObserverRegistered = false;
     }
 
     @Override
     public void onScrollStateChanged(AbsListView view, int scrollState) {
-
         //滚动停止时，如果在最底部，判断是否需要加载更多。
-        if (scrollState == SCROLL_STATE_IDLE&&isBottom) {
-            int count = mListView.getAdapter().getCount();
+        if (scrollState == SCROLL_STATE_IDLE && isBottom) {
+
+            ListAdapter adapter = mListView.getAdapter();
+            if (!dataSetObserverRegistered)
+                registerDataObserver();
+
+            int count = adapter.getCount();
             int loadedCount = count - mSavedSize;
-            mSavedSize=count;
-            if (loadedCount >=pageSize ){
+
+            if (loadedCount >= pageSize) {
                 int page = count / pageSize + 1;
                 callback.onLoadMore(mListView, page);
             }

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include layout="@layout/head_2"/>
+
+    <RadioGroup
+        android:id="@+id/rg"
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:layout_height="wrap_content">
+
+        <RadioButton
+            style="@style/tab_comment_style"
+            android:id="@+id/rb_good"
+            android:checked="true"
+            android:text="好评"
+            android:textColor="@drawable/text_good"
+            />
+
+        <RadioButton
+            style="@style/tab_comment_style"
+            android:id="@+id/rb_mid"
+            android:text="中评"
+            android:textColor="@drawable/text_normal"
+            />
+
+        <RadioButton
+            style="@style/tab_comment_style"
+            android:id="@+id/rb_bad"
+            android:textColor="@drawable/text_bad"
+            android:text="差评"
+            />
+    </RadioGroup>
+
+    <TextView style="@style/horizontal_line"/>
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/frag_container"/>
+</LinearLayout>

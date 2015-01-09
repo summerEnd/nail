@@ -23,7 +23,7 @@ import com.baidu.mapapi.utils.CoordinateConverter;
 import com.finger.support.util.Logger;
 import com.sp.lib.activity.DEBUGActivity;
 
-import com.finger.support.api.BaiduAPI;
+import com.finger.api.BaiduAPI;
 
 import static com.baidu.mapapi.utils.CoordinateConverter.CoordType;
 

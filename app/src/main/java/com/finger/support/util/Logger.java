@@ -48,7 +48,7 @@ public class Logger {
     }
 
     public static final void d(String tag, String msg) {
-        if (isLogAble) Log.d(tag, msg);
+        if (isLogAble) Log.d(tag, msg+"");
     }
 
     public static final void debug(Runnable runnable) {

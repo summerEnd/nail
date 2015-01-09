@@ -64,8 +64,11 @@ public class RatingWidget extends View {
     }
 
     public void setScore(int score) {
-        this.score = score;
+
         LinkedList<ArtistGrade> grades = (LinkedList<ArtistGrade>) FileUtil.readFile(getContext(), Constant.FILE_ARTIST_GRADE);
+        int max = grades.getLast().to;
+        score = Math.min(max, score);
+        this.score = score;
         int grade = 0;
         for (ArtistGrade artistGrade : grades) {
             if (artistGrade.contains(score)) {
@@ -73,6 +76,7 @@ public class RatingWidget extends View {
                 break;
             }
         }
+
         int level = grade / 5 + 1;
         num_star = grade % 5;
 

@@ -15,6 +15,9 @@ import com.finger.activity.main.user.order.CommentOrder;
 import com.finger.entity.OrderBean;
 import com.finger.entity.OrderListBean;
 import com.finger.entity.OrderManager;
+import com.finger.support.util.ContextUtil;
+import com.finger.support.widget.NailItem;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.sp.lib.util.ImageManager;
 
 import java.util.List;
@@ -231,6 +234,12 @@ public class OrderAdapterFactory {
                 holder = new ViewHolder();
                 convertView = inflater.inflate(R.layout.list_item_order_wait_comment, null);
                 holder.button1 = convertView.findViewById(R.id.comment);
+                holder.cover = (ImageView) convertView.findViewById(R.id.cover);
+                holder.product_name = (TextView) convertView.findViewById(R.id.product_name);
+                holder.tv_price = (TextView) convertView.findViewById(R.id.tv_price);
+                holder.create_time = (TextView) convertView.findViewById(R.id.create_time);
+                holder.tv_real_pay = (TextView) convertView.findViewById(R.id.tv_real_pay);
+
                 holder.button1.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -242,6 +251,11 @@ public class OrderAdapterFactory {
             }
             OrderListBean bean = (OrderListBean) data.get(position);
             holder.button1.setTag(bean);
+            holder.product_name.setText(bean.product_name);
+            holder.tv_price.setText(context.getString(R.string.price_s, bean.order_price));
+            holder.create_time.setText(bean.create_time);
+            holder.tv_real_pay.setText(context.getString(R.string.real_price_s, bean.order_price));
+            ImageManager.loadImage(bean.product_cover, holder.cover, options);
             convertView.setTag(holder);
             return convertView;
         }
@@ -278,11 +292,21 @@ public class OrderAdapterFactory {
             if (convertView == null) {
                 holder = new ViewHolder();
                 convertView = inflater.inflate(R.layout.list_item_order_refund, null);
-                holder.refund_state = (TextView) convertView.findViewById(R.id.refund_state);
+
+                holder.cover = (ImageView) convertView.findViewById(R.id.cover);
+                holder.product_name = (TextView) convertView.findViewById(R.id.product_name);
+                holder.create_time = (TextView) convertView.findViewById(R.id.create_time);
+                holder.tv_price = (TextView) convertView.findViewById(R.id.tv_price);
+                holder.tv_real_pay = (TextView) convertView.findViewById(R.id.tv_real_pay);
             } else {
                 holder = (ViewHolder) convertView.getTag();
             }
 
+            OrderListBean bean= (OrderListBean) data.get(position);
+            holder.product_name.setText(bean.product_name);
+            holder.create_time.setText(bean.create_time);
+            holder.tv_price.setText(context.getString(R.string.price_s,bean.order_price));
+            holder.tv_real_pay.setText(context.getString(R.string.real_price_s,bean.order_price));
             if (position % 2 == 1) {
                 holder.refund_state.setTextColor(context.getResources().getColor(R.color.textColorGray));
                 holder.refund_state.setText(context.getString(R.string.refund_complete));
@@ -394,6 +418,7 @@ public class OrderAdapterFactory {
         protected List           data;
         protected LayoutInflater inflater;
         protected Context        context;
+        protected DisplayImageOptions options = ContextUtil.getSquareImgOptions();
 
         public OrderAdapter(Context context, List data) {
             this.data = data;

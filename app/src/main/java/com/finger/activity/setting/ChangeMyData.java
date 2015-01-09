@@ -1,5 +1,7 @@
 package com.finger.activity.setting;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -32,9 +34,10 @@ import org.json.JSONObject;
 import java.io.IOException;
 
 public class ChangeMyData extends BaseActivity {
-    EditText edit_nick;
-    TextView edit_phone;
+    EditText  edit_nick;
+    TextView  edit_phone;
     ImageView iv_avatar;
+    String    imageUrl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +54,7 @@ public class ChangeMyData extends BaseActivity {
         RoleBean bean = getApp().getUser();
         //设置头像
         loadAvatar(bean.avatar);
-        iv_avatar.setContentDescription(bean.avatar);
+
         edit_nick.setText(bean.username);
         edit_phone.setText(bean.mobile);
         ((TextView) findViewById(R.id.tv_nick_name)).setText(bean.username);
@@ -103,7 +106,8 @@ public class ChangeMyData extends BaseActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (RESULT_OK != resultCode) return;
+        if (RESULT_OK != resultCode)
+            return;
         try {
             Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), data.getData());
             if (bitmap == null) {
@@ -117,9 +121,8 @@ public class ChangeMyData extends BaseActivity {
                 @Override
                 public void onSuccess(JSONObject o) {
                     try {
-                        String avatar = o.getString("data");
-                        iv_avatar.setContentDescription(avatar);
-                        loadAvatar(avatar);
+                        imageUrl = o.getString("data");
+                        loadAvatar(imageUrl);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -133,11 +136,10 @@ public class ChangeMyData extends BaseActivity {
     void updateInfo() {
         RequestParams params = new RequestParams();
         final String username = edit_nick.getText().toString();
-        final String avatar = (String) iv_avatar.getContentDescription();
         final RoleBean user = getApp().getUser();
 
         params.put("username", username);
-        params.put("avatar", avatar);
+        params.put("avatar", imageUrl);
         params.put("uid", user.id);
         params.put("type", user.getType());
 
@@ -145,11 +147,19 @@ public class ChangeMyData extends BaseActivity {
             @Override
             public void onSuccess(JSONObject o) {
                 user.username = username;
-                ContextUtil.toast(getString(R.string.modify_ok));
                 if (Constant.LOGIN_TYPE_ARTIST.equals(user.getType())) {
-                    DialogUtil.alert(ChangeMyData.this, getString(R.string.artist_avatar_upload));
+                    AlertDialog.Builder builder = new AlertDialog.Builder(ChangeMyData.this);
+                    builder.setMessage(getString(R.string.artist_avatar_upload));
+                    builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                        }
+                    });
+                    builder.setTitle(R.string.modify_ok);
+                    builder.show();
                 } else {
-                    user.avatar = avatar;
+                    user.avatar = imageUrl;
                 }
                 setUserData();
 

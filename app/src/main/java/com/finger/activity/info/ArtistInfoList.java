@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
@@ -17,6 +18,9 @@ import android.widget.TextView;
 
 import com.finger.activity.base.BaseActivity;
 import com.finger.R;
+import com.finger.entity.OrderBean;
+import com.finger.entity.OrderManager;
+import com.finger.api.BaiduAPI;
 import com.finger.support.net.FingerHttpClient;
 import com.finger.support.net.FingerHttpHandler;
 import com.finger.support.util.JsonUtil;
@@ -27,6 +31,7 @@ import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListene
 import com.sp.lib.util.DisplayUtil;
 import com.sp.lib.util.ImageManager;
 import com.sp.lib.util.ImageUtil;
+import com.sp.lib.util.ListController;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -37,21 +42,36 @@ import java.util.List;
 /**
  * 美甲师列表
  */
-public class ArtistInfoList extends BaseActivity implements AdapterView.OnItemClickListener {
-    ListView listView;
-    PopupWindow orderList;
-    int width;
-    private PopListAdapter adapter;
-    List<ArtistListBean> beans = new ArrayList<ArtistListBean>();
+public class ArtistInfoList extends BaseActivity implements AdapterView.OnItemClickListener, ListController.Callback {
+    private ListView       listView;
+    private PopupWindow    orderList;
+    private int            width;
+    /**
+     * 距离排序:position
+     * 等级排序:score
+     * 价格排序:price
+     * 例如：价格降序price_desc,等级升序score_asc
+     */
+    private String         sort;
+    private String         ASC_DESC;
+    private PopListAdapter popupAdapter;
+    private ArtistAdapter  adapter;
+    private List<ArtistListBean> beans = new ArrayList<ArtistListBean>();
+    private ListController controller;
+
+    @Override
+    public void onLoadMore(AbsListView listView, int nextPage) {
+        getSellerList(nextPage);
+    }
 
     public class ArtistListBean {
         String username;
         String mobile;
         String avatar;
-        int uid;
-        int score;
+        int    uid;
+        int    score;
         String average_price;
-        int order_num;
+        int    order_num;
     }
 
     @Override
@@ -60,24 +80,40 @@ public class ArtistInfoList extends BaseActivity implements AdapterView.OnItemCl
         setContentView(R.layout.activity_choose_artist);
         listView = (ListView) findViewById(R.id.listView);
         listView.setOnItemClickListener(this);
-        getData();
+        adapter = new ArtistAdapter(ArtistInfoList.this, beans);
+        listView.setAdapter(adapter);
+        controller = new ListController(listView, this);
+        getSellerList(1);
     }
 
-    void getData() {
+    /**
+     * @param page 从1开始
+     */
+    void getSellerList(int page) {
         RequestParams params = new RequestParams();
-        /*
-         *距离排序:position_desc,position_asc
-         *等级排序:score_desc,score_asc
-         *价格排序:price_desc,price_asc
-         */
-        params.put("sort", "");
+
+        params.put("sort", sort + "_" + ASC_DESC);
+        params.put("page", page);
+
+        OrderBean bean = OrderManager.getCurrentOrder();
+        //如果是预约时查看列表，就取预约的经纬度。否则取用户当前的经纬度
+        if (bean == null) {
+            if (BaiduAPI.mBDLocation != null) {
+                params.put("longitude", BaiduAPI.mBDLocation.getLongitude());
+                params.put("latitude", BaiduAPI.mBDLocation.getLatitude());
+            }
+
+        } else {
+            params.put("longitude", bean.addressSearchBean.longitude);
+            params.put("latitude", bean.addressSearchBean.latitude);
+        }
+        params.put("pagesize", controller.getPageSize());
         FingerHttpClient.post("getSellerList", params, new FingerHttpHandler() {
             @Override
             public void onSuccess(JSONObject o) {
                 try {
                     JsonUtil.getArray(o.getJSONArray("data"), ArtistListBean.class, beans);
-                    listView.setAdapter(new ArtistAdapter(ArtistInfoList.this, beans));
-
+                    adapter.notifyDataSetChanged();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -96,11 +132,19 @@ public class ArtistInfoList extends BaseActivity implements AdapterView.OnItemCl
             orderList.setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
             View contentView = View.inflate(this, R.layout.order_list, null);
             ListView listView = (ListView) contentView.findViewById(R.id.listView);
-            adapter = new PopListAdapter(this);
-            listView.setAdapter(adapter);
+            popupAdapter = new PopListAdapter(this);
+            listView.setAdapter(popupAdapter);
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    if (position == 0) {
+                        ASC_DESC = "asc";
+                    } else {
+                        ASC_DESC = "desc";
+                    }
+                    beans.clear();
+                    adapter.notifyDataSetChanged();
+                    getSellerList(1);
                     orderList.dismiss();
                 }
             });
@@ -116,15 +160,20 @@ public class ArtistInfoList extends BaseActivity implements AdapterView.OnItemCl
         String name = null;
         switch (v.getId()) {
             case R.id.sort_distance: {
-                name = getString(R.string.distance);
+                //按距离只有一种排序方式
+                sort = "position_asc";
+                beans.clear();
+                getSellerList(1);
                 break;
             }
             case R.id.sort_price: {
                 name = getString(R.string.price);
+                sort = "price";
                 break;
             }
             case R.id.sort_stars: {
                 name = getString(R.string.star_level);
+                sort = "score";
                 break;
             }
         }
@@ -142,7 +191,7 @@ public class ArtistInfoList extends BaseActivity implements AdapterView.OnItemCl
             int[] l = new int[2];
             v.getLocationOnScreen(l);
             orderList.showAsDropDown(v, 0, 0);
-            adapter.setName(str);
+            popupAdapter.setName(str);
         } catch (Exception e) {
             Logger.e(e.getLocalizedMessage());
         }
@@ -157,7 +206,7 @@ public class ArtistInfoList extends BaseActivity implements AdapterView.OnItemCl
 
     class PopListAdapter extends BaseAdapter {
         private Context context;
-        private String name;
+        private String  name;
 
         PopListAdapter(Context context) {
             this.context = context;
@@ -206,7 +255,7 @@ public class ArtistInfoList extends BaseActivity implements AdapterView.OnItemCl
     }
 
     class ArtistAdapter extends BaseAdapter {
-        Context context;
+        Context              context;
         List<ArtistListBean> beans;
 
         ArtistAdapter(Context context, List<ArtistListBean> beans) {
@@ -246,7 +295,7 @@ public class ArtistInfoList extends BaseActivity implements AdapterView.OnItemCl
             }
             ArtistListBean bean = beans.get(position);
             holder.tv_name.setText(bean.username);
-//            holder.tv_distance.setText(bean.);
+            //            holder.tv_distance.setText(bean.);
             holder.tv_price.setText(getString(R.string.average_price_s, bean.average_price));
             holder.tv_order_num.setText(getString(R.string.order_d_num, bean.order_num));
             holder.rating.setScore(bean.score);
@@ -262,11 +311,11 @@ public class ArtistInfoList extends BaseActivity implements AdapterView.OnItemCl
     }
 
     static class ViewHolder {
-        TextView tv_name;
-        TextView tv_distance;
-        TextView tv_price;
-        TextView tv_order_num;
+        TextView     tv_name;
+        TextView     tv_distance;
+        TextView     tv_price;
+        TextView     tv_order_num;
         RatingWidget rating;
-        ImageView iv_avatar;
+        ImageView    iv_avatar;
     }
 }

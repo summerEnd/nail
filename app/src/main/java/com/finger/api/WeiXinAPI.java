@@ -1,4 +1,4 @@
-package com.finger.support.api;
+package com.finger.api;
 
 import android.content.Context;
 

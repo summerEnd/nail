@@ -78,7 +78,7 @@
             android:layout_toRightOf="@+id/nail_image" />
 
         <TextView
-            android:id="@+id/price"
+            android:id="@+id/tv_price"
             android:layout_toRightOf="@+id/nail_image"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -91,7 +91,7 @@
 
         <LinearLayout
             android:layout_alignParentRight="true"
-            android:layout_alignBottom="@+id/price"
+            android:layout_alignBottom="@+id/tv_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal">

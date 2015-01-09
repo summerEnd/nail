@@ -27,11 +27,12 @@
                 android:text="退款金额：" />
 
             <TextView
+                android:id="@+id/tv_refund_money"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="@dimen/textSize_dp_28px"
                 android:textColor="@color/textColorBlack"
-                android:text="￥108" />
+                android:text="@string/s_price" />
         </LinearLayout>
 
         <LinearLayout
@@ -39,6 +40,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/corner_frame_white_solid"
             android:padding="10dp"
+            android:layout_marginTop="16dp"
             android:orientation="vertical">
 
             <TextView
@@ -49,6 +51,7 @@
                 android:text="退款原因：" />
 
             <EditText
+                android:id="@+id/edit_refund_reason"
                 android:layout_marginTop="9dp"
                 android:layout_width="match_parent"
                 android:layout_height="150dp"
@@ -56,15 +59,16 @@
                 android:textSize="@dimen/textSize_dp_28px"
                 android:background="@color/white"
                 android:textColor="@color/textColorBlack"
-                android:text="这个美甲师是个冒牌的！" />
+                 />
         </LinearLayout>
 
         <com.sp.lib.widget.AddImageItem
-            android:id="@+id/addImage"
+            android:id="@+id/add_image"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
         <Button
+            android:id="@+id/commit"
             android:layout_marginTop="@dimen/button_to_text"
             style="@style/button_large"
             android:text="@string/commit_apply" />

@@ -136,7 +136,11 @@
     <style name="tab_order_style" parent="tab_login_style">
         <item name="android:layout_height">wrap_content</item>
     </style>
-
+    <style name="tab_comment_style" parent="tab_login_style">
+        <item name="android:background">@drawable/comment_tab</item>
+        <item name="android:button">@null</item>
+        <item name="android:layout_height">@dimen/title_height</item>
+    </style>
     <style name="tab_item_name_style">
         <item name="android:textColor">@color/textColorBlack</item>
         <item name="android:textSize">@dimen/textSize_3</item>

@@ -225,12 +225,17 @@ public class MyDiscountActivity extends BaseActivity implements RadioGroup.OnChe
                 holder = new ViewHolder();
                 convertView = inflater.inflate(R.layout.list_item_discount, null);
                 holder.tv_expire = (TextView) convertView.findViewById(R.id.tv_is_expired);
+                holder.tv_title = (TextView) convertView.findViewById(R.id.tv_title);
+                holder.tv_price = (TextView) convertView.findViewById(R.id.tv_price);
+                holder.tv_date = (TextView) convertView.findViewById(R.id.tv_date);
             } else {
                 holder = (ViewHolder) convertView.getTag();
             }
             CouponBean bean = beans.get(position);
             holder.tv_expire.setVisibility(bean.status == STATUS_USED ? View.VISIBLE : View.INVISIBLE);
-
+            holder.tv_title.setText(bean.title);
+            holder.tv_price.setText(getString(R.string.price_s,bean.price));
+            holder.tv_date.setText(getString(R.string.date_limit,bean.start_time+"~"+bean.stop_time));
             convertView.setTag(holder);
             return convertView;
         }
@@ -238,5 +243,10 @@ public class MyDiscountActivity extends BaseActivity implements RadioGroup.OnChe
 
     static class ViewHolder {
         TextView tv_expire;
+        TextView tv_title;
+        TextView tv_date;
+        TextView tv_price;
+
+
     }
 }

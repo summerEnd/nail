@@ -9,20 +9,22 @@ import java.io.Serializable;
  */
 public class ArtistRole extends RoleBean implements Serializable {
 
-    public int score;
+    public int    score;
     public String average_price;
-    public float professional;
-    public float talk;
-    public float on_time;
-    public int order_num;
+    public float  professional;
+    public float  talk;
+    public float  on_time;
+    public int    order_num;
 
-    public int collection_id;
-    public int attention_id;
-    public int comment_good;
-    public int comment_normal;
-    public int comment_bad;
+    public int    collection_id;
+    public int    attention_id;
+    public int    comment_good;
+    public int    comment_normal;
+    public int    comment_bad;
+    public int    total_num;//接单数量
+    public String resume;//简历内容
 
-    public ArtistRole(){
-        type= Constant.LOGIN_TYPE_ARTIST;
+    public ArtistRole() {
+        type = Constant.LOGIN_TYPE_ARTIST;
     }
 }

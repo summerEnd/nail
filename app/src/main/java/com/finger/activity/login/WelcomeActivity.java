@@ -13,7 +13,7 @@ import com.finger.R;
 import com.finger.activity.base.BaseActivity;
 import com.finger.activity.MainActivity;
 import com.finger.support.Constant;
-import com.finger.support.api.BaiduAPI;
+import com.finger.api.BaiduAPI;
 import com.finger.entity.ArtistRole;
 import com.finger.entity.RoleBean;
 import com.finger.entity.UserRole;
@@ -22,6 +22,7 @@ import com.finger.support.net.FingerHttpHandler;
 import com.finger.support.util.ContextUtil;
 import com.finger.support.util.JsonUtil;
 import com.finger.support.util.ItemUtil;
+import com.finger.support.util.Logger;
 import com.loopj.android.http.RequestParams;
 import com.sp.lib.support.SHttpClient;
 import com.sp.lib.util.FileUtil;
@@ -34,13 +35,12 @@ import java.util.Map;
 
 public class WelcomeActivity extends BaseActivity {
     final String FIRST_LOGIN = "first_login";
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        ItemUtil.init(this);
         setContentView(R.layout.activity_welcome);
+        ItemUtil.init(this);
         locate();
     }
 
@@ -48,6 +48,7 @@ public class WelcomeActivity extends BaseActivity {
      * 定位当前位置
      */
     void locate() {
+        Logger.d("locate");
         BaiduAPI.locate(new BaiduAPI.Callback() {
             @Override
             public void onLocated(BDLocation bdLocation) {
@@ -60,6 +61,7 @@ public class WelcomeActivity extends BaseActivity {
                 SharedPreferences sp = getSharedPreferences(FIRST_LOGIN, MODE_PRIVATE);
                 boolean isFirst = sp.getBoolean("first", true);
                 //如果是第一次进入,就跳转到向导页
+
                 if (isFirst) {
                     startActivity(new Intent(WelcomeActivity.this, GuideActivity.class));
                     sp.edit().putBoolean("first", false).commit();
@@ -135,8 +137,8 @@ public class WelcomeActivity extends BaseActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-//                            testArtist();//测试美甲师
-//                            testUser();//测试用户
+                //testArtist();//测试美甲师
+                //testUser();//测试用户
                 startActivity(new Intent(WelcomeActivity.this, MainActivity.class));
                 finish();
             }

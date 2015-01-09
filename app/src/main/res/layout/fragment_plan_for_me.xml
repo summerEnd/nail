@@ -18,23 +18,12 @@
         android:layout_height="wrap_content" />
 
     <com.finger.support.widget.EditItem
-        android:id="@+id/item_gps"
-        app:edit_text="Gps定位"
-        android:layout_marginTop="@dimen/item_margin_top"
-        app:edit_editable="false"
-        android:layout_marginLeft="@dimen/activity_horizontal_margin"
-        android:layout_marginRight="@dimen/activity_horizontal_margin"
-        app:edit_drawable="@drawable/ic_mark"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
-    <com.finger.support.widget.EditItem
         android:id="@+id/item_address"
-        app:edit_hint="点击输入详细地址"
         android:layout_marginTop="@dimen/item_margin_top"
         android:layout_marginLeft="@dimen/activity_horizontal_margin"
         android:layout_marginRight="@dimen/activity_horizontal_margin"
-        app:edit_editable="true"
+        app:edit_editable="false"
+        app:edit_text="选择地址"
         app:edit_drawable="@drawable/ic_fly"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />

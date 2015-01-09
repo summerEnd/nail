@@ -13,6 +13,7 @@ import android.view.animation.RotateAnimation;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ListView;
@@ -41,36 +42,39 @@ import java.util.LinkedList;
 import java.util.List;
 
 
-public class NailInfoListFragment extends Fragment implements View.OnClickListener ,ListController.Callback{
-    GridView gridView;
+public class NailInfoListFragment extends Fragment implements View.OnClickListener, ListController.Callback {
+    GridView    gridView;
     PopupWindow orderList;
     PopupWindow price_area;
-    View layout;
-    int width;
+    View        layout;
+    int         width;
     List<NailInfoBean> beans = new LinkedList<NailInfoBean>();
-    String sort;
-    String price;
-    ListController controller;
+    String          sort;
+    String          price;
+    ListController  controller;
     NailListAdapter adapter;
+
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         layout = inflater.inflate(R.layout.fragment_nail_list, null);
         gridView = (GridView) layout.findViewById(R.id.grid);
         layout.findViewById(R.id.order_item).setOnClickListener(this);
         layout.findViewById(R.id.sort_item).setOnClickListener(this);
-        controller=new ListController(gridView,this);
-        adapter= new NailListAdapter(getActivity(), beans);
+        adapter = new NailListAdapter(getActivity(), beans);
         gridView.setAdapter(adapter);
+        controller = new ListController(gridView, this);
         getProductList(1);
 
         return layout;
     }
 
     void getProductList(int page) {
-        Logger.d("page:"+page);
+        Logger.d("page:" + page);
+
+
         RequestParams params = new RequestParams();
-        params.put("page",page);
-        params.put("pagesize",controller.getPageSize());
+        params.put("page", page);
+        params.put("pagesize", controller.getPageSize());
 
         JSONObject condition = new JSONObject();
         FingerApp app = ((BaseActivity) getActivity()).getApp();
@@ -79,9 +83,9 @@ public class NailInfoListFragment extends Fragment implements View.OnClickListen
             condition.put("price", price);// (40 - 80 之间)
             condition.put("city_code", app.getCurCity().city_code);//(百度城市代码)
             Bundle args = getArguments();
-            if (args != null){
+            if (args != null) {
                 int mid = args.getInt("id", -1);
-                if (mid!=-1){
+                if (mid != -1) {
                     condition.put("mid", mid);// (美甲师id);
                 }
 
@@ -103,7 +107,6 @@ public class NailInfoListFragment extends Fragment implements View.OnClickListen
 
                     JSONObject data = o.getJSONObject("data");
                     JsonUtil.getArray(data.getJSONArray("normal"), NailInfoBean.class, beans);
-
                     adapter.notifyDataSetChanged();
 
                 } catch (JSONException e) {
@@ -122,6 +125,7 @@ public class NailInfoListFragment extends Fragment implements View.OnClickListen
         switch (v.getId()) {
             case R.id.order_item: {
                 if (orderList == null) {
+                    //排序方式
                     orderList = new PopupWindow();
 
                     orderList.setWidth(width);
@@ -138,6 +142,9 @@ public class NailInfoListFragment extends Fragment implements View.OnClickListen
                             ((OrderListAdapter) parent.getAdapter()).select(position);
                             sort = sorts[position];
                             orderList.dismiss();
+                            beans.clear();
+                            adapter.notifyDataSetChanged();
+                            getProductList(1);
                         }
                     });
                     orderList.setContentView(contentView);
@@ -158,6 +165,7 @@ public class NailInfoListFragment extends Fragment implements View.OnClickListen
                 break;
             }
             case R.id.sort_item: {
+                //价格区间
                 if (price_area == null) {
                     price_area = new PopupWindow(width, ViewGroup.LayoutParams.WRAP_CONTENT);
                     price_area.setBackgroundDrawable(new ColorDrawable(0xffffffff));
@@ -169,11 +177,16 @@ public class NailInfoListFragment extends Fragment implements View.OnClickListen
                         public void onClick(View v) {
                             EditText from = (EditText) contentView.findViewById(R.id.edit_from);
                             EditText to = (EditText) contentView.findViewById(R.id.edit_to);
+
                             price = new StringBuilder()
                                     .append(from.getText().toString())
                                     .append("_")
                                     .append(to.getText().toString())
                                     .toString();
+                            price_area.dismiss();
+                            beans.clear();
+                            adapter.notifyDataSetChanged();
+                            getProductList(1);
                         }
                     });
                     price_area.setContentView(contentView);
@@ -200,6 +213,12 @@ public class NailInfoListFragment extends Fragment implements View.OnClickListen
         orderList.showAsDropDown(v, 0, 0);
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        controller.unRegisterDataObserver();
+    }
+
     void rotate(boolean open) {
         View v = layout.findViewById(R.id.iv_order);
         v.clearAnimation();
@@ -221,9 +240,9 @@ public class NailInfoListFragment extends Fragment implements View.OnClickListen
 
     class OrderListAdapter extends BaseAdapter {
         private Context context;
-        int selected;
+        int      selected;
         String[] items;
-        final int selectedColor = 0xffac3c2e;
+        final int selectedColor   = 0xffac3c2e;
         final int unSelectedColor = 0xff808080;
 
         OrderListAdapter(Context context, String items[]) {

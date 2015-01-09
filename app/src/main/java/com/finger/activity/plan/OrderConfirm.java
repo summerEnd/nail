@@ -1,6 +1,7 @@
 package com.finger.activity.plan;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -56,13 +57,16 @@ public class OrderConfirm extends BaseActivity {
         OrderBean order = OrderManager.getCurrentOrder();
         NailInfoBean infoBean = order.nailInfoBean;
         TextPainUtil.addDeleteLine(tv_shop_price);
+
         tv_nail_name.setText(infoBean.name);
         tv_price.setText(getString(R.string.s_price,infoBean.price));
         tv_shop_price.setText(getString(R.string.s_price,infoBean.store_price));
         tv_contact.setText(order.contact);
         tv_mobile.setText(order.mobile);
         tv_planTime.setText(order.planTime);
+
         tv_address.setText(order.address);
+
         tv_summary.setText(order.summary);
         tv_taxi_fee.setText(order.taxi_cost);
         tv_real_pay.setText(getString(R.string.real_price_s, order.realPrice));
@@ -83,7 +87,6 @@ public class OrderConfirm extends BaseActivity {
     public void postOrder() {
         OrderBean order = OrderManager.getCurrentOrder();
         NailInfoBean infoBean = order.nailInfoBean;
-
         RequestParams params = new RequestParams();
         params.put("product_id", infoBean.id);
         params.put("uid", getApp().getUser().id);
@@ -104,7 +107,7 @@ public class OrderConfirm extends BaseActivity {
         FingerHttpClient.post("postOrder", params, new FingerHttpHandler() {
             @Override
             public void onSuccess(JSONObject o) {
-
+                OrderManager.cancel();
             }
         });
     }

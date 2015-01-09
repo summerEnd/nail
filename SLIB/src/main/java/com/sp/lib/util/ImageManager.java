@@ -38,7 +38,7 @@ public class ImageManager {
                 )
                 .diskCacheFileNameGenerator(new Md5FileNameGenerator())
                 .tasksProcessingOrder(QueueProcessingType.LIFO)
-                .writeDebugLogs().build();
+                .build();
 
         ImageLoader.getInstance().init(config);
     }
@@ -51,8 +51,8 @@ public class ImageManager {
         ImageLoader.getInstance().displayImage(uri, iv);
     }
 
-    public static void loadImage(String url,ImageLoadingListener l){
-        ImageLoader.getInstance().loadImage(url,l);
+    public static void loadImage(String url, ImageLoadingListener l) {
+        ImageLoader.getInstance().loadImage(url, l);
     }
 
     public static void clear() {

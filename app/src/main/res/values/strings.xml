@@ -110,7 +110,7 @@
     <string name="fee_20"><![CDATA[X>20]]></string>
     <string name="load_failed">加载失败</string>
     <string name="modify_ok">修改成功！</string>
-    <string name="artist_avatar_upload">美甲师的头像经过审核后才能显示。</string>
+    <string name="artist_avatar_upload">美甲师的头像通过审核后才能显示。</string>
     <string name="please_input_image">请选择图片！</string>
     <string name="collect_ok">收藏成功！</string>
     <string name="cancel_ok">取消成功</string>
@@ -131,5 +131,10 @@
     <string name="order_date_s">下单时间：%s</string>
     <string name="price_r_s">价格：￥%s</string>
     <string name="orderInfo">订单信息</string>
+    <string name="comment">评价</string>
+    <string name="order_null">订单不存在</string>
+    <string name="price_s">价格：￥%s</string>
+    <string name="select_address">选择地址</string>
+    <string name="date_limit">使用期限：%s</string>
 
 </resources>

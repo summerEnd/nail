@@ -16,7 +16,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -31,7 +30,7 @@ import com.finger.activity.info.NailListActivity;
 import com.finger.activity.info.ArtistInfoList;
 import com.finger.activity.plan.PlanActivity;
 import com.finger.support.Constant;
-import com.finger.support.api.BaiduAPI;
+import com.finger.api.BaiduAPI;
 import com.finger.entity.AdsBean;
 import com.finger.entity.CityBean;
 import com.finger.entity.HotTagBean;
@@ -57,10 +56,10 @@ import java.util.TimerTask;
  */
 public class MainFragment extends Fragment implements View.OnClickListener {
     RadioGroup dot_group;
-    ViewPager switch_banner;
-    ArrayList<ImageView> images = new ArrayList<ImageView>();
-    int bannerIndex = 0;
-    View layout;
+    ViewPager  switch_banner;
+    ArrayList<ImageView> images      = new ArrayList<ImageView>();
+    int                  bannerIndex = 0;
+    View     layout;
     TextView title_city;
 
     ArrayList<AdsBean> ads = new ArrayList<AdsBean>();
@@ -79,12 +78,16 @@ public class MainFragment extends Fragment implements View.OnClickListener {
         String avatar;
     }
 
+    /**
+     * 调接口获取首页数据
+     */
     void requestIndexData() {
         RequestParams params = new RequestParams();
         FingerHttpClient.post("getIndex", params, new FingerHttpHandler() {
             @Override
             public void onSuccess(JSONObject o) {
                 try {
+                    //解析json
                     ArrayList<HotTagBean> tags = new ArrayList<HotTagBean>();
 
                     ArrayList<CityBean> cities = new ArrayList<CityBean>();
@@ -95,16 +98,25 @@ public class MainFragment extends Fragment implements View.OnClickListener {
                     JsonUtil.getArray(json_cityList, CityBean.class, cities);
                     JsonUtil.getArray(json_tags, HotTagBean.class, tags);
                     JsonUtil.getArray(json_ads, AdsBean.class, ads);
+
+                    //将获取的城市列表写入文件
                     FileUtil.saveFile(getActivity(), Constant.FILE_CITIES, cities);
-
+                    //将热门标签写入文件
                     FileUtil.saveFile(getActivity(), Constant.FILE_TAGS, tags);
-
+                    //如果当前没有定位到城市，就写入一个默认的城市
+                    FingerApp app = FingerApp.getInstance();
+                    if (TextUtils.isEmpty(app.getCurCity().name)){
+                        app.setCurCity(cities.get(0));
+                    }
+                    setCity();
+                    //讲banner添加
                     for (AdsBean bean : ads) {
                         addBanner(bean.cover);
                     }
                     switch_banner.setAdapter(new BannerAdapter());
                     switch_banner.setOnPageChangeListener(pageChangeListener);
                     dot_group.setOnCheckedChangeListener(dotMoveListener);
+                    //运行banner
                     startRunBanner();
 
                 } catch (Exception e) {
@@ -114,7 +126,6 @@ public class MainFragment extends Fragment implements View.OnClickListener {
             }
         });
     }
-
 
 
     @Override
@@ -140,10 +151,13 @@ public class MainFragment extends Fragment implements View.OnClickListener {
         setCity();
     }
 
+    /**
+     * 设置城市
+     */
     void setCity() {
-        FingerApp app=((BaseActivity) getActivity()).getApp();
-        CityBean cityBean=app.getCurCity();
-        if (!TextUtils.isEmpty(cityBean.name)){
+        FingerApp app = ((BaseActivity) getActivity()).getApp();
+        CityBean cityBean = app.getCurCity();
+        if (!TextUtils.isEmpty(cityBean.name)) {
             title_city.setText(cityBean.name);
             return;
         }
@@ -160,6 +174,11 @@ public class MainFragment extends Fragment implements View.OnClickListener {
         }
     }
 
+    /**
+     * 添加banner
+     *
+     * @param url
+     */
     void addBanner(String url) {
         Context context = getActivity();
         RadioButton rb = new RadioButton(context);
@@ -176,6 +195,12 @@ public class MainFragment extends Fragment implements View.OnClickListener {
         images.add(imageView);
     }
 
+    /**
+     * 加dp单位
+     *
+     * @param value
+     * @return
+     */
     int dp(float value) {
         return (int) Dimension.dp(value);
     }
@@ -189,8 +214,12 @@ public class MainFragment extends Fragment implements View.OnClickListener {
 
     Timer timer;
 
+    /**
+     * 让banner跑起来
+     */
     void startRunBanner() {
-        if (images.size() == 0) return;
+        if (images.size() == 0)
+            return;
         bannerIndex = 0;
         if (timer != null) {
             timer.cancel();
@@ -315,6 +344,12 @@ public class MainFragment extends Fragment implements View.OnClickListener {
 
     }
 
+    /**
+     * 点击缩放
+     *
+     * @param v
+     * @param runnable
+     */
     void scale(View v, final Runnable runnable) {
         Animation animation = AnimationUtils.loadAnimation(v.getContext(), R.anim.scale_click);
         animation.setAnimationListener(new Animation.AnimationListener() {
@@ -357,47 +392,6 @@ public class MainFragment extends Fragment implements View.OnClickListener {
         @Override
         public void destroyItem(ViewGroup container, int position, Object object) {
             container.removeView(images.get(position));
-        }
-    }
-
-    class CityAdapter extends BaseAdapter {
-
-        private Context context;
-
-        public CityAdapter(Context context) {
-            this.context = context;
-        }
-
-        @Override
-        public int getCount() {
-            return 2;
-        }
-
-        @Override
-        public Object getItem(int position) {
-            return null;
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return position;
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            if (convertView == null) {
-                convertView = new TextView(context);
-            }
-            TextView tv = (TextView) convertView;
-
-            if (position == 0) {
-                tv.setText(context.getString(R.string.service_city));
-
-            } else {
-                tv.setText("city" + position);
-
-            }
-            return convertView;
         }
     }
 }

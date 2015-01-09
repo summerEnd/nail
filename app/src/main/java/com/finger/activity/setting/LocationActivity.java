@@ -12,7 +12,7 @@ import com.baidu.location.BDLocation;
 import com.finger.R;
 import com.finger.activity.base.BaseActivity;
 import com.finger.support.Constant;
-import com.finger.support.api.BaiduAPI;
+import com.finger.api.BaiduAPI;
 import com.finger.entity.CityBean;
 import com.finger.support.net.FingerHttpClient;
 import com.finger.support.net.FingerHttpHandler;

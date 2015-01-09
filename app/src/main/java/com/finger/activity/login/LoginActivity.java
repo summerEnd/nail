@@ -12,8 +12,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RadioGroup;
 
+import com.baidu.location.BDLocation;
+import com.finger.activity.FingerApp;
 import com.finger.activity.base.BaseActivity;
 import com.finger.R;
+import com.finger.api.BaiduAPI;
 import com.finger.entity.ArtistRole;
 import com.finger.entity.RoleBean;
 import com.finger.entity.UserRole;
@@ -31,10 +34,10 @@ import org.json.JSONObject;
  * Created by acer on 2014/12/8.
  */
 public class LoginActivity extends BaseActivity implements RadioGroup.OnCheckedChangeListener {
-    RadioGroup rg_login;
-    UserLogin userLogin;
-    ArtistLogin ARTIST;
-    UserLogin USER;
+    RadioGroup      rg_login;
+    UserLogin       userLogin;
+    ArtistLogin     ARTIST;
+    UserLogin       USER;
     FragmentManager manager;
 
 
@@ -62,6 +65,14 @@ public class LoginActivity extends BaseActivity implements RadioGroup.OnCheckedC
      * @param type     登录类型：美甲师、用户
      */
     public void doLogin(final String mobile, final String password, final String type) {
+
+        if (type.equals(Constant.LOGIN_TYPE_ARTIST)) {
+            BDLocation location = BaiduAPI.mBDLocation;
+            if (location != null) {
+                FingerApp.getInstance().updatePosition(location.getLatitude(), location.getLongitude());
+            }
+        }
+
         RequestParams params = new RequestParams();
         params.put("phone_num", mobile);
         params.put("password", password);
@@ -72,7 +83,7 @@ public class LoginActivity extends BaseActivity implements RadioGroup.OnCheckedC
             public void onSuccess(JSONObject o) {
 
                 RoleBean bean;
-                JSONObject user= null;
+                JSONObject user = null;
                 try {
                     user = o.getJSONObject("data");
                 } catch (JSONException e) {
@@ -92,7 +103,6 @@ public class LoginActivity extends BaseActivity implements RadioGroup.OnCheckedC
 
             @Override
             public void onFail(JSONObject o) {
-
             }
         });
 
@@ -135,6 +145,9 @@ public class LoginActivity extends BaseActivity implements RadioGroup.OnCheckedC
         ft.commit();
     }
 
+    /**
+     * 用户登录
+     */
     public static class UserLogin extends Fragment implements View.OnClickListener {
         EditItem edit_phone;
         EditItem edit_password;
@@ -169,6 +182,9 @@ public class LoginActivity extends BaseActivity implements RadioGroup.OnCheckedC
         }
     }
 
+    /**
+     * 美甲师登录
+     */
     public static class ArtistLogin extends Fragment implements View.OnClickListener {
         EditItem edit_phone;
         EditItem edit_password;

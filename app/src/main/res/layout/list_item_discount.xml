@@ -27,23 +27,24 @@
             android:layout_below="@+id/tv_title" />
 
         <TextView
-            android:id="@+id/price"
+            android:id="@+id/tv_price"
             android:layout_below="@+id/divider"
             android:layout_width="wrap_content"
             android:layout_marginTop="@dimen/activity_vertical_margin"
             android:layout_height="wrap_content"
             android:textSize="@dimen/textSize_dp_28px"
             android:textColor="@color/textColorGray"
-            android:text="价格：￥240" />
+            android:text="@string/price_s" />
 
         <TextView
-            android:layout_below="@+id/price"
+            android:id="@+id/tv_date"
+            android:layout_below="@+id/tv_price"
             android:layout_width="wrap_content"
             android:layout_marginTop="@dimen/activity_vertical_margin"
             android:layout_height="wrap_content"
             android:textSize="@dimen/textSize_dp_28px"
             android:textColor="@color/textColorGray"
-            android:text="使用期限：2014.12.31-2015.01.30" />
+            android:text="@string/date_limit" />
 
 
     </RelativeLayout>

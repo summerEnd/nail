@@ -13,4 +13,10 @@ public class Constant {
     public static final String LOGIN_TYPE_ARTIST = "1";
     public static final String LOGIN_TYPE_USER = "2";
     public static final String LOGIN_TYPE_EMPTY = "0";
+
+    public static final String COMMENT_GOOD = "1";
+    public static final String COMMENT_MID = "0";
+    public static final String COMMENT_BAD = "-1";
+
+
 }

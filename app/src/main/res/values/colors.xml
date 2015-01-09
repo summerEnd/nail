@@ -26,6 +26,10 @@
     <drawable name="test_01">#eb3232</drawable>
     <drawable name="test_02">#22e222</drawable>
     <drawable name="test_03">#22e2e2</drawable>
+    <drawable name="comment_tab_1">#e5386b</drawable>
+    <drawable name="comment_tab_2">#f3f3f3</drawable>
+    <!--ImageLoader-->
+    <drawable name="onLoadImage">#777A74</drawable>
 
     <!--tab-->
     <color name="tab_frame">#ac3c2e</color>

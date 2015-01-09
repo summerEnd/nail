@@ -1,5 +1,6 @@
 package com.sp.lib.util;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -7,7 +8,6 @@ import android.graphics.Paint;
 import android.graphics.PixelFormat;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Environment;
@@ -25,14 +25,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-/**
- * Created by acer on 2014/9/9.
- */
 public class ImageUtil {
-
-    public static final String IMAGE_TEMP_PUBLISH_SUPPLY = "publish_supply.png";
-    public static final String IMAGE_TEMP_COMPANY_IMAGE = "company_image.png";
-
 
     /**
      * 获取图片暂存文件
@@ -95,6 +88,7 @@ public class ImageUtil {
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, bos);
         byte[] bytes = bos.toByteArray();
+
         try {
             bos.flush();
             bos.close();

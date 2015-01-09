@@ -1,4 +1,4 @@
-package com.finger.support.api;
+package com.finger.api;
 
 import android.content.Context;
 import android.location.LocationManager;
@@ -11,6 +11,7 @@ import com.baidu.mapapi.SDKInitializer;
 import com.baidu.mapapi.model.LatLng;
 import com.baidu.mapapi.utils.CoordinateConverter;
 import com.baidu.mapapi.utils.DistanceUtil;
+import com.finger.activity.FingerApp;
 import com.finger.support.util.Logger;
 
 /**
@@ -18,10 +19,10 @@ import com.finger.support.util.Logger;
  */
 public class BaiduAPI {
 
-    public static LocationClient mLocationClient;
-    private static L l;
-    private static Callback mCallback;
-    public static BDLocation mBDLocation;
+    public static  LocationClient         mLocationClient;
+    private static FingerLocationListener l;
+    private static Callback               mCallback;
+    public static  BDLocation             mBDLocation;
 
     /**
      * 定位的时间间隔
@@ -42,8 +43,9 @@ public class BaiduAPI {
         option.setOpenGps(true);
         option.setLocationMode(LocationClientOption.LocationMode.Hight_Accuracy);
         option.setScanSpan(scanSpan);
+        option.setTimeOut(10000);
         mLocationClient = new LocationClient(context);
-        l = new L();
+        l = new FingerLocationListener();
         mLocationClient.registerLocationListener(l);
         mLocationClient.setLocOption(option);
         mLocationClient.start();
@@ -73,20 +75,15 @@ public class BaiduAPI {
         return converter.convert();
     }
 
+    /**
+     * 判断GPS是否打开
+     * @param context
+     * @return
+     */
     public static boolean isGpsEnabled(Context context) {
         LocationManager manager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
         return manager.isProviderEnabled(LocationManager.GPS_PROVIDER);
     }
-
-    public static String getCityCode() {
-
-        if (mBDLocation != null) {
-            return mBDLocation.getCityCode();
-        } else {
-            return null;
-        }
-    }
-
 
     /**
      * 计算两点间的距离
@@ -100,19 +97,22 @@ public class BaiduAPI {
         return Math.floor(distance);
     }
 
-
+    /**
+     * 发起定位
+     * @param callback
+     */
     public static final void locate(Callback callback) {
         mCallback = callback;
         mLocationClient.requestLocation();
     }
 
-    static class L implements BDLocationListener {
+    static class FingerLocationListener implements BDLocationListener {
 
 
         public void onReceiveLocation(BDLocation location) {
             mBDLocation = location;
-            debug(location);
 
+            FingerApp.getInstance().updatePosition(location.getLatitude(),location.getLongitude());
             if (mCallback != null) mCallback.onLocated(location);
         }
 
@@ -122,6 +122,9 @@ public class BaiduAPI {
         }
 
         void debug(final BDLocation location) {
+
+
+
             Logger.debug(new Runnable() {
                 @Override
                 public void run() {
@@ -140,16 +143,6 @@ public class BaiduAPI {
                     sb.append("\nlontitude : ");
                     sb.append(location.getLongitude());
                     sb.append("\nradius : ");
-                    sb.append(location.getRadius());
-                    if (location.getLocType() == BDLocation.TypeGpsLocation) {
-                        sb.append("\nspeed : ");
-                        sb.append(location.getSpeed());
-                        sb.append("\nsatellite : ");
-                        sb.append(location.getSatelliteNumber());
-                    } else if (location.getLocType() == BDLocation.TypeNetWorkLocation) {
-                        sb.append("\naddr : ");
-                        sb.append(location.getAddrStr());
-                    }
                     Logger.d("--->" + sb.toString());
                 }
             });

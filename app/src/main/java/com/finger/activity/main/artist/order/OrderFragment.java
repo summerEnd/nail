@@ -25,11 +25,11 @@ import static com.finger.adapter.OrderAdapterFactory.OrderType.ORDER_NOTICE;
 import static com.finger.adapter.OrderAdapterFactory.OrderType.REFUND_NOTICE;
 
 @Artist
-public class OrderFragment extends Fragment implements RadioGroup.OnCheckedChangeListener{
+public class OrderFragment extends Fragment implements RadioGroup.OnCheckedChangeListener {
 
-    RadioGroup rg;
-    ListView listView;
-    FragmentManager manager;
+    RadioGroup        rg;
+    ListView          listView;
+    FragmentManager   manager;
     OrderListFragment curFragment;
 
     @Override
@@ -63,7 +63,7 @@ public class OrderFragment extends Fragment implements RadioGroup.OnCheckedChang
         }
 
         OrderAdapterFactory.OrderAdapter adapter = (OrderAdapterFactory.OrderAdapter) fragment.getListAdapter();
-        int status=-1;
+        int status = -1;
         if (adapter == null) {
             switch (checked_id) {
                 case R.id.rb1: {
@@ -72,13 +72,13 @@ public class OrderFragment extends Fragment implements RadioGroup.OnCheckedChang
                 }
                 case R.id.rb2: {
                     adapter = OrderAdapterFactory.getAdapter(getActivity(), REFUND_NOTICE, new ArrayList<OrderListBean>());
-                    status=OrderManager.STATUS_REFUND;
+                    status = OrderManager.STATUS_REFUND;
                     break;
                 }
             }
             fragment.setListAdapter(adapter);
-            Bundle args=new Bundle();
-            args.putInt("status",status);
+            Bundle args = new Bundle();
+            args.putInt("status", status);
             fragment.setArguments(args);
         }
         ft.show(fragment);

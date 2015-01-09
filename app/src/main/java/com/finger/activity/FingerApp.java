@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.Intent;
 import android.content.res.XmlResourceParser;
 
+import com.finger.BuildConfig;
 import com.finger.R;
 import com.finger.support.Constant;
 import com.finger.entity.ArtistGrade;
@@ -11,14 +12,21 @@ import com.finger.entity.ArtistRole;
 import com.finger.entity.CityBean;
 import com.finger.entity.RoleBean;
 import com.finger.entity.UserRole;
+import com.finger.support.net.FingerHttpClient;
+import com.finger.support.net.FingerHttpHandler;
 import com.finger.support.net.Http;
 import com.finger.support.util.ContextUtil;
 import com.finger.support.util.Logger;
+import com.loopj.android.http.RequestParams;
 import com.sp.lib.Slib;
 
-import com.finger.support.api.BaiduAPI;
+import com.finger.api.BaiduAPI;
+import com.sp.lib.support.SHttpClient;
+import com.sp.lib.support.WebJsonHttpHandler;
 import com.sp.lib.util.FileUtil;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
@@ -35,12 +43,12 @@ public class FingerApp extends Application {
     /**
      * 当前城市
      */
-    private CityBean curCity=new CityBean();
+    private CityBean curCity = new CityBean();
 
     @Override
     public void onCreate() {
         super.onCreate();
-        mApp=this;
+        mApp = this;
         ContextUtil.init(this);
         BaiduAPI.init(this);
         Slib.initialize(this);
@@ -51,7 +59,7 @@ public class FingerApp extends Application {
 
     }
 
-    public static FingerApp getInstance(){
+    public static FingerApp getInstance() {
         return mApp;
     }
 
@@ -133,5 +141,39 @@ public class FingerApp extends Application {
 
     public void onExit() {
         BaiduAPI.mLocationClient.stop();
+    }
+
+    /**
+     * 更新美甲师的位置
+     * @param latitude
+     * @param longitude
+     */
+    public void updatePosition(double latitude, double longitude) {
+
+        RoleBean user = FingerApp.getInstance().getUser();
+        user.latitude = latitude;
+        user.longitude = longitude;
+        if (user.getType().equals(Constant.LOGIN_TYPE_ARTIST)) {
+            RequestParams params = new RequestParams();
+            params.put("longitude", user.latitude);
+            params.put("latitude", user.latitude);
+            params.put("mid", user.id);
+
+            WebJsonHttpHandler handler = new WebJsonHttpHandler() {
+                @Override
+                public void onSuccess(JSONObject object, JSONArray array) {
+                    ContextUtil.toast_debug("upload artist postion");
+                }
+
+                @Override
+                public void onFail(String msg) {
+
+                }
+            };
+            handler.showDialog = false;
+            SHttpClient.post("updatePosition", params, handler, BuildConfig.DEBUG);
+
+        }
+
     }
 }
