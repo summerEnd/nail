@@ -34,32 +34,66 @@ import java.util.List;
  */
 public class CommentFragment extends ListFragment implements ListController.Callback {
 
+    /**
+     * 设置评论数量的接口。
+     * Activity直接实现此接口，fragment在获取到评论数量时会调用setCommentNumber方法
+     */
+    public interface CommentNumberSetter {
+        /**
+         * @param good 好评数量
+         * @param mid  中评数量
+         * @param bad  差评数量
+         */
+        public void setCommentNumber(int good, int mid, int bad);
+    }
 
-    public static CommentFragment newInstance(int product_id, String grade) {
+    /**
+     * @param mid        美甲师id
+     * @param product_id 美甲作品id
+     * @param grade      好评 中评 差评
+     * @return
+     */
+    public static CommentFragment newInstance(int mid, int product_id, String grade) {
         CommentFragment fragment = new CommentFragment();
-        fragment.setGrade(grade);
-        fragment.setProduct_id(product_id);
+        Bundle b = new Bundle();
+        b.putInt("product_id", product_id);
+        b.putString("grade", grade);
+        b.putInt("mid", mid);
+        fragment.setArguments(b);
         return fragment;
     }
 
-    private int    product_id;
+    /**
+     * 美甲作品id
+     */
+    private int product_id;
+
+    /**
+     * 美甲师id
+     */
+    private int mid;
+
+
+    /**
+     * 好评 中评 差评
+     */
     private String grade;
 
-    List<CommentBean> data = new ArrayList<CommentBean>();
+    /**
+     * 评论列表数据
+     */
+    List<CommentBean> beans = new ArrayList<CommentBean>();
     ListController mController;
-
-    public void setProduct_id(int product_id) {
-        this.product_id = product_id;
-    }
-
-    public void setGrade(String grade) {
-        this.grade = grade;
-    }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
-        setListAdapter(new CommentAdapter(data, getActivity()));
+        setListAdapter(new CommentAdapter(beans, getActivity()));
         mController = new ListController(getListView(), this);
+
+        Bundle data = getArguments();
+        grade = data.getString("grade");
+        product_id = data.getInt("product_id");
+        mid = data.getInt("mid");
         getCommentList(1);
     }
 
@@ -68,9 +102,15 @@ public class CommentFragment extends ListFragment implements ListController.Call
         getCommentList(nextPage);
     }
 
+    /**
+     * 获取评论列表
+     *
+     * @param page 分页展示，第几页
+     */
     void getCommentList(int page) {
         RequestParams params = new RequestParams();
         params.put("product_id", product_id);
+        params.put("mid", mid);
         params.put("grade", grade);
         params.put("page", page);
         params.put("pagesize", mController.getPageSize());
@@ -79,8 +119,26 @@ public class CommentFragment extends ListFragment implements ListController.Call
             @Override
             public void onSuccess(JSONObject o) {
                 try {
-                    JsonUtil.getArray(o.getJSONArray("data"), CommentBean.class, data);
+                    JSONObject data = o.getJSONObject("data");
+
+                    //如果有list
+                    if (data.has("list")) {
+                        try {
+                            JsonUtil.getArray(data.getJSONArray("list"), CommentBean.class, beans);
+                        } catch (JSONException e) {
+
+                        }
+                    }
+
                     ((BaseAdapter) getListAdapter()).notifyDataSetChanged();
+                    if (getActivity() instanceof CommentNumberSetter) {
+
+                        int good = data.has("good_num") ? data.getInt("good_num") : 0;
+                        int mid = data.has("normal_num") ? data.getInt("normal_num") : 0;
+                        int bad = data.has("bad_num") ? data.getInt("bad_num") : 0;
+
+                        ((CommentNumberSetter) getActivity()).setCommentNumber(good, mid, bad);
+                    }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -88,6 +146,9 @@ public class CommentFragment extends ListFragment implements ListController.Call
         });
     }
 
+    /**
+     * 评论列表Adapter
+     */
     class CommentAdapter extends BaseAdapter {
         List<CommentBean> data;
         private Context context;

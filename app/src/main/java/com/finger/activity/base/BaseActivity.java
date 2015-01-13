@@ -12,6 +12,9 @@ import android.widget.TextView;
 
 import com.finger.activity.FingerApp;
 import com.finger.R;
+import com.finger.activity.info.CommentListActivity;
+import com.finger.entity.ArtistRole;
+import com.finger.support.Constant;
 import com.finger.support.util.Logger;
 
 import static com.finger.support.util.Logger.i;
@@ -23,8 +26,8 @@ public class BaseActivity extends FragmentActivity implements View.OnClickListen
     /**
      * 是否debug生命周期
      */
-    protected boolean showLifeCircle = false;
-    private RoleChangeReceiver roleChangeReceiver = null;
+    protected boolean            showLifeCircle     = false;
+    private   RoleChangeReceiver roleChangeReceiver = null;
 
     public FingerApp getApp() {
         return (FingerApp) getApplication();
@@ -52,7 +55,7 @@ public class BaseActivity extends FragmentActivity implements View.OnClickListen
     }
 
     /**
-     * 设置专业沟通守时
+     * 设置美甲师专业沟通守时
      *
      * @param pro    专业 对应TextView 的id为tv_pro
      * @param com    沟通 对应TextView 的id为tv_com
@@ -67,21 +70,55 @@ public class BaseActivity extends FragmentActivity implements View.OnClickListen
         tv_on_time.setText(String.format("%.1f", onTime));
     }
 
+    private View.OnClickListener onCommentClickListener;
+
+
     /**
      * 好评中评差评
      *
-     * @param good
-     * @param mid
-     * @param bad
      */
-    public void setArtistComment(int good, int mid, int bad) {
+    public void setArtistComment(final ArtistRole bean) {
+
+        if (onCommentClickListener == null) {
+            onCommentClickListener = new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(BaseActivity.this, CommentListActivity.class);
+                    //这里要判断一下，id只有当自己登录的时候才有值
+                    int id = bean.mid;
+                    if (id <= 0) {
+                        id = bean.id;
+                    }
+                    intent.putExtra(CommentListActivity.EXTRA_MID, id);
+                    switch (v.getId()) {
+                        case R.id.tv_good_comment: {
+                            intent.putExtra(CommentListActivity.EXTRA_COMMENT_TYPE, Constant.COMMENT_GOOD);
+                            break;
+                        }
+                        case R.id.tv_bad_comment: {
+                            intent.putExtra(CommentListActivity.EXTRA_COMMENT_TYPE, Constant.COMMENT_BAD);
+                            break;
+                        }
+                        case R.id.tv_mid_comment: {
+                            intent.putExtra(CommentListActivity.EXTRA_COMMENT_TYPE, Constant.COMMENT_MID);
+                            break;
+                        }
+                    }
+                    startActivity(intent);
+                }
+            };
+        }
         TextView tv_good_comment = (TextView) findViewById(R.id.tv_good_comment);
         TextView tv_bad_comment = (TextView) findViewById(R.id.tv_bad_comment);
         TextView tv_mid_comment = (TextView) findViewById(R.id.tv_mid_comment);
-        tv_good_comment.setText(getString(R.string.d_num, good));
-        tv_mid_comment.setText(getString(R.string.d_num, mid));
-        tv_bad_comment.setText(getString(R.string.d_num, bad));
+        tv_good_comment.setText(getString(R.string.d_num, bean.comment_good));
+        tv_mid_comment.setText(getString(R.string.d_num, bean.comment_normal));
+        tv_bad_comment.setText(getString(R.string.d_num, bean.comment_bad));
+        tv_good_comment.setOnClickListener(onCommentClickListener);
+        tv_bad_comment.setOnClickListener(onCommentClickListener);
+        tv_mid_comment.setOnClickListener(onCommentClickListener);
     }
+
 
     @Override
     public void setTitle(int titleId) {
@@ -147,7 +184,8 @@ public class BaseActivity extends FragmentActivity implements View.OnClickListen
     }
 
     void debug(String msg) {
-        if (showLifeCircle) i(getClass().getSimpleName() + msg);
+        if (showLifeCircle)
+            i(getClass().getSimpleName() + msg);
     }
 
     @Override
@@ -156,7 +194,7 @@ public class BaseActivity extends FragmentActivity implements View.OnClickListen
             case R.id.title_back:
                 finish();
                 break;
-//            default:super.onClick(v);
+            //            default:super.onClick(v);
         }
     }
 

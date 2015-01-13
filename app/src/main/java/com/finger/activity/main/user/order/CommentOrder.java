@@ -86,7 +86,12 @@ public class CommentOrder extends AddImageActivity implements RadioGroup.OnCheck
         FingerHttpClient.post("addComment", params, new FingerHttpHandler() {
             @Override
             public void onSuccess(JSONObject o) {
-                startActivity(new Intent(CommentOrder.this, CommentListActivity.class).putExtra("bean", bean));
+                startActivity(
+                        new Intent(CommentOrder.this, CommentListActivity.class)
+                                .putExtra(CommentListActivity.EXTRA_PRODUCT_ID, bean.product_id)
+                                .putExtra(CommentListActivity.EXTRA_COMMENT_TYPE, grade)
+                                .putExtra(CommentListActivity.EXTRA_MID, bean.mid)
+                );
             }
         });
     }

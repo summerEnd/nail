@@ -36,7 +36,9 @@ import com.sp.lib.util.TextPainUtil;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-
+/**
+ * 美甲作品详情
+ */
 public class NailInfo extends BaseActivity {
 
 
@@ -78,11 +80,15 @@ public class NailInfo extends BaseActivity {
         iv_avatar = (ImageView) findViewById(R.id.iv_avatar);
         cb_collect = (CheckBox) findViewById(R.id.collect);
         cb_collect.setOnClickListener(this);
+        //添加删除线
         TextPainUtil.addDeleteLine(tv_shop_price);
-        getData();
+        getProductDetail();
     }
 
-    void getData() {
+    /**
+     * 获取美甲作品详情
+     */
+    void getProductDetail() {
         RequestParams params = new RequestParams();
         params.put("product_id", getIntent().getIntExtra("id", -1));
         FingerHttpClient.post("getProductDetail", params, new FingerHttpHandler() {
@@ -109,7 +115,9 @@ public class NailInfo extends BaseActivity {
         );
     }
 
-
+    /**
+     * 设置展示信息
+     */
     public void setData(NailInfoBean bean) {
         if (bean == null)
             return;
@@ -121,15 +129,22 @@ public class NailInfo extends BaseActivity {
         tv_info_text.setText(bean.description);
         tv_comment_num.setText(getString(R.string.d_num, bean.comment_num));
         ImageManager.loadImage(bean.cover, cover);
+        //设置作品图片大小，长宽与屏幕宽度相等
         if (!TextUtils.isEmpty(bean.cover))
             cover.setLayoutParams(new LinearLayout.LayoutParams(ItemUtil.halfScreen * 2, ItemUtil.halfScreen * 2));
         cb_collect.setChecked(bean.collection_id != 0);
 
+        //获取美甲师信息
         SellerInfoBean seller_info = bean.seller_info;
+
+        //设置专业沟通守时
         setArtistZGS(seller_info.professional, seller_info.talk, seller_info.on_time);
+
+        //设置评分
         ratingWidget.setScore(seller_info.score);
         tv_artist_name.setText(seller_info.username);
 
+        //加载美甲师头像
         ImageManager.loadImage(seller_info.avatar, new SimpleImageLoadingListener() {
             @Override
             public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
@@ -137,6 +152,8 @@ public class NailInfo extends BaseActivity {
             }
         });
         RoleBean role = getApp().getUser();
+
+        //根据作品对应的美甲师id与当前登录的美甲师id是否相等，来显示或隐藏底部按钮
         if (role instanceof ArtistRole && seller_info.uid == role.id) {
             findViewById(R.id.choose_nail).setVisibility(View.INVISIBLE);
         } else {
@@ -150,8 +167,12 @@ public class NailInfo extends BaseActivity {
         switch (v.getId()) {
             case R.id.choose_nail: {
                 OrderBean bean = OrderManager.getCurrentOrder();
+                //如果订单还没有创建，就创建订单，并到PlanActivity补充订单信息
+                //如果已经生成订单，则跳转到订单确认
                 if (bean == null) {
+                    //创建订单
                     bean = OrderManager.createOrder();
+                    //为订单添加美甲作品信息
                     bean.nailInfoBean = this.bean;
                     startActivity(new Intent(this, PlanActivity.class));
                     finish();
@@ -177,6 +198,8 @@ public class NailInfo extends BaseActivity {
     }
 
     /**
+     * 添加收藏
+     *
      * @param id 作品的id
      */
     void addCollection(int id) {
@@ -202,6 +225,8 @@ public class NailInfo extends BaseActivity {
     }
 
     /**
+     * 取消收藏
+     *
      * @param id 作品的collection_id
      */
     void cancel(int id) {

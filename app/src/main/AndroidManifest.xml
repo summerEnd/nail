@@ -133,7 +133,7 @@
             android:screenOrientation="portrait"
             android:label="@string/title_activity_service_area"></activity>
         <activity
-            android:name=".activity.main.MyCareActivity"
+            android:name=".activity.main.AttentionList"
             android:screenOrientation="portrait"
             android:label="@string/my_care"></activity>
         <activity

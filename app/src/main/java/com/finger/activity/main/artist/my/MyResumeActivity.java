@@ -102,7 +102,7 @@ public class MyResumeActivity extends BaseActivity {
         });
 
         setArtistZGS(bean.professional, bean.talk, bean.on_time);
-        setArtistComment(bean.comment_good, bean.comment_normal, bean.comment_bad);
+        setArtistComment(bean);
         rating.setScore(bean.score);
         tv_nick_name.setText(bean.username);
         tv_order_num.setText(getString(R.string.order_d_num,bean.total_num));

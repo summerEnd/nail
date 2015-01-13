@@ -66,12 +66,6 @@ public class LoginActivity extends BaseActivity implements RadioGroup.OnCheckedC
      */
     public void doLogin(final String mobile, final String password, final String type) {
 
-        if (type.equals(Constant.LOGIN_TYPE_ARTIST)) {
-            BDLocation location = BaiduAPI.mBDLocation;
-            if (location != null) {
-                FingerApp.getInstance().updatePosition(location.getLatitude(), location.getLongitude());
-            }
-        }
 
         RequestParams params = new RequestParams();
         params.put("phone_num", mobile);
@@ -95,8 +89,16 @@ public class LoginActivity extends BaseActivity implements RadioGroup.OnCheckedC
                     bean = JsonUtil.get(user.toString(), UserRole.class);
                 }
                 bean.password = password;
-
+                //设置登录用户信息
                 getApp().setUser(bean);
+                //登录完成，定位当前位置
+                if (type.equals(Constant.LOGIN_TYPE_ARTIST)) {
+                    BDLocation location = BaiduAPI.mBDLocation;
+                    if (location != null) {
+                        FingerApp.getInstance().updatePosition(location.getLatitude(), location.getLongitude());
+                    }
+                }
+
                 setResult(RESULT_OK);
                 finish();
             }

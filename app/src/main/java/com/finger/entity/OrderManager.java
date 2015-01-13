@@ -16,9 +16,7 @@ import java.util.LinkedList;
 
 import static com.finger.adapter.OrderAdapterFactory.OrderAdapter;
 
-/**
- * Created by acer on 2014/12/25.
- */
+
 public class OrderManager {
     /**
      * 等待服务
@@ -31,7 +29,7 @@ public class OrderManager {
     /**
      * 退款
      */
-    public static int STATUS_REFUND = 3;
+    public static int STATUS_REFUND       = 3;
     private static OrderBean bean;
     private static LinkedList<Activity> activities = new LinkedList<Activity>();
 
@@ -73,35 +71,6 @@ public class OrderManager {
         activities.add(activity);
     }
 
-    /**
-     * @param lv     adapter必须为OrderAdapter的子类
-     * @param status 状态 STATUS_WAIT_SERVICE，STATUS_WAIT_COMMENT，STATUS_REFUND
-     * @param page
-     */
-    public static void getOrderList(final ListView lv, int status, int page) {
-        RequestParams params = new RequestParams();
-        if (status >= 0) {
-            params.put("status", status);
-        }
 
-        RoleBean bean = FingerApp.getInstance().getUser();
-
-        if (bean instanceof ArtistRole) {
-            params.put("mid", bean.id);
-        }
-
-        FingerHttpClient.post("getOrderList", params, new FingerHttpHandler() {
-            @Override
-            public void onSuccess(JSONObject o) {
-                try {
-                    OrderAdapter adapter = (OrderAdapter) lv.getAdapter();
-                    JsonUtil.getArray(o.getJSONArray("data"), OrderListBean.class, adapter.getData());
-                    adapter.notifyDataSetChanged();
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-    }
 
 }

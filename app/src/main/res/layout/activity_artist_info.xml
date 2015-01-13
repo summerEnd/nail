@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
 
-    <include layout="@layout/head_2" />
+    <include layout="@layout/head_2"/>
 
     <RelativeLayout
         android:layout_width="match_parent"
         style="@style/activity_padding"
+        android:paddingTop="10dp"
         android:layout_marginLeft="@dimen/activity_horizontal_margin"
         android:background="@color/white"
         android:layout_marginRight="@dimen/activity_horizontal_margin"
@@ -21,24 +22,27 @@
             android:src="@drawable/default_user"
             android:layout_marginRight="5dp"
             android:layout_width="@dimen/avatar_size"
-            android:layout_height="@dimen/avatar_size" />
+            android:layout_height="@dimen/avatar_size"/>
 
         <TextView
             android:id="@+id/name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="@dimen/textSize_dp_36px"
+            android:text="123"
+            android:layout_marginTop="-5dp"
             android:layout_toRightOf="@+id/iv_avatar"
-            android:textColor="#000" />
+            android:textColor="#000"/>
 
         <TextView
             android:id="@+id/tv_average_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/average_price_s"
+            android:layout_alignBaseline="@+id/name"
             android:textSize="@dimen/textSize_dp_28px"
             android:layout_alignParentRight="true"
-            android:textColor="@color/textColorBlack" />
+            android:textColor="@color/textColorBlack"/>
 
         <com.finger.support.widget.RatingWidget
             android:layout_width="wrap_content"
@@ -46,7 +50,7 @@
             app:drawable="@drawable/star1"
             android:layout_toRightOf="@+id/iv_avatar"
             app:stars="5"
-            android:layout_above="@+id/zgs" />
+            android:layout_above="@+id/zgs"/>
 
         <LinearLayout
             android:layout_above="@+id/zgs"
@@ -58,9 +62,10 @@
             <CheckBox
                 android:scaleType="centerInside"
                 android:id="@+id/attention"
+                android:textSize="@dimen/textSize_dp_18px"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:button="@drawable/ic_attention" />
+                android:button="@drawable/ic_attention"/>
 
         </LinearLayout>
 
@@ -68,6 +73,7 @@
             android:id="@+id/zgs"
             android:layout_width="match_parent"
             android:orientation="horizontal"
+            android:layout_marginBottom="-3dp"
             android:layout_toRightOf="@+id/iv_avatar"
             android:layout_alignBottom="@+id/iv_avatar"
             android:layout_height="wrap_content">
@@ -77,7 +83,7 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/textColorGray"
                 android:textSize="@dimen/textSize_dp_24px"
-                android:text="专业：" />
+                android:text="专业："/>
 
             <TextView
                 android:id="@id/tv_pro"
@@ -85,19 +91,19 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/textColorGray"
                 android:textSize="@dimen/textSize_dp_30px"
-                android:text="0.0" />
+                android:text="0.0"/>
 
             <View
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1" />
+                android:layout_weight="1"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:textColor="@color/textColorGray"
                 android:layout_height="wrap_content"
                 android:textSize="@dimen/textSize_dp_24px"
-                android:text="沟通：" />
+                android:text="沟通："/>
 
             <TextView
                 android:id="@id/tv_com"
@@ -105,19 +111,19 @@
                 android:textColor="@color/textColorGray"
                 android:layout_height="wrap_content"
                 android:textSize="@dimen/textSize_dp_30px"
-                android:text="0.0" />
+                android:text="0.0"/>
 
             <View
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1" />
+                android:layout_weight="1"/>
 
             <TextView
                 android:textSize="@dimen/textSize_dp_24px"
                 android:layout_width="wrap_content"
                 android:textColor="@color/textColorGray"
                 android:layout_height="wrap_content"
-                android:text="守时：" />
+                android:text="守时："/>
 
             <TextView
                 android:id="@id/tv_on_time"
@@ -125,7 +131,7 @@
                 android:textColor="@color/textColorGray"
                 android:layout_height="wrap_content"
                 android:textSize="@dimen/textSize_dp_30px"
-                android:text="0.0" />
+                android:text="0.0"/>
         </LinearLayout>
     </RelativeLayout>
 
@@ -149,7 +155,7 @@
                 android:layout_height="wrap_content"
                 android:textColor="#e45b63"
                 android:textSize="@dimen/textSize_dp_28px"
-                android:text="好评" />
+                android:text="好评"/>
 
             <TextView
                 android:id="@id/tv_good_comment"
@@ -159,19 +165,19 @@
                 android:textColor="@color/textColorGray"
                 android:layout_marginLeft="6dp"
                 android:layout_height="wrap_content"
-                android:text="0条" />
+                android:text="0条"/>
 
             <View
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1" />
+                android:layout_weight="1"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="#c99918"
                 android:textSize="@dimen/textSize_dp_28px"
-                android:text="中评" />
+                android:text="中评"/>
 
             <TextView
                 android:id="@id/tv_mid_comment"
@@ -180,12 +186,12 @@
                 android:layout_marginLeft="6dp"
                 android:textSize="@dimen/textSize_dp_28px"
                 android:textColor="@color/textColorGray"
-                android:text="0条" />
+                android:text="0条"/>
 
             <View
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1" />
+                android:layout_weight="1"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -193,7 +199,7 @@
                 android:textColor="@color/textColorGray"
 
                 android:textSize="@dimen/textSize_dp_28px"
-                android:text="差评" />
+                android:text="差评"/>
 
             <TextView
                 android:id="@+id/tv_bad_comment"
@@ -202,7 +208,7 @@
                 android:textSize="@dimen/textSize_dp_28px"
                 android:textColor="@color/textColorGray"
                 android:layout_height="wrap_content"
-                android:text="0条" />
+                android:text="0条"/>
         </LinearLayout>
 
         <!--<ImageView
@@ -218,5 +224,5 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/frag_container" />
+        android:id="@+id/frag_container"/>
 </LinearLayout>

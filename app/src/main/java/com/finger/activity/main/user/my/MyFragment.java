@@ -16,7 +16,7 @@ import android.widget.TextView;
 import com.finger.activity.FingerApp;
 import com.finger.R;
 import com.finger.activity.setting.ChangeMyData;
-import com.finger.activity.main.MyCareActivity;
+import com.finger.activity.main.AttentionList;
 import com.finger.activity.main.MyCollectionActivity;
 import com.finger.activity.setting.SettingActivity;
 import com.finger.activity.info.User;
@@ -110,7 +110,7 @@ public class MyFragment extends Fragment implements View.OnClickListener {
                     break;
                 }
                 case R.id.my_attention: {
-                    Intent intent = new Intent(context, MyCareActivity.class);
+                    Intent intent = new Intent(context, AttentionList.class);
                     context.startActivity(intent);
                     break;
                 }

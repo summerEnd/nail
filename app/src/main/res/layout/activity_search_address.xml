@@ -20,11 +20,12 @@
             android:layout_weight="1"
             android:layout_height="wrap_content"/>
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="搜索"
-            style="@style/button_mid"
+        <ImageView
+            android:src="@drawable/btn_search"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:scaleType="centerInside"
+            android:clickable="true"
             android:onClick="onClick"
             android:id="@+id/button3"/>
 
@@ -34,5 +35,6 @@
     <ListView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        style="@style/list_style"
         android:id="@+id/list"/>
 </LinearLayout>

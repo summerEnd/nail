@@ -12,6 +12,7 @@ import java.io.Serializable;
  *
  */
 public class RoleBean implements Serializable{
+    //登录用户的id
     public Integer id;
     protected String type;
     public String username;

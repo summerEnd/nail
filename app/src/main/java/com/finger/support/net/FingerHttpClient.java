@@ -22,7 +22,7 @@ import static com.finger.support.util.ContextUtil.getVersion;
 
 public class FingerHttpClient {
     private static final String SECRET = "ju34s4&6d567nuwe678l89kjdf56o34iw!e";
-    private static final String host = "http://218.244.149.129/pnail/index.php?s=/Home/Api/";
+    public static final String host = "http://218.244.149.129/pnail/index.php?s=/Home/Api/";
     private static String MIEI = "miei";
 
     public static void setDialogCreator(SHttpClient.ProgressDialogCreator creator) {

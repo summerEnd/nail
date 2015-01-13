@@ -13,11 +13,8 @@ import com.finger.support.widget.NailItem;
 
 import java.util.List;
 
-/**
- * Created by acer on 2014/12/24.
- */
 public class NailListAdapter extends BaseAdapter {
-    private Context context;
+    private Context            context;
     private List<NailInfoBean> beans;
 
     public NailListAdapter(Context context, List<NailInfoBean> beans) {
@@ -45,13 +42,13 @@ public class NailListAdapter extends BaseAdapter {
         NailItem item;
         if (convertView == null) {
             item = new NailItem(context);
-            ViewGroup.LayoutParams lp=new AbsListView.LayoutParams(ItemUtil.item_size,ItemUtil.item_size);
+            ViewGroup.LayoutParams lp = new AbsListView.LayoutParams(ItemUtil.item_size, ItemUtil.item_size);
             item.setLayoutParams(lp);
             convertView = item;
         } else {
             item = (NailItem) convertView;
         }
-        NailInfoBean bean=beans.get(position);
+        NailInfoBean bean = beans.get(position);
         item.setInfoBean(bean);
         return convertView;
     }

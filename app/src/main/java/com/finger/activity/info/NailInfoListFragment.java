@@ -41,7 +41,6 @@ import java.net.URLEncoder;
 import java.util.LinkedList;
 import java.util.List;
 
-
 public class NailInfoListFragment extends Fragment implements View.OnClickListener, ListController.Callback {
     GridView    gridView;
     PopupWindow orderList;
@@ -68,9 +67,12 @@ public class NailInfoListFragment extends Fragment implements View.OnClickListen
         return layout;
     }
 
+    /**
+     * 获取美甲作品列表
+     *
+     * @param page
+     */
     void getProductList(int page) {
-        Logger.d("page:" + page);
-
 
         RequestParams params = new RequestParams();
         params.put("page", page);
@@ -79,9 +81,13 @@ public class NailInfoListFragment extends Fragment implements View.OnClickListen
         JSONObject condition = new JSONObject();
         FingerApp app = ((BaseActivity) getActivity()).getApp();
         try {
-            condition.put("sort", sort);//（normal / price_desc / price_asc）
-            condition.put("price", price);// (40 - 80 之间)
-            condition.put("city_code", app.getCurCity().city_code);//(百度城市代码)
+            //（normal / price_desc / price_asc）
+            condition.put("sort", sort);
+            // (40 - 80 之间)
+            condition.put("price", price);
+            //百度城市代码
+            condition.put("city_code", app.getCurCity().city_code);
+
             Bundle args = getArguments();
             if (args != null) {
                 int mid = args.getInt("id", -1);
@@ -95,6 +101,7 @@ public class NailInfoListFragment extends Fragment implements View.OnClickListen
         }
 
         try {
+            //对condition进行URL编码
             params.put("condition", URLEncoder.encode(condition.toString(), "UTF-8"));
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
@@ -132,6 +139,7 @@ public class NailInfoListFragment extends Fragment implements View.OnClickListen
                     orderList.setFocusable(true);
                     orderList.setBackgroundDrawable(new ColorDrawable(0xffffffff));
                     orderList.setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
+                    //排序方式
                     final String[] sorts = new String[]{"normal", "price_desc", "price_asc"};
                     View contentView = View.inflate(getActivity(), R.layout.order_list, null);
                     ListView listView = (ListView) contentView.findViewById(R.id.listView);
@@ -205,6 +213,7 @@ public class NailInfoListFragment extends Fragment implements View.OnClickListen
         }
     }
 
+    //打开排序
     void openOrder(View v) {
         rotate(true);
 
@@ -219,6 +228,11 @@ public class NailInfoListFragment extends Fragment implements View.OnClickListen
         controller.unRegisterDataObserver();
     }
 
+    /**
+     * 旋转图标
+     *
+     * @param open
+     */
     void rotate(boolean open) {
         View v = layout.findViewById(R.id.iv_order);
         v.clearAnimation();
@@ -237,6 +251,7 @@ public class NailInfoListFragment extends Fragment implements View.OnClickListen
     public void onLoadMore(AbsListView listView, int page) {
         getProductList(page);
     }
+
 
     class OrderListAdapter extends BaseAdapter {
         private Context context;

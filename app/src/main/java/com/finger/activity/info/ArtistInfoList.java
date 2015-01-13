@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -87,14 +88,21 @@ public class ArtistInfoList extends BaseActivity implements AdapterView.OnItemCl
     }
 
     /**
+     * 获取美甲师详情
+     *
      * @param page 从1开始
      */
     void getSellerList(int page) {
         RequestParams params = new RequestParams();
 
-        params.put("sort", sort + "_" + ASC_DESC);
-        params.put("page", page);
+        if (!TextUtils.isEmpty(ASC_DESC)) {
+            params.put("sort", sort + "_" + ASC_DESC);
+        } else {
+            params.put("sort", sort);
+        }
 
+        params.put("page", page);
+        params.put("pagesize", controller.getPageSize());
         OrderBean bean = OrderManager.getCurrentOrder();
         //如果是预约时查看列表，就取预约的经纬度。否则取用户当前的经纬度
         if (bean == null) {
@@ -185,7 +193,12 @@ public class ArtistInfoList extends BaseActivity implements AdapterView.OnItemCl
         super.onClick(v);
     }
 
-
+    /**
+     * 打开选择列表
+     *
+     * @param v
+     * @param str
+     */
     void openList(View v, String str) {
         try {
             int[] l = new int[2];
@@ -204,6 +217,9 @@ public class ArtistInfoList extends BaseActivity implements AdapterView.OnItemCl
         startActivity(getIntent().setClass(this, ArtistInfo.class).putExtra("id", beans.get(position).uid));
     }
 
+    /**
+     * popupWindow的ListAdapter
+     */
     class PopListAdapter extends BaseAdapter {
         private Context context;
         private String  name;
@@ -254,6 +270,9 @@ public class ArtistInfoList extends BaseActivity implements AdapterView.OnItemCl
         }
     }
 
+    /**
+     * 美甲师列表Adapter
+     */
     class ArtistAdapter extends BaseAdapter {
         Context              context;
         List<ArtistListBean> beans;
@@ -295,7 +314,7 @@ public class ArtistInfoList extends BaseActivity implements AdapterView.OnItemCl
             }
             ArtistListBean bean = beans.get(position);
             holder.tv_name.setText(bean.username);
-            //            holder.tv_distance.setText(bean.);
+            //holder.tv_distance.setText(bean.);
             holder.tv_price.setText(getString(R.string.average_price_s, bean.average_price));
             holder.tv_order_num.setText(getString(R.string.order_d_num, bean.order_num));
             holder.rating.setScore(bean.score);
@@ -305,6 +324,7 @@ public class ArtistInfoList extends BaseActivity implements AdapterView.OnItemCl
                     holder.iv_avatar.setImageBitmap(ImageUtil.roundBitmap(loadedImage, context.getResources().getDimensionPixelSize(R.dimen.avatar_size) / 2));
                 }
             });
+            holder.tv_distance.setText(getString(R.string.distance_s));
             convertView.setTag(holder);
             return convertView;
         }

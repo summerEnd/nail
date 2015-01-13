@@ -92,9 +92,10 @@ public class BaiduAPI {
      * @param l2
      * @return
      */
-    public static final Double getDistance(LatLng l1, LatLng l2) {
-        Double distance = DistanceUtil.getDistance(l1, l2);
-        return Math.floor(distance);
+    public static final String getDistance(LatLng l1, LatLng l2) {
+        float distance = (float) (DistanceUtil.getDistance(l1, l2)/1000);
+
+        return String.format("%.1f",distance);
     }
 
     /**

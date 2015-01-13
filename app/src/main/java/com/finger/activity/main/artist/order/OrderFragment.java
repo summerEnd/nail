@@ -56,15 +56,10 @@ public class OrderFragment extends Fragment implements RadioGroup.OnCheckedChang
         OrderListFragment fragment = (OrderListFragment) manager.findFragmentByTag(String.valueOf(checked_id));
         FragmentTransaction ft = manager.beginTransaction();
 
+        //创建fragment实例
         if (fragment == null) {
-            fragment = new OrderListFragment();
-            ft.add(R.id.frag_container, fragment, String.valueOf(checked_id));
-
-        }
-
-        OrderAdapterFactory.OrderAdapter adapter = (OrderAdapterFactory.OrderAdapter) fragment.getListAdapter();
-        int status = -1;
-        if (adapter == null) {
+            int status = -1;
+            OrderAdapterFactory.OrderAdapter adapter=null;
             switch (checked_id) {
                 case R.id.rb1: {
                     adapter = OrderAdapterFactory.getAdapter(getActivity(), ORDER_NOTICE, new ArrayList<OrderListBean>());
@@ -76,11 +71,13 @@ public class OrderFragment extends Fragment implements RadioGroup.OnCheckedChang
                     break;
                 }
             }
+
+            fragment = OrderListFragment.newInstance(status);
             fragment.setListAdapter(adapter);
-            Bundle args = new Bundle();
-            args.putInt("status", status);
-            fragment.setArguments(args);
+            ft.add(R.id.frag_container, fragment, String.valueOf(checked_id));
+
         }
+
         ft.show(fragment);
 
         if (curFragment != null) {

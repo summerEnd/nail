@@ -80,6 +80,7 @@
     <string name="plan_nail">预约美甲</string>
     <string name="refunding">正在退款</string>
     <string name="refund_complete">退款成功</string>
+    <string name="refund_failed">退款失败</string>
     <string name="service_city">已开通城市</string>
     <string name="choose_city">选择城市</string>
     <string name="order_d_num">共接单%d次</string>
@@ -136,5 +137,11 @@
     <string name="price_s">价格：￥%s</string>
     <string name="select_address">选择地址</string>
     <string name="date_limit">使用期限：%s</string>
+    <string name="found_new_version_s">发现新版本!%s</string>
+    <string name="is_update">是否立即升级？</string>
+    <string name="aready_newest">已经是最新版本了</string>
+    <string name="order_not_exist">订单不存在！</string>
+    <string name="distance_s">距您%s公里</string>
+    <string name="expire">该优惠券已过期！</string>
 
 </resources>

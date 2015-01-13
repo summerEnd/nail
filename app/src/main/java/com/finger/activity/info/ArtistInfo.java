@@ -1,6 +1,7 @@
 package com.finger.activity.info;
 
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -15,6 +16,7 @@ import com.finger.activity.main.artist.my.MyResumeActivity;
 import com.finger.entity.ArtistRole;
 import com.finger.support.net.FingerHttpClient;
 import com.finger.support.net.FingerHttpHandler;
+import com.finger.support.util.DialogUtil;
 import com.finger.support.util.JsonUtil;
 import com.loopj.android.http.RequestParams;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
@@ -29,10 +31,10 @@ import org.json.JSONObject;
  */
 public class ArtistInfo extends BaseActivity {
     ArtistRole bean;
-    ImageView iv_avatar;
-    TextView name;
-    TextView tv_average_price;
-    CheckBox attention;
+    ImageView  iv_avatar;
+    TextView   name;
+    TextView   tv_average_price;
+    CheckBox   attention;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +52,7 @@ public class ArtistInfo extends BaseActivity {
         data.putInt("id", getIntent().getIntExtra("id", -1));
         nailInfoListFragment.setArguments(data);
         getSupportFragmentManager().beginTransaction().add(R.id.frag_container, nailInfoListFragment).commit();
-        getData();
+        getSellerDetail();
     }
 
     @Override
@@ -61,19 +63,22 @@ public class ArtistInfo extends BaseActivity {
                 if (!attention.isChecked()) {
                     cancel(bean.attention_id);
                 } else {
-                    addAttention(bean.id);
+                    addAttention(bean.mid);
                 }
                 break;
             }
             case R.id.iv_avatar: {
-                startActivity(new Intent(this, MyResumeActivity.class).putExtra("bean",bean));
+                startActivity(new Intent(this, MyResumeActivity.class).putExtra("bean", bean));
                 break;
             }
         }
         super.onClick(v);
     }
 
-    void getData() {
+    /**
+     * 获取美甲师详情
+     */
+    void getSellerDetail() {
         RequestParams params = new RequestParams();
         params.put("mid", getIntent().getIntExtra("id", -1));
         FingerHttpClient.post("getSellerDetail", params, new FingerHttpHandler() {
@@ -86,9 +91,23 @@ public class ArtistInfo extends BaseActivity {
                     e.printStackTrace();
                 }
             }
+
+            @Override
+            public void onFail(JSONObject o) {
+                DialogUtil.showNetFail(ArtistInfo.this).setOnDismissListener(new DialogInterface.OnDismissListener() {
+                    @Override
+                    public void onDismiss(DialogInterface dialog) {
+                        finish();
+                    }
+                });
+            }
         });
     }
 
+    /**
+     * 设置展示信息
+     * @param bean
+     */
     void setData(ArtistRole bean) {
         ImageManager.loadImage(bean.avatar, new SimpleImageLoadingListener() {
             @Override
@@ -97,9 +116,11 @@ public class ArtistInfo extends BaseActivity {
             }
         });
         name.setText(bean.username);
-        setArtistComment(bean.comment_good, bean.comment_normal, bean.comment_bad);
+
+        setArtistComment(bean);
         tv_average_price.setText(getString(R.string.average_price_s, bean.average_price));
         setArtistZGS(bean.professional, bean.talk, bean.on_time);
+        attention.setChecked(bean.attention_id>0);
     }
 
     /**
@@ -107,12 +128,12 @@ public class ArtistInfo extends BaseActivity {
      */
     void addAttention(int id) {
         RequestParams params = new RequestParams();
-        params.put("product_id", id);
-        FingerHttpClient.post("", params, new FingerHttpHandler() {
+        params.put("mid", id);
+        FingerHttpClient.post("addAttention", params, new FingerHttpHandler() {
             @Override
             public void onSuccess(JSONObject o) {
                 try {
-                    bean.collection_id = o.getInt("data");
+                    bean.attention_id = o.getInt("data");
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -130,8 +151,8 @@ public class ArtistInfo extends BaseActivity {
      */
     void cancel(int id) {
         RequestParams params = new RequestParams();
-        params.put("collection_id", id);
-        FingerHttpClient.post("", params, new FingerHttpHandler() {
+        params.put("attention_id", id);
+        FingerHttpClient.post("cancelAttention", params, new FingerHttpHandler() {
             @Override
             public void onSuccess(JSONObject o) {
 

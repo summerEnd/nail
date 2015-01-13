@@ -23,21 +23,24 @@ import com.finger.support.util.ItemUtil;
 import com.finger.support.widget.NailItem;
 import com.finger.support.util.Logger;
 import com.loopj.android.http.RequestParams;
+import com.sp.lib.util.ListController;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.DecimalFormat;
+import java.util.Iterator;
 import java.util.LinkedList;
 
-public class MyCollectionActivity extends BaseActivity {
+public class MyCollectionActivity extends BaseActivity implements ListController.Callback {
 
     GridView grid;
     LinkedList<NailItemBean> beans = new LinkedList<NailItemBean>();
-    CollectAdapter adapter;
-    View v;
+    CollectAdapter     adapter;
+    View               v;
     TranslateAnimation in;
     TranslateAnimation out;
+    ListController     controller;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,11 +51,14 @@ public class MyCollectionActivity extends BaseActivity {
         grid = (GridView) findViewById(R.id.grid);
         adapter = new CollectAdapter(this);
         grid.setAdapter(adapter);
-        getData();
+        controller = new ListController(grid, this);
+        getCollectionList(1);
     }
 
-    void getData() {
+    void getCollectionList(int page) {
         RequestParams params = new RequestParams();
+        params.put("page", page);
+        params.put("pagesize", controller.getPageSize());
         FingerHttpClient.post("getCollectionList", params, new FingerHttpHandler() {
             @Override
             public void onSuccess(JSONObject o) {
@@ -84,23 +90,50 @@ public class MyCollectionActivity extends BaseActivity {
         }
     }
 
+    /**
+     * 向服务端请求删除
+     */
     private void deleteFromWeb() {
-        deleteFromView();
-    }
-
-    private void deleteFromView() {
+        //先把要删除的放入一个集合
         LinkedList<NailItemBean> deleteBean = new LinkedList<NailItemBean>();
         for (NailItemBean bean : beans) {
             if (bean.selected) {
                 deleteBean.add(bean);
             }
         }
-        for (NailItemBean bean : deleteBean) {
-            beans.remove(bean);
+        StringBuilder delete_ids = new StringBuilder();
+        Iterator<NailItemBean> it = deleteBean.iterator();
+        //将要删除的id拼接成一个字符串用逗号隔开
+        while (it.hasNext()) {
+            NailItemBean next = it.next();
+            delete_ids.append(next.collection_id);
+            if (it.hasNext()) {
+                delete_ids.append(",");
+            }
         }
-        showDelete(false);
+
+        //请求网络
+        RequestParams params = new RequestParams();
+        params.put("collections", delete_ids.toString());
+        FingerHttpClient.post("batchCancelCollection", params, new FingerHttpHandler() {
+            @Override
+            public void onSuccess(JSONObject o) {
+                //隐藏删除页面
+                showDelete(false);
+
+                //删除成功，重新获取数据
+                beans.clear();
+                adapter.notifyDataSetChanged();
+                getCollectionList(1);
+            }
+        });
+
     }
 
+
+    /**
+     * @param show true 弹出删除 false隐藏
+     */
     void showDelete(boolean show) {
         if (adapter.delete == show) {
             return;
@@ -115,26 +148,33 @@ public class MyCollectionActivity extends BaseActivity {
         v.clearAnimation();
         v.setVisibility(View.VISIBLE);
         if (enter) {
-            if (in == null) in = new TranslateAnimation(
-                    Animation.RELATIVE_TO_SELF, 0,//from x
-                    Animation.RELATIVE_TO_SELF, 0,//to x
-                    Animation.RELATIVE_TO_SELF, 1,//from y
-                    Animation.RELATIVE_TO_SELF, 0//to y
-            );
+            if (in == null)
+                in = new TranslateAnimation(
+                        Animation.RELATIVE_TO_SELF, 0,//from x
+                        Animation.RELATIVE_TO_SELF, 0,//to x
+                        Animation.RELATIVE_TO_SELF, 1,//from y
+                        Animation.RELATIVE_TO_SELF, 0//to y
+                );
             animation = in;
         } else {
-            if (out == null) out = new TranslateAnimation(
-                    Animation.RELATIVE_TO_SELF, 0,//from x
-                    Animation.RELATIVE_TO_SELF, 0,//to x
-                    Animation.RELATIVE_TO_SELF, 0,//from y
-                    Animation.RELATIVE_TO_SELF, 1//to y
-            );
+            if (out == null)
+                out = new TranslateAnimation(
+                        Animation.RELATIVE_TO_SELF, 0,//from x
+                        Animation.RELATIVE_TO_SELF, 0,//to x
+                        Animation.RELATIVE_TO_SELF, 0,//from y
+                        Animation.RELATIVE_TO_SELF, 1//to y
+                );
             animation = out;
         }
 
         animation.setFillAfter(true);
-        animation.setDuration(500);
+        animation.setDuration(400);
         v.startAnimation(animation);
+    }
+
+    @Override
+    public void onLoadMore(AbsListView listView, int nextPage) {
+        getCollectionList(nextPage);
     }
 
 

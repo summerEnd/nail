@@ -13,9 +13,7 @@ import java.util.logging.Logger;
  * @copy
  */
 public class BaseActivity extends Activity {
-    /**
-     * 是否debug生命周期
-     */
+
     private boolean showLifeCircle = false;
 
     @Override

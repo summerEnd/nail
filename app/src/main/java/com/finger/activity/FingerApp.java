@@ -145,6 +145,7 @@ public class FingerApp extends Application {
 
     /**
      * 更新美甲师的位置
+     *
      * @param latitude
      * @param longitude
      */
@@ -162,7 +163,7 @@ public class FingerApp extends Application {
             WebJsonHttpHandler handler = new WebJsonHttpHandler() {
                 @Override
                 public void onSuccess(JSONObject object, JSONArray array) {
-                    ContextUtil.toast_debug("upload artist postion");
+                    ContextUtil.toast_debug("upload artist position");
                 }
 
                 @Override
@@ -171,7 +172,7 @@ public class FingerApp extends Application {
                 }
             };
             handler.showDialog = false;
-            SHttpClient.post("updatePosition", params, handler, BuildConfig.DEBUG);
+            SHttpClient.post(FingerHttpClient.host + "updatePosition", params, handler, BuildConfig.DEBUG);
 
         }
 

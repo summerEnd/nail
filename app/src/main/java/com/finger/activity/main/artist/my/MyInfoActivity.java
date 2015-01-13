@@ -7,7 +7,7 @@ import android.view.View;
 import com.finger.R;
 import com.finger.activity.base.BaseActivity;
 import com.finger.activity.setting.ChangeMyData;
-import com.finger.activity.main.MyCareActivity;
+import com.finger.activity.main.AttentionList;
 import com.finger.activity.main.MyCollectionActivity;
 
 public class MyInfoActivity extends BaseActivity{
@@ -41,7 +41,7 @@ public class MyInfoActivity extends BaseActivity{
                 break;
             }
             case R.id.my_attention:{
-                Intent intent=new Intent(this, MyCareActivity.class);
+                Intent intent=new Intent(this, AttentionList.class);
                 startActivity(intent);
                 break;
             }

@@ -1,6 +1,7 @@
 package com.finger.activity.main.user.my;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
@@ -8,6 +9,7 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.RadioGroup;
@@ -18,12 +20,14 @@ import com.finger.R;
 import com.finger.entity.RoleBean;
 import com.finger.support.net.FingerHttpClient;
 import com.finger.support.net.FingerHttpHandler;
+import com.finger.support.util.ContextUtil;
 import com.finger.support.util.JsonUtil;
 import com.loopj.android.http.RequestParams;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,35 +36,57 @@ import static android.view.ViewGroup.LayoutParams;
 /**
  * Created by acer on 2014/12/16.
  */
-public class MyDiscountActivity extends BaseActivity implements RadioGroup.OnCheckedChangeListener, ViewPager.OnPageChangeListener {
+public class MyDiscountActivity extends BaseActivity implements RadioGroup.OnCheckedChangeListener, ViewPager.OnPageChangeListener, AdapterView.OnItemClickListener {
     ViewPager pager;
     ArrayList<View> views = new ArrayList<View>();
     RadioGroup rg;
-    List<CouponBean> usedCoupons = new ArrayList<CouponBean>();
+    List<CouponBean> usedCoupons  = new ArrayList<CouponBean>();
     List<CouponBean> freshCoupons = new ArrayList<CouponBean>();
     DiscountAdapter usedAdapter;
     DiscountAdapter freshAdapter;
+
+    /**
+     * Intent参数，是否为选择优惠券，true 选择优惠券 ，默认是false
+     */
+    public static final String EXTRA_FOR_PICK = "for_pick_coupon";
+
     /**
      * 已使用
      */
-    final int STATUS_USED = 1;
+    final int STATUS_USED  = 1;
     /**
      * 未使用
      */
     final int STATUS_FRESH = 0;
 
-    class CouponBean {
-        int id;
+    boolean is_pick = false;
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        int checkedId = rg.getCheckedRadioButtonId();
+        if (is_pick) {
+            if (checkedId == R.id.rb_expired) {
+                ContextUtil.toast(getString(R.string.expire));
+            } else {
+                setResult(RESULT_OK, new Intent().putExtra("bean", freshCoupons.get(position)));
+                finish();
+            }
+        }
+    }
+
+    class CouponBean implements Serializable {
+        int    id;
         String title;
         String start_time;
         String stop_time;
         String price;
-        int status;
+        int    status;
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        is_pick = getIntent().getBooleanExtra(EXTRA_FOR_PICK, false);
         setContentView(R.layout.activity_my_discount);
         pager = (ViewPager) findViewById(R.id.pager);
         pager.setOnPageChangeListener(this);
@@ -111,8 +137,8 @@ public class MyDiscountActivity extends BaseActivity implements RadioGroup.OnChe
     }
 
     private void addView() {
-        usedAdapter=new DiscountAdapter(this,usedCoupons);
-        freshAdapter=new DiscountAdapter(this,freshCoupons);
+        usedAdapter = new DiscountAdapter(this, usedCoupons);
+        freshAdapter = new DiscountAdapter(this, freshCoupons);
 
         {
             ListView listView = new ListView(this);
@@ -170,6 +196,9 @@ public class MyDiscountActivity extends BaseActivity implements RadioGroup.OnChe
 
     }
 
+    /**
+     * ViewPager的Adapter
+     */
     class DiscountPageAdapter extends PagerAdapter {
 
         @Override
@@ -194,8 +223,11 @@ public class MyDiscountActivity extends BaseActivity implements RadioGroup.OnChe
         }
     }
 
+    /**
+     * 优惠券列表
+     */
     class DiscountAdapter extends BaseAdapter {
-        LayoutInflater inflater;
+        LayoutInflater   inflater;
         List<CouponBean> beans;
 
         DiscountAdapter(Context context, List<CouponBean> beans) {
@@ -234,8 +266,8 @@ public class MyDiscountActivity extends BaseActivity implements RadioGroup.OnChe
             CouponBean bean = beans.get(position);
             holder.tv_expire.setVisibility(bean.status == STATUS_USED ? View.VISIBLE : View.INVISIBLE);
             holder.tv_title.setText(bean.title);
-            holder.tv_price.setText(getString(R.string.price_s,bean.price));
-            holder.tv_date.setText(getString(R.string.date_limit,bean.start_time+"~"+bean.stop_time));
+            holder.tv_price.setText(getString(R.string.price_s, bean.price));
+            holder.tv_date.setText(getString(R.string.date_limit, bean.start_time + "~" + bean.stop_time));
             convertView.setTag(holder);
             return convertView;
         }

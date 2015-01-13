@@ -106,6 +106,10 @@ public class WelcomeActivity extends BaseActivity {
                     }
                     bean.password = password;
                     getApp().setUser(bean);
+                    BDLocation location=BaiduAPI.mBDLocation;
+                    if (location!=null){
+                        getApp().updatePosition(location.getLatitude(),location.getLongitude());
+                    }
                     enterMainActivity();
                 }
 

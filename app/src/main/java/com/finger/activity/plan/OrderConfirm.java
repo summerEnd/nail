@@ -1,5 +1,6 @@
 package com.finger.activity.plan;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -8,6 +9,7 @@ import android.widget.TextView;
 
 import com.finger.activity.base.BaseActivity;
 import com.finger.R;
+import com.finger.activity.main.user.my.MyDiscountActivity;
 import com.finger.entity.NailInfoBean;
 import com.finger.entity.OrderBean;
 import com.finger.entity.OrderManager;
@@ -22,16 +24,16 @@ import org.json.JSONObject;
 
 public class OrderConfirm extends BaseActivity {
     ImageView nail_image;
-    TextView tv_nail_name;
-    TextView tv_price;
-    TextView tv_shop_price;
-    TextView tv_contact;
-    TextView tv_mobile;
-    TextView tv_planTime;
-    TextView tv_address;
-    TextView tv_summary;
-    TextView tv_taxi_fee;
-    TextView tv_real_pay;
+    TextView  tv_nail_name;
+    TextView  tv_price;
+    TextView  tv_shop_price;
+    TextView  tv_contact;
+    TextView  tv_mobile;
+    TextView  tv_planTime;
+    TextView  tv_address;
+    TextView  tv_summary;
+    TextView  tv_taxi_fee;
+    TextView  tv_real_pay;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,8 +61,8 @@ public class OrderConfirm extends BaseActivity {
         TextPainUtil.addDeleteLine(tv_shop_price);
 
         tv_nail_name.setText(infoBean.name);
-        tv_price.setText(getString(R.string.s_price,infoBean.price));
-        tv_shop_price.setText(getString(R.string.s_price,infoBean.store_price));
+        tv_price.setText(getString(R.string.s_price, infoBean.price));
+        tv_shop_price.setText(getString(R.string.s_price, infoBean.store_price));
         tv_contact.setText(order.contact);
         tv_mobile.setText(order.mobile);
         tv_planTime.setText(order.planTime);
@@ -78,6 +80,10 @@ public class OrderConfirm extends BaseActivity {
         switch (v.getId()) {
             case R.id.commit: {
                 postOrder();
+                break;
+            }
+            case R.id.choose_coupon: {
+                startActivityForResult(new Intent(this, MyDiscountActivity.class),100);
                 break;
             }
         }

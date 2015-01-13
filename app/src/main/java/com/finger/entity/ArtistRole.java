@@ -10,6 +10,7 @@ import java.io.Serializable;
 public class ArtistRole extends RoleBean implements Serializable {
 
     public int    score;
+    public int    mid;//美甲师id
     public String average_price;
     public float  professional;
     public float  talk;

@@ -11,7 +11,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.finger.R;
+import com.finger.activity.info.OrderInfoActivity;
 import com.finger.activity.main.user.order.CommentOrder;
+import com.finger.activity.plan.OrderConfirm;
 import com.finger.entity.OrderBean;
 import com.finger.entity.OrderListBean;
 import com.finger.entity.OrderManager;
@@ -20,6 +22,7 @@ import com.finger.support.widget.NailItem;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.sp.lib.util.ImageManager;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -86,7 +89,7 @@ public class OrderAdapterFactory {
      * 已下订单
      */
     static class OrderToPay extends OrderAdapter implements View.OnClickListener {
-        String[] status = new String[]{"未付款", "已经付款", "确认付款", "评价服务", "申请退款", "退款成功", "退款失败"};
+
 
         public OrderToPay(Context context, List data) {
             super(context, data);
@@ -130,16 +133,15 @@ public class OrderAdapterFactory {
 
             holder.product_name.setText(bean.product_name);
             holder.create_time.setText(bean.create_time);
-            holder.tv_price.setText(bean.order_price);
-
+            holder.tv_price.setText(context.getString(R.string.price_r_s, bean.order_price));
+            holder.button1.setTag(bean);
             convertView.setTag(holder);
             return convertView;
         }
 
         @Override
         public void onClick(View v) {
-            OrderBean order = OrderManager.createOrder();
-
+            context.startActivity(new Intent(context, OrderConfirm.class).putExtra("bean", (Serializable) v.getTag()));
         }
     }
 
@@ -190,8 +192,10 @@ public class OrderAdapterFactory {
 
             holder.product_name.setText(bean.product_name);
             holder.create_time.setText(bean.create_time);
-            holder.tv_price.setText(bean.order_price);
-            holder.tv_real_pay.setText(bean.order_price);
+            //订单价格
+            holder.tv_price.setText(context.getString(R.string.price_r_s, bean.order_price));
+            //实付
+            holder.tv_real_pay.setText(context.getString(R.string.s_price, bean.real_pay));
             convertView.setTag(holder);
             return convertView;
         }
@@ -254,7 +258,7 @@ public class OrderAdapterFactory {
             holder.product_name.setText(bean.product_name);
             holder.tv_price.setText(context.getString(R.string.price_s, bean.order_price));
             holder.create_time.setText(bean.create_time);
-            holder.tv_real_pay.setText(context.getString(R.string.real_price_s, bean.order_price));
+            holder.tv_real_pay.setText(context.getString(R.string.s_price, bean.real_pay));
             ImageManager.loadImage(bean.product_cover, holder.cover, options);
             convertView.setTag(holder);
             return convertView;
@@ -298,18 +302,23 @@ public class OrderAdapterFactory {
                 holder.create_time = (TextView) convertView.findViewById(R.id.create_time);
                 holder.tv_price = (TextView) convertView.findViewById(R.id.tv_price);
                 holder.tv_real_pay = (TextView) convertView.findViewById(R.id.tv_real_pay);
+                holder.refund_state = (TextView) convertView.findViewById(R.id.refund_state);
             } else {
                 holder = (ViewHolder) convertView.getTag();
             }
 
-            OrderListBean bean= (OrderListBean) data.get(position);
+            OrderListBean bean = (OrderListBean) data.get(position);
             holder.product_name.setText(bean.product_name);
             holder.create_time.setText(bean.create_time);
-            holder.tv_price.setText(context.getString(R.string.price_s,bean.order_price));
-            holder.tv_real_pay.setText(context.getString(R.string.real_price_s,bean.order_price));
-            if (position % 2 == 1) {
+            holder.tv_price.setText(context.getString(R.string.price_s, bean.order_price));
+            holder.tv_real_pay.setText(context.getString(R.string.rmb_s, bean.real_pay));
+            int status = bean.status;
+            if (STATUS_REFUND_OK == bean.status) {
                 holder.refund_state.setTextColor(context.getResources().getColor(R.color.textColorGray));
                 holder.refund_state.setText(context.getString(R.string.refund_complete));
+            } else if (STATUS_REFUND_FAILED == status) {
+                holder.refund_state.setTextColor(context.getResources().getColor(R.color.textColorGray));
+                holder.refund_state.setText(context.getString(R.string.refund_failed));
             } else {
                 holder.refund_state.setTextColor(context.getResources().getColor(R.color.textColorPink));
                 holder.refund_state.setText(context.getString(R.string.refunding));
@@ -405,7 +414,7 @@ public class OrderAdapterFactory {
             holder.create_time.setText(bean.create_time);
             holder.product_name.setText(bean.product_name);
             holder.tv_price.setText(context.getString(R.string.price_r_s, bean.order_price));
-            //            holder.tv_real_pay.setText(context.getString(R.string.real_price_s,));
+            holder.tv_real_pay.setText(context.getString(R.string.real_price_s, bean.real_pay));
 
             ImageManager.loadImage(bean.product_cover, holder.cover);
             ImageManager.loadImage(bean.product_cover, holder.avatar);
@@ -415,10 +424,26 @@ public class OrderAdapterFactory {
     }
 
     public abstract static class OrderAdapter extends BaseAdapter {
+        protected DisplayImageOptions options = ContextUtil.getSquareImgOptions();
+
         protected List           data;
         protected LayoutInflater inflater;
         protected Context        context;
-        protected DisplayImageOptions options = ContextUtil.getSquareImgOptions();
+        protected String[] status = new String[]{"未付款", "已经付款", "确认付款", "评价服务", "申请退款", "退款成功", "退款失败"};
+
+        protected int STATUS_REFUNDING     = 4;
+        protected int STATUS_REFUND_OK     = 5;
+        protected int STATUS_REFUND_FAILED = 6;
+
+        /**
+         * 0未付款，1已经付款，2确认付款，3评价服务，4申请退款，5退款成功，6退款失败
+         *
+         * @param state
+         * @return
+         */
+        protected String getStatusByCode(int state) {
+            return status[state];
+        }
 
         public OrderAdapter(Context context, List data) {
             this.data = data;

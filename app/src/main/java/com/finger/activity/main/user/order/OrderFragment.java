@@ -19,6 +19,7 @@ import com.finger.entity.OrderListBean;
 import com.finger.entity.OrderManager;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static com.finger.adapter.OrderAdapterFactory.OrderAdapter;
 import static com.finger.adapter.OrderAdapterFactory.OrderType.*;
@@ -26,8 +27,8 @@ import static com.finger.adapter.OrderAdapterFactory.OrderType.*;
 @User
 public class OrderFragment extends Fragment implements RadioGroup.OnCheckedChangeListener {
 
-    RadioGroup rg;
-    FragmentManager manager;
+    RadioGroup        rg;
+    FragmentManager   manager;
     OrderListFragment curFragment;
 
     @Override
@@ -44,6 +45,16 @@ public class OrderFragment extends Fragment implements RadioGroup.OnCheckedChang
     }
 
     @Override
+    public void onHiddenChanged(boolean hidden) {
+        if (!hidden) {
+            List<Fragment> fragments = manager.getFragments();
+            for (Fragment f:fragments){
+                ((OrderListFragment) f).clearList();
+            }
+        }
+    }
+
+    @Override
     public void onCheckedChanged(RadioGroup group, int checkedId) {
         showFragment(checkedId);
     }
@@ -53,13 +64,9 @@ public class OrderFragment extends Fragment implements RadioGroup.OnCheckedChang
         FragmentTransaction ft = manager.beginTransaction();
 
         if (fragment == null) {
-            fragment = new OrderListFragment();
-            ft.add(R.id.frag_container, fragment, String.valueOf(checked_id));
-        }
-
-        OrderAdapter adapter = (OrderAdapter) fragment.getListAdapter();
-        if (adapter == null) {
             int status = -1;
+            OrderAdapter adapter = null;
+
             switch (checked_id) {
                 case R.id.rb1: {
                     adapter = OrderAdapterFactory.getAdapter(getActivity(), ORDER_TO_PAY, new ArrayList<OrderListBean>());
@@ -81,11 +88,12 @@ public class OrderFragment extends Fragment implements RadioGroup.OnCheckedChang
                     break;
                 }
             }
-            Bundle args = new Bundle();
-            args.putInt("status", status);
-            fragment.setArguments(args);
+            fragment = OrderListFragment.newInstance(status);
             fragment.setListAdapter(adapter);
+            ft.add(R.id.frag_container, fragment, String.valueOf(checked_id));
         }
+
+
         ft.show(fragment);
 
         if (curFragment != null) {
@@ -95,7 +103,6 @@ public class OrderFragment extends Fragment implements RadioGroup.OnCheckedChang
         ft.commit();
         curFragment = fragment;
     }
-
 
 
 }

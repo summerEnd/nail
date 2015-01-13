@@ -16,7 +16,6 @@
         <RadioButton
             style="@style/tab_comment_style"
             android:id="@+id/rb_good"
-            android:checked="true"
             android:text="好评"
             android:textColor="@drawable/text_good"
             />
