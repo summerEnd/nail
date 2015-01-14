@@ -29,8 +29,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="@dimen/textSize_dp_36px"
-            android:text="123"
-            android:layout_marginTop="-5dp"
+            android:text="@string/getting"
+            android:layout_marginTop="-2dp"
             android:layout_toRightOf="@+id/iv_avatar"
             android:textColor="#000"/>
 
@@ -38,7 +38,7 @@
             android:id="@+id/tv_average_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/average_price_s"
+            android:text="@string/getting"
             android:layout_alignBaseline="@+id/name"
             android:textSize="@dimen/textSize_dp_28px"
             android:layout_alignParentRight="true"

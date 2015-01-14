@@ -11,10 +11,8 @@ import android.widget.ListView;
 import com.finger.R;
 import com.finger.activity.FingerApp;
 import com.finger.activity.info.OrderInfoActivity;
-import com.finger.adapter.OrderAdapterFactory;
 import com.finger.entity.ArtistRole;
 import com.finger.entity.OrderListBean;
-import com.finger.entity.OrderManager;
 import com.finger.entity.RoleBean;
 import com.finger.support.net.FingerHttpClient;
 import com.finger.support.net.FingerHttpHandler;
@@ -25,7 +23,6 @@ import com.sp.lib.util.ListController;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.Serializable;
 import java.util.List;
 
 import static com.finger.adapter.OrderAdapterFactory.OrderAdapter;
@@ -34,17 +31,17 @@ import static com.finger.adapter.OrderAdapterFactory.OrderAdapter;
  * 所有订单列表的父类
  */
 public class OrderListFragment extends ListFragment implements ListController.Callback {
-    int            status;
+    String         status;
     ListController controller;
 
     /**
      * @param status 状态 STATUS_WAIT_SERVICE，STATUS_WAIT_COMMENT，STATUS_REFUND
      * @return
      */
-    public static OrderListFragment newInstance(int status) {
+    public static OrderListFragment newInstance(String status) {
         OrderListFragment fragment = new OrderListFragment();
         Bundle b = new Bundle();
-        b.putInt("status", status);
+        b.putString("status", status);
         fragment.setArguments(b);
         return fragment;
     }
@@ -81,7 +78,7 @@ public class OrderListFragment extends ListFragment implements ListController.Ca
         mListView.setSelector(new ColorDrawable(0));
         view.setBackgroundResource(R.drawable.windowBackground);
         //获取订单列表
-        status = getArguments().getInt("status", -1);
+        status = getArguments().getString("status");
         controller = new ListController(mListView, this);
         getOrderList(1);
     }
@@ -91,7 +88,7 @@ public class OrderListFragment extends ListFragment implements ListController.Ca
      */
     public void getOrderList(int page) {
         RequestParams params = new RequestParams();
-        if (status >= 0) {
+        if (!"0".equals(status)) {
             params.put("status", status);
         }
 

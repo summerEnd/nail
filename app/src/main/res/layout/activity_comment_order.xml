@@ -17,7 +17,7 @@
             android:layout_width="wrap_content"
             android:orientation="horizontal"
             android:layout_height="wrap_content">
-
+s
             <RadioButton
                 android:id="@+id/rb_good"
                 style="@style/comment_rb_style"

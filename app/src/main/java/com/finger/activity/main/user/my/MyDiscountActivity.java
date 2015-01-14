@@ -59,6 +59,9 @@ public class MyDiscountActivity extends BaseActivity implements RadioGroup.OnChe
      */
     final int STATUS_FRESH = 0;
 
+    /**
+     * 是否为选择优惠券
+     */
     boolean is_pick = false;
 
     @Override
@@ -74,13 +77,13 @@ public class MyDiscountActivity extends BaseActivity implements RadioGroup.OnChe
         }
     }
 
-    class CouponBean implements Serializable {
-        int    id;
-        String title;
-        String start_time;
-        String stop_time;
-        String price;
-        int    status;
+    public static class CouponBean implements Serializable {
+        public int    id;
+        public String title;
+        public String start_time;
+        public String stop_time;
+        public String price;
+        public int    status;
     }
 
     @Override
@@ -97,6 +100,9 @@ public class MyDiscountActivity extends BaseActivity implements RadioGroup.OnChe
 
         rg = (RadioGroup) findViewById(R.id.rg);
         rg.setOnCheckedChangeListener(this);
+
+
+
         getFreshCoupons();
     }
 
@@ -146,6 +152,7 @@ public class MyDiscountActivity extends BaseActivity implements RadioGroup.OnChe
             listView.setDivider(new ColorDrawable(0));
             listView.setSelector(new ColorDrawable(0));
             listView.setAdapter(freshAdapter);
+            listView.setOnItemClickListener(this);
             views.add(listView);
         }
         {
@@ -153,6 +160,7 @@ public class MyDiscountActivity extends BaseActivity implements RadioGroup.OnChe
             listView.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
             listView.setDivider(new ColorDrawable(0));
             listView.setAdapter(usedAdapter);
+            listView.setOnItemClickListener(this);
             views.add(listView);
         }
     }

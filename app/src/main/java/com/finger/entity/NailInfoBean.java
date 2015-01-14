@@ -12,7 +12,7 @@ public class NailInfoBean {
     public String store_price;
     public String name;
     public String description;
-    public String mid;
+    public int mid;
     public String spend_time;
     public String keep_date;
     public String artist_name;

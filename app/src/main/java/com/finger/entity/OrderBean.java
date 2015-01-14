@@ -6,7 +6,6 @@ import static com.finger.activity.info.NailInfo.SellerInfoBean;
 
 public class OrderBean implements Serializable {
 
-    public SellerInfoBean artist;//美甲师ID
     public NailInfoBean nailInfoBean;//作品ID
     public int coupon_id;
     public String remark;

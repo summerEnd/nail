@@ -142,11 +142,16 @@ public class PlanActivity extends BaseActivity implements RadioGroup.OnCheckedCh
         OrderManager.cancel();
     }
 
+    /**
+     * 获取预约时间
+     * @param callback
+     */
+
     public void getPlanTime(Callback callback) {
         mScheduleCallback = callback;
         OrderBean order = OrderManager.getCurrentOrder();
-        if (order != null && order.artist != null) {
-            getTimeBlock(order.artist.id);
+        if (order != null && order.nailInfoBean != null) {
+            getTimeBlock(order.nailInfoBean.mid);
         } else {
             showSchedule(null);
         }
@@ -157,7 +162,8 @@ public class PlanActivity extends BaseActivity implements RadioGroup.OnCheckedCh
         String planTime = null;
         String book_date = null;
         String time_block;
-
+        String TYPE_FOR_ME="0";
+        String TYPE_FOR_OTHER="1";
         @Override
         public void onViewCreated(View view, Bundle savedInstanceState) {
             Button commit = (Button) view.findViewById(R.id.choose_nail_artist);

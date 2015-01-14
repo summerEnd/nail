@@ -27,18 +27,18 @@ import java.util.List;
 import static com.finger.activity.main.artist.my.PlanTimeActivity.*;
 
 public class Schedule extends PopupWindow implements ViewPager.OnPageChangeListener, RadioGroup.OnCheckedChangeListener, AdapterView.OnItemClickListener {
-    View contentView;
-    ViewPager pager;
+    View       contentView;
+    ViewPager  pager;
     RadioGroup rg;
     /**
      * pager的view
      */
-    ArrayList<View> views = new ArrayList<View>();
-    int column_Num = 2;
+    ArrayList<View> views      = new ArrayList<View>();
+    int             column_Num = 2;
     /**
      * 每一页有一个TimeBlock
      */
-    List<TimeBlock> blocks = new ArrayList<TimeBlock>();
+    List<TimeBlock> blocks     = new ArrayList<TimeBlock>();
     private Context context;
     RadioButton[] radioButtons = new RadioButton[4];
 
@@ -58,6 +58,12 @@ public class Schedule extends PopupWindow implements ViewPager.OnPageChangeListe
      */
     void setContentView() {
         contentView = View.inflate(context, R.layout.fragment_schedule, null);
+        contentView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dismiss();
+            }
+        });
         setContentView(contentView);
         pager = (ViewPager) contentView.findViewById(R.id.pager);
         rg = (RadioGroup) contentView.findViewById(R.id.rg);
@@ -225,7 +231,7 @@ public class Schedule extends PopupWindow implements ViewPager.OnPageChangeListe
             int block = position + 1;
             Logger.d(date + " block:" + block);
 
-            mCallback.onSelect(date,block);
+            mCallback.onSelect(date, block);
         }
     }
 

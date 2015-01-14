@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
@@ -54,14 +56,19 @@ public class SearchAddress extends BaseActivity implements ListController.Callba
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.button3:
-                allPoi.clear();
-                adapter.notifyDataSetChanged();
-                startSearch(0);
 
-                break;
-        }
+        if (v.getId() == R.id.button3)
+            scale(v, new Runnable() {
+                @Override
+                public void run() {
+
+                    allPoi.clear();
+                    adapter.notifyDataSetChanged();
+                    startSearch(0);
+
+                }
+            });
+
         super.onClick(v);
     }
 
@@ -89,14 +96,13 @@ public class SearchAddress extends BaseActivity implements ListController.Callba
     }
 
 
-
     OnGetPoiSearchResultListener poiListener = new OnGetPoiSearchResultListener() {
         public void onGetPoiResult(PoiResult result) {
             //获取POI检索结果
             if (result.error != SearchResult.ERRORNO.NO_ERROR) {
                 //详情检索失败
                 // result.error请参考SearchResult.ERRORNO
-                Logger.w("search failed");
+                ContextUtil.toast(getString(R.string.search_failed));
             } else {
                 //检索成功
                 allPoi.addAll(result.getAllPoi());
@@ -138,7 +144,6 @@ public class SearchAddress extends BaseActivity implements ListController.Callba
         bean.name = info.name;
         bean.address = info.address;
         LatLng location = info.location;
-        ContextUtil.toast_debug("location:" + location);
         bean.latitude = location.latitude;
         bean.longitude = location.longitude;
         Intent data = new Intent();
@@ -146,6 +151,33 @@ public class SearchAddress extends BaseActivity implements ListController.Callba
         setResult(RESULT_OK, data);
         finish();
 
+    }
+
+    /**
+     * 点击缩放
+     *
+     * @param v
+     * @param runnable
+     */
+    void scale(View v, final Runnable runnable) {
+        Animation animation = AnimationUtils.loadAnimation(v.getContext(), R.anim.scale_click);
+        animation.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                runnable.run();
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+        v.startAnimation(animation);
     }
 
     class AddressAdapter extends BaseAdapter {

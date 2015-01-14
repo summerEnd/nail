@@ -127,6 +127,8 @@ public class PlanForMe extends PlanFragment implements View.OnClickListener {
                     bean.book_date = book_date;
                     bean.address =edit_address.getContent();
                     bean.addressSearchBean = addressSearchBean;
+                    bean.type = TYPE_FOR_ME;
+
                     submit();
                 } else {
                     Intent intent = new Intent(getActivity(), LoginActivity.class);

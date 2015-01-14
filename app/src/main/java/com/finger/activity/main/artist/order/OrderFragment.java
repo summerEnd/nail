@@ -58,7 +58,7 @@ public class OrderFragment extends Fragment implements RadioGroup.OnCheckedChang
 
         //创建fragment实例
         if (fragment == null) {
-            int status = -1;
+            String status = "0";
             OrderAdapterFactory.OrderAdapter adapter=null;
             switch (checked_id) {
                 case R.id.rb1: {

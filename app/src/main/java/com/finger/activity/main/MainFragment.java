@@ -11,6 +11,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,6 +42,7 @@ import com.finger.support.util.Dimension;
 import com.finger.support.widget.ArtistItem;
 import com.finger.support.widget.SearchWindow;
 import com.loopj.android.http.RequestParams;
+import com.sp.lib.util.ClickFullScreen;
 import com.sp.lib.util.FileUtil;
 import com.sp.lib.util.ImageManager;
 
@@ -105,7 +107,7 @@ public class MainFragment extends Fragment implements View.OnClickListener {
                     FileUtil.saveFile(getActivity(), Constant.FILE_TAGS, tags);
                     //如果当前没有定位到城市，就写入一个默认的城市
                     FingerApp app = FingerApp.getInstance();
-                    if (TextUtils.isEmpty(app.getCurCity().name)){
+                    if (TextUtils.isEmpty(app.getCurCity().name)) {
                         app.setCurCity(cities.get(0));
                     }
                     setCity();
@@ -208,7 +210,6 @@ public class MainFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onHiddenChanged(boolean hidden) {
         if (!hidden) {
-            getActivity().setTitle(getString(R.string.home_page));
         }
     }
 
@@ -304,7 +305,7 @@ public class MainFragment extends Fragment implements View.OnClickListener {
                 scale(v, new Runnable() {
                     @Override
                     public void run() {
-                        startActivity(new Intent(getActivity(), NailListActivity.class));
+
                     }
                 });
 
@@ -312,6 +313,8 @@ public class MainFragment extends Fragment implements View.OnClickListener {
             }
             case R.id.title_search: {
                 final View anchor = v;
+
+
                 scale(v, new Runnable() {
                     @Override
                     public void run() {

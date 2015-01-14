@@ -46,7 +46,7 @@
                         android:layout_height="wrap_content"
                         android:textColor="#ac3c2e"
                         android:textSize="@dimen/textSize_dp_36px"
-                        android:text="撞色器"/>
+                        />
 
                     <TextView
                         android:layout_width="match_parent"
@@ -59,7 +59,7 @@
                         android:layout_height="wrap_content"
                         android:textColor="#ff0e03"
                         android:textSize="@dimen/textSize_dp_60px"
-                        android:text="￥326.22"/>
+                        />
 
                     <TextView
                         android:layout_width="match_parent"
@@ -84,7 +84,7 @@
                             android:layout_height="wrap_content"
                             android:textColor="@color/textColorGray"
                             android:textSize="@dimen/textSize_dp_24px"
-                            android:text="800.00"/>
+                            />
                     </LinearLayout>
                 </LinearLayout>
             </RelativeLayout>
@@ -105,7 +105,7 @@
                     <TextView
                         android:id="@+id/tv_contact"
                         style="@style/order_confirm_item_value"
-                        android:text="赵文卓"/>
+                        />
                 </TableRow>
 
                 <TextView style="@style/horizontal_line"/>
@@ -119,7 +119,7 @@
                     <TextView
                         android:id="@+id/tv_mobile"
                         style="@style/order_confirm_item_value"
-                        android:text="130123455122"/>
+                        />
                 </TableRow>
 
                 <TextView style="@style/horizontal_line"/>
@@ -133,7 +133,7 @@
                     <TextView
                         android:id="@+id/tv_planTime"
                         style="@style/order_confirm_item_value"
-                        android:text="12:00"/>
+                        />
                 </TableRow>
 
                 <TextView style="@style/horizontal_line"/>
@@ -147,22 +147,31 @@
                     <TextView
                         android:id="@+id/tv_address"
                         style="@style/order_confirm_item_value"
-                        android:text="美国洛杉矶"/>
+                        />
                 </TableRow>
 
                 <TextView style="@style/horizontal_line"/>
 
-                <TableRow style="@style/order_confirm_item_style">
+                <LinearLayout
+                    style="@style/order_confirm_item_style"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
                     <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         style="@style/order_confirm_item_name"
                         android:text="备注信息"/>
 
-                    <TextView
-                        android:id="@+id/tv_summary"
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/edit_summary"
+                        android:background="#0000"
                         style="@style/order_confirm_item_value"
-                        android:text="nonono"/>
-                </TableRow>
+                        />
+                </LinearLayout>
 
                 <TextView style="@style/horizontal_line"/>
             </TableLayout>
@@ -208,9 +217,10 @@
                         android:text="车    费"/>
 
                     <TextView
+                        android:text="@string/getting"
                         android:id="@+id/tv_taxi_fee"
                         style="@style/order_confirm_item_value"
-                        android:text="20万"/>
+                        />
                 </TableRow>
 
 

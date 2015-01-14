@@ -21,15 +21,15 @@ public class OrderManager {
     /**
      * 等待服务
      */
-    public static int STATUS_WAIT_SERVICE = 1;
+    public static String STATUS_WAIT_SERVICE = "1";
     /**
      * 等待评价
      */
-    public static int STATUS_WAIT_COMMENT = 2;
+    public static String STATUS_WAIT_COMMENT = "7";
     /**
      * 退款
      */
-    public static int STATUS_REFUND       = 3;
+    public static String STATUS_REFUND       = "4,5,6";
     private static OrderBean bean;
     private static LinkedList<Activity> activities = new LinkedList<Activity>();
 

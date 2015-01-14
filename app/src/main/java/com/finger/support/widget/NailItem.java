@@ -74,7 +74,7 @@ public class NailItem extends LinearLayout {
      */
     public void setInfoBean(NailInfoBean infoBean) {
         this.infoBean = infoBean;
-        setPrice(infoBean.price);
+        setPrice(getContext().getString(R.string.s_price,infoBean.price));
         setTitle(infoBean.name);
         ImageManager.loadImage(infoBean.cover, iv, ContextUtil.getSquareImgOptions());
     }

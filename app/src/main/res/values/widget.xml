@@ -35,7 +35,5 @@
         <item name="android:textSize">@dimen/textSize_dp_30px</item>
         <item name="android:gravity">center</item>
         <item name="android:layout_height">@dimen/small_button_height</item>
-        <item name="android:layout_marginTop">8dp</item>
-        <item name="android:layout_marginBottom">8dp</item>
     </style>
 </resources>

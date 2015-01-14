@@ -1,5 +1,7 @@
 package com.finger.activity.main.artist.my;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -10,6 +12,7 @@ import com.finger.R;
 import com.finger.support.net.FingerHttpClient;
 import com.finger.support.net.FingerHttpHandler;
 import com.finger.support.util.ContextUtil;
+import com.finger.support.util.DialogUtil;
 import com.loopj.android.http.RequestParams;
 
 import org.json.JSONObject;
@@ -69,7 +72,12 @@ public class PublishNailActivity extends AddImageActivity {
         FingerHttpClient.post("addProduct", params, new FingerHttpHandler() {
             @Override
             public void onSuccess(JSONObject o) {
-
+                DialogUtil.alert(PublishNailActivity.this,getString(R.string.publish_ok)).setOnDismissListener(new DialogInterface.OnDismissListener() {
+                    @Override
+                    public void onDismiss(DialogInterface dialog) {
+                        finish();
+                    }
+                });
             }
         });
     }

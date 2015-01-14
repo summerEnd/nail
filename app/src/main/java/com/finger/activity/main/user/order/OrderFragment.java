@@ -64,7 +64,7 @@ public class OrderFragment extends Fragment implements RadioGroup.OnCheckedChang
         FragmentTransaction ft = manager.beginTransaction();
 
         if (fragment == null) {
-            int status = -1;
+            String status = "0";
             OrderAdapter adapter = null;
 
             switch (checked_id) {

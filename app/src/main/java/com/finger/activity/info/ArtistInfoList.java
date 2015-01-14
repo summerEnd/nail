@@ -212,6 +212,15 @@ public class ArtistInfoList extends BaseActivity implements AdapterView.OnItemCl
     }
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        OrderBean orderBean=OrderManager.getCurrentOrder();
+        if (orderBean!=null){
+            orderBean.nailInfoBean=null;
+        }
+    }
+
+    @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
         startActivity(getIntent().setClass(this, ArtistInfo.class).putExtra("id", beans.get(position).uid));

@@ -2,12 +2,18 @@ package com.finger.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.text.TextUtils;
+import android.util.SparseArray;
+import android.util.SparseIntArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.finger.R;
@@ -82,7 +88,9 @@ public class OrderAdapterFactory {
         TextView  tv_pay_state;
         ImageView avatar;
         ImageView cover;
-        View      button1;
+        TextView  button1;
+        TextView  button2;
+        View      btn_layout;
     }
 
     /**
@@ -121,27 +129,37 @@ public class OrderAdapterFactory {
                 holder.create_time = (TextView) convertView.findViewById(R.id.create_time);
                 holder.tv_price = (TextView) convertView.findViewById(R.id.tv_price);
                 holder.cover = (ImageView) convertView.findViewById(R.id.cover);
-                holder.button1 = convertView.findViewById(R.id.pay);
-                holder.button1.setOnClickListener(this);
+
+                //获取按钮
+                holder.btn_layout = convertView.findViewById(R.id.btn_layout);
+                holder.button1 = (TextView) holder.btn_layout.findViewById(R.id.button1);
+                holder.button2 = (TextView) holder.btn_layout.findViewById(R.id.button2);
+                holder.button1.setOnClickListener(onListButtonClick);
+                holder.button2.setOnClickListener(onListButtonClick);
+
             } else {
                 holder = (ViewHolder) convertView.getTag();
             }
             OrderListBean bean = (OrderListBean) data.get(position);
 
             ImageManager.loadImage(bean.product_cover, holder.cover);
-            holder.tv_pay_state.setText(status[bean.status]);
+            holder.tv_pay_state.setText(getStatusByCode(bean.status));
 
             holder.product_name.setText(bean.product_name);
             holder.create_time.setText(bean.create_time);
             holder.tv_price.setText(context.getString(R.string.price_r_s, bean.order_price));
+
+            setButtonText(bean.status, holder.button1, holder.button2);
+
             holder.button1.setTag(bean);
+            holder.button2.setTag(bean);
             convertView.setTag(holder);
             return convertView;
         }
 
         @Override
         public void onClick(View v) {
-            context.startActivity(new Intent(context, OrderConfirm.class).putExtra("bean", (Serializable) v.getTag()));
+            //            context.startActivity(new Intent(context, OrderConfirm.class).putExtra("bean", (Serializable) v.getTag()));
         }
     }
 
@@ -181,7 +199,7 @@ public class OrderAdapterFactory {
                 holder.create_time = (TextView) convertView.findViewById(R.id.create_time);
                 holder.tv_price = (TextView) convertView.findViewById(R.id.tv_price);
                 holder.cover = (ImageView) convertView.findViewById(R.id.cover);
-                holder.button1 = convertView.findViewById(R.id.pay);
+                holder.button1 = (TextView) convertView.findViewById(R.id.pay);
                 holder.button1.setOnClickListener(this);
             } else {
                 holder = (ViewHolder) convertView.getTag();
@@ -237,7 +255,7 @@ public class OrderAdapterFactory {
             if (convertView == null) {
                 holder = new ViewHolder();
                 convertView = inflater.inflate(R.layout.list_item_order_wait_comment, null);
-                holder.button1 = convertView.findViewById(R.id.comment);
+                holder.button1 = (TextView) convertView.findViewById(R.id.comment);
                 holder.cover = (ImageView) convertView.findViewById(R.id.cover);
                 holder.product_name = (TextView) convertView.findViewById(R.id.product_name);
                 holder.tv_price = (TextView) convertView.findViewById(R.id.tv_price);
@@ -429,11 +447,53 @@ public class OrderAdapterFactory {
         protected List           data;
         protected LayoutInflater inflater;
         protected Context        context;
-        protected String[] status = new String[]{"未付款", "已经付款", "确认付款", "评价服务", "申请退款", "退款成功", "退款失败"};
 
-        protected int STATUS_REFUNDING     = 4;
-        protected int STATUS_REFUND_OK     = 5;
-        protected int STATUS_REFUND_FAILED = 6;
+
+        final int STATUS_NOT_PAY       = 1;//下单成功，未付款
+        final int STATUS_WAIT_SERVICE  = 2;//下单成功，已付款	等待美甲
+        final int STATUS_CANCEL        = 3;//未付款，订单被取消
+        final int STATUS_APPLY_REFUND  = 4;//已付款，申请退款	退款服务	退款通知
+        final int STATUS_REFUND_OK     = 5;//退款成功	退款服务	退款通知
+        final int STATUS_REFUND_FAILED = 6;//退款失败	退款服务	退款通知
+        final int STATUS_WAIT_COMMENT  = 7;//确认支付成功	等待评价
+        final int STATUS_COMMENT_OK    = 8;//评价成功
+
+        SparseArray<String> status;
+        SparseArray<String> btn_status;
+
+
+        View.OnClickListener onListButtonClick = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                OrderListBean bean = (OrderListBean) v.getTag();
+                switch (bean.status) {
+                    case STATUS_NOT_PAY: {
+                        break;
+                    }
+                    case STATUS_WAIT_SERVICE: {
+                        break;
+                    }
+                    case STATUS_CANCEL: {
+                        break;
+                    }
+                    case STATUS_APPLY_REFUND: {
+                        break;
+                    }
+                    case STATUS_REFUND_OK: {
+                        break;
+                    }
+                    case STATUS_REFUND_FAILED: {
+                        break;
+                    }
+                    case STATUS_WAIT_COMMENT: {
+                        break;
+                    }
+                    case STATUS_COMMENT_OK: {
+                        break;
+                    }
+                }
+            }
+        };
 
         /**
          * 0未付款，1已经付款，2确认付款，3评价服务，4申请退款，5退款成功，6退款失败
@@ -442,8 +502,62 @@ public class OrderAdapterFactory {
          * @return
          */
         protected String getStatusByCode(int state) {
-            return status[state];
+
+            if (status == null) {
+                status = new SparseArray();
+                status.put(STATUS_NOT_PAY, "未付款");
+                status.put(STATUS_WAIT_SERVICE, "已付款");
+                status.put(STATUS_CANCEL, "订单取消");
+                status.put(STATUS_APPLY_REFUND, "正在退款");
+                status.put(STATUS_REFUND_OK, "退款成功");
+                status.put(STATUS_REFUND_FAILED, "退款失败");
+                status.put(STATUS_WAIT_COMMENT, "等待评价");
+                status.put(STATUS_COMMENT_OK, "评价成功");
+            }
+
+            return status.get(state);
         }
+
+        /**
+         * 获取按钮文字,
+         * 两个以上的按钮文字用逗号隔开
+         *
+         * @return
+         */
+        protected String getButtonStatusByCode(int states) {
+
+            if (btn_status == null) {
+                btn_status = new SparseArray();
+                btn_status.put(STATUS_NOT_PAY, "付款");
+                btn_status.put(STATUS_WAIT_SERVICE, "申请退款,已付款");
+                btn_status.put(STATUS_CANCEL, "");
+                btn_status.put(STATUS_APPLY_REFUND, "");
+                btn_status.put(STATUS_REFUND_OK, "");
+                btn_status.put(STATUS_REFUND_FAILED, "");
+                btn_status.put(STATUS_WAIT_COMMENT, "领优惠券,等待评价");
+                btn_status.put(STATUS_COMMENT_OK, "领优惠券,评价成功");
+            }
+            return btn_status.get(states);
+        }
+
+        /**
+         * 设置按钮文字
+         */
+        protected void setButtonText(int status, TextView... buttons) {
+            String str = getButtonStatusByCode(status);
+            if (TextUtils.isEmpty(str)) {
+                ((View) buttons[0].getParent()).setVisibility(View.GONE);
+
+            } else {
+                String[] texts = str.split(",");
+                for (int i = 0; i < buttons.length; i++) {
+                    buttons[i].setVisibility(View.VISIBLE);
+                    if (i < texts.length)
+                        buttons[i].setText(texts[i]);
+                }
+            }
+        }
+
 
         public OrderAdapter(Context context, List data) {
             this.data = data;

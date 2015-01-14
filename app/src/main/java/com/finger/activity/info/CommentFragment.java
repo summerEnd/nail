@@ -1,6 +1,7 @@
 package com.finger.activity.info;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.ListFragment;
@@ -20,6 +21,8 @@ import com.finger.support.util.JsonUtil;
 import com.loopj.android.http.RequestParams;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
+import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
+import com.sp.lib.util.ClickFullScreen;
 import com.sp.lib.util.ImageManager;
 import com.sp.lib.util.ListController;
 
@@ -180,7 +183,8 @@ public class CommentFragment extends ListFragment implements ListController.Call
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-            ViewHolder holder;
+
+            final ViewHolder holder;
             if (convertView == null) {
                 holder = new ViewHolder();
                 convertView = LayoutInflater.from(context).inflate(R.layout.list_item_topic, null);
@@ -189,15 +193,17 @@ public class CommentFragment extends ListFragment implements ListController.Call
                 holder.userName = (TextView) convertView.findViewById(R.id.userName);
                 holder.time = (TextView) convertView.findViewById(R.id.time);
                 holder.content = (TextView) convertView.findViewById(R.id.tv_content);
-
+                holder.image.setOnClickListener(onImageClick);
             } else {
                 holder = (ViewHolder) convertView.getTag();
             }
+
             CommentBean bean = data.get(position);
             ImageManager.loadImage(bean.avatar, holder.avatar, options);
             if (!TextUtils.isEmpty(bean.image)) {
                 holder.image.setVisibility(View.VISIBLE);
-                ImageManager.loadImage(bean.image, holder.image, options);
+                ImageManager.loadImage(bean.image, holder.image,options);
+                holder.image.setTag(bean.image);
             } else {
                 holder.image.setVisibility(View.GONE);
             }
@@ -207,6 +213,16 @@ public class CommentFragment extends ListFragment implements ListController.Call
             convertView.setTag(holder);
             return convertView;
         }
+
+        View.OnClickListener onImageClick = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                ClickFullScreen clickFullScreen = new ClickFullScreen(getActivity());
+                clickFullScreen.setNetWorkImage(v.getTag().toString());
+                clickFullScreen.showFor(v);
+            }
+        };
 
     }
 

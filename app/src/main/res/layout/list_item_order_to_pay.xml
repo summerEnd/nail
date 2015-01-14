@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:paddingTop="@dimen/order_item_vertical_padding"
-    android:paddingBottom="@dimen/order_item_vertical_padding"
-    android:layout_height="wrap_content">
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:paddingTop="@dimen/order_item_vertical_padding"
+              android:paddingBottom="@dimen/order_item_vertical_padding"
+              android:layout_height="wrap_content">
 
     <TextView
         style="@style/horizontal_line"
-        android:background="#999999" />
+        android:background="#999999"/>
 
     <LinearLayout
         android:orientation="vertical"
@@ -21,17 +21,17 @@
         android:layout_height="match_parent">
 
         <TextView
-            
             android:textSize="@dimen/textSize_dp_30px"
             android:textColor="@color/black"
             android:id="@+id/tv_pay_state"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="已付款" />
+            android:text="已付款"/>
 
         <RelativeLayout
             android:layout_marginTop="@dimen/order_list_margin_top"
             android:layout_width="match_parent"
+            android:layout_marginBottom="8dp"
             android:layout_height="wrap_content">
 
             <ImageView
@@ -39,7 +39,7 @@
                 android:layout_marginRight="@dimen/order_image_margin"
                 android:layout_width="@dimen/avatar_size"
                 android:src="@drawable/default_user"
-                android:layout_height="@dimen/avatar_size" />
+                android:layout_height="@dimen/avatar_size"/>
 
             <TextView
                 android:id="@+id/product_name"
@@ -48,7 +48,7 @@
                 android:layout_width="wrap_content"
                 android:text="梅超风系列"
                 android:layout_toRightOf="@id/cover"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"/>
 
             <TextView
                 android:id="@+id/tv_price"
@@ -59,7 +59,7 @@
                 android:text="@string/price_r_s"
                 android:layout_below="@+id/product_name"
                 android:layout_toRightOf="@id/cover"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"/>
 
             <TextView
                 android:id="@+id/create_time"
@@ -70,21 +70,45 @@
                 android:text="@string/order_date_s"
                 android:layout_below="@+id/tv_price"
                 android:layout_toRightOf="@id/cover"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"/>
         </RelativeLayout>
 
-        <TextView style="@style/horizontal_line" />
 
-        <TextView
-            android:id="@+id/pay"
-            style="@style/order_list_button_style"
+        <RelativeLayout
+            android:id="@+id/btn_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_gravity="right"
-            android:text="付款" />
+            android:paddingBottom="8dp"
+            android:orientation="horizontal"
+            >
+
+            <TextView
+                style="@style/horizontal_line"
+                android:id="@+id/line"
+                android:layout_alignParentTop="true"/>
+
+            <TextView
+                android:id="@+id/button1"
+                android:layout_alignBaseline="@+id/button2"
+                style="@style/order_list_button_style"
+                android:layout_toLeftOf="@+id/button2"
+                android:text="button1"/>
+
+            <TextView
+                android:layout_below="@id/line"
+                android:layout_marginTop="8dp"
+                android:id="@+id/button2"
+                android:layout_alignParentRight="true"
+                android:layout_marginLeft="@dimen/order_btn_spacing"
+                style="@style/order_list_button_style"
+                android:text="button2"/>
+        </RelativeLayout>
 
 
     </LinearLayout>
 
     <TextView
         style="@style/horizontal_line"
-        android:background="#999999" />
+        android:background="#999999"/>
 </LinearLayout>

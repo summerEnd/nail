@@ -8,8 +8,8 @@
     <include layout="@layout/head_2" />
 
     <ImageView
+        android:id="@+id/about"
         android:layout_width="match_parent"
-        android:src="@drawable/test_image_03"
         android:scaleType="centerCrop"
         android:layout_height="wrap_content" />
 

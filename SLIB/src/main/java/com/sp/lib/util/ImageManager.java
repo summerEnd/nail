@@ -13,7 +13,10 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.FailReason;
+import com.nostra13.universalimageloader.core.assist.LoadedFrom;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
+import com.nostra13.universalimageloader.core.display.BitmapDisplayer;
+import com.nostra13.universalimageloader.core.imageaware.ImageAware;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 
 import java.io.File;
@@ -32,10 +35,11 @@ public class ImageManager {
                 .diskCacheSize(50 * 1024 * 1024)
                 .threadPoolSize(Thread.NORM_PRIORITY - 2)
                 .denyCacheImageMultipleSizesInMemory()
-                .diskCache(
-                        new UnlimitedDiscCache(new File(IMG_DIR
-                        ))
-                )
+                .
+                        diskCache(
+                                new UnlimitedDiscCache(new File(IMG_DIR
+                                ))
+                        )
                 .diskCacheFileNameGenerator(new Md5FileNameGenerator())
                 .tasksProcessingOrder(QueueProcessingType.LIFO)
                 .build();
@@ -53,6 +57,13 @@ public class ImageManager {
 
     public static void loadImage(String url, ImageLoadingListener l) {
         ImageLoader.getInstance().loadImage(url, l);
+    }
+
+    public static void loadImage(String url, ImageLoadingListener l, BitmapDisplayer displayer) {
+        DisplayImageOptions options = new DisplayImageOptions.Builder()
+                .displayer(displayer)
+                .build();
+        ImageLoader.getInstance().loadImage(url, options, l);
     }
 
     public static void clear() {
