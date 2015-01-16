@@ -139,42 +139,7 @@ public class FingerApp extends Application {
         return getUser().id != null;
     }
 
-    public void onExit() {
-        BaiduAPI.mLocationClient.stop();
-    }
 
-    /**
-     * 更新美甲师的位置
-     *
-     * @param latitude
-     * @param longitude
-     */
-    public void updatePosition(double latitude, double longitude) {
 
-        RoleBean user = FingerApp.getInstance().getUser();
-        user.latitude = latitude;
-        user.longitude = longitude;
-        if (user.getType().equals(Constant.LOGIN_TYPE_ARTIST)) {
-            RequestParams params = new RequestParams();
-            params.put("longitude", user.latitude);
-            params.put("latitude", user.latitude);
-            params.put("mid", user.id);
 
-            WebJsonHttpHandler handler = new WebJsonHttpHandler() {
-                @Override
-                public void onSuccess(JSONObject object, JSONArray array) {
-                    ContextUtil.toast_debug("upload artist position");
-                }
-
-                @Override
-                public void onFail(String msg) {
-
-                }
-            };
-            handler.showDialog = false;
-            SHttpClient.post(FingerHttpClient.host + "updatePosition", params, handler, BuildConfig.DEBUG);
-
-        }
-
-    }
 }

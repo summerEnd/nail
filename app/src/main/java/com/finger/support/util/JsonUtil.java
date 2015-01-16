@@ -13,7 +13,7 @@ import java.util.List;
  */
 public class JsonUtil {
     public static <T> T get(String json, Class<T> cls) {
-        return (T) (new Gson().fromJson(json, cls));
+        return new Gson().fromJson(json, cls);
     }
 
 

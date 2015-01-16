@@ -1,5 +1,6 @@
 package com.finger.activity.main.user.my;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
@@ -36,7 +37,7 @@ import static android.view.ViewGroup.LayoutParams;
 /**
  * Created by acer on 2014/12/16.
  */
-public class MyDiscountActivity extends BaseActivity implements RadioGroup.OnCheckedChangeListener, ViewPager.OnPageChangeListener, AdapterView.OnItemClickListener {
+public class MyDiscountActivity extends BaseActivity implements RadioGroup.OnCheckedChangeListener, ViewPager.OnPageChangeListener {
     ViewPager pager;
     ArrayList<View> views = new ArrayList<View>();
     RadioGroup rg;
@@ -59,23 +60,6 @@ public class MyDiscountActivity extends BaseActivity implements RadioGroup.OnChe
      */
     final int STATUS_FRESH = 0;
 
-    /**
-     * 是否为选择优惠券
-     */
-    boolean is_pick = false;
-
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        int checkedId = rg.getCheckedRadioButtonId();
-        if (is_pick) {
-            if (checkedId == R.id.rb_expired) {
-                ContextUtil.toast(getString(R.string.expire));
-            } else {
-                setResult(RESULT_OK, new Intent().putExtra("bean", freshCoupons.get(position)));
-                finish();
-            }
-        }
-    }
 
     public static class CouponBean implements Serializable {
         public int    id;
@@ -89,7 +73,6 @@ public class MyDiscountActivity extends BaseActivity implements RadioGroup.OnChe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        is_pick = getIntent().getBooleanExtra(EXTRA_FOR_PICK, false);
         setContentView(R.layout.activity_my_discount);
         pager = (ViewPager) findViewById(R.id.pager);
         pager.setOnPageChangeListener(this);
@@ -100,7 +83,6 @@ public class MyDiscountActivity extends BaseActivity implements RadioGroup.OnChe
 
         rg = (RadioGroup) findViewById(R.id.rg);
         rg.setOnCheckedChangeListener(this);
-
 
 
         getFreshCoupons();
@@ -124,6 +106,9 @@ public class MyDiscountActivity extends BaseActivity implements RadioGroup.OnChe
         });
     }
 
+    /**
+     * 获取过期优惠券
+     */
     void getUsedCoupons() {
         RoleBean user = getApp().getUser();
         RequestParams params = new RequestParams();
@@ -152,15 +137,15 @@ public class MyDiscountActivity extends BaseActivity implements RadioGroup.OnChe
             listView.setDivider(new ColorDrawable(0));
             listView.setSelector(new ColorDrawable(0));
             listView.setAdapter(freshAdapter);
-            listView.setOnItemClickListener(this);
             views.add(listView);
         }
+
         {
             ListView listView = new ListView(this);
             listView.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
             listView.setDivider(new ColorDrawable(0));
+            listView.setSelector(new ColorDrawable(0));
             listView.setAdapter(usedAdapter);
-            listView.setOnItemClickListener(this);
             views.add(listView);
         }
     }
@@ -286,7 +271,5 @@ public class MyDiscountActivity extends BaseActivity implements RadioGroup.OnChe
         TextView tv_title;
         TextView tv_date;
         TextView tv_price;
-
-
     }
 }

@@ -140,7 +140,7 @@ public class NailInfoListFragment extends Fragment implements View.OnClickListen
                     orderList.setBackgroundDrawable(new ColorDrawable(0xffffffff));
                     orderList.setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
                     //排序方式
-                    final String[] sorts = new String[]{"normal", "price_desc", "price_asc"};
+                    final String[] sorts = new String[]{"normal", "price_asc", "price_desc"};
                     View contentView = View.inflate(getActivity(), R.layout.order_list, null);
                     ListView listView = (ListView) contentView.findViewById(R.id.listView);
                     listView.setAdapter(new OrderListAdapter(getActivity(), getResources().getStringArray(R.array.orders)));

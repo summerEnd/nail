@@ -2,8 +2,6 @@ package com.finger.entity;
 
 import java.io.Serializable;
 
-import static com.finger.activity.info.NailInfo.SellerInfoBean;
-
 public class OrderBean implements Serializable {
 
     public NailInfoBean nailInfoBean;//作品ID
@@ -24,7 +22,7 @@ public class OrderBean implements Serializable {
     public String planTime;
 
     public String book_date;
-    public String time_block;
+    public int time_block;
     public AddressSearchBean addressSearchBean;
 
 

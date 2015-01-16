@@ -1,6 +1,8 @@
 package com.finger.activity.info;
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.ServiceConnection;
 import android.graphics.Bitmap;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -17,11 +19,13 @@ import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import com.baidu.location.BDLocation;
 import com.finger.activity.base.BaseActivity;
 import com.finger.R;
 import com.finger.entity.OrderBean;
 import com.finger.entity.OrderManager;
 import com.finger.api.BaiduAPI;
+import com.finger.service.LocationService;
 import com.finger.support.net.FingerHttpClient;
 import com.finger.support.net.FingerHttpHandler;
 import com.finger.support.util.JsonUtil;
@@ -59,6 +63,9 @@ public class ArtistInfoList extends BaseActivity implements AdapterView.OnItemCl
     private ArtistAdapter  adapter;
     private List<ArtistListBean> beans = new ArrayList<ArtistListBean>();
     private ListController controller;
+    private double latitude  = -1;
+    private double longitude = -1;
+    private ServiceConnection conn;
 
     @Override
     public void onLoadMore(AbsListView listView, int nextPage) {
@@ -71,6 +78,7 @@ public class ArtistInfoList extends BaseActivity implements AdapterView.OnItemCl
         String avatar;
         int    uid;
         int    score;
+        String distance;
         String average_price;
         int    order_num;
     }
@@ -84,8 +92,46 @@ public class ArtistInfoList extends BaseActivity implements AdapterView.OnItemCl
         adapter = new ArtistAdapter(ArtistInfoList.this, beans);
         listView.setAdapter(adapter);
         controller = new ListController(listView, this);
-        getSellerList(1);
+        getLocation();
     }
+
+    void getLocation() {
+        OrderBean bean = OrderManager.getCurrentOrder();
+        //如果是预约时查看列表，就取预约的经纬度。否则取用户当前的经纬度
+        if (bean == null) {
+            //先用已有的定位结果
+            BDLocation location = LocationService.mBDLocation;
+            if (location != null) {
+                longitude = location.getLongitude();
+                latitude = location.getLatitude();
+            }
+
+            conn = new LocationService.LocationConnection() {
+                @Override
+                public void onLocated(BDLocation location) {
+                    if (location != null) {
+                        longitude = location.getLongitude();
+                        latitude = location.getLatitude();
+                    }
+                    getSellerList(1);
+
+                }
+            };
+
+            //绑定定位服务，更新定位结果
+            bindService(new Intent(this, LocationService.class), conn, BIND_AUTO_CREATE);
+
+
+        } else {
+            latitude = bean.addressSearchBean.latitude;
+            longitude = bean.addressSearchBean.longitude;
+            getSellerList(1);
+
+        }
+
+    }
+
+
 
     /**
      * 获取美甲师详情
@@ -95,27 +141,22 @@ public class ArtistInfoList extends BaseActivity implements AdapterView.OnItemCl
     void getSellerList(int page) {
         RequestParams params = new RequestParams();
 
-        if (!TextUtils.isEmpty(ASC_DESC)) {
+        if (sort != null) {
             params.put("sort", sort + "_" + ASC_DESC);
-        } else {
-            params.put("sort", sort);
         }
 
         params.put("page", page);
         params.put("pagesize", controller.getPageSize());
         OrderBean bean = OrderManager.getCurrentOrder();
-        //如果是预约时查看列表，就取预约的经纬度。否则取用户当前的经纬度
-        if (bean == null) {
-            if (BaiduAPI.mBDLocation != null) {
-                params.put("longitude", BaiduAPI.mBDLocation.getLongitude());
-                params.put("latitude", BaiduAPI.mBDLocation.getLatitude());
-            }
-
-        } else {
-            params.put("longitude", bean.addressSearchBean.longitude);
-            params.put("latitude", bean.addressSearchBean.latitude);
+        if (bean != null) {
+            params.put("book_time", bean.book_date + "," + bean.time_block);
         }
-        params.put("pagesize", controller.getPageSize());
+
+
+        if (!Double.isInfinite(latitude) && !Double.isInfinite(longitude)) {
+            params.put("longitude", longitude);
+            params.put("latitude", latitude);
+        }
         FingerHttpClient.post("getSellerList", params, new FingerHttpHandler() {
             @Override
             public void onSuccess(JSONObject o) {
@@ -169,8 +210,10 @@ public class ArtistInfoList extends BaseActivity implements AdapterView.OnItemCl
         switch (v.getId()) {
             case R.id.sort_distance: {
                 //按距离只有一种排序方式
-                sort = "position_asc";
+                sort = "position";
+                ASC_DESC = "asc";
                 beans.clear();
+                adapter.notifyDataSetChanged();
                 getSellerList(1);
                 break;
             }
@@ -214,9 +257,13 @@ public class ArtistInfoList extends BaseActivity implements AdapterView.OnItemCl
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        OrderBean orderBean=OrderManager.getCurrentOrder();
-        if (orderBean!=null){
-            orderBean.nailInfoBean=null;
+        OrderBean orderBean = OrderManager.getCurrentOrder();
+        if (orderBean != null) {
+            orderBean.nailInfoBean = null;
+        }
+
+        if (conn!=null){
+            unbindService(conn);
         }
     }
 
@@ -333,7 +380,7 @@ public class ArtistInfoList extends BaseActivity implements AdapterView.OnItemCl
                     holder.iv_avatar.setImageBitmap(ImageUtil.roundBitmap(loadedImage, context.getResources().getDimensionPixelSize(R.dimen.avatar_size) / 2));
                 }
             });
-            holder.tv_distance.setText(getString(R.string.distance_s));
+            holder.tv_distance.setText(getString(R.string.distance_s, bean.distance));
             convertView.setTag(holder);
             return convertView;
         }

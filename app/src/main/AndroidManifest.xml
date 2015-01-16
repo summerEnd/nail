@@ -32,10 +32,13 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
+        <service android:name=".service.LocationService"
+            android:enabled="true"/>
         <service
             android:name="com.baidu.location.f"
             android:enabled="true"
             android:process=":remote" />
+
         <!-- meta-data需要写在application中 -->
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
@@ -180,7 +183,7 @@
             android:screenOrientation="portrait"
             android:label="@string/change_resume" />
         <activity
-            android:name=".activity.setting.LocationActivity"
+            android:name=".activity.main.LocationActivity"
             android:screenOrientation="portrait"
             android:label="@string/choose_city" />
         <activity

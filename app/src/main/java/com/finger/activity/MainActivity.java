@@ -17,10 +17,17 @@ import com.finger.activity.login.LoginActivity;
 import com.finger.activity.main.MainFragment;
 import com.finger.activity.main.artist.my.MyFragment;
 import com.finger.activity.main.artist.order.OrderFragment;
+import com.finger.activity.main.user.my.MyDiscountActivity;
+import com.finger.service.LocationService;
 import com.finger.support.Constant;
+import com.finger.support.net.FingerHttpClient;
+import com.finger.support.net.FingerHttpHandler;
 import com.finger.support.util.ContextUtil;
 import com.finger.support.util.Logger;
+import com.loopj.android.http.RequestParams;
 import com.sp.lib.support.IntentFactory;
+
+import org.json.JSONObject;
 
 
 public class MainActivity extends BaseActivity {
@@ -32,7 +39,8 @@ public class MainActivity extends BaseActivity {
     boolean sholdReturnHome = false;
     FragmentManager fragmentManager;
     ImageView imageView[] = new ImageView[4];
-    TextView tvs[] = new TextView[4];
+    TextView  tvs[]       = new TextView[4];
+    public static final int REQUEST_SHARE = 112;
     /**
      * fragments[0] {@link com.finger.activity.main.MainFragment}
      * fragments[1] {@link com.finger.activity.main.user.order.OrderFragment}
@@ -70,10 +78,11 @@ public class MainActivity extends BaseActivity {
                 .add(R.id.frag_container, fragments[0])
                 .commit();
         changeTab(0);
+
     }
 
     public void onTabClick(View v) {
-        Logger.d("login?=="+getApp().isLogin());
+        Logger.d("login?==" + getApp().isLogin());
         int id = v.getId();
         clicked_tab = v;
         switch (id) {
@@ -187,7 +196,7 @@ public class MainActivity extends BaseActivity {
     }
 
     void showFragment(int index) {
-//        Logger.i_format("index:%d  cur:%d",index,curIndex);
+        //        Logger.i_format("index:%d  cur:%d",index,curIndex);
         if (curIndex == index) {
             return;
         }
@@ -210,15 +219,73 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode==100){
-            sholdReturnHome =false;
+        if (requestCode == 100) {
+            sholdReturnHome = false;
             if (!getApp().isLogin()) {
                 returnHome();
             } else {
                 onTabClick(clicked_tab);
             }
+        } else if (REQUEST_SHARE == requestCode) {
+            new AlertDialog.Builder(this)
+                    .setTitle(getString(R.string.share_ok))
+                    .setMessage("亲,您现在可以领取优惠券了")
+                    .setPositiveButton(getString(R.string.get_now),
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    getCoupon();
+                                }
+                            }
+                    ).show();
         }
 
+    }
+
+    int orderId;
+
+    /**
+     * 设置领取优惠券的订单id
+     *
+     * @param orderId
+     */
+    public void setGetCouponOrderId(int orderId) {
+        this.orderId = orderId;
+    }
+
+    /**
+     * 领取优惠券
+     */
+    void getCoupon() {
+        RequestParams params = new RequestParams();
+        params.put("order_id", orderId);
+        FingerHttpClient.post("getCoupon", params, new FingerHttpHandler() {
+                    @Override
+                    public void onSuccess(JSONObject o) {
+                        showCheckCoupon();
+                    }
+                }
+
+        );
+    }
+
+    /**
+     * 查看优惠券dialog
+     */
+    void showCheckCoupon() {
+        new AlertDialog.Builder(MainActivity.this)
+                .setTitle(getString(R.string.get_ok))
+                .setMessage("恭喜您成功领取一张优惠券")
+                .setPositiveButton(getString(R.string.check_now), new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                startActivity(new Intent(MainActivity.this, MyDiscountActivity.class));
+
+                            }
+                        }
+                )
+                .setNegativeButton(R.string.cancel, null)
+                .show();
     }
 
     @Override
@@ -249,6 +316,7 @@ public class MainActivity extends BaseActivity {
     void returnHome() {
         showFragment(0);
         changeTab(0);
+
     }
 
     @Override
@@ -268,11 +336,12 @@ public class MainActivity extends BaseActivity {
         long currentTimeMillis = System.currentTimeMillis();
         if (currentTimeMillis - time < 2000) {
             super.onBackPressed();
-            getApp().onExit();
-            android.os.Process.killProcess(android.os.Process.myPid());
+            stopService(new Intent(this, LocationService.class));
+            //            android.os.Process.killProcess(android.os.Process.myPid());
         } else {
             time = currentTimeMillis;
             ContextUtil.toast(getString(R.string.click_again_exit));
         }
     }
+
 }

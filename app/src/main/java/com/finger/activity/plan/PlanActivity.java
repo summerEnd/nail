@@ -77,20 +77,6 @@ public class PlanActivity extends BaseActivity implements RadioGroup.OnCheckedCh
 
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode,resultCode,data);
-        if (requestCode == REQUEST_CODE_GPS) {
-            BaiduAPI.locate(new BaiduAPI.Callback() {
-                @Override
-                public void onLocated(BDLocation bdLocation) {
-                    RoleBean bean = getApp().getUser();
-                    mPlanForMe.addMark(bean.latitude, bean.longitude);
-                }
-            });
-        }
-    }
-
-    @Override
     public void onClick(View v) {
 
         switch (v.getId()) {
@@ -161,7 +147,7 @@ public class PlanActivity extends BaseActivity implements RadioGroup.OnCheckedCh
 
         String planTime = null;
         String book_date = null;
-        String time_block;
+        int time_block;
         String TYPE_FOR_ME="0";
         String TYPE_FOR_OTHER="1";
         @Override
@@ -211,6 +197,8 @@ public class PlanActivity extends BaseActivity implements RadioGroup.OnCheckedCh
         }
 
         public String getPlanTimeStr(String book_date, int time_block) {
+            this.book_date=book_date;
+            this.time_block=time_block;
             return String.format("%s %d:00 ~ %d:00", book_date, time_block * 2 + 7, time_block * 2 + 9);
         }
     }

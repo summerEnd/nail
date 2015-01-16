@@ -1,6 +1,7 @@
 package com.finger.support.net;
 
 import com.finger.BuildConfig;
+import com.finger.R;
 import com.finger.activity.FingerApp;
 import com.finger.entity.RoleBean;
 import com.finger.support.util.ContextUtil;
@@ -73,8 +74,8 @@ public class FingerHttpClient {
 
             @Override
             public void onFail(String msg) {
-                handler.onFail(null);
-                ContextUtil.toast(msg);
+                handler.onNetException();
+                ContextUtil.toast(R.string.net_failed);
             }
         }, BuildConfig.DEBUG);
     }

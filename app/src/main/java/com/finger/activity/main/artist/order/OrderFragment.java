@@ -20,6 +20,7 @@ import com.finger.entity.OrderListBean;
 import com.finger.entity.OrderManager;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static com.finger.adapter.OrderAdapterFactory.OrderType.ORDER_NOTICE;
 import static com.finger.adapter.OrderAdapterFactory.OrderType.REFUND_NOTICE;
@@ -58,11 +59,12 @@ public class OrderFragment extends Fragment implements RadioGroup.OnCheckedChang
 
         //创建fragment实例
         if (fragment == null) {
-            String status = "0";
-            OrderAdapterFactory.OrderAdapter adapter=null;
+            String status = null;
+            OrderAdapterFactory.OrderAdapter adapter = null;
             switch (checked_id) {
                 case R.id.rb1: {
                     adapter = OrderAdapterFactory.getAdapter(getActivity(), ORDER_NOTICE, new ArrayList<OrderListBean>());
+                    status = OrderManager.STATUS_ALL;
                     break;
                 }
                 case R.id.rb2: {

@@ -45,16 +45,6 @@ public class OrderFragment extends Fragment implements RadioGroup.OnCheckedChang
     }
 
     @Override
-    public void onHiddenChanged(boolean hidden) {
-        if (!hidden) {
-            List<Fragment> fragments = manager.getFragments();
-            for (Fragment f:fragments){
-                ((OrderListFragment) f).clearList();
-            }
-        }
-    }
-
-    @Override
     public void onCheckedChanged(RadioGroup group, int checkedId) {
         showFragment(checkedId);
     }
@@ -64,12 +54,13 @@ public class OrderFragment extends Fragment implements RadioGroup.OnCheckedChang
         FragmentTransaction ft = manager.beginTransaction();
 
         if (fragment == null) {
-            String status = "0";
+            String status = null;
             OrderAdapter adapter = null;
 
             switch (checked_id) {
                 case R.id.rb1: {
                     adapter = OrderAdapterFactory.getAdapter(getActivity(), ORDER_TO_PAY, new ArrayList<OrderListBean>());
+                    status = OrderManager.STATUS_ALL;
                     break;
                 }
                 case R.id.rb2: {

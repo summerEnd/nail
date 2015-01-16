@@ -3,11 +3,15 @@ package com.finger.activity.info;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.finger.R;
 import com.finger.activity.base.BaseActivity;
+import com.finger.activity.main.user.my.MyDiscountActivity;
+import com.finger.activity.plan.Schedule;
+import com.finger.entity.NailInfoBean;
 import com.finger.entity.OrderListBean;
 import com.finger.support.net.FingerHttpClient;
 import com.finger.support.net.FingerHttpHandler;
@@ -19,9 +23,15 @@ import com.sp.lib.util.ImageManager;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import static com.finger.activity.main.user.my.MyDiscountActivity.CouponBean;
+
 public class OrderInfoActivity extends BaseActivity {
 
-    OrderListBean bean;
+    OrderInfoBean bean;
+
+    class OrderInfoBean extends OrderListBean {
+        NailInfoBean product;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +51,7 @@ public class OrderInfoActivity extends BaseActivity {
             @Override
             public void onSuccess(JSONObject o) {
                 try {
-                    bean = JsonUtil.get(o.getString("data"), OrderListBean.class);
+                    bean = JsonUtil.get(o.getString("data"), OrderInfoBean.class);
                     setData(bean);
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -62,7 +72,7 @@ public class OrderInfoActivity extends BaseActivity {
         });
     }
 
-    void setData(OrderListBean bean) {
+    void setData(OrderInfoBean bean) {
         if (bean == null) {
             DialogUtil.alert(this, getString(R.string.order_not_exist));
             return;
@@ -79,17 +89,42 @@ public class OrderInfoActivity extends BaseActivity {
                 tv_mobile = (TextView) findViewById(R.id.tv_mobile),
                 tv_address = (TextView) findViewById(R.id.tv_address),
                 tv_summary = (TextView) findViewById(R.id.tv_summary);
-        ImageManager.loadImage(bean.product_cover, nail_image);
+        //作品封面
+        ImageManager.loadImage(bean.product.cover, nail_image);
+
+        //订单时间
         create_time.setText(getString(R.string.order_date_s, bean.create_time));
-        tv_nail_name.setText(bean.product_name);
+
+        //作品名称
+        tv_nail_name.setText(bean.product.name);
+
+        //订单价格
         tv_price.setText(getString(R.string.price_s, bean.order_price));
-        taxi_fee.setText(getString(R.string.s_price, bean.order_price));
-        tv_coupon.setText(getString(R.string.s_price, bean.order_price));//优惠券价值
-        tv_real_pay.setText(getString(R.string.s_price, bean.order_price));//实付
-        //tv_contact.setText(bean.);//联系人
-        tv_planTime.setText(bean.time_block);//预约时间
-        //tv_mobile.setText(bean.);//联系人电话
+
+        //车费
+        taxi_fee.setText(getString(R.string.s_price, bean.taxi_cost));
+
+        //优惠券
+        CouponBean coupon = bean.coupon;
+        tv_coupon.setText(coupon ==null
+                ? "无"
+                : (coupon.title+" ￥"+coupon.price));
+        //实付
+        tv_real_pay.setText(getString(R.string.s_price, bean.order_price));
+
+        //联系人
+        tv_contact.setText(bean.contact);
+
+        //预约时间
+        tv_planTime.setText(Schedule.convertPlanTime(bean.book_date,bean.time_block));
+
+        //联系人电话
+        tv_mobile.setText(bean.phone_num);
+
+        //地址
         tv_address.setText(bean.address);
-        tv_summary.setText(bean.remark);//备注
+
+        //备注
+        tv_summary.setText(bean.remark);
     }
 }

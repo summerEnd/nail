@@ -1,54 +1,34 @@
 package com.finger.api;
 
+import android.content.ComponentName;
 import android.content.Context;
+import android.content.Intent;
+import android.content.ServiceConnection;
 import android.location.LocationManager;
+import android.os.IBinder;
 
-import com.baidu.location.BDLocation;
-import com.baidu.location.BDLocationListener;
-import com.baidu.location.LocationClient;
-import com.baidu.location.LocationClientOption;
 import com.baidu.mapapi.SDKInitializer;
 import com.baidu.mapapi.model.LatLng;
 import com.baidu.mapapi.utils.CoordinateConverter;
-import com.baidu.mapapi.utils.DistanceUtil;
-import com.finger.activity.FingerApp;
-import com.finger.support.util.Logger;
+import com.finger.service.LocationService;
 
-/**
- * Created by acer on 2014/12/8.
- */
 public class BaiduAPI {
 
-    public static  LocationClient         mLocationClient;
-    private static FingerLocationListener l;
-    private static Callback               mCallback;
-    public static  BDLocation             mBDLocation;
-
-    /**
-     * 定位的时间间隔
-     */
-    public static final int scanSpan = 10 * 1000 * 60;
-
-    public interface Callback {
-        public void onLocated(BDLocation bdLocation);
-    }
 
     public static void init(Context context) {
-
         SDKInitializer.initialize(context);
 
-        LocationClientOption option = new LocationClientOption();
+       /* context.bindService(new Intent(context, LocationService.class), new ServiceConnection() {
+            @Override
+            public void onServiceConnected(ComponentName name, IBinder service) {
 
-        option.setIsNeedAddress(true);
-        option.setOpenGps(true);
-        option.setLocationMode(LocationClientOption.LocationMode.Hight_Accuracy);
-        option.setScanSpan(scanSpan);
-        option.setTimeOut(10000);
-        mLocationClient = new LocationClient(context);
-        l = new FingerLocationListener();
-        mLocationClient.registerLocationListener(l);
-        mLocationClient.setLocOption(option);
-        mLocationClient.start();
+            }
+
+            @Override
+            public void onServiceDisconnected(ComponentName name) {
+
+            }
+        }, Context.BIND_AUTO_CREATE);*/
     }
 
     /**
@@ -77,6 +57,7 @@ public class BaiduAPI {
 
     /**
      * 判断GPS是否打开
+     *
      * @param context
      * @return
      */
@@ -85,68 +66,4 @@ public class BaiduAPI {
         return manager.isProviderEnabled(LocationManager.GPS_PROVIDER);
     }
 
-    /**
-     * 计算两点间的距离
-     *
-     * @param l1
-     * @param l2
-     * @return
-     */
-    public static final String getDistance(LatLng l1, LatLng l2) {
-        float distance = (float) (DistanceUtil.getDistance(l1, l2)/1000);
-
-        return String.format("%.1f",distance);
-    }
-
-    /**
-     * 发起定位
-     * @param callback
-     */
-    public static final void locate(Callback callback) {
-        mCallback = callback;
-        mLocationClient.requestLocation();
-    }
-
-    static class FingerLocationListener implements BDLocationListener {
-
-
-        public void onReceiveLocation(BDLocation location) {
-            mBDLocation = location;
-
-            FingerApp.getInstance().updatePosition(location.getLatitude(),location.getLongitude());
-            if (mCallback != null) mCallback.onLocated(location);
-        }
-
-
-        public void onReceivePoi(BDLocation bdLocation) {
-
-        }
-
-        void debug(final BDLocation location) {
-
-
-
-            Logger.debug(new Runnable() {
-                @Override
-                public void run() {
-                    if (location == null)
-                        return;
-
-                    StringBuffer sb = new StringBuffer(256);
-                    sb.append("cityCode : ");
-                    sb.append(location.getCityCode());
-                    sb.append("\ntime : ");
-                    sb.append(location.getTime());
-                    sb.append("\nerror code : ");
-                    sb.append(location.getLocType());
-                    sb.append("\nlatitude : ");
-                    sb.append(location.getLatitude());
-                    sb.append("\nlontitude : ");
-                    sb.append(location.getLongitude());
-                    sb.append("\nradius : ");
-                    Logger.d("--->" + sb.toString());
-                }
-            });
-        }
-    }
 }

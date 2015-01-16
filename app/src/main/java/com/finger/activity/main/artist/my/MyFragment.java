@@ -9,19 +9,20 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.finger.activity.FingerApp;
 import com.finger.R;
+import com.finger.activity.FingerApp;
 import com.finger.activity.base.BaseActivity;
+import com.finger.activity.info.Artist;
 import com.finger.activity.main.AttentionList;
 import com.finger.activity.main.MyCollectionActivity;
-import com.finger.activity.setting.SettingActivity;
 import com.finger.activity.main.user.my.MyDiscountActivity;
+import com.finger.activity.setting.SettingActivity;
 import com.finger.adapter.NailListAdapter;
-import com.finger.activity.info.Artist;
 import com.finger.entity.ArtistRole;
 import com.finger.entity.NailInfoBean;
 import com.finger.support.net.FingerHttpClient;
@@ -32,6 +33,7 @@ import com.loopj.android.http.RequestParams;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 import com.sp.lib.util.ImageManager;
 import com.sp.lib.util.ImageUtil;
+import com.sp.lib.util.ListController;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -41,22 +43,22 @@ import java.net.URLEncoder;
 import java.util.LinkedList;
 
 @Artist
-public class MyFragment extends Fragment implements View.OnClickListener {
-    ArtistRole role;
+public class MyFragment extends Fragment implements View.OnClickListener, ListController.Callback {
+    ArtistRole   role;
     RatingWidget rating;
-    TextView settings;
-    ImageView iv_avatar;
-    GridView gridView;
-    TextView tv_on_time;
-    TextView tv_com;
-    TextView tv_pro;
-    TextView tv_nick_name;
-    TextView tv_good_comment;
-    TextView tv_mid_comment;
-    TextView tv_bad_comment;
-    String sort;
-    String price;
+    TextView     settings;
+    ImageView    iv_avatar;
+    GridView     gridView;
+    TextView     tv_on_time;
+    TextView     tv_com;
+    TextView     tv_pro;
+    TextView     tv_nick_name;
+    TextView     tv_good_comment;
+    TextView     tv_mid_comment;
+    TextView     tv_bad_comment;
     LinkedList<NailInfoBean> beans = new LinkedList<NailInfoBean>();
+    ListController  controller;
+    NailListAdapter adapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -76,10 +78,12 @@ public class MyFragment extends Fragment implements View.OnClickListener {
         rating = (RatingWidget) v.findViewById(R.id.rating);
         gridView = (GridView) v.findViewById(R.id.grid);
         role = (ArtistRole) ((BaseActivity) getActivity()).getApp().getUser();
-
+        adapter = new NailListAdapter(getActivity(), beans);
+        gridView.setAdapter(adapter);
+        controller = new ListController(gridView, this);
         findIds(v);
         setData(role);
-        getData();
+        getProductList(1);
         return v;
     }
 
@@ -108,24 +112,23 @@ public class MyFragment extends Fragment implements View.OnClickListener {
         tv_nick_name.setText(bean.username);
     }
 
-    void getData() {
+    void getProductList(int page) {
         FingerApp app = ((BaseActivity) getActivity()).getApp();
         ArtistRole role = (ArtistRole) app.getUser();
         RequestParams params = new RequestParams();
         JSONObject condition = new JSONObject();
         try {
-            condition.put("sort", sort);//（normal / price_desc / price_asc）
-            condition.put("price", price);// (40 - 80 之间)
-            condition.put("city_code", app.getCurCity().city_code);//(百度城市代码)
             condition.put("mid", role.id);// (美甲师id);
         } catch (JSONException e) {
             e.printStackTrace();
         }
         try {
-            params.put("condition", URLEncoder.encode(condition.toString(),"UTF-8"));
+            params.put("condition", URLEncoder.encode(condition.toString(), "UTF-8"));
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
+        params.put("page", page);
+        params.put("pagesize", controller.getPageSize());
         FingerHttpClient.post("getProductList", params, new FingerHttpHandler() {
             @Override
             public void onSuccess(JSONObject o) {
@@ -133,7 +136,7 @@ public class MyFragment extends Fragment implements View.OnClickListener {
 
                     JSONObject data = o.getJSONObject("data");
                     JsonUtil.getArray(data.getJSONArray("normal"), NailInfoBean.class, beans);
-                    gridView.setAdapter(new NailListAdapter(getActivity(), beans));
+                    adapter.notifyDataSetChanged();
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -150,7 +153,6 @@ public class MyFragment extends Fragment implements View.OnClickListener {
      * @param onTime 守时 对应TextView 的id为tv_on_time
      */
     public void setArtistZGS(float pro, float com, float onTime) {
-
         tv_pro.setText(String.format("%.1f", pro));
         tv_com.setText(String.format("%.1f", com));
         tv_on_time.setText(String.format("%.1f", onTime));
@@ -165,6 +167,13 @@ public class MyFragment extends Fragment implements View.OnClickListener {
         iv_avatar.setOnClickListener(this);
     }
 
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        if (!hidden) {
+            role = (ArtistRole) FingerApp.getInstance().getUser();
+            setData(role);
+        }
+    }
 
     @Override
     public void onClick(View v) {
@@ -214,4 +223,8 @@ public class MyFragment extends Fragment implements View.OnClickListener {
         }
     }
 
+    @Override
+    public void onLoadMore(AbsListView listView, int nextPage) {
+        getProductList(nextPage);
+    }
 }

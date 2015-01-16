@@ -21,7 +21,7 @@ public class OrderManager {
     /**
      * 等待服务
      */
-    public static String STATUS_WAIT_SERVICE = "1";
+    public static String STATUS_WAIT_SERVICE = "2";
     /**
      * 等待评价
      */
@@ -30,6 +30,9 @@ public class OrderManager {
      * 退款
      */
     public static String STATUS_REFUND       = "4,5,6";
+
+    public static String STATUS_ALL = "1,2,3,4,5,6,7,8";
+
     private static OrderBean bean;
     private static LinkedList<Activity> activities = new LinkedList<Activity>();
 

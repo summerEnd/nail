@@ -1,5 +1,6 @@
 package com.finger.activity.main.user.order;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -9,11 +10,17 @@ import com.finger.R;
 import com.finger.activity.base.AddImageActivity;
 import com.finger.support.net.FingerHttpClient;
 import com.finger.support.net.FingerHttpHandler;
+import com.finger.support.util.DialogUtil;
 import com.loopj.android.http.RequestParams;
 
 import org.json.JSONObject;
 
+/**
+ * 申请退款
+ */
 public class ApplyRefund extends AddImageActivity {
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,10 +34,16 @@ public class ApplyRefund extends AddImageActivity {
         RequestParams params = new RequestParams();
         params.put("reason", reason);
         params.put("imageUrl", imageUrl);
+        params.put("order_id", getIntent().getIntExtra("id", -1));
         FingerHttpClient.post("applyRefund", params, new FingerHttpHandler() {
             @Override
             public void onSuccess(JSONObject o) {
-
+                DialogUtil.alert(ApplyRefund.this, getString(R.string.commit_ok)).setOnDismissListener(new DialogInterface.OnDismissListener() {
+                    @Override
+                    public void onDismiss(DialogInterface dialog) {
+                        finish();
+                    }
+                });
             }
         });
     }

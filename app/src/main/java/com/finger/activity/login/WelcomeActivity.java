@@ -2,16 +2,20 @@ package com.finger.activity.login;
 
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.ComponentName;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.IBinder;
 import android.view.WindowManager;
 
 import com.baidu.location.BDLocation;
 import com.finger.R;
 import com.finger.activity.base.BaseActivity;
 import com.finger.activity.MainActivity;
+import com.finger.service.LocationService;
 import com.finger.support.Constant;
 import com.finger.api.BaiduAPI;
 import com.finger.entity.ArtistRole;
@@ -32,46 +36,69 @@ import org.json.JSONObject;
 
 import java.util.Map;
 
+import static com.finger.service.LocationService.*;
+
 
 public class WelcomeActivity extends BaseActivity {
     final String FIRST_LOGIN = "first_login";
+    private LocationService.LocationBinder mBinder;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_welcome);
         ItemUtil.init(this);
-        locate();
+        getLocation();
     }
 
     /**
      * 定位当前位置
      */
-    void locate() {
-        Logger.d("locate");
-        BaiduAPI.locate(new BaiduAPI.Callback() {
-            @Override
-            public void onLocated(BDLocation bdLocation) {
-                if (bdLocation != null) {
-                    getApp().getUser().latitude = bdLocation.getLatitude();
-                    getApp().getUser().longitude = bdLocation.getLongitude();
-                    getApp().getCurCity().name = bdLocation.getCity();
-                    getApp().getCurCity().city_code = bdLocation.getCityCode();
-                }
-                SharedPreferences sp = getSharedPreferences(FIRST_LOGIN, MODE_PRIVATE);
-                boolean isFirst = sp.getBoolean("first", true);
-                //如果是第一次进入,就跳转到向导页
+    void getLocation() {
 
-                if (isFirst) {
-                    startActivity(new Intent(WelcomeActivity.this, GuideActivity.class));
-                    sp.edit().putBoolean("first", false).commit();
-                    finish();
-                } else {
-                    doLogin();
-                }
-            }
-        });
+        Intent service = new Intent(this, LocationService.class);
+
+        //启动定位服务，别的地方只需要bind就可以了
+        startService(service);
+        bindService(service, cnn, BIND_AUTO_CREATE);
     }
+
+    /**
+     * 链接服务
+     */
+    private LocationConnection cnn = new LocationConnection() {
+
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            super.onServiceConnected(name, service);
+            mBinder = (LocationService.LocationBinder) service;
+        }
+
+        @Override
+        public void onLocated(BDLocation location) {
+
+            if (location != null)
+            {
+                getApp().getUser().latitude = location.getLatitude();
+                getApp().getUser().longitude = location.getLongitude();
+                getApp().getCurCity().name = location.getCity();
+                getApp().getCurCity().city_code = location.getCityCode();
+            }
+
+            SharedPreferences sp = getSharedPreferences(FIRST_LOGIN, MODE_PRIVATE);
+            boolean isFirst = sp.getBoolean("first", true);
+            //如果是第一次进入,就跳转到向导页
+
+            if (isFirst) {
+                startActivity(new Intent(WelcomeActivity.this, GuideActivity.class));
+                sp.edit().putBoolean("first", false).commit();
+                finish();
+            } else {
+                doLogin();
+            }
+        }
+
+
+    };
 
     /**
      * 自动登录
@@ -106,9 +133,9 @@ public class WelcomeActivity extends BaseActivity {
                     }
                     bean.password = password;
                     getApp().setUser(bean);
-                    BDLocation location=BaiduAPI.mBDLocation;
-                    if (location!=null){
-                        getApp().updatePosition(location.getLatitude(),location.getLongitude());
+                    BDLocation location = LocationService.mBDLocation;
+                    if (location != null) {
+                        mBinder.updateArtistPosition(bean.id);
                     }
                     enterMainActivity();
                 }
@@ -161,5 +188,13 @@ public class WelcomeActivity extends BaseActivity {
         role.id = 6;
         getApp().setUser(role);
         ContextUtil.toast("test user--->");
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (cnn!=null){
+            unbindService(cnn);
+        }
     }
 }

@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -17,14 +19,19 @@ import com.finger.entity.AddressSearchBean;
 import com.finger.entity.NailInfoBean;
 import com.finger.entity.OrderBean;
 import com.finger.entity.OrderManager;
+import com.finger.entity.RoleBean;
 import com.finger.support.net.FingerHttpClient;
 import com.finger.support.net.FingerHttpHandler;
+import com.finger.support.util.JsonUtil;
+import com.finger.support.widget.PopupList;
 import com.loopj.android.http.RequestParams;
 import com.sp.lib.util.ImageManager;
 import com.sp.lib.util.TextPainUtil;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 import static com.finger.activity.main.user.my.MyDiscountActivity.CouponBean;
 
@@ -41,21 +48,28 @@ public class OrderConfirm extends BaseActivity {
     TextView  edit_summary;
     TextView  tv_taxi_fee;
     TextView  tv_real_pay;
-    TextView  tv_choose_coupon;
+    TextView  tv_coupon;
+    View      choose_coupon;
 
     float      taxiFee;
     CouponBean mCoupon;
+    ArrayList<CouponBean> couponBeans = new ArrayList<CouponBean>();
+    PopupList     popupList;
+    CouponAdapter adapter;
 
+    OrderBean mOrderBean;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.order_confirm);
         findIds();
-
+        adapter = new CouponAdapter();
+        getSupportFragmentManager().beginTransaction().add(R.id.frag_container,new PayMethodFragment()).commit();
     }
 
     private void findIds() {
         tv_nail_name = (TextView) findViewById(R.id.tv_nail_name);
+        tv_coupon = (TextView) findViewById(R.id.tv_coupon);
         tv_price = (TextView) findViewById(R.id.tv_price);
         tv_shop_price = (TextView) findViewById(R.id.tv_shop_price);
         tv_contact = (TextView) findViewById(R.id.tv_contact);
@@ -65,30 +79,32 @@ public class OrderConfirm extends BaseActivity {
         edit_summary = (EditText) findViewById(R.id.edit_summary);
         tv_taxi_fee = (TextView) findViewById(R.id.tv_taxi_fee);
         tv_real_pay = (TextView) findViewById(R.id.tv_real_pay);
-        tv_choose_coupon = (TextView) findViewById(R.id.choose_coupon);
+        choose_coupon = findViewById(R.id.choose_coupon);
         nail_image = (ImageView) findViewById(R.id.nail_image);
 
-        OrderBean order = OrderManager.getCurrentOrder();
-        if (order == null) {
-            order = (OrderBean) getIntent().getSerializableExtra("bean");
+        mOrderBean = OrderManager.getCurrentOrder();
+        if (mOrderBean == null) {
+            mOrderBean = (OrderBean) getIntent().getSerializableExtra("bean");
         }
-        NailInfoBean infoBean = order.nailInfoBean;
+        NailInfoBean infoBean = mOrderBean.nailInfoBean;
         TextPainUtil.addDeleteLine(tv_shop_price);
 
         tv_nail_name.setText(infoBean.name);
         tv_price.setText(getString(R.string.s_price, infoBean.price));
         tv_shop_price.setText(getString(R.string.s_price, infoBean.store_price));
-        tv_contact.setText(order.contact);
-        tv_mobile.setText(order.mobile);
-        tv_planTime.setText(order.planTime);
+        tv_contact.setText(mOrderBean.contact);
+        tv_mobile.setText(mOrderBean.mobile);
+        tv_planTime.setText(mOrderBean.planTime);
 
-        tv_address.setText(order.address);
+        tv_address.setText(mOrderBean.address);
 
-
-        tv_real_pay.setText(getString(R.string.real_price_s, order.realPrice));
+        //不使用优惠券
+        CouponBean emptyBean = new CouponBean();
+        emptyBean.title = getString(R.string.not_use_coupon);
+        couponBeans.add(emptyBean);
+        //
         ImageManager.loadImage(infoBean.cover, nail_image);
-        AddressSearchBean adrBean = order.addressSearchBean;
-        calculateTaxiCost(adrBean.latitude, adrBean.longitude, order.nailInfoBean.mid);
+        calculateCost();
     }
 
     @Override
@@ -98,26 +114,84 @@ public class OrderConfirm extends BaseActivity {
                 postOrder();
                 break;
             }
-            case R.id.btn_choose: {
-                startActivityForResult(new Intent(this, MyDiscountActivity.class), 100);
+            case R.id.choose_coupon: {
+                if (popupList == null) {
+                    popupList = new PopupList(OrderConfirm.this, adapter, v.getWidth());
+                    popupList.setOnListItemClickListener(new PopupList.OnListItemClick() {
+                        @Override
+                        public void onPopupListClick(PopupList v, int position) {
+                            v.dismiss();
+                            CouponBean selected = couponBeans.get(position);
+                            if (position == 0) {
+                                mCoupon = null;
+                                tv_coupon.setText(selected.title);
+                            } else {
+                                mCoupon = selected;
+                                tv_coupon.setText(mCoupon.title + " ￥" + mCoupon.price);
+                            }
+
+                            calculateCost();
+                        }
+                    });
+                }
+
+                if (couponBeans.size() == 0) {
+                    getCouponList();
+                } else {
+                    popupList.showAsDropDown(v);
+                }
+
                 break;
             }
         }
         super.onClick(v);
     }
 
-    void calculateTaxiCost(double latitude, double longitude, int mid) {
+    /**
+     * 获取优惠券列表
+     */
+    void getCouponList() {
         RequestParams params = new RequestParams();
-        params.put("latitude", latitude);
-        params.put("longitude", longitude);
-        params.put("mid", mid);
-        FingerHttpClient.post("calculateTaxiCost", params, new FingerHttpHandler() {
+        params.put("status", 0);
+        FingerHttpClient.post("getCouponList", params, new FingerHttpHandler() {
             @Override
             public void onSuccess(JSONObject o) {
                 try {
-                    String data = o.getString("data");
-                    taxiFee = Float.valueOf(data);
-                    tv_taxi_fee.setText(getString(R.string.s_price, data));
+                    JsonUtil.getArray(o.getJSONArray("data"), CouponBean.class, couponBeans);
+
+                    adapter.notifyDataSetChanged();
+                    popupList.showAsDropDown(choose_coupon);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
+    /**
+     * 计算费用
+     */
+    void calculateCost() {
+
+        AddressSearchBean adrBean = mOrderBean.addressSearchBean;
+
+        RequestParams params = new RequestParams();
+        params.put("latitude", adrBean.latitude);
+        params.put("longitude", adrBean.longitude);
+        params.put("mid", mOrderBean.nailInfoBean.mid);
+        params.put("product_id", mOrderBean.nailInfoBean.id);
+        if (mCoupon != null) {
+            params.put("coupon_id", mCoupon.id);
+        }
+        FingerHttpClient.post("calculateCost", params, new FingerHttpHandler() {
+            @Override
+            public void onSuccess(JSONObject o) {
+                try {
+
+                    JSONObject data = o.getJSONObject("data");
+                    taxiFee = (float) data.getDouble("taxiCost");
+                    tv_taxi_fee.setText(getString(R.string.s_price, data.getString("taxiCost")));
+                    tv_real_pay.setText(getString(R.string.real_price_s, data.getString("realPay")));
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -130,31 +204,35 @@ public class OrderConfirm extends BaseActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (RESULT_OK != resultCode)
             return;
-        mCoupon = (CouponBean) data.getSerializableExtra("bean");
-        findViewById(R.id.btn_choose).setVisibility(View.GONE);
-        ((TextView) findViewById(R.id.choose_coupon)).setText(mCoupon.title);
+
     }
 
     public void postOrder() {
-        OrderBean order = OrderManager.getCurrentOrder();
-        NailInfoBean infoBean = order.nailInfoBean;
+
+
+        float pay_price = Float.valueOf(mOrderBean.nailInfoBean.price);
+        if (mCoupon != null) {
+
+        }
+
+        NailInfoBean infoBean = mOrderBean.nailInfoBean;
         RequestParams params = new RequestParams();
         params.put("product_id", infoBean.id);
         params.put("uid", getApp().getUser().id);
-        params.put("mid", infoBean.seller_info.id);
+        params.put("mid", infoBean.seller_info.mid);
         if (mCoupon != null)
             params.put("coupon_id", mCoupon.id);
         params.put("remark", edit_summary.getText().toString());
-        params.put("type", order.type);
-        params.put("address", order.address);
+        params.put("type", mOrderBean.type);
+        params.put("address", mOrderBean.address);
         params.put("taxi_cost", taxiFee);
-        params.put("order_price", order.nailInfoBean.price);
-        params.put("real_pay", order.realPrice);
+        params.put("order_price", mOrderBean.nailInfoBean.price);
+        params.put("real_pay", pay_price);
         params.put("pay_method", "");
-        params.put("book_date", order.book_date);
-        params.put("time_block", order.time_block);
-        params.put("contact", order.contact);
-        params.put("phone_num", order.mobile);
+        params.put("book_date", mOrderBean.book_date);
+        params.put("time_block", mOrderBean.time_block);
+        params.put("contact", mOrderBean.contact);
+        params.put("phone_num", mOrderBean.mobile);
 
         FingerHttpClient.post("postOrder", params, new FingerHttpHandler() {
             @Override
@@ -169,12 +247,55 @@ public class OrderConfirm extends BaseActivity {
                                 finish();
                             }
                         })
-                        .setNegativeButton(R.string.cancel, null)
+                        .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                finish();
+                            }
+                        })
                         .show()
                 ;
 
             }
         });
+    }
+
+    class CouponAdapter extends BaseAdapter {
+
+        @Override
+        public int getCount() {
+            return couponBeans.size();
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return couponBeans.get(position);
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+
+            if (convertView == null) {
+                convertView = View.inflate(OrderConfirm.this, R.layout.coupon_list, null);
+            }
+
+            CouponBean bean = couponBeans.get(position);
+            TextView title = (TextView) convertView.findViewById(R.id.title);
+            TextView price = (TextView) convertView.findViewById(R.id.price);
+
+            title.setText(bean.title);
+            if (!TextUtils.isEmpty(bean.price)) {
+                price.setText(getString(R.string.s_price, bean.price));
+            } else {
+                price.setText(null);
+            }
+            return convertView;
+        }
     }
 
 }

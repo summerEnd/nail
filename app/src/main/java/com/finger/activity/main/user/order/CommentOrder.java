@@ -25,7 +25,6 @@ public class CommentOrder extends AddImageActivity implements RadioGroup.OnCheck
 
     class CommentBean {
         public String product_id;
-
     }
 
     RadioGroup comment_group;
@@ -77,6 +76,7 @@ public class CommentOrder extends AddImageActivity implements RadioGroup.OnCheck
         RequestParams params = new RequestParams();
         params.put("product_id", bean.product_id);
         params.put("mid", bean.mid);
+        params.put("order_id", bean.id);
         params.put("grade", grade);
         params.put("professional", pro);
         params.put("talk", talk);

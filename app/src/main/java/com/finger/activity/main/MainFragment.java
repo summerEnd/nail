@@ -11,7 +11,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,12 +25,11 @@ import com.baidu.location.BDLocation;
 import com.finger.activity.FingerApp;
 import com.finger.R;
 import com.finger.activity.base.BaseActivity;
-import com.finger.activity.setting.LocationActivity;
 import com.finger.activity.info.NailListActivity;
 import com.finger.activity.info.ArtistInfoList;
 import com.finger.activity.plan.PlanActivity;
+import com.finger.service.LocationService;
 import com.finger.support.Constant;
-import com.finger.api.BaiduAPI;
 import com.finger.entity.AdsBean;
 import com.finger.entity.CityBean;
 import com.finger.entity.HotTagBean;
@@ -42,7 +40,6 @@ import com.finger.support.util.Dimension;
 import com.finger.support.widget.ArtistItem;
 import com.finger.support.widget.SearchWindow;
 import com.loopj.android.http.RequestParams;
-import com.sp.lib.util.ClickFullScreen;
 import com.sp.lib.util.FileUtil;
 import com.sp.lib.util.ImageManager;
 
@@ -53,9 +50,9 @@ import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
-/**
- * Created by acer on 2014/12/10.
- */
+import static com.finger.service.LocationService.LocationConnection;
+
+
 public class MainFragment extends Fragment implements View.OnClickListener {
     RadioGroup dot_group;
     ViewPager  switch_banner;
@@ -65,6 +62,7 @@ public class MainFragment extends Fragment implements View.OnClickListener {
     TextView title_city;
 
     ArrayList<AdsBean> ads = new ArrayList<AdsBean>();
+    private LocationConnection conn;
 
 
     class ArtistBean {
@@ -108,7 +106,11 @@ public class MainFragment extends Fragment implements View.OnClickListener {
                     //如果当前没有定位到城市，就写入一个默认的城市
                     FingerApp app = FingerApp.getInstance();
                     if (TextUtils.isEmpty(app.getCurCity().name)) {
-                        app.setCurCity(cities.get(0));
+                        if (cities.size() > 1) {
+                            app.setCurCity(cities.get(1));
+                        } else if (cities.size() > 0) {
+                            app.setCurCity(cities.get(0));
+                        }
                     }
                     setCity();
                     //讲banner添加
@@ -163,16 +165,23 @@ public class MainFragment extends Fragment implements View.OnClickListener {
             title_city.setText(cityBean.name);
             return;
         }
-        BDLocation mBDLocation = BaiduAPI.mBDLocation;
+        BDLocation mBDLocation = LocationService.mBDLocation;
         if (mBDLocation != null) {
             title_city.setText(mBDLocation.getCity());
+            FingerApp.getInstance().getCurCity().city_code = mBDLocation.getCityCode();
+            FingerApp.getInstance().getCurCity().name = mBDLocation.getCity();
         } else {
-            BaiduAPI.locate(new BaiduAPI.Callback() {
+            conn = new LocationConnection() {
                 @Override
-                public void onLocated(BDLocation bdLocation) {
-                    title_city.setText(bdLocation.getCity());
+                public void onLocated(BDLocation location) {
+                    title_city.setText(location.getCity());
+                    FingerApp.getInstance().getCurCity().city_code = location.getCityCode();
+                    FingerApp.getInstance().getCurCity().name = location.getCity();
                 }
-            });
+            };
+            getActivity()
+                    .bindService(new Intent(getActivity(), LocationService.class), conn, Context.BIND_AUTO_CREATE);
+
         }
     }
 
@@ -195,6 +204,14 @@ public class MainFragment extends Fragment implements View.OnClickListener {
         imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
         ImageManager.loadImage(url, imageView);
         images.add(imageView);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (conn!=null){
+            getActivity().unbindService(conn);
+        }
     }
 
     /**

@@ -65,6 +65,7 @@
     <dimen name="search_horizontal_spacing">11dp</dimen>
     <dimen name="order_image_margin">8dp</dimen>
     <dimen name="order_btn_spacing">7dp</dimen>
+    <dimen name="order_item_height">45dp</dimen>
 
     <style name="click_item_padding">
         <item name="android:paddingTop">13dp</item>

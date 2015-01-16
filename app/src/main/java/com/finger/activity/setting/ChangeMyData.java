@@ -18,8 +18,6 @@ import com.finger.support.Constant;
 import com.finger.entity.RoleBean;
 import com.finger.support.net.FingerHttpClient;
 import com.finger.support.net.FingerHttpHandler;
-import com.finger.support.util.ContextUtil;
-import com.finger.support.util.DialogUtil;
 import com.finger.support.util.Logger;
 import com.loopj.android.http.RequestParams;
 import com.nostra13.universalimageloader.core.assist.FailReason;
@@ -37,7 +35,7 @@ public class ChangeMyData extends BaseActivity {
     EditText  edit_nick;
     TextView  edit_phone;
     ImageView iv_avatar;
-    String    imageUrl;
+    String    displayAvatarUrl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,14 +51,20 @@ public class ChangeMyData extends BaseActivity {
     void setUserData() {
         RoleBean bean = getApp().getUser();
         //设置头像
-        loadAvatar(bean.avatar);
+        displayAvatar(bean.avatar);
 
         edit_nick.setText(bean.username);
         edit_phone.setText(bean.mobile);
         ((TextView) findViewById(R.id.tv_nick_name)).setText(bean.username);
     }
 
-    void loadAvatar(String uri) {
+    /**
+     * 加载头像
+     *
+     * @param uri
+     */
+    void displayAvatar(String uri) {
+        displayAvatarUrl = uri;
         ImageManager.loadImage(uri, new SimpleImageLoadingListener() {
             @Override
             public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
@@ -121,8 +125,8 @@ public class ChangeMyData extends BaseActivity {
                 @Override
                 public void onSuccess(JSONObject o) {
                     try {
-                        imageUrl = o.getString("data");
-                        loadAvatar(imageUrl);
+                        displayAvatarUrl = o.getString("data");
+                        displayAvatar(displayAvatarUrl);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -133,13 +137,16 @@ public class ChangeMyData extends BaseActivity {
         }
     }
 
+    /**
+     * 更新用户信息
+     */
     void updateInfo() {
         RequestParams params = new RequestParams();
         final String username = edit_nick.getText().toString();
         final RoleBean user = getApp().getUser();
 
         params.put("username", username);
-        params.put("avatar", imageUrl);
+        params.put("avatar", displayAvatarUrl);
         params.put("uid", user.id);
         params.put("type", user.getType());
 
@@ -159,7 +166,7 @@ public class ChangeMyData extends BaseActivity {
                     builder.setTitle(R.string.modify_ok);
                     builder.show();
                 } else {
-                    user.avatar = imageUrl;
+                    user.avatar = displayAvatarUrl;
                 }
                 setUserData();
 

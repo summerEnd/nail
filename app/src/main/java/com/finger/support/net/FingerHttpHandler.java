@@ -10,10 +10,17 @@ public abstract class FingerHttpHandler {
     public abstract void onSuccess(JSONObject o);
 
     /**
-     * 当网络异常，或者返回数据code不为100
+     * 返回数据code不为100
      * @param o
      */
     public  void onFail(JSONObject o){
 
     };
+
+    /**
+     * 网络异常,或者返回Json格式错误
+     */
+    public void onNetException(){
+
+    }
 }

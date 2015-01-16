@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:gravity="center_vertical"
+    android:background="@drawable/click_whit_bg"
+    android:padding="6dp"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:src="@drawable/ic_launcher"
+        android:id="@+id/icon"/>
+
+    <CheckedTextView
+
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_marginLeft="6dp"
+        android:layout_height="match_parent"
+        android:gravity="center_vertical"
+        android:text="支付宝"
+        android:checkMark="@drawable/check_mark_1"
+        android:id="@+id/name"/>
+
+</LinearLayout>

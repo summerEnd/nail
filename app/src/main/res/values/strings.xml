@@ -150,5 +150,15 @@
     <string name="publish_ok">发布成功</string>
     <string name="continue_publish">继续发布</string>
     <string name="search_failed">搜索失败</string>
+    <string name="refund_ok">退款成功</string>
+    <string name="net_failed">网络错误</string>
+    <string name="get_coupon">领优惠券</string>
+    <string name="share_coupon_notice">亲，您分享之后可以领取一张优惠券哦！</string>
+    <string name="share">分享</string>
+    <string name="share_ok">分享成功</string>
+    <string name="get_ok">领取成功</string>
+    <string name="get_now">立即领取</string>
+    <string name="check_now">立即查看</string>
+    <string name="not_use_coupon">不使用优惠券</string>
 
 </resources>

@@ -316,10 +316,36 @@ public class Schedule extends PopupWindow implements ViewPager.OnPageChangeListe
                 }
             }
 
-            holder.tv_time.setText(String.format("%d:00~%d:00", position * 2 + 9, position * 2 + 11));
+            holder.tv_time.setText(convertTimeBlock(position+1));
             convertView.setTag(holder);
             return convertView;
         }
+    }
+
+    /**
+     * 将time_block转化为时间段
+     *
+     * @param time_block
+     * @return
+     */
+    public static String convertTimeBlock(int time_block) {
+        int start = time_block * 2 + 7;
+        return new StringBuilder()
+                .append(start)
+                .append(":00~")
+                .append(start + 2)
+                .append(":00")
+                .toString();
+    }
+
+    /**
+     * 根据book_date和time_block得出预约时间
+     * @param book_date
+     * @param time_block
+     * @return
+     */
+    public static String convertPlanTime(String book_date,int time_block){
+        return book_date+" "+convertTimeBlock(time_block);
     }
 
     static class ViewHolder {

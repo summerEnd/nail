@@ -20,6 +20,7 @@ import com.finger.api.BaiduAPI;
 import com.finger.entity.ArtistRole;
 import com.finger.entity.RoleBean;
 import com.finger.entity.UserRole;
+import com.finger.service.LocationService;
 import com.finger.support.Constant;
 import com.finger.support.net.FingerHttpClient;
 import com.finger.support.net.FingerHttpHandler;
@@ -39,7 +40,7 @@ public class LoginActivity extends BaseActivity implements RadioGroup.OnCheckedC
     ArtistLogin     ARTIST;
     UserLogin       USER;
     FragmentManager manager;
-
+    private LocationService.LocationConnection conn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +74,8 @@ public class LoginActivity extends BaseActivity implements RadioGroup.OnCheckedC
         params.put("type", type);
 
         FingerHttpClient.post("login", params, new FingerHttpHandler() {
+
+
             @Override
             public void onSuccess(JSONObject o) {
 
@@ -89,18 +92,27 @@ public class LoginActivity extends BaseActivity implements RadioGroup.OnCheckedC
                     bean = JsonUtil.get(user.toString(), UserRole.class);
                 }
                 bean.password = password;
+
                 //设置登录用户信息
                 getApp().setUser(bean);
                 //登录完成，定位当前位置
                 if (type.equals(Constant.LOGIN_TYPE_ARTIST)) {
-                    BDLocation location = BaiduAPI.mBDLocation;
-                    if (location != null) {
-                        FingerApp.getInstance().updatePosition(location.getLatitude(), location.getLongitude());
-                    }
-                }
 
-                setResult(RESULT_OK);
-                finish();
+                   conn = new LocationService.LocationConnection() {
+                        @Override
+                        public void onLocated(BDLocation location) {
+                            setResult(RESULT_OK);
+                            finish();
+                        }
+                    };
+
+                    //更新位置，LocationService中会自动更新美甲师当前位置
+                    bindService(new Intent(LoginActivity.this, LocationService.class), conn, BIND_AUTO_CREATE);
+
+                } else {
+                    setResult(RESULT_OK);
+                    finish();
+                }
             }
 
             @Override
@@ -213,6 +225,14 @@ public class LoginActivity extends BaseActivity implements RadioGroup.OnCheckedC
                     break;
                 }
             }
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (conn!=null){
+            unbindService(conn);
         }
     }
 }

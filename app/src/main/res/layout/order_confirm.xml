@@ -180,51 +180,80 @@
                 style="@style/horizontal_line"
                 android:layout_marginTop="@dimen/order_confirm_margin_top"/>
 
-            <TableLayout
-                android:layout_width="match_parent"
+
+            <LinearLayout
                 android:background="@color/white"
-                android:layout_height="wrap_content">
+                android:layout_width="match_parent"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:paddingRight="@dimen/activity_horizontal_margin"
+                android:layout_height="@dimen/order_item_height"
+                android:gravity="center_vertical">
 
-                <TableRow style="@style/order_confirm_item_style">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/order_confirm_item_name"
+                    android:text="优惠券"/>
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/choose_coupon"
+                    android:clickable="true"
+                    android:onClick="onClick"
+                    android:gravity="center_vertical"
+                    android:background="@drawable/rect_frame"
+                    android:layout_marginLeft="14dp"
+                    >
 
                     <TextView
-                        style="@style/order_confirm_item_name"
-                        android:text="优惠券"/>
-
-                    <Button
-                        android:id="@+id/btn_choose"
-                        style="@style/button_mid"
+                        android:id="@+id/tv_coupon"
+                        android:gravity="center"
                         android:text="选择优惠券"
+                        android:layout_marginLeft="6dp"
+                        android:layout_marginRight="6dp"
+                        android:singleLine="false"
                         android:textSize="@dimen/textSize_dp_24px"
-                        android:visibility="visible"
-                        android:layout_height="28dp"
+                        android:layout_height="wrap_content"
                         android:layout_width="100dp"
-                        android:layout_marginLeft="14dp"/>
-
-                    <TextView
-                        android:id="@+id/choose_coupon"
-                        android:visibility="gone"
-                        style="@style/order_confirm_item_value"
-                        android:text="中秋节优惠券"/>
-                </TableRow>
-
-                <TextView style="@style/horizontal_line"/>
-
-                <TableRow style="@style/order_confirm_item_style">
-
-                    <TextView
-                        style="@style/order_confirm_item_name"
-                        android:text="车    费"/>
-
-                    <TextView
-                        android:text="@string/getting"
-                        android:id="@+id/tv_taxi_fee"
-                        style="@style/order_confirm_item_value"
                         />
-                </TableRow>
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/order_arrow"/>
+
+                </LinearLayout>
 
 
-            </TableLayout>
+            </LinearLayout>
+
+            <TextView style="@style/horizontal_line"/>
+
+            <LinearLayout
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:paddingRight="@dimen/activity_horizontal_margin"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/order_item_height"
+                android:background="@color/white"
+                android:gravity="center_vertical">
+
+                <TextView
+                    style="@style/order_confirm_item_name"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:text="车    费"/>
+
+                <TextView
+                    android:text="@string/getting"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:id="@+id/tv_taxi_fee"
+                    style="@style/order_confirm_item_value"
+                    />
+            </LinearLayout>
+
 
             <TextView style="@style/horizontal_line"/>
 
@@ -243,15 +272,12 @@
 
             <TextView style="@style/horizontal_line"/>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="选择支付方式"
-                android:textColor="#3a3a3a"
-                android:layout_marginTop="@dimen/order_confirm_margin_top"
-                android:layout_marginBottom="@dimen/order_confirm_margin_top"
-                android:textSize="@dimen/textSize_dp_36px"
-                android:layout_gravity="center_horizontal"/>
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:id="@+id/frag_container"
+                android:layout_height="wrap_content"/>
+
+
 
             <Button
                 style="@style/button_large"
