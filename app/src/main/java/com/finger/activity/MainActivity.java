@@ -78,20 +78,22 @@ public class MainActivity extends BaseActivity {
                 .add(R.id.frag_container, fragments[0])
                 .commit();
         changeTab(0);
-
     }
 
+    //tab被点击时触发的事件
     public void onTabClick(View v) {
-        Logger.d("login?==" + getApp().isLogin());
+
         int id = v.getId();
+        //记录点击的tab
         clicked_tab = v;
         switch (id) {
             case R.id.tab1:
+                //首页
                 changeTab(0);
                 showFragment(0);
                 break;
             case R.id.tab2: {
-
+                //订单
                 if (!checkLogin()) {
                     return;
                 }
@@ -112,6 +114,8 @@ public class MainActivity extends BaseActivity {
                 break;
             }
             case R.id.tab3: {
+
+                //我的
                 if (!checkLogin()) {
                     return;
                 }
@@ -131,6 +135,7 @@ public class MainActivity extends BaseActivity {
                 break;
             }
             case R.id.tab4: {
+                //客服
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 builder.setMessage(getString(R.string.alert_msg_call_service));
                 builder.setTitle(getString(R.string.call_service));

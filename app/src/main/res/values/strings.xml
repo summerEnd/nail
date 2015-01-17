@@ -160,5 +160,9 @@
     <string name="get_now">立即领取</string>
     <string name="check_now">立即查看</string>
     <string name="not_use_coupon">不使用优惠券</string>
+    <string name="not_open_city">%s暂时还没有开通服务</string>
+    <string name="not_choose_this_city">不能选择该城市！</string>
+    <string name="artist_cannot_plan">美甲师不能预约</string>
+    <string name="know">我知道了</string>
 
 </resources>

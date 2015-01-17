@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="wrap_content"
+              android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="测试字体颜色"
+        android:textSize="16sp"
+        android:layout_margin="3dp"
+        android:layout_gravity="center_horizontal"
+        android:id="@+id/tv_test"/>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <NumberPicker
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/pick_r"
+            />
+
+        <NumberPicker
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/pick_g"
+            />
+
+        <NumberPicker
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/pick_b"
+            />
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/yes"
+        android:layout_width="match_parent"
+        android:text="确定"
+        android:layout_height="wrap_content"/>
+</LinearLayout>

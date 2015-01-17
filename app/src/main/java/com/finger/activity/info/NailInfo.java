@@ -130,8 +130,10 @@ public class NailInfo extends BaseActivity {
         tv_comment_num.setText(getString(R.string.d_num, bean.comment_num));
         ImageManager.loadImage(bean.cover, cover);
         //设置作品图片大小，长宽与屏幕宽度相等
-        if (!TextUtils.isEmpty(bean.cover))
+        if (!TextUtils.isEmpty(bean.cover)){
             cover.setLayoutParams(new LinearLayout.LayoutParams(ItemUtil.halfScreen * 2, ItemUtil.halfScreen * 2));
+        }
+
         cb_collect.setChecked(bean.collection_id != 0);
 
         //获取美甲师信息
@@ -151,10 +153,10 @@ public class NailInfo extends BaseActivity {
                 iv_avatar.setImageBitmap(ImageUtil.roundBitmap(loadedImage, getResources().getDimensionPixelSize(R.dimen.avatar_size)));
             }
         });
-        RoleBean role = getApp().getUser();
 
+        RoleBean role = getApp().getUser();
         //根据作品对应的美甲师id与当前登录的美甲师id是否相等，来显示或隐藏底部按钮
-        if (role instanceof ArtistRole && seller_info.uid == role.id) {
+        if (role instanceof ArtistRole) {
             findViewById(R.id.choose_nail).setVisibility(View.INVISIBLE);
         } else {
             findViewById(R.id.choose_nail).setVisibility(View.VISIBLE);

@@ -61,7 +61,7 @@ public class PlanForOther extends PlanFragment implements View.OnClickListener {
                         bean = OrderManager.createOrder();
                     }
                     bean.address = edit_address.getContent();
-                    bean.planTime = edit_plan_time.getContent();
+                    bean.planTime = planTime;
                     bean.contact = edit_contact.getContent();
                     bean.mobile = edit_mobile.getContent();
                     bean.time_block = time_block;

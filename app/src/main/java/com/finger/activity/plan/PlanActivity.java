@@ -176,7 +176,7 @@ public class PlanActivity extends BaseActivity implements RadioGroup.OnCheckedCh
                 ContextUtil.toast(R.string.input_mobile);
                 return;
             }
-            if (TextUtils.isEmpty(bean.address)) {
+            if (bean.addressSearchBean==null||TextUtils.isEmpty(bean.address)) {
                 ContextUtil.toast(R.string.input_address);
                 return;
             }

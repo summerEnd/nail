@@ -1,16 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+                android:layout_width="match_parent"
+                android:background="#423E4D"
+                android:layout_height="match_parent">
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textColor="#2e2"
+        android:padding="4dp"
         android:layout_toLeftOf="@+id/button_contain"
         android:text="2014-4-4 12:90:11"
-        android:id="@+id/tv_time" />
+        android:id="@+id/tv_time"/>
 
     <ScrollView
         android:layout_below="@+id/tv_time"
@@ -20,12 +22,13 @@
 
 
         <TextView
+            android:padding="4dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="#ff2222"
             android:text="1111"
             android:layout_toLeftOf="@+id/button_contain"
-            android:id="@+id/tv_logs" />
+            android:id="@+id/tv_logs"/>
     </ScrollView>
 
     <LinearLayout
@@ -46,35 +49,55 @@
             android:layout_height="wrap_content"
             android:textSize="15sp"
             android:textColor="#fff"
-            android:text="0/0" />
+            android:text="0/0"/>
 
         <Button
             android:id="@+id/delete"
             android:onClick="onDelete"
+            style="@style/debug_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="删除" />
+            android:text="删    除"/>
 
         <Button
             android:id="@+id/next"
             android:onClick="onNext"
+            style="@style/debug_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="前进" />
+            android:text="下一个"/>
 
         <Button
             android:id="@+id/prev"
             android:onClick="onPrev"
+            style="@style/debug_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="后退" />
+            android:text="上一个"/>
 
         <Button
             android:id="@+id/send"
             android:onClick="onSend"
+            style="@style/debug_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="发送" />
+            android:text="发    送"/>
+
+        <Button
+            android:id="@+id/clear"
+            android:onClick="onClear"
+            style="@style/debug_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="清    空"/>
+
+        <Button
+            android:id="@+id/color"
+            style="@style/debug_button"
+            android:onClick="onColor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="颜    色"/>
     </LinearLayout>
 
 </RelativeLayout>

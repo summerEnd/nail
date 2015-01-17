@@ -13,6 +13,8 @@ import com.finger.R;
 import com.finger.activity.info.NailInfo;
 import com.finger.entity.NailInfoBean;
 import com.finger.support.util.ContextUtil;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.sp.lib.util.ImageManager;
 
 /**
@@ -20,16 +22,17 @@ import com.sp.lib.util.ImageManager;
  */
 public class NailItem extends LinearLayout {
 
-    String imageUrl;
-    String title;
-    String price;
-    int drawableId;
-    int imageSize;
-    TextView tv_title;
-    TextView tv_price;
-    ImageView iv;
-    View contentView;
-    NailInfoBean infoBean;
+    String              imageUrl;
+    String              title;
+    String              price;
+    int                 drawableId;
+    int                 imageSize;
+    TextView            tv_title;
+    TextView            tv_price;
+    ImageView           iv;
+    View                contentView;
+    NailInfoBean        infoBean;
+    DisplayImageOptions options;
 
     public NailItem(Context context) {
         super(context);
@@ -55,14 +58,14 @@ public class NailItem extends LinearLayout {
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         int width = MeasureSpec.getSize(widthMeasureSpec);
-        int width_mode=MeasureSpec.getMode(widthMeasureSpec);
-        if (width_mode==MeasureSpec.EXACTLY){
-            imageSize=width;
-            setMeasuredDimension(width,width);
+        int width_mode = MeasureSpec.getMode(widthMeasureSpec);
+        if (width_mode == MeasureSpec.EXACTLY) {
+            imageSize = width;
+            setMeasuredDimension(width, width);
             int childSpec = MeasureSpec.makeMeasureSpec(width, MeasureSpec.EXACTLY);
-            getChildAt(0).measure(childSpec,childSpec);
-        }else{
-            super.onMeasure(widthMeasureSpec,heightMeasureSpec);
+            getChildAt(0).measure(childSpec, childSpec);
+        } else {
+            super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         }
     }
 
@@ -73,10 +76,19 @@ public class NailItem extends LinearLayout {
      * @param infoBean
      */
     public void setInfoBean(NailInfoBean infoBean) {
+        if (options == null) {
+            options = new DisplayImageOptions.Builder()
+                    .imageScaleType(ImageScaleType.IN_SAMPLE_INT)
+                    .showImageForEmptyUri(R.drawable.onLoadImage)
+                    .showImageOnFail(R.drawable.onLoadImage)
+                    .showImageOnLoading(R.drawable.loading)
+                    .cacheInMemory(true).cacheOnDisc(true).build();
+        }
+
         this.infoBean = infoBean;
-        setPrice(getContext().getString(R.string.s_price,infoBean.price));
+        setPrice(getContext().getString(R.string.s_price, infoBean.price));
         setTitle(infoBean.name);
-        ImageManager.loadImage(infoBean.cover, iv, ContextUtil.getSquareImgOptions());
+        ImageManager.loadImage(infoBean.cover, iv, options);
     }
 
     public void init(final Context context, AttributeSet attrs) {

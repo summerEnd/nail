@@ -1,5 +1,6 @@
 package com.finger.activity.main;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
@@ -28,6 +29,7 @@ import com.finger.activity.base.BaseActivity;
 import com.finger.activity.info.NailListActivity;
 import com.finger.activity.info.ArtistInfoList;
 import com.finger.activity.plan.PlanActivity;
+import com.finger.entity.ArtistRole;
 import com.finger.service.LocationService;
 import com.finger.support.Constant;
 import com.finger.entity.AdsBean;
@@ -47,6 +49,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -103,16 +106,11 @@ public class MainFragment extends Fragment implements View.OnClickListener {
                     FileUtil.saveFile(getActivity(), Constant.FILE_CITIES, cities);
                     //将热门标签写入文件
                     FileUtil.saveFile(getActivity(), Constant.FILE_TAGS, tags);
-                    //如果当前没有定位到城市，就写入一个默认的城市
-                    FingerApp app = FingerApp.getInstance();
-                    if (TextUtils.isEmpty(app.getCurCity().name)) {
-                        if (cities.size() > 1) {
-                            app.setCurCity(cities.get(1));
-                        } else if (cities.size() > 0) {
-                            app.setCurCity(cities.get(0));
-                        }
-                    }
-                    setCity();
+
+                    //设置定位城市
+                    setLocationCity(cities);
+
+
                     //讲banner添加
                     for (AdsBean bean : ads) {
                         addBanner(bean.cover);
@@ -131,6 +129,21 @@ public class MainFragment extends Fragment implements View.OnClickListener {
         });
     }
 
+    /**
+     * 设置定位城市，如果定位失败就从城市列表中取一个
+     */
+    void setLocationCity(List<CityBean> cities) {
+        FingerApp app = FingerApp.getInstance();
+        if (TextUtils.isEmpty(app.getCurCity().name)) {
+            if (cities.size() > 1) {
+                //取南京
+                app.setCurCity(cities.get(1));
+            } else if (cities.size() > 0) {
+                app.setCurCity(cities.get(0));
+            }
+        }
+        setCityIfExists();
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -152,19 +165,22 @@ public class MainFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onResume() {
         super.onResume();
-        setCity();
+        setCityIfExists();
     }
 
     /**
      * 设置城市
      */
-    void setCity() {
+    void setCityIfExists() {
         FingerApp app = ((BaseActivity) getActivity()).getApp();
         CityBean cityBean = app.getCurCity();
+        //如果城市名不为空，代表定位成功
         if (!TextUtils.isEmpty(cityBean.name)) {
             title_city.setText(cityBean.name);
             return;
         }
+
+        //没有设置定位城市，重新发起定位
         BDLocation mBDLocation = LocationService.mBDLocation;
         if (mBDLocation != null) {
             title_city.setText(mBDLocation.getCity());
@@ -209,7 +225,7 @@ public class MainFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if (conn!=null){
+        if (conn != null) {
             getActivity().unbindService(conn);
         }
     }
@@ -288,6 +304,16 @@ public class MainFragment extends Fragment implements View.OnClickListener {
 
         switch (v.getId()) {
             case R.id.plan_nail_artist: {
+                //美甲师不能预约
+                if (FingerApp.getInstance().getUser() instanceof ArtistRole) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                    builder.setTitle(R.string.warn);
+                    builder.setMessage(getString(R.string.artist_cannot_plan));
+                    builder.setPositiveButton(getString(R.string.know), null);
+                    builder.show();
+                    return;
+                }
+
                 scale(v, new Runnable() {
                     @Override
                     public void run() {

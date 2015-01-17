@@ -42,7 +42,7 @@ public class ExceptionHandler implements Thread.UncaughtExceptionHandler {
         ErrorLog log=new ErrorLog();
         log.msg=sw.toString();
         log.time=new Date().toString();
-        logs.add(log);
+        logs.add(0,log);
 
         FileUtil.saveFile(context, "debugs", logs);
         defaultHandler.uncaughtException(thread, ex);

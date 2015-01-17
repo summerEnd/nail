@@ -2,8 +2,11 @@ package com.sp.lib.activity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.DatePicker;
+import android.widget.NumberPicker;
 import android.widget.TextView;
 
 import com.sp.lib.util.FileUtil;
@@ -41,6 +44,10 @@ public class DEBUGActivity extends Activity {
         FileUtil.saveFile(this, "debugs", logs);
     }
 
+    /**
+     * 删除
+     * @param v
+     */
     public void onDelete(View v) {
         if (logs != null && curIndex >= 0 && curIndex < logs.size()) {
             logs.remove(curIndex);
@@ -49,6 +56,10 @@ public class DEBUGActivity extends Activity {
         }
     }
 
+    /**
+     * 下一个
+     * @param v
+     */
     public void onNext(View v) {
         if (logs != null) {
             curIndex++;
@@ -56,11 +67,37 @@ public class DEBUGActivity extends Activity {
         }
     }
 
+    /**
+     * 上一个
+     * @param v
+     */
     public void onPrev(View v) {
         if (logs != null) {
             curIndex--;
             showLog(curIndex);
         }
+    }
+
+    /**
+     * 清空
+     * @param v
+     */
+    public void onClear(View v){
+        logs.clear();
+        showLog(0);
+    }
+
+    public void onColor(View v){
+        SharedPreferences sp=getSharedPreferences("debug_color",MODE_PRIVATE);
+        ColorDialog dialog=new ColorDialog(this);
+        dialog.setColor(sp.getInt("color",0));
+        dialog.setPickListener(new ColorDialog.PickListener() {
+            @Override
+            public void onPick(int color) {
+                tv_logs.setTextColor(color);
+            }
+        });
+        dialog.show();
     }
 
     public void onSend(View v) {
@@ -74,16 +111,21 @@ public class DEBUGActivity extends Activity {
         if (logs == null || logs.size() == 0) {
             tv_logs.setText(null);
             tv_time.setText(null);
+            tv_page.setText(null);
             return;
         }
+
         if (index < 0) {
             index += logs.size();
         }
 
-        curIndex = index % logs.size();
-        tv_logs.setText(logs.get(curIndex).msg);
-        tv_time.setText(logs.get(curIndex).time);
-        tv_page.setText(String.format("%d/%d", curIndex + 1, logs.size()));
+        if (index>=logs.size()){
+            index-=logs.size();
+        }
+
+        tv_logs.setText(logs.get(index).msg);
+        tv_time.setText(logs.get(index).time);
+        tv_page.setText(String.format("%d/%d", index + 1, logs.size()));
     }
 
 }
