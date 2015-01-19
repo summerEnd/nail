@@ -276,9 +276,6 @@
                 android:layout_width="match_parent"
                 android:id="@+id/frag_container"
                 android:layout_height="wrap_content"/>
-
-
-
             <Button
                 style="@style/button_large"
                 android:id="@+id/commit"

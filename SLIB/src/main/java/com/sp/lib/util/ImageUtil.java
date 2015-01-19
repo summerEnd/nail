@@ -48,7 +48,8 @@ public class ImageUtil {
      * 保存方法
      */
     public static Uri saveBitmap(Bitmap bm, String picName) {
-        if (TextUtils.isEmpty(picName) || bm == null) return null;
+        if (TextUtils.isEmpty(picName) || bm == null)
+            return null;
         File f = new File(getImageDir(), picName);
 
         try {
@@ -60,10 +61,8 @@ public class ImageUtil {
             out.flush();
             out.close();
         } catch (FileNotFoundException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         return Uri.fromFile(f);
@@ -117,7 +116,7 @@ public class ImageUtil {
                             ? Bitmap.Config.ARGB_8888
                             : Bitmap.Config.RGB_565);
             Canvas canvas = new Canvas(src);
-            drawable.setBounds(0,0,output_size,output_size);
+            drawable.setBounds(0, 0, output_size, output_size);
             drawable.draw(canvas);
         }
         int src_w = src.getWidth();
@@ -136,7 +135,7 @@ public class ImageUtil {
         paint.setAntiAlias(true);
         Bitmap result = Bitmap.createBitmap(output_size, output_size, Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(result);
-//        canvas.drawARGB(0,0,0,0);//背景透明效果
+        //        canvas.drawARGB(0,0,0,0);//背景透明效果
         canvas.drawCircle(radius, radius, radius, paint);
         paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
 
@@ -148,7 +147,8 @@ public class ImageUtil {
         canvas.drawBitmap(resizeSrc, 0, 0, paint);
         canvas.restore();
 
-        if (result != resizeSrc && !resizeSrc.isRecycled()) resizeSrc.recycle();
+        if (result != resizeSrc && !resizeSrc.isRecycled())
+            resizeSrc.recycle();
 
         return result;
     }

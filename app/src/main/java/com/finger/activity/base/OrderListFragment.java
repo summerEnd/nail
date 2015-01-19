@@ -53,12 +53,11 @@ public class OrderListFragment extends ListFragment implements ListController.Ca
         OrderAdapter adapter = (OrderAdapter) getListView().getAdapter();
         adapter.getData().clear();
         adapter.notifyDataSetChanged();
-
     }
 
     @Override
     public void onHiddenChanged(boolean hidden) {
-        if (!hidden){
+        if (!hidden) {
             clearList();
             getOrderList(1);
         }
@@ -83,7 +82,8 @@ public class OrderListFragment extends ListFragment implements ListController.Ca
      */
     public void getOrderList(int page) {
         RequestParams params = new RequestParams();
-        if (status!=null)params.put("status", status);
+        if (status != null)
+            params.put("status", status);
 
         RoleBean bean = FingerApp.getInstance().getUser();
 

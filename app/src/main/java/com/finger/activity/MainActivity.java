@@ -18,6 +18,7 @@ import com.finger.activity.main.MainFragment;
 import com.finger.activity.main.artist.my.MyFragment;
 import com.finger.activity.main.artist.order.OrderFragment;
 import com.finger.activity.main.user.my.MyDiscountActivity;
+import com.finger.entity.BaseInfo;
 import com.finger.service.LocationService;
 import com.finger.support.Constant;
 import com.finger.support.net.FingerHttpClient;
@@ -42,11 +43,12 @@ public class MainActivity extends BaseActivity {
     TextView  tvs[]       = new TextView[4];
     public static final int REQUEST_SHARE = 112;
     /**
-     * fragments[0] {@link com.finger.activity.main.MainFragment}
-     * fragments[1] {@link com.finger.activity.main.user.order.OrderFragment}
-     * fragments[2] {@link com.finger.activity.main.user.my.MyFragment}
-     * fragments[3] {@link com.finger.activity.main.artist.order.OrderFragment}
-     * fragments[4] {@link com.finger.activity.main.artist.my.MyFragment}
+     * fragments[0] 首页 {@link com.finger.activity.main.MainFragment}
+     * fragments[1]  用户订单 {@link com.finger.activity.main.user.order.OrderFragment}
+     * fragments[2] 用户个人中心{@link com.finger.activity.main.user.my.MyFragment}
+     *
+     * fragments[3] 美甲师订单{@link com.finger.activity.main.artist.order.OrderFragment}
+     * fragments[4] 美甲师个人中心{@link com.finger.activity.main.artist.my.MyFragment}
      */
     Fragment[] fragments = new Fragment[5];
 
@@ -136,13 +138,15 @@ public class MainActivity extends BaseActivity {
             }
             case R.id.tab4: {
                 //客服
+                final BaseInfo baseInfo=FingerApp.getInstance().getBaseInfo();
+
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 builder.setMessage(getString(R.string.alert_msg_call_service));
-                builder.setTitle(getString(R.string.call_service));
+                builder.setTitle(getString(R.string.call_service,baseInfo.service_tel));
                 builder.setPositiveButton(R.string.call_number, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Intent intent = IntentFactory.callPhone("12345679");
+                        Intent intent = IntentFactory.callPhone(baseInfo.service_tel);
                         startActivity(intent);
                     }
                 });
@@ -270,8 +274,16 @@ public class MainActivity extends BaseActivity {
                         showCheckCoupon();
                     }
                 }
-
         );
+    }
+
+    @Override
+    protected void onResumeFragments() {
+        if (curIndex ==1){
+            ((com.finger.activity.main.user.order.OrderFragment) fragments[1]).refresh();
+        }else if (curIndex ==3){
+            ((OrderFragment) fragments[3]).refresh();
+        }
     }
 
     /**
@@ -280,7 +292,7 @@ public class MainActivity extends BaseActivity {
     void showCheckCoupon() {
         new AlertDialog.Builder(MainActivity.this)
                 .setTitle(getString(R.string.get_ok))
-                .setMessage("恭喜您成功领取一张优惠券")
+                .setMessage(getString(R.string.coupon_notice))
                 .setPositiveButton(getString(R.string.check_now), new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
@@ -310,7 +322,6 @@ public class MainActivity extends BaseActivity {
         super.onResume();
         if (sholdReturnHome) {
             returnHome();
-
             sholdReturnHome = false;
         }
     }
@@ -321,7 +332,6 @@ public class MainActivity extends BaseActivity {
     void returnHome() {
         showFragment(0);
         changeTab(0);
-
     }
 
     @Override

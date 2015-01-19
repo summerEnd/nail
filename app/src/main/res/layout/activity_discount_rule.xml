@@ -13,6 +13,7 @@
         android:src="@drawable/taxi_fee" />
 
     <TextView
+        android:id="@+id/coupon_text"
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:layout_margin="@dimen/activity_horizontal_margin"

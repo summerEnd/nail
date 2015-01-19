@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.GridView;
@@ -29,7 +30,8 @@ import java.util.ArrayList;
 
 public class SearchWindow extends PopupWindow implements View.OnTouchListener, View.OnClickListener {
     private Activity activity;
-    EditText edit_key;
+    EditText              edit_key;
+    ArrayList<HotTagBean> tags;
 
     public SearchWindow(Activity context) {
         super(context);
@@ -52,7 +54,8 @@ public class SearchWindow extends PopupWindow implements View.OnTouchListener, V
         setFocusable(true);
         setContentView(v);
         GridView gridView = (GridView) v.findViewById(R.id.grid);
-        ArrayList<HotTagBean> tags = (ArrayList<HotTagBean>) FileUtil.readFile(context, Constant.FILE_TAGS);
+        gridView.setOnItemClickListener(onCategoryClicked);
+        tags = (ArrayList<HotTagBean>) FileUtil.readFile(context, Constant.FILE_TAGS);
         gridView.setOnTouchListener(this);
         if (tags != null)
             gridView.setAdapter(new TagAdapter(context, tags));
@@ -61,6 +64,17 @@ public class SearchWindow extends PopupWindow implements View.OnTouchListener, V
     public void show(View parent) {
         showAsDropDown(parent, -4, 0);
     }
+
+    private AdapterView.OnItemClickListener onCategoryClicked = new AdapterView.OnItemClickListener() {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            Context context = view.getContext();
+            int category_id = tags == null ? 0 : tags.get(position).id;
+            context.startActivity(new Intent(context, SearchResult.class)
+                            .putExtra(SearchResult.EXTRA_CATEGORY_ID, category_id)
+            );
+        }
+    };
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {
@@ -73,7 +87,6 @@ public class SearchWindow extends PopupWindow implements View.OnTouchListener, V
             case R.id.search: {
                 Context context = v.getContext();
                 context.startActivity(new Intent(context, SearchResult.class)
-                                .putExtra(SearchResult.EXTRA_CATEGORY_ID, 0)
                                 .putExtra(SearchResult.EXTRA_KEY, edit_key.getText().toString())
                 );
                 break;

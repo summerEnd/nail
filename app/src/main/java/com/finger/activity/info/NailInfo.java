@@ -83,6 +83,7 @@ public class NailInfo extends BaseActivity {
         //添加删除线
         TextPainUtil.addDeleteLine(tv_shop_price);
         getProductDetail();
+        tv_comment_num.setOnClickListener(this);
     }
 
     /**
@@ -130,7 +131,7 @@ public class NailInfo extends BaseActivity {
         tv_comment_num.setText(getString(R.string.d_num, bean.comment_num));
         ImageManager.loadImage(bean.cover, cover);
         //设置作品图片大小，长宽与屏幕宽度相等
-        if (!TextUtils.isEmpty(bean.cover)){
+        if (!TextUtils.isEmpty(bean.cover)) {
             cover.setLayoutParams(new LinearLayout.LayoutParams(ItemUtil.halfScreen * 2, ItemUtil.halfScreen * 2));
         }
 
@@ -155,6 +156,7 @@ public class NailInfo extends BaseActivity {
         });
 
         RoleBean role = getApp().getUser();
+
         //根据作品对应的美甲师id与当前登录的美甲师id是否相等，来显示或隐藏底部按钮
         if (role instanceof ArtistRole) {
             findViewById(R.id.choose_nail).setVisibility(View.INVISIBLE);
@@ -193,6 +195,13 @@ public class NailInfo extends BaseActivity {
                 } else {
                     addCollection(bean.id);
                 }
+                break;
+            }
+            case R.id.tv_comment_num: {
+                startActivity(new Intent(this,CommentListActivity.class)
+                .putExtra(CommentListActivity.EXTRA_MID,bean.mid)
+                .putExtra(CommentListActivity.EXTRA_PRODUCT_ID,bean.id)
+                );
                 break;
             }
         }

@@ -18,6 +18,7 @@ import com.finger.R;
 import com.finger.activity.base.BaseActivity;
 import com.finger.support.net.FingerHttpClient;
 import com.finger.support.net.FingerHttpHandler;
+import com.finger.support.util.DialogUtil;
 import com.finger.support.util.JsonUtil;
 import com.finger.support.util.ItemUtil;
 import com.loopj.android.http.RequestParams;
@@ -111,6 +112,7 @@ public class PlanTimeActivity extends BaseActivity implements RadioGroup.OnCheck
                 try {
                     JsonUtil.getArray(o.getJSONArray("data"), TimeBlock.class, blocks);
                     buildViews();
+                    DialogUtil.alert(PlanTimeActivity.this,getString(R.string.setting_ok));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

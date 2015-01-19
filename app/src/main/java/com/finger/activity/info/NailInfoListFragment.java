@@ -13,8 +13,6 @@ import android.view.animation.RotateAnimation;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ListView;
 import android.widget.PopupWindow;
@@ -29,6 +27,7 @@ import com.finger.support.net.FingerHttpClient;
 import com.finger.support.net.FingerHttpHandler;
 import com.finger.support.util.JsonUtil;
 import com.finger.support.util.Logger;
+import com.finger.support.widget.PriceSorter;
 import com.loopj.android.http.RequestParams;
 import com.sp.lib.util.DisplayUtil;
 import com.sp.lib.util.ListController;
@@ -44,7 +43,8 @@ import java.util.List;
 public class NailInfoListFragment extends Fragment implements View.OnClickListener, ListController.Callback {
     GridView    gridView;
     PopupWindow orderList;
-    PopupWindow price_area;
+    //价格筛选
+    PriceSorter price_sorter;
     View        layout;
     int         width;
     List<NailInfoBean> beans = new LinkedList<NailInfoBean>();
@@ -52,6 +52,7 @@ public class NailInfoListFragment extends Fragment implements View.OnClickListen
     String          price;
     ListController  controller;
     NailListAdapter adapter;
+    //是否已经定位
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -128,89 +129,74 @@ public class NailInfoListFragment extends Fragment implements View.OnClickListen
         if (width == 0) {
             width = layout.findViewById(R.id.select_layout).getWidth();
         }
+            switch (v.getId()) {
+                case R.id.order_item: {
+                    if (orderList == null) {
+                        //排序方式
+                        orderList = new PopupWindow();
 
-        switch (v.getId()) {
-            case R.id.order_item: {
-                if (orderList == null) {
-                    //排序方式
-                    orderList = new PopupWindow();
+                        orderList.setWidth(width);
+                        orderList.setFocusable(true);
+                        orderList.setBackgroundDrawable(new ColorDrawable(0xffffffff));
+                        orderList.setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
+                        //排序方式
+                        final String[] sorts = new String[]{"normal", "price_asc", "price_desc"};
+                        View contentView = View.inflate(getActivity(), R.layout.order_list, null);
+                        ListView listView = (ListView) contentView.findViewById(R.id.listView);
+                        listView.setAdapter(new OrderListAdapter(getActivity(), getResources().getStringArray(R.array.orders)));
+                        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                ((OrderListAdapter) parent.getAdapter()).select(position);
+                                sort = sorts[position];
+                                orderList.dismiss();
+                                beans.clear();
+                                adapter.notifyDataSetChanged();
+                                getProductList(1);
+                            }
+                        });
+                        orderList.setContentView(contentView);
+                        orderList.setOnDismissListener(new PopupWindow.OnDismissListener() {
+                            @Override
+                            public void onDismiss() {
+                                rotate(false);
+                            }
+                        });
+                    }
+                    if (orderList.isShowing()) {
+                        orderList.dismiss();
+                    } else {
+                        openOrder(v);
+                    }
 
-                    orderList.setWidth(width);
-                    orderList.setFocusable(true);
-                    orderList.setBackgroundDrawable(new ColorDrawable(0xffffffff));
-                    orderList.setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
-                    //排序方式
-                    final String[] sorts = new String[]{"normal", "price_asc", "price_desc"};
-                    View contentView = View.inflate(getActivity(), R.layout.order_list, null);
-                    ListView listView = (ListView) contentView.findViewById(R.id.listView);
-                    listView.setAdapter(new OrderListAdapter(getActivity(), getResources().getStringArray(R.array.orders)));
-                    listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                        @Override
-                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                            ((OrderListAdapter) parent.getAdapter()).select(position);
-                            sort = sorts[position];
-                            orderList.dismiss();
-                            beans.clear();
-                            adapter.notifyDataSetChanged();
-                            getProductList(1);
-                        }
-                    });
-                    orderList.setContentView(contentView);
-                    orderList.setOnDismissListener(new PopupWindow.OnDismissListener() {
-                        @Override
-                        public void onDismiss() {
-                            rotate(false);
-                        }
-                    });
+
+                    break;
                 }
-                if (orderList.isShowing()) {
-                    orderList.dismiss();
-                } else {
-                    openOrder(v);
+                case R.id.sort_item: {
+                    //价格区间
+                    if (price_sorter == null) {
+                        price_sorter = new PriceSorter(getActivity());
+                        price_sorter.setPriceSetWatcher(new PriceSorter.OnPriceSet() {
+                            @Override
+                            public void onPriceSet(String price) {
+                                NailInfoListFragment.this.price = price;
+                                beans.clear();
+                                adapter.notifyDataSetChanged();
+                                getProductList(1);
+                            }
+                        });
+                    }
+                    if (price_sorter.isShowing()) {
+                        price_sorter.dismiss();
+                    } else {
+                        int[] l = new int[2];
+                        v.getLocationOnScreen(l);
+                        price_sorter.showAsDropDown(v, 0, 0);
+                    }
+
+                    break;
                 }
-
-
-                break;
             }
-            case R.id.sort_item: {
-                //价格区间
-                if (price_area == null) {
-                    price_area = new PopupWindow(width, ViewGroup.LayoutParams.WRAP_CONTENT);
-                    price_area.setBackgroundDrawable(new ColorDrawable(0xffffffff));
-                    price_area.setFocusable(true);
-
-                    final View contentView = View.inflate(getActivity(), R.layout.price_area, null);
-                    contentView.findViewById(R.id.confirm).setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            EditText from = (EditText) contentView.findViewById(R.id.edit_from);
-                            EditText to = (EditText) contentView.findViewById(R.id.edit_to);
-
-                            price = new StringBuilder()
-                                    .append(from.getText().toString())
-                                    .append("_")
-                                    .append(to.getText().toString())
-                                    .toString();
-                            price_area.dismiss();
-                            beans.clear();
-                            adapter.notifyDataSetChanged();
-                            getProductList(1);
-                        }
-                    });
-                    price_area.setContentView(contentView);
-
-                }
-                if (price_area.isShowing()) {
-                    price_area.dismiss();
-                } else {
-                    int[] l = new int[2];
-                    v.getLocationOnScreen(l);
-                    price_area.showAsDropDown(v, 0, 0);
-                }
-
-                break;
-            }
-        }
     }
 
     //打开排序

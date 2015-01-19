@@ -130,7 +130,7 @@
                             android:src="@drawable/image_nail"
                             android:id="@+id/nail_prd"
                             style="@style/home_item_text_style"
-                            android:background="#54e976"
+                            android:background="@drawable/home_nail_bg"
                             android:layout_width="match_parent"
                             android:layout_height="0dp"
                             android:layout_weight="1" />

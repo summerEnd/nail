@@ -2,16 +2,19 @@ package com.finger.activity.info;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.finger.R;
 import com.finger.activity.base.BaseActivity;
+import com.finger.activity.plan.PayMethodFragment;
 import com.finger.activity.plan.Schedule;
 import com.finger.entity.NailInfoBean;
 import com.finger.entity.OrderListBean;
 import com.finger.support.net.FingerHttpClient;
 import com.finger.support.net.FingerHttpHandler;
+import com.finger.support.util.ContextUtil;
 import com.finger.support.util.DialogUtil;
 import com.finger.support.util.JsonUtil;
 import com.loopj.android.http.RequestParams;
@@ -28,6 +31,9 @@ import static com.finger.activity.main.user.my.MyDiscountActivity.CouponBean;
 public class PayInfoActivity extends BaseActivity {
 
     OrderInfoBean bean;
+    PayMethodFragment payMethod;
+
+    public static final String EXTRA_ID="id";
 
     class OrderInfoBean extends OrderListBean {
         NailInfoBean product;
@@ -36,13 +42,14 @@ public class PayInfoActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_order_info);
-        getOrderDetail(getIntent().getIntExtra("id", -1));
+        setContentView(R.layout.activity_pay_info);
+        getOrderDetail(getIntent().getIntExtra(EXTRA_ID, -1));
+        payMethod=new PayMethodFragment();
+        getSupportFragmentManager().beginTransaction().add(R.id.frag_container, payMethod).commit();
     }
 
     void getOrderDetail(int orderId) {
         if (orderId == -1) {
-
             return;
         }
         RequestParams params = new RequestParams();
@@ -70,6 +77,17 @@ public class PayInfoActivity extends BaseActivity {
                                 });
             }
         });
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.pay:{
+                ContextUtil.toast("默默地，等待支付宝接口中。。。");
+                break;
+            }
+        }
+        super.onClick(v);
     }
 
     void setData(OrderInfoBean bean) {

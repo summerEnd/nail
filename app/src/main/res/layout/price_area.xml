@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    style="@style/activity_padding"
-    android:layout_height="match_parent">
+              android:orientation="vertical"
+              android:layout_width="match_parent"
 
-    <TextView style="@style/horizontal_line" />
+              android:paddingBottom="10dp"
+              android:background="@color/white"
+              android:layout_height="wrap_content">
+
+    <TextView style="@style/horizontal_line"/>
 
     <TextView
         android:layout_marginTop="5dp"
@@ -14,10 +16,14 @@
         android:layout_width="wrap_content"
         android:textColor="@color/chocolate"
         android:text="价格区间"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
         android:textSize="@dimen/textSize_dp_30px"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"/>
 
     <LinearLayout
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
         android:layout_marginTop="5dp"
         android:layout_width="match_parent"
         android:gravity="right"
@@ -28,50 +34,58 @@
             android:id="@+id/edit_from"
             android:textSize="@dimen/textSize_5"
             android:inputType="numberDecimal"
+            android:padding="5dp"
             android:layout_width="wrap_content"
             android:minWidth="70dp"
-
-            android:layout_height="wrap_content" />
+            android:background="@drawable/corner_frame_white_solid"
+            android:layout_height="wrap_content"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="@dimen/textSize_dp_30px"
-            android:text="@string/yuan" />
+            android:layout_margin="2dp"
+            android:text="@string/yuan"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:textSize="@dimen/textSize_dp_30px"
+            android:layout_margin="2dp"
             android:layout_height="wrap_content"
-            android:text=" — " />
+            android:text=" — "/>
 
         <EditText
+            android:background="@drawable/corner_frame_white_solid"
             android:minWidth="70dp"
             android:inputType="numberDecimal"
             android:id="@+id/edit_to"
             android:textSize="@dimen/textSize_5"
+            android:padding="5dp"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:textSize="@dimen/textSize_dp_30px"
+            android:layout_margin="2dp"
             android:layout_height="wrap_content"
-            android:text="@string/yuan" />
+            android:text="@string/yuan"/>
     </LinearLayout>
 
     <TextView
         style="@style/horizontal_line"
-        android:layout_marginTop="5dp" />
+        android:layout_marginTop="5dp"/>
 
     <Button
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
         android:id="@+id/confirm"
         android:layout_width="wrap_content"
-        android:layout_height="35dp"
-        android:layout_marginTop="15dp"
-        android:textSize="@dimen/textSize_4"
+        android:layout_height="28dp"
+        android:layout_marginTop="12dp"
+        android:textSize="@dimen/textSize_dp_24px"
         android:textColor="@color/white"
         android:layout_gravity="right"
         android:background="@drawable/button_green"
-        android:text="确定" />
+        android:text="确定"/>
 </LinearLayout>

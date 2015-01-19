@@ -4,9 +4,11 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
 import android.text.TextUtils;
 import android.util.SparseArray;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,15 +18,18 @@ import android.widget.TextView;
 
 import com.finger.R;
 import com.finger.activity.MainActivity;
+import com.finger.activity.info.PayInfoActivity;
 import com.finger.activity.main.user.order.ApplyRefund;
 import com.finger.activity.main.user.order.CommentOrder;
 import com.finger.entity.OrderListBean;
 import com.finger.support.util.ContextUtil;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.assist.LoadedFrom;
 import com.nostra13.universalimageloader.core.display.BitmapDisplayer;
 import com.nostra13.universalimageloader.core.imageaware.ImageAware;
 import com.sp.lib.support.IntentFactory;
+import com.sp.lib.support.ShareWindow;
 import com.sp.lib.util.ClickFullScreen;
 import com.sp.lib.util.ImageManager;
 import com.sp.lib.util.ImageUtil;
@@ -294,14 +299,7 @@ public class OrderAdapterFactory {
 
         public OrderNotice(final Context context, List data) {
             super(context, data);
-            options = new DisplayImageOptions.Builder()
-                    .displayer(new BitmapDisplayer() {
-                        @Override
-                        public void display(Bitmap bitmap, ImageAware imageAware, LoadedFrom loadedFrom) {
-                            imageAware.setImageBitmap(ImageUtil.roundBitmap(bitmap, context.getResources().getDimensionPixelSize(R.dimen.avatar_size) / 2));
-                        }
-                    })
-                    .build();
+            options = ContextUtil.getAvatarOptions();
         }
 
 
@@ -374,7 +372,7 @@ public class OrderAdapterFactory {
         final int STATUS_REFUND_FAILED = 6;//退款失败	退款服务	退款通知
         final int STATUS_WAIT_COMMENT  = 7;//确认支付成功	等待评价
         final int STATUS_COMMENT_OK    = 8;//评价成功
-
+        ShareWindow window;
         SparseArray<String> status;
         SparseArray<String> btn_status;
 
@@ -382,43 +380,29 @@ public class OrderAdapterFactory {
         View.OnClickListener onListButtonClick = new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
+                Context context = v.getContext();
+
                 OrderListBean bean = (OrderListBean) v.getTag();
                 switch (bean.status) {
                     case STATUS_NOT_PAY: {
                         //按钮：付款
-                        ContextUtil.toast("付款");
+                        context.startActivity(new Intent(context, PayInfoActivity.class)
+                                        .putExtra(PayInfoActivity.EXTRA_ID, bean.id)
+                        );
                         break;
                     }
                     case STATUS_WAIT_SERVICE: {
                         //按钮：申请退款,确认付款
                         if (v.getId() == R.id.button1) {
-                            v.getContext().startActivity(
-                                    new Intent(v.getContext(), ApplyRefund.class)
+                            context.startActivity(
+                                    new Intent(context, ApplyRefund.class)
                                             .putExtra("id", bean.id));
                         } else {
                             ContextUtil.toast("确认付款");
                         }
                         break;
                     }
-                    //case STATUS_CANCEL: {
-                    //
-                    //    break;
-                    //}
-                    //
-                    //case STATUS_APPLY_REFUND: {
-                    //
-                    //    break;
-                    //}
 
-                    //case STATUS_REFUND_OK: {
-                    //
-                    //    break;
-                    //}
-                    //
-                    //case STATUS_REFUND_FAILED: {
-                    //
-                    //    break;
-                    //}
 
                     case STATUS_WAIT_COMMENT: {
                         //按钮：领优惠券,等待评价
@@ -452,10 +436,42 @@ public class OrderAdapterFactory {
                     .setPositiveButton(R.string.share, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
                             MainActivity activity = (MainActivity) mContext;
                             OrderListBean bean = (OrderListBean) v.getTag();
                             activity.setGetCouponOrderId(bean.id);
-                            activity.startActivityForResult(IntentFactory.share(mContext.getString(R.string.app_name), "要你用你就用，别乌拉！"), MainActivity.REQUEST_SHARE);
+                            activity.startActivityForResult(IntentFactory.share(activity.getString(R.string.app_name),"这是一个分享")
+                                    ,
+                                    MainActivity.REQUEST_SHARE);
+                        }
+
+                        public void showShare(){
+                            if (window!=null){
+                                window.dismiss();
+                            }
+
+                            window = new ShareWindow(v.getContext());
+                            window.setOnShareItemClick(new ShareWindow.OnShareItemClick() {
+                                @Override
+                                public void onShare(ResolveInfo info) {
+                                    MainActivity activity = (MainActivity) mContext;
+                                    OrderListBean bean = (OrderListBean) v.getTag();
+                                    activity.setGetCouponOrderId(bean.id);
+                                    activity.startActivityForResult(
+                                            new Intent()
+                                                    .setClassName(info.activityInfo.packageName, info.activityInfo.name)
+                                                    .putExtra(Intent.EXTRA_TITLE, activity.getString(R.string.app_name))
+                                                    .putExtra(Intent.EXTRA_SUBJECT, "这是一个分享")
+                                            ,
+                                            MainActivity.REQUEST_SHARE);
+                                }
+                            });
+                            window.setTitle(v.getContext().getString(R.string.app_name));
+                            try{
+                                window.showAtLocation(v, Gravity.CENTER, 0, 0);
+                            }catch (Exception e){
+                                e.printStackTrace();
+                            }
                         }
                     })
                     .show();

@@ -1,8 +1,10 @@
 package com.finger.api;
 
-/**
- * Created by acer on 2014/12/8.
- */
 public class AlipayAPI {
+    /**
+     * 开始支付
+     */
+    public static void start() {
 
+    }
 }

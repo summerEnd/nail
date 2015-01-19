@@ -30,6 +30,7 @@ import com.finger.activity.info.NailListActivity;
 import com.finger.activity.info.ArtistInfoList;
 import com.finger.activity.plan.PlanActivity;
 import com.finger.entity.ArtistRole;
+import com.finger.entity.BaseInfo;
 import com.finger.service.LocationService;
 import com.finger.support.Constant;
 import com.finger.entity.AdsBean;
@@ -46,6 +47,7 @@ import com.sp.lib.util.FileUtil;
 import com.sp.lib.util.ImageManager;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -120,7 +122,7 @@ public class MainFragment extends Fragment implements View.OnClickListener {
                     dot_group.setOnCheckedChangeListener(dotMoveListener);
                     //运行banner
                     startRunBanner();
-
+                    getBaseInfo();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -160,6 +162,18 @@ public class MainFragment extends Fragment implements View.OnClickListener {
         title_city.setOnClickListener(this);
         requestIndexData();
         return v;
+    }
+
+    /**
+     * 获取基本信息
+     */
+    void getBaseInfo(){
+       BaseInfo.reload(getActivity(),new FingerHttpHandler() {
+           @Override
+           public void onSuccess(JSONObject o) {
+
+           }
+       });
     }
 
     @Override
@@ -348,7 +362,7 @@ public class MainFragment extends Fragment implements View.OnClickListener {
                 scale(v, new Runnable() {
                     @Override
                     public void run() {
-
+                        startActivity(new Intent(getActivity(), NewHotActivity.class));
                     }
                 });
 

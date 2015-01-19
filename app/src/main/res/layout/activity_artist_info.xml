@@ -54,9 +54,11 @@
 
         <LinearLayout
             android:layout_above="@+id/zgs"
+            android:layout_below="@+id/tv_average_price"
             android:layout_alignParentRight="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:gravity="center_vertical"
             android:orientation="horizontal">
 
             <CheckBox

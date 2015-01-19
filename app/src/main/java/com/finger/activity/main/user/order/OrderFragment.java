@@ -95,5 +95,13 @@ public class OrderFragment extends Fragment implements RadioGroup.OnCheckedChang
         curFragment = fragment;
     }
 
-
+    /**
+     * 刷新数据
+     */
+    public void refresh(){
+        if (curFragment!=null){
+            curFragment.clearList();
+            curFragment.getOrderList(1);
+        }
+    }
 }

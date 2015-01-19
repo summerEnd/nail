@@ -14,12 +14,10 @@ import android.widget.TextView;
 
 import com.finger.activity.base.BaseActivity;
 import com.finger.R;
-import com.finger.activity.main.user.my.MyDiscountActivity;
 import com.finger.entity.AddressSearchBean;
 import com.finger.entity.NailInfoBean;
 import com.finger.entity.OrderBean;
 import com.finger.entity.OrderManager;
-import com.finger.entity.RoleBean;
 import com.finger.support.net.FingerHttpClient;
 import com.finger.support.net.FingerHttpHandler;
 import com.finger.support.util.JsonUtil;
@@ -54,17 +52,19 @@ public class OrderConfirm extends BaseActivity {
     float      taxiFee;
     CouponBean mCoupon;
     ArrayList<CouponBean> couponBeans = new ArrayList<CouponBean>();
-    PopupList     popupList;
-    CouponAdapter adapter;
+    PopupList         popupList;
+    CouponAdapter     adapter;
+    PayMethodFragment payMethod;
+    OrderBean         mOrderBean;
 
-    OrderBean mOrderBean;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.order_confirm);
         findIds();
         adapter = new CouponAdapter();
-        getSupportFragmentManager().beginTransaction().add(R.id.frag_container,new PayMethodFragment()).commit();
+        payMethod = new PayMethodFragment();
+        getSupportFragmentManager().beginTransaction().add(R.id.frag_container, payMethod).commit();
     }
 
     private void findIds() {

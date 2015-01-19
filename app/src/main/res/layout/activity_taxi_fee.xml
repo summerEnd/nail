@@ -37,7 +37,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="left"
-                    android:text="为确保您享受更好的服务，美甲师需打车到您指定的预约地点，超过一定的距离需要您支付一定的车费，具体规则如下："
+                    android:text="@string/taxi_fee_notice"
                     android:singleLine="false" />
 
 

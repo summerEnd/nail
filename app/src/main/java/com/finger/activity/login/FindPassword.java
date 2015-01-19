@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.text.InputType;
 import android.view.View;
 import android.widget.Button;
 
@@ -33,6 +34,7 @@ public class FindPassword extends BaseActivity {
         edit_password= (EditItem) findViewById(R.id.edit_password);
         edit_yzm= (EditItem) findViewById(R.id.edit_yzm);
         smsButton= (Button) findViewById(R.id.getRegisterCode);
+        edit_password.getTextView().setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
     }
 
     @Override

@@ -7,21 +7,8 @@
 
     <include layout="@layout/head_2" />
 
-    <ImageView
-        android:id="@+id/about"
-        android:layout_width="match_parent"
-        android:scaleType="centerCrop"
-        android:layout_height="wrap_content" />
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_marginLeft="@dimen/activity_horizontal_margin"
-        android:layout_marginRight="@dimen/activity_horizontal_margin"
-        android:layout_marginTop="@dimen/edit_margin_top"
-        android:layout_height="200dp"
-        android:textSize="@dimen/textSize_dp_28px"
-        android:textColor="@color/textColorBlack"
-        android:padding="@dimen/order_item_vertical_padding"
-        android:text="美甲帮是很时尚滴，指甲是很靓丽滴！"
-        android:background="@drawable/about_edit_bg" />
+   <WebView
+       android:id="@+id/web_view"
+       android:layout_width="match_parent"
+       android:layout_height="match_parent"/>
 </LinearLayout>

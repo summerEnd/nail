@@ -1,10 +1,16 @@
 package com.finger.activity.setting;
 
 import android.app.AlertDialog;
+import android.app.DownloadManager;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import com.finger.activity.base.BaseActivity;
@@ -22,6 +28,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class SettingActivity extends BaseActivity {
+
+    DownloadReceiver receiver;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,6 +39,18 @@ public class SettingActivity extends BaseActivity {
             findViewById(R.id.debug_item).setVisibility(View.VISIBLE);
         } else {
             findViewById(R.id.debug_item).setVisibility(View.GONE);
+        }
+        receiver = new DownloadReceiver();
+        registerReceiver(receiver,new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        try {
+            unregisterReceiver(receiver);
+        }catch (Exception e){
+
         }
     }
 
@@ -91,12 +112,12 @@ public class SettingActivity extends BaseActivity {
                         try {
                             final JSONObject data = o.getJSONObject("data");
                             //远程版本号
-                            int version_num = data.getInt("version_num");
+                            int serverVersion = data.getInt("version_num");
                             //本地版本号
-                            int versionCode = getPackageManager().getPackageInfo(getPackageName(), 0).versionCode;
+                            int localVersion = getPackageManager().getPackageInfo(getPackageName(), 0).versionCode;
                             AlertDialog.Builder builder = new AlertDialog.Builder(SettingActivity.this);
 
-                            if (versionCode < version_num) {
+                            if (localVersion < serverVersion) {
                                 //发现新版本
                                 builder.setTitle(getString(R.string.found_new_version_s, data.getString("version_code")));
                                 builder.setMessage(getString(R.string.is_update));
@@ -150,8 +171,46 @@ public class SettingActivity extends BaseActivity {
         }
     }
 
-    void getNewestVersion(FingerHttpHandler handler) {
 
+    /**
+     * 下载完成接收的广播
+     */
+    public static class DownloadReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+
+            long download_id = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, 0l);
+
+            DownloadManager manager = (DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE);
+            DownloadManager.Query query = new DownloadManager.Query();
+            query.setFilterById(download_id);
+
+            Cursor c = manager.query(query);
+            if (c.moveToFirst()) {
+                int status = c.getInt(c.getColumnIndex(DownloadManager.COLUMN_STATUS));
+
+                switch (status) {
+                    case DownloadManager.STATUS_PAUSED:
+                        Log.v("down", "STATUS_PAUSED");
+                    case DownloadManager.STATUS_PENDING:
+                        Log.v("down", "STATUS_PENDING");
+                    case DownloadManager.STATUS_RUNNING:
+                        //正在下载，不做任何事情
+                        Log.v("down", "STATUS_RUNNING");
+                        break;
+                    case DownloadManager.STATUS_SUCCESSFUL:
+                        //完成
+                        Log.v("down", "下载完成");
+                        break;
+                    case DownloadManager.STATUS_FAILED:
+                        //清除已下载的内容，重新下载
+                        Log.v("down", "STATUS_FAILED");
+                        manager.remove(download_id);
+                        break;
+                }
+            }
+        }
     }
 
+    ;
 }

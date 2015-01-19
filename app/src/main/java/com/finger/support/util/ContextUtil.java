@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.telephony.TelephonyManager;
 import android.view.Gravity;
 import android.view.View;
@@ -14,6 +15,10 @@ import com.finger.BuildConfig;
 import com.finger.R;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
+import com.nostra13.universalimageloader.core.assist.LoadedFrom;
+import com.nostra13.universalimageloader.core.display.BitmapDisplayer;
+import com.nostra13.universalimageloader.core.imageaware.ImageAware;
+import com.sp.lib.util.ImageUtil;
 
 
 import java.util.Random;
@@ -77,7 +82,8 @@ public class ContextUtil {
     }
 
     public static final void toast(Object o) {
-        if (null==o)return;
+        if (null == o)
+            return;
         Toast toast = new Toast(context);
         View v = View.inflate(context, R.layout.toast_view, null);
         toast.setView(v);
@@ -116,5 +122,25 @@ public class ContextUtil {
                 .showImageOnLoading(R.drawable.onLoadImage)
                 .cacheInMemory(true).cacheOnDisc(true).build();
         return squareImageOptions;
+    }
+
+    public static DisplayImageOptions getAvatarOptions() {
+        return new DisplayImageOptions.Builder()
+                .imageScaleType(ImageScaleType.IN_SAMPLE_INT)
+                .showImageForEmptyUri(R.drawable.default_user)
+                .showImageOnFail(R.drawable.default_user)
+                .showImageOnLoading(R.drawable.default_user)
+                .displayer(new BitmapDisplayer() {
+                    @Override
+                    public void display(Bitmap bitmap, ImageAware imageAware, LoadedFrom loadedFrom) {
+
+                        if (!bitmap.isRecycled()) {
+                            imageAware.setImageBitmap(ImageUtil.roundBitmap(bitmap, context.getResources().getDimensionPixelSize(R.dimen.avatar_size) / 2));
+                        }else{
+                            Logger.d("------------->");
+                        }
+                    }
+                })
+                .cacheInMemory(true).cacheOnDisc(true).build();
     }
 }

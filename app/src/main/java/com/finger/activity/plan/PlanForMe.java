@@ -33,76 +33,75 @@ import static android.app.Activity.RESULT_OK;
 import static com.finger.activity.plan.PlanActivity.PlanFragment;
 
 public class PlanForMe extends PlanFragment implements View.OnClickListener {
-    MapView           mMapView;
     EditItem          edit_address;
     Bitmap            mark;
     Overlay           mOverlay;
     EditItem          edit_plan_time;
     AddressSearchBean addressSearchBean;
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        //在activity执行onDestroy时执行mMapView.onDestroy()，实现地图生命周期管理
-        if (mMapView != null)
-            mMapView.onDestroy();
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        //在activity执行onResume时执行mMapView. onResume ()，实现地图生命周期管理
-        if (mMapView != null)
-            mMapView.onResume();
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        //在activity执行onPause时执行mMapView. onPause ()，实现地图生命周期管理
-        if (mMapView != null)
-            mMapView.onPause();
-    }
+//    @Override
+//    public void onDestroy() {
+//        super.onDestroy();
+//        //在activity执行onDestroy时执行mMapView.onDestroy()，实现地图生命周期管理
+//        if (mMapView != null)
+//            mMapView.onDestroy();
+//    }
+//
+//    @Override
+//    public void onResume() {
+//        super.onResume();
+//        //在activity执行onResume时执行mMapView. onResume ()，实现地图生命周期管理
+//        if (mMapView != null)
+//            mMapView.onResume();
+//    }
+//
+//    @Override
+//    public void onPause() {
+//        super.onPause();
+//        //在activity执行onPause时执行mMapView. onPause ()，实现地图生命周期管理
+//        if (mMapView != null)
+//            mMapView.onPause();
+//    }
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_plan_for_me, null);
-        mMapView = (MapView) v.findViewById(R.id.map);
+//        mMapView = (MapView) v.findViewById(R.id.map);
         edit_plan_time = (EditItem) v.findViewById(R.id.item_plan_time_for_me);
         edit_plan_time.setOnClickListener(this);
         edit_address = (EditItem) v.findViewById(R.id.item_address);
         edit_address.setOnClickListener(this);
         v.findViewById(R.id.choose_nail_artist).setOnClickListener(this);
         RoleBean bean = ((BaseActivity) getActivity()).getApp().getUser();
-        addMark(bean.latitude, bean.longitude);
+//        addMark(bean.latitude, bean.longitude);
 
         return v;
     }
 
-    public void addMark(double latitude, double longitude) {
-        BaiduMap map = mMapView.getMap();
-
-        if (mark == null) {
-            BitmapFactory.Options options = new BitmapFactory.Options();
-            options.inSampleSize = 4;
-            mark = BitmapFactory.decodeResource(getResources(), R.drawable.ic_map_mark, options);
-        }
-
-        if (mOverlay != null) {
-            mOverlay.remove();
-        }
-
-        BitmapDescriptor icon = BitmapDescriptorFactory.fromBitmap(mark);
-
-        LatLng myPosition = BaiduAPI.convert(latitude, longitude);
-        MapStatusUpdate update = MapStatusUpdateFactory.newLatLng(myPosition);
-
-        map.setMapStatus(update);
-        mOverlay = map.addOverlay(new MarkerOptions()
-                .position(myPosition)
-                .icon(icon));
-    }
+//    public void addMark(double latitude, double longitude) {
+//        BaiduMap map = mMapView.getMap();
+//
+//        if (mark == null) {
+//            BitmapFactory.Options options = new BitmapFactory.Options();
+//            options.inSampleSize = 4;
+//            mark = BitmapFactory.decodeResource(getResources(), R.drawable.ic_map_mark, options);
+//        }
+//
+//        if (mOverlay != null) {
+//            mOverlay.remove();
+//        }
+//
+//        BitmapDescriptor icon = BitmapDescriptorFactory.fromBitmap(mark);
+//
+//        LatLng myPosition = BaiduAPI.convert(latitude, longitude);
+//        MapStatusUpdate update = MapStatusUpdateFactory.newLatLng(myPosition);
+//
+//        map.setMapStatus(update);
+//        mOverlay = map.addOverlay(new MarkerOptions()
+//                .position(myPosition)
+//                .icon(icon));
+//    }
 
     @Override
     public void onClick(View v) {

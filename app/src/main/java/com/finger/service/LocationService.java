@@ -30,6 +30,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.FileDescriptor;
+import java.util.Date;
 
 /**
  * 定位服务
@@ -40,7 +41,10 @@ public class LocationService extends Service {
     public        LocationClient mLocationClient;
     public static BDLocation     mBDLocation;
     private       Callback       mCallback;
-
+    /**
+     * 最近一次定位的时间
+     */
+    public static Date locationTime = new Date();
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -81,7 +85,7 @@ public class LocationService extends Service {
         option.setIsNeedAddress(true);
         option.setOpenGps(true);
         option.setLocationMode(LocationClientOption.LocationMode.Hight_Accuracy);
-//        option.setScanSpan(10 * 1000 * 60);//定位时间间隔
+        //        option.setScanSpan(10 * 1000 * 60);//定位时间间隔
         option.setTimeOut(10000);
         FingerLocationListener l = new FingerLocationListener();
         mLocationClient.registerLocationListener(l);
@@ -158,11 +162,15 @@ public class LocationService extends Service {
         public void onLocated(BDLocation bdLocation);
     }
 
+    /**
+     * 所有定位都会回调这个类
+     */
     private class FingerLocationListener implements BDLocationListener {
 
 
         public void onReceiveLocation(BDLocation location) {
             mBDLocation = location;
+            locationTime = new Date();
             if (mCallback != null) {
                 mCallback.onLocated(location);
             }

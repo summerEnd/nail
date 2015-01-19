@@ -28,7 +28,7 @@
     <string name="call_number">呼出</string>
     <string name="alert_msg_call_service">咨询投诉都可以拨打客服电话</string>
     <string name="choose_nail_artist">选美甲师</string>
-    <string name="call_service">拨打客服电话</string>
+    <string name="call_service">客服%s</string>
     <string name="choose_nail">选中该作品</string>
     <string name="nail_items">美甲作品</string>
     <string name="yuan">元</string>
@@ -164,5 +164,11 @@
     <string name="not_choose_this_city">不能选择该城市！</string>
     <string name="artist_cannot_plan">美甲师不能预约</string>
     <string name="know">我知道了</string>
+    <string name="setting_ok">设置成功！</string>
+    <string name="not_valid_blocks">该时间段不可预约！</string>
+    <string name="new_hot">新品热门</string>
+    <string name="locating">定位中...</string>
+    <string name="coupon_notice">恭喜您成功领取一张优惠券</string>
+    <string name="taxi_fee_notice">为确保您享受更好的服务，美甲师需打车到您指定的预约地点，超过一定的距离需要您支付一定的车费，具体规则如下：</string>
 
 </resources>

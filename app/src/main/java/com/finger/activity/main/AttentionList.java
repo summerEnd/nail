@@ -20,9 +20,12 @@ import com.finger.activity.info.ArtistInfo;
 import com.finger.entity.AttentionItemBean;
 import com.finger.support.net.FingerHttpClient;
 import com.finger.support.net.FingerHttpHandler;
+import com.finger.support.util.ContextUtil;
 import com.finger.support.util.JsonUtil;
+import com.finger.support.util.Logger;
 import com.finger.support.widget.RatingWidget;
 import com.loopj.android.http.RequestParams;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 import com.sp.lib.util.ImageManager;
 import com.sp.lib.util.ImageUtil;
@@ -151,9 +154,10 @@ public class AttentionList extends BaseActivity implements AdapterView.OnItemCli
 
     class CareAdapter extends BaseAdapter {
         LayoutInflater inflater;
-
+        DisplayImageOptions options;
         CareAdapter(Context context) {
             inflater = LayoutInflater.from(context);
+            options= ContextUtil.getAvatarOptions();
         }
 
         private boolean delete;
@@ -214,12 +218,10 @@ public class AttentionList extends BaseActivity implements AdapterView.OnItemCli
             holder.tv_average_price.setText(getString(R.string.average_price_s, bean.average_price));
             holder.rating.setScore(bean.score);
             holder.tv_order_number.setText(getString(R.string.order_d_num, bean.total_num));
-            ImageManager.loadImage(bean.avatar, new SimpleImageLoadingListener() {
-                @Override
-                public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-                    holder.iv_avatar.setImageBitmap(ImageUtil.roundBitmap(loadedImage, getResources().getDimensionPixelSize(R.dimen.avatar_size) / 2));
-                }
-            });
+            Logger.i_format("name:" + bean.username);
+            Logger.i_format("avatar:"+bean.avatar);
+            ImageManager.loadImage(bean.avatar,holder.iv_avatar,options);
+
             convertView.setTag(holder);
             return convertView;
         }

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:background="@drawable/titleBackground"
+                    android:layout_height="@dimen/title_height">
+
+        <ImageView
+            style="@style/title_back_style"
+            android:layout_centerVertical="true"/>
+
+        <TextView
+            style="@style/title_text_style"
+            android:text="@string/new_hot"
+            android:layout_centerInParent="true"/>
+
+        <TextView
+            style="@style/title_click_text"
+            android:id="@+id/title_sort"
+            android:onClick="onClick"
+            android:clickable="true"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/ic_delete"
+            android:layout_centerVertical="true"
+            android:text="筛选"/>
+    </RelativeLayout>
+    <GridView
+        android:layout_marginTop="6dp"
+        android:id="@+id/grid"
+        android:numColumns="2"
+        android:layout_marginLeft="@dimen/item_spacing"
+        android:layout_marginRight="@dimen/item_spacing"
+        android:verticalSpacing="@dimen/item_spacing"
+        android:horizontalSpacing="@dimen/item_spacing"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+</LinearLayout>

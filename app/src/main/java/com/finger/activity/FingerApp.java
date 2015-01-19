@@ -4,29 +4,20 @@ import android.app.Application;
 import android.content.Intent;
 import android.content.res.XmlResourceParser;
 
-import com.finger.BuildConfig;
 import com.finger.R;
-import com.finger.support.Constant;
+import com.finger.api.BaiduAPI;
 import com.finger.entity.ArtistGrade;
 import com.finger.entity.ArtistRole;
+import com.finger.entity.BaseInfo;
 import com.finger.entity.CityBean;
 import com.finger.entity.RoleBean;
 import com.finger.entity.UserRole;
-import com.finger.support.net.FingerHttpClient;
-import com.finger.support.net.FingerHttpHandler;
-import com.finger.support.net.Http;
+import com.finger.support.Constant;
 import com.finger.support.util.ContextUtil;
 import com.finger.support.util.Logger;
-import com.loopj.android.http.RequestParams;
 import com.sp.lib.Slib;
-
-import com.finger.api.BaiduAPI;
-import com.sp.lib.support.SHttpClient;
-import com.sp.lib.support.WebJsonHttpHandler;
 import com.sp.lib.util.FileUtil;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
@@ -43,7 +34,17 @@ public class FingerApp extends Application {
     /**
      * 当前城市
      */
-    private CityBean curCity = new CityBean();
+    private CityBean curCity  = new CityBean();
+    private BaseInfo baseInfo = new BaseInfo();
+
+    public BaseInfo getBaseInfo() {
+        return baseInfo = (baseInfo == null ? new BaseInfo() : baseInfo);
+    }
+
+    public void setBaseInfo(BaseInfo baseInfo) {
+
+        this.baseInfo = baseInfo;
+    }
 
     @Override
     public void onCreate() {
@@ -53,7 +54,6 @@ public class FingerApp extends Application {
         BaiduAPI.init(this);
         Slib.initialize(this);
 
-        Http.init(this);
         loadGradeFromXml();
 
 
@@ -138,8 +138,6 @@ public class FingerApp extends Application {
     public boolean isLogin() {
         return getUser().id != null;
     }
-
-
 
 
 }

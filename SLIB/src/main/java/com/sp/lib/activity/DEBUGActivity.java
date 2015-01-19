@@ -122,6 +122,7 @@ public class DEBUGActivity extends Activity {
         if (index>=logs.size()){
             index-=logs.size();
         }
+        curIndex=index;
 
         tv_logs.setText(logs.get(index).msg);
         tv_time.setText(logs.get(index).time);

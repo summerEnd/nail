@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.CheckedTextView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
@@ -19,8 +20,18 @@ import java.util.List;
 import java.util.Map;
 
 
-public class PayMethodFragment extends Fragment implements AdapterView.OnItemClickListener{
+public class PayMethodFragment extends Fragment implements AdapterView.OnItemClickListener {
     ListView listView;
+
+    String payMethod;
+    CheckedTextView checkedTextView;
+    /**
+     * 获取支付方式
+     * @return
+     */
+    public String getPayMethod() {
+        return payMethod;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -36,7 +47,7 @@ public class PayMethodFragment extends Fragment implements AdapterView.OnItemCli
                 createData(),
                 R.layout.list_item_pay_method,
                 new String[]{"name", "ic"},
-                new int[]{}));
+                new int[]{R.id.name, R.id.icon}));
     }
 
     List<Map<String, Object>> createData() {
@@ -47,11 +58,23 @@ public class PayMethodFragment extends Fragment implements AdapterView.OnItemCli
             map.put("ic", R.drawable.ic_launcher);
             data.add(map);
         }
+
+        {
+            Map<String, Object> map = new HashMap<String, Object>();
+            map.put("name", "银联支付");
+            map.put("ic", R.drawable.ic_launcher);
+            data.add(map);
+        }
         return data;
     }
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        CheckedTextView clicked= (CheckedTextView) view.findViewById(R.id.name);
+        if (checkedTextView!=null&&checkedTextView==clicked){
 
+        }
+        checkedTextView= (CheckedTextView) view.findViewById(R.id.name);
+        ((CheckedTextView) view.findViewById(R.id.name)).setChecked(true);
     }
 }
