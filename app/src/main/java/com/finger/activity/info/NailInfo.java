@@ -204,6 +204,13 @@ public class NailInfo extends BaseActivity {
                 );
                 break;
             }
+            case R.id.iv_avatar:{
+                startActivity(new Intent(this,ArtistInfo.class)
+                                .putExtra(ArtistInfo.EXTRA_ID,bean.mid)
+                                .putExtra(CommentListActivity.EXTRA_PRODUCT_ID,bean.id)
+                );
+                break;
+            }
         }
         super.onClick(v);
     }

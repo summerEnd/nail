@@ -226,6 +226,8 @@ public class MainActivity extends BaseActivity {
         curIndex = index;
     }
 
+
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == 100) {
@@ -279,6 +281,7 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void onResumeFragments() {
+        super.onResumeFragments();
         if (curIndex ==1){
             ((com.finger.activity.main.user.order.OrderFragment) fragments[1]).refresh();
         }else if (curIndex ==3){

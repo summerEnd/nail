@@ -35,6 +35,7 @@ public class ArtistInfo extends BaseActivity {
     TextView   name;
     TextView   tv_average_price;
     CheckBox   attention;
+    public static final String EXTRA_ID = "id";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,7 +50,7 @@ public class ArtistInfo extends BaseActivity {
         attention.setOnClickListener(this);
         NailInfoListFragment nailInfoListFragment = new NailInfoListFragment();
         Bundle data = new Bundle();
-        data.putInt("id", getIntent().getIntExtra("id", -1));
+        data.putInt(EXTRA_ID, getIntent().getIntExtra(EXTRA_ID, -1));
         nailInfoListFragment.setArguments(data);
         getSupportFragmentManager().beginTransaction().add(R.id.frag_container, nailInfoListFragment).commit();
         getSellerDetail();
@@ -106,6 +107,7 @@ public class ArtistInfo extends BaseActivity {
 
     /**
      * 设置展示信息
+     *
      * @param bean
      */
     void setData(ArtistRole bean) {
@@ -120,7 +122,7 @@ public class ArtistInfo extends BaseActivity {
         setArtistComment(bean);
         tv_average_price.setText(getString(R.string.average_price_s, bean.average_price));
         setArtistZGS(bean.professional, bean.talk, bean.on_time);
-        attention.setChecked(bean.attention_id>0);
+        attention.setChecked(bean.attention_id > 0);
     }
 
     /**

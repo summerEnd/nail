@@ -182,6 +182,7 @@ public class MainFragment extends Fragment implements View.OnClickListener {
         setCityIfExists();
     }
 
+
     /**
      * 设置城市
      */

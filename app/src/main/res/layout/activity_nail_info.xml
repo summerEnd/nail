@@ -165,6 +165,8 @@
                 android:layout_height="wrap_content">
 
                 <ImageView
+                    android:onClick="onClick"
+                    android:clickable="true"
                     android:id="@+id/iv_avatar"
                     android:layout_width="@dimen/avatar_size"
                     android:layout_height="@dimen/avatar_size"
