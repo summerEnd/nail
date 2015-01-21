@@ -22,24 +22,23 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
-import com.baidu.location.BDLocation;
-import com.finger.activity.FingerApp;
 import com.finger.R;
+import com.finger.activity.FingerApp;
 import com.finger.activity.base.BaseActivity;
-import com.finger.activity.info.NailListActivity;
 import com.finger.activity.info.ArtistInfoList;
+import com.finger.activity.info.NailListActivity;
 import com.finger.activity.plan.PlanActivity;
+import com.finger.activity.setting.WebViewActivity;
+import com.finger.entity.AdsBean;
 import com.finger.entity.ArtistRole;
 import com.finger.entity.BaseInfo;
-import com.finger.service.LocationService;
-import com.finger.support.Constant;
-import com.finger.entity.AdsBean;
 import com.finger.entity.CityBean;
 import com.finger.entity.HotTagBean;
+import com.finger.support.Constant;
 import com.finger.support.net.FingerHttpClient;
 import com.finger.support.net.FingerHttpHandler;
-import com.finger.support.util.JsonUtil;
 import com.finger.support.util.Dimension;
+import com.finger.support.util.JsonUtil;
 import com.finger.support.widget.ArtistItem;
 import com.finger.support.widget.SearchWindow;
 import com.loopj.android.http.RequestParams;
@@ -47,15 +46,12 @@ import com.sp.lib.util.FileUtil;
 import com.sp.lib.util.ImageManager;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
-
-import static com.finger.service.LocationService.LocationConnection;
 
 
 public class MainFragment extends Fragment implements View.OnClickListener {
@@ -67,21 +63,6 @@ public class MainFragment extends Fragment implements View.OnClickListener {
     TextView title_city;
 
     ArrayList<AdsBean> ads = new ArrayList<AdsBean>();
-    private LocationConnection conn;
-
-
-    class ArtistBean {
-        String title;
-        String price;
-        String imageUrl;
-    }
-
-    class NailBean {
-        String title;
-        String price;
-        String imageUrl;
-        String avatar;
-    }
 
     /**
      * 调接口获取首页数据
@@ -112,10 +93,9 @@ public class MainFragment extends Fragment implements View.OnClickListener {
                     //设置定位城市
                     setLocationCity(cities);
 
-
                     //讲banner添加
                     for (AdsBean bean : ads) {
-                        addBanner(bean.cover);
+                        addBanner(bean);
                     }
                     switch_banner.setAdapter(new BannerAdapter());
                     switch_banner.setOnPageChangeListener(pageChangeListener);
@@ -136,14 +116,16 @@ public class MainFragment extends Fragment implements View.OnClickListener {
      */
     void setLocationCity(List<CityBean> cities) {
         FingerApp app = FingerApp.getInstance();
-        if (TextUtils.isEmpty(app.getCurCity().name)) {
-            if (cities.size() > 1) {
-                //取南京
-                app.setCurCity(cities.get(1));
-            } else if (cities.size() > 0) {
-                app.setCurCity(cities.get(0));
-            }
+        String city_code;
+        if (TextUtils.isEmpty(app.getCurCity().city_code)) {
+            //没有默认取南京
+            city_code = "315";
+
+        } else {
+            city_code = app.getCurCity().city_code;
         }
+        CityBean curCity = getCityByCode(city_code);
+        FingerApp.getInstance().setCurCity(curCity);
         setCityIfExists();
     }
 
@@ -167,13 +149,13 @@ public class MainFragment extends Fragment implements View.OnClickListener {
     /**
      * 获取基本信息
      */
-    void getBaseInfo(){
-       BaseInfo.reload(getActivity(),new FingerHttpHandler() {
-           @Override
-           public void onSuccess(JSONObject o) {
+    void getBaseInfo() {
+        BaseInfo.reload(getActivity(), new FingerHttpHandler() {
+            @Override
+            public void onSuccess(JSONObject o) {
 
-           }
-       });
+            }
+        });
     }
 
     @Override
@@ -192,36 +174,33 @@ public class MainFragment extends Fragment implements View.OnClickListener {
         //如果城市名不为空，代表定位成功
         if (!TextUtils.isEmpty(cityBean.name)) {
             title_city.setText(cityBean.name);
-            return;
-        }
-
-        //没有设置定位城市，重新发起定位
-        BDLocation mBDLocation = LocationService.mBDLocation;
-        if (mBDLocation != null) {
-            title_city.setText(mBDLocation.getCity());
-            FingerApp.getInstance().getCurCity().city_code = mBDLocation.getCityCode();
-            FingerApp.getInstance().getCurCity().name = mBDLocation.getCity();
-        } else {
-            conn = new LocationConnection() {
-                @Override
-                public void onLocated(BDLocation location) {
-                    title_city.setText(location.getCity());
-                    FingerApp.getInstance().getCurCity().city_code = location.getCityCode();
-                    FingerApp.getInstance().getCurCity().name = location.getCity();
-                }
-            };
-            getActivity()
-                    .bindService(new Intent(getActivity(), LocationService.class), conn, Context.BIND_AUTO_CREATE);
-
         }
     }
 
     /**
-     * 添加banner
-     *
-     * @param url
+     * 将城市code转化为CityBean
      */
-    void addBanner(String url) {
+    CityBean getCityByCode(String cityCode) {
+        ArrayList<CityBean> cities = (ArrayList<CityBean>) FileUtil.readFile(getActivity(), Constant.FILE_CITIES);
+
+        if (cities == null) {
+            return null;
+        }
+
+        CityBean mCity = null;
+        for (CityBean bean : cities) {
+            if (bean.city_code.equals(cityCode)) {
+                mCity = bean;
+                break;
+            }
+        }
+        return mCity;
+    }
+
+    /**
+     * 添加banner
+     */
+    void addBanner(AdsBean bean) {
         Context context = getActivity();
         RadioButton rb = new RadioButton(context);
         rb.setBackgroundResource(R.drawable.home_dot);
@@ -233,17 +212,22 @@ public class MainFragment extends Fragment implements View.OnClickListener {
         dot_group.addView(rb);
         ImageView imageView = new ImageView(context);
         imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-        ImageManager.loadImage(url, imageView);
+        imageView.setTag(bean);
+        imageView.setOnClickListener(mBannerClicker);
+        ImageManager.loadImage(bean.cover, imageView);
         images.add(imageView);
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        if (conn != null) {
-            getActivity().unbindService(conn);
+    View.OnClickListener mBannerClicker = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            AdsBean bean = (AdsBean) v.getTag();
+            startActivity(new Intent(getActivity(), WebViewActivity.class)
+                            .putExtra(WebViewActivity.EXTRA_URL, bean.content)
+            );
         }
-    }
+    };
+
 
     /**
      * 加dp单位

@@ -106,7 +106,7 @@ public class ClickFullScreen extends PopupWindow {
         Log.i("tag", String.format("fromX:%f toX:%f fromY:%f toY:%f", fromX, toX, fromY, toY));
 
         ScaleAnimation animation = new ScaleAnimation(fromX, toX, fromY, toY, pivotX, pivotY);
-        animation.setDuration(500);
+        animation.setDuration(300);
         animation.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {

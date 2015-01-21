@@ -188,6 +188,10 @@ public class NailInfo extends BaseActivity {
             }
             case R.id.collect: {
                 //注意：CheckBox先改变状态，再触发onClick
+                if(doLoginIfNeed()){
+                    cb_collect.setChecked(false);
+                    return;
+                }
                 if (bean == null)
                     return;
                 if (!cb_collect.isChecked()) {

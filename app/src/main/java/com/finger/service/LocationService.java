@@ -14,6 +14,7 @@ import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
+import com.baidu.mapapi.SDKInitializer;
 import com.finger.BuildConfig;
 import com.finger.activity.FingerApp;
 import com.finger.activity.info.Artist;
@@ -79,6 +80,8 @@ public class LocationService extends Service {
     public void onCreate() {
         super.onCreate();
         debug("onCreate");
+        SDKInitializer.initialize(getApplicationContext());
+
         mLocationClient = new LocationClient(this);
         LocationClientOption option = new LocationClientOption();
 

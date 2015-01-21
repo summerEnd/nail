@@ -7,6 +7,7 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.graphics.Point;
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
@@ -24,6 +25,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Logger;
 
 import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
@@ -90,8 +92,12 @@ public class ShareWindow extends PopupWindow implements AdapterView.OnItemClickL
                 item.put("icon", info.loadIcon(manager));
                 item.put("name", info.loadLabel(manager).toString());
                 data.add(item);
+                Log.d("--->",info.toString());
             }
 
+
+
+//            data.remove(0);
         }
 
         return data;
@@ -100,6 +106,7 @@ public class ShareWindow extends PopupWindow implements AdapterView.OnItemClickL
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        dismiss();
         if (onShareItemClick != null) {
             ResolveInfo info = apps.get(position);
 

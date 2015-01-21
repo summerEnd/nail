@@ -160,15 +160,16 @@ public class ChangeMyData extends BaseActivity {
                     builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-
+                            setUserData();
+                            displayAvatar(displayAvatarUrl);
                         }
                     });
                     builder.setTitle(R.string.modify_ok);
                     builder.show();
                 } else {
                     user.avatar = displayAvatarUrl;
+                    setUserData();
                 }
-                setUserData();
 
             }
         });

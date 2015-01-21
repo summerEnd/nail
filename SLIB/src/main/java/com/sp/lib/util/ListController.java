@@ -7,6 +7,7 @@ import android.database.DataSetObserver;
 import android.util.Log;
 import android.widget.AbsListView;
 import android.widget.BaseAdapter;
+import android.widget.HeaderViewListAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
@@ -54,13 +55,13 @@ public class ListController implements AbsListView.OnScrollListener {
     private DataSetObserver dataSetObserver = new DataSetObserver() {
         @Override
         public void onChanged() {
-            BaseAdapter adapter = (BaseAdapter) mListView.getAdapter();
+            ListAdapter adapter = mListView.getAdapter();
             mSavedSize = adapter.getCount();
         }
     };
 
     public void registerDataObserver() {
-        BaseAdapter adapter = (BaseAdapter) mListView.getAdapter();
+        ListAdapter adapter = mListView.getAdapter();
         if (adapter == null) {
             throw new IllegalStateException("AbsListView doesn't have a adapter");
         }
@@ -69,7 +70,7 @@ public class ListController implements AbsListView.OnScrollListener {
     }
 
     public void unRegisterDataObserver() {
-        BaseAdapter adapter = (BaseAdapter) mListView.getAdapter();
+        ListAdapter adapter = mListView.getAdapter();
         if (adapter == null) {
             throw new IllegalStateException("AbsListView doesn't have a adapter");
         }

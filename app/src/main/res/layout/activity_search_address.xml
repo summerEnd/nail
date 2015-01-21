@@ -20,17 +20,10 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:padding="3dp"
+            android:textSize="@dimen/textSize_dp_30px"
+            android:hint="@string/input_plan_address"
             android:background="@drawable/corner_frame_white_solid"
-            android:layout_height="wrap_content"/>
-
-        <ImageView
-            android:src="@drawable/btn_search"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:scaleType="centerInside"
-            android:clickable="true"
-            android:onClick="onClick"
-            android:id="@+id/button3"/>
+            android:layout_height="40dp"/>
 
     </LinearLayout>
 

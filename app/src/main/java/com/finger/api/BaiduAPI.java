@@ -14,23 +14,6 @@ import com.finger.service.LocationService;
 
 public class BaiduAPI {
 
-
-    public static void init(Context context) {
-        SDKInitializer.initialize(context);
-
-       /* context.bindService(new Intent(context, LocationService.class), new ServiceConnection() {
-            @Override
-            public void onServiceConnected(ComponentName name, IBinder service) {
-
-            }
-
-            @Override
-            public void onServiceDisconnected(ComponentName name) {
-
-            }
-        }, Context.BIND_AUTO_CREATE);*/
-    }
-
     /**
      * 转化成百度坐标消除误差
      *

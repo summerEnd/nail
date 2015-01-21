@@ -80,7 +80,7 @@
     </RelativeLayout>
 
     <TextView
-        android:visibility="gone"
+        android:id="@+id/tv_news"
         android:layout_width="@dimen/number_size"
         android:background="@drawable/number_bg"
         android:layout_alignRight="@+id/content"

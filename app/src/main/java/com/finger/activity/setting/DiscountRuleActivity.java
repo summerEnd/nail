@@ -7,9 +7,7 @@ import com.finger.R;
 import com.finger.activity.base.BaseActivity;
 import com.finger.entity.BaseInfo;
 
-/**
- * Created by acer on 2015/1/4.
- */
+
 public class DiscountRuleActivity extends BaseActivity{
     TextView coupon_text;
     @Override

@@ -12,12 +12,15 @@ import android.widget.TextView;
 
 import com.finger.R;
 import com.finger.activity.base.BaseActivity;
+import com.finger.activity.login.LoginActivity;
 import com.finger.activity.main.artist.my.MyResumeActivity;
 import com.finger.entity.ArtistRole;
 import com.finger.support.net.FingerHttpClient;
 import com.finger.support.net.FingerHttpHandler;
+import com.finger.support.util.ContextUtil;
 import com.finger.support.util.DialogUtil;
 import com.finger.support.util.JsonUtil;
+import com.finger.support.widget.RatingWidget;
 import com.loopj.android.http.RequestParams;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 import com.sp.lib.util.ImageManager;
@@ -35,6 +38,7 @@ public class ArtistInfo extends BaseActivity {
     TextView   name;
     TextView   tv_average_price;
     CheckBox   attention;
+    RatingWidget rating;
     public static final String EXTRA_ID = "id";
 
     @Override
@@ -47,6 +51,7 @@ public class ArtistInfo extends BaseActivity {
         name = (TextView) findViewById(R.id.name);
         tv_average_price = (TextView) findViewById(R.id.tv_average_price);
         attention = (CheckBox) findViewById(R.id.attention);
+        rating = (RatingWidget) findViewById(R.id.rating);
         attention.setOnClickListener(this);
         NailInfoListFragment nailInfoListFragment = new NailInfoListFragment();
         Bundle data = new Bundle();
@@ -61,6 +66,13 @@ public class ArtistInfo extends BaseActivity {
         switch (v.getId()) {
             case R.id.attention: {
                 //注意：CheckBox先改变状态，再触发onClick
+
+                if(doLoginIfNeed()){
+                    attention.setChecked(false);
+                    return;
+                }
+
+
                 if (!attention.isChecked()) {
                     cancel(bean.attention_id);
                 } else {
@@ -123,6 +135,7 @@ public class ArtistInfo extends BaseActivity {
         tv_average_price.setText(getString(R.string.average_price_s, bean.average_price));
         setArtistZGS(bean.professional, bean.talk, bean.on_time);
         attention.setChecked(bean.attention_id > 0);
+        rating.setScore(bean.score);
     }
 
     /**
@@ -136,6 +149,7 @@ public class ArtistInfo extends BaseActivity {
             public void onSuccess(JSONObject o) {
                 try {
                     bean.attention_id = o.getInt("data");
+                    ContextUtil.toast(getString(R.string.attention_ok));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -157,7 +171,7 @@ public class ArtistInfo extends BaseActivity {
         FingerHttpClient.post("cancelAttention", params, new FingerHttpHandler() {
             @Override
             public void onSuccess(JSONObject o) {
-
+                ContextUtil.toast(R.string.cancel_ok);
             }
 
             @Override

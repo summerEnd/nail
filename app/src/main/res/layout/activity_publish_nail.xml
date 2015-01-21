@@ -19,21 +19,34 @@
 
             <TextView
                 style="@style/tab_item_name_style"
-                android:text="标题：" />
+                android:text="标    题：" />
 
             <EditText
                 android:id="@+id/edit_title"
                 android:hint="请输入标题"
                 style="@style/tab_item_value_style" />
         </TableRow>
-
         <TextView style="@style/horizontal_line" />
 
         <TableRow style="@style/tab_item_style_publish">
 
             <TextView
                 style="@style/tab_item_name_style"
-                android:text="价格：" />
+                android:text="店面价：" />
+
+            <EditText
+                android:id="@+id/edit_store_price"
+                android:inputType="numberDecimal"
+                android:hint="请输入价格"
+                style="@style/tab_item_value_style" />
+        </TableRow>
+        <TextView style="@style/horizontal_line" />
+
+        <TableRow style="@style/tab_item_style_publish">
+
+            <TextView
+                style="@style/tab_item_name_style"
+                android:text="现    价：" />
 
             <EditText
                 android:id="@+id/edit_price"
@@ -48,11 +61,12 @@
 
             <TextView
                 style="@style/tab_item_name_style"
-                android:text="耗时：" />
+                android:text="耗时(分)：" />
 
             <EditText
                 android:id="@+id/edit_time_cost"
                 style="@style/tab_item_value_style"
+                android:inputType="numberDecimal"
                 android:hint="请输入耗时" />
         </TableRow>
 
@@ -62,9 +76,10 @@
 
             <TextView
                 style="@style/tab_item_name_style"
-                android:text="保持时间：" />
+                android:text="保持时间(天)：" />
 
             <EditText
+                android:inputType="numberDecimal"
                 android:id="@+id/edit_time_keep"
                 style="@style/tab_item_value_style"
                 android:hint="请输入保持时间" />

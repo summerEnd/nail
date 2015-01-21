@@ -7,4 +7,5 @@ public class AdsBean {
     public int id;
     public String cover;
     public String article_id;
+    public String content;
 }

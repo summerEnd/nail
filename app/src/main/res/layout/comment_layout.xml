@@ -30,7 +30,7 @@
         <RadioButton
             style="@style/tab_comment_style"
             android:id="@+id/rb_bad"
-            android:textColor="@drawable/text_bad"
+            android:textColor="@drawable/text_gray_white"
             android:text="差评"
             />
     </RadioGroup>

@@ -41,7 +41,7 @@ public class LoginActivity extends BaseActivity implements RadioGroup.OnCheckedC
     UserLogin       USER;
     FragmentManager manager;
     private LocationService.LocationConnection conn;
-
+    final int REQUEST_CODE=102;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,7 +74,6 @@ public class LoginActivity extends BaseActivity implements RadioGroup.OnCheckedC
         params.put("type", type);
 
         FingerHttpClient.post("login", params, new FingerHttpHandler() {
-
 
             @Override
             public void onSuccess(JSONObject o) {
@@ -115,10 +114,22 @@ public class LoginActivity extends BaseActivity implements RadioGroup.OnCheckedC
                 }
             }
 
-            @Override
-            public void onFail(JSONObject o) {
-            }
+
         });
+
+    }
+
+    public void doRegister(){
+        startActivityForResult(new Intent(this, RegisterActivity.class),REQUEST_CODE);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode==RESULT_OK&&requestCode==REQUEST_CODE){
+            finish();
+        }
+
+
 
     }
 
@@ -189,7 +200,7 @@ public class LoginActivity extends BaseActivity implements RadioGroup.OnCheckedC
                     break;
                 }
                 case R.id.register: {
-                    getActivity().startActivity(new Intent(getActivity(), RegisterActivity.class));
+                    ((LoginActivity) getActivity()).doRegister();
                     break;
                 }
             }

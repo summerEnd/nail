@@ -17,11 +17,14 @@ import com.finger.activity.base.BaseActivity;
 import com.finger.BuildConfig;
 import com.finger.R;
 import com.finger.activity.login.UpdatePasswordActivity;
+import com.finger.entity.BaseInfo;
 import com.finger.support.net.FingerHttpClient;
 import com.finger.support.net.FingerHttpHandler;
+import com.finger.support.util.ContextUtil;
 import com.loopj.android.http.RequestParams;
 import com.sp.lib.Slib;
 import com.sp.lib.activity.DEBUGActivity;
+import com.sp.lib.util.FileUtil;
 import com.sp.lib.version.Downloader;
 
 import org.json.JSONException;
@@ -41,7 +44,7 @@ public class SettingActivity extends BaseActivity {
             findViewById(R.id.debug_item).setVisibility(View.GONE);
         }
         receiver = new DownloadReceiver();
-        registerReceiver(receiver,new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
+        registerReceiver(receiver, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
     }
 
     @Override
@@ -49,7 +52,7 @@ public class SettingActivity extends BaseActivity {
         super.onDestroy();
         try {
             unregisterReceiver(receiver);
-        }catch (Exception e){
+        } catch (Exception e) {
 
         }
     }
@@ -83,7 +86,11 @@ public class SettingActivity extends BaseActivity {
             }
 
             case R.id.service_area: {
-                startActivity(new Intent(this, ServiceAreaActivity.class));
+                BaseInfo info = getApp().getBaseInfo();
+                startActivity(new Intent(this, WebViewActivity.class)
+                                .putExtra(WebViewActivity.EXTRA_URL, info.service_rule)
+                                .putExtra(WebViewActivity.EXTRA_TITLE, getString(R.string.title_activity_service_area))
+                );
                 break;
             }
 
@@ -93,12 +100,17 @@ public class SettingActivity extends BaseActivity {
             }
 
             case R.id.about: {
-                startActivity(new Intent(this, About.class));
+                BaseInfo info = getApp().getBaseInfo();
+                startActivity(new Intent(this, WebViewActivity.class)
+                                .putExtra(WebViewActivity.EXTRA_URL, info.about_us)
+                                .putExtra(WebViewActivity.EXTRA_TITLE, getString(R.string.title_activity_about))
+                );
                 break;
             }
 
             case R.id.clear_cache: {
                 Slib.clearCache();
+                ContextUtil.toast(getString(R.string.clear_ok));
                 break;
             }
 
@@ -153,7 +165,11 @@ public class SettingActivity extends BaseActivity {
             }
 
             case R.id.discount_rule: {
-                startActivity(new Intent(this, DiscountRuleActivity.class));
+                BaseInfo info = getApp().getBaseInfo();
+                startActivity(new Intent(this, WebViewActivity.class)
+                                .putExtra(WebViewActivity.EXTRA_URL, info.coupon_rule)
+                                .putExtra(WebViewActivity.EXTRA_TITLE, getString(R.string.discount_rule))
+                );
                 break;
             }
 

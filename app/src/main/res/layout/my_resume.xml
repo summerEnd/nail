@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
 
-    <include layout="@layout/head_2" />
+    <include layout="@layout/head_2"/>
 
     <ScrollView
         android:layout_width="match_parent"
@@ -18,7 +18,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="170dp"
                 android:gravity="center"
                 android:background="@drawable/user_background"
                 android:orientation="vertical">
@@ -27,7 +27,7 @@
                     android:id="@+id/iv_avatar"
                     android:layout_width="@dimen/avatar_center_size"
                     android:layout_height="@dimen/avatar_center_size"
-                    android:src="@drawable/default_user" />
+                    android:src="@drawable/default_user"/>
 
                 <TextView
                     android:id="@+id/tv_nick_name"
@@ -36,14 +36,14 @@
                     android:layout_height="wrap_content"
                     android:textColor="@color/textColorBlack"
                     android:textSize="@dimen/textSize_2"
-                    android:text="昵称" />
+                    android:text="昵称"/>
 
                 <com.finger.support.widget.RatingWidget
                     android:id="@+id/rating"
                     android:layout_width="wrap_content"
                     app:drawable="@drawable/star2"
                     app:stars="5"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"/>
             </LinearLayout>
 
             <LinearLayout
@@ -54,52 +54,52 @@
 
                 <TextView
                     style="@style/resume_text_pink_style"
-                    android:text="@string/pro_" />
+                    android:text="@string/pro_"/>
 
                 <TextView
                     android:id="@id/tv_pro"
                     style="@style/resume_num_pink_style"
-                    android:text="0" />
+                    android:text="0"/>
 
                 <View
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="1" />
+                    android:layout_weight="1"/>
 
                 <TextView
                     style="@style/resume_text_pink_style"
-                    android:text="@string/com_" />
+                    android:text="@string/com_"/>
 
                 <TextView
                     android:id="@id/tv_com"
                     style="@style/resume_num_pink_style"
-                    android:text="0" />
+                    android:text="0"/>
 
                 <View
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="1" />
+                    android:layout_weight="1"/>
 
                 <TextView
                     style="@style/resume_text_pink_style"
-                    android:text="@string/on_time_" />
+                    android:text="@string/on_time_"/>
 
                 <TextView
                     android:id="@id/tv_on_time"
                     style="@style/resume_num_pink_style"
-                    android:text="0" />
+                    android:text="0"/>
 
                 <View
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="1" />
+                    android:layout_weight="1"/>
 
                 <TextView
                     android:id="@+id/tv_order_num"
                     style="@style/resume_num_pink_style"
                     android:textColor="@color/textColorGray"
                     android:textSize="@dimen/textSize_dp_24px"
-                    android:text="@string/order_d_num" />
+                    android:text="@string/order_d_num"/>
             </LinearLayout>
 
             <LinearLayout
@@ -107,63 +107,89 @@
                 style="@style/my_resume_white_item"
                 android:orientation="horizontal">
 
-                <TextView
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="#e45b63"
-                    android:textSize="@dimen/textSize_dp_28px"
-                    android:text="好评" />
+                    android:layout_centerInParent="true"
+                    android:orientation="horizontal">
 
-                <TextView
-                    android:id="@id/tv_good_comment"
-                    android:layout_width="wrap_content"
-                    android:textSize="@dimen/textSize_dp_28px"
-                    android:textColor="@color/textColorGray"
-                    android:layout_marginLeft="6dp"
-                    android:layout_height="wrap_content"
-                    android:text="@string/d_num" />
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
 
-                <View
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="#e45b63"
+                            android:textSize="@dimen/textSize_dp_28px"
+                            android:text="好评"/>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="#c99918"
-                    android:textSize="@dimen/textSize_dp_28px"
-                    android:text="中评" />
+                        <TextView
+                            android:id="@id/tv_good_comment"
+                            android:layout_width="wrap_content"
+                            android:textSize="@dimen/textSize_dp_28px"
+                            android:textColor="@color/textColorGray"
+                            android:layout_marginLeft="6dp"
+                            android:layout_height="wrap_content"
+                            android:text="0条"/>
+                    </LinearLayout>
 
-                <TextView
-                    android:id="@id/tv_mid_comment"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="6dp"
-                    android:textSize="@dimen/textSize_dp_28px"
-                    android:textColor="@color/textColorGray"
-                    android:text="@string/d_num" />
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"/>
 
-                <View
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1" />
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/textColorGray"
-                    android:textSize="@dimen/textSize_dp_28px"
-                    android:text="差评" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="#c99918"
+                            android:textSize="@dimen/textSize_dp_28px"
+                            android:text="中评"/>
 
-                <TextView
-                    android:id="@id/tv_bad_comment"
-                    android:layout_width="wrap_content"
-                    android:layout_marginLeft="6dp"
-                    android:textSize="@dimen/textSize_dp_28px"
-                    android:textColor="@color/textColorGray"
-                    android:layout_height="wrap_content"
-                    android:text="@string/d_num" />
+                        <TextView
+                            android:id="@id/tv_mid_comment"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="6dp"
+                            android:textSize="@dimen/textSize_dp_28px"
+                            android:textColor="@color/textColorGray"
+                            android:text="0条"/>
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"/>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/textColorGray"
+
+                            android:textSize="@dimen/textSize_dp_28px"
+                            android:text="差评"/>
+
+                        <TextView
+                            android:id="@+id/tv_bad_comment"
+                            android:layout_width="wrap_content"
+                            android:layout_marginLeft="6dp"
+                            android:textSize="@dimen/textSize_dp_28px"
+                            android:textColor="@color/textColorGray"
+                            android:layout_height="wrap_content"
+                            android:text="0条"/>
+                    </LinearLayout>
+                </LinearLayout>
             </LinearLayout>
 
             <RelativeLayout style="@style/my_resume_white_item">
@@ -174,7 +200,7 @@
                     android:text="个人简历"
                     android:id="@+id/my_resume"
                     android:textSize="@dimen/textSize_dp_30px"
-                    android:textColor="@color/textColorBlack" />
+                    android:textColor="@color/textColorBlack"/>
 
                 <TextView
                     android:onClick="onClick"
@@ -183,29 +209,47 @@
                     android:layout_height="wrap_content"
                     android:text="修改"
                     android:id="@+id/modify"
+                    android:layout_alignBaseline="@id/my_resume"
                     android:layout_alignParentRight="true"
                     android:textSize="@dimen/textSize_dp_24px"
-                    android:textColor="@color/textColorBlack" />
+                    android:textColor="@color/textColorBlack"/>
 
                 <TextView
                     android:layout_marginTop="8dp"
                     android:layout_marginBottom="8dp"
                     android:id="@+id/line"
+                    android:layout_below="@id/my_resume"
                     style="@style/horizontal_line"
-                    android:layout_below="@+id/modify" />
+                    />
 
                 <TextView
                     android:id="@+id/tv_short_content"
                     android:layout_below="@id/line"
                     android:textColor="@color/textColorGray"
                     android:textSize="@dimen/textSize_dp_24px"
-                    android:layout_width="wrap_content"
+                    android:minHeight="90dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
             </RelativeLayout>
+
             <HorizontalScrollView
-                android:id="@+id/resume_images"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_marginTop="6dp"
+                android:id="@+id/h_scroll"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:id="@+id/resume_images"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                </LinearLayout>
+            </HorizontalScrollView>
+
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"/>
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

@@ -117,9 +117,9 @@ public class ContextUtil {
 
         DisplayImageOptions squareImageOptions = new DisplayImageOptions.Builder()
                 .imageScaleType(ImageScaleType.IN_SAMPLE_INT)
-                .showImageForEmptyUri(R.drawable.onLoadImage)
-                .showImageOnFail(R.drawable.onLoadImage)
-                .showImageOnLoading(R.drawable.onLoadImage)
+                .showImageForEmptyUri(R.drawable.loading)
+                .showImageOnFail(R.drawable.loading)
+                .showImageOnLoading(R.drawable.loading)
                 .cacheInMemory(true).cacheOnDisc(true).build();
         return squareImageOptions;
     }
@@ -129,7 +129,7 @@ public class ContextUtil {
                 .imageScaleType(ImageScaleType.IN_SAMPLE_INT)
                 .showImageForEmptyUri(R.drawable.default_user)
                 .showImageOnFail(R.drawable.default_user)
-                .showImageOnLoading(R.drawable.default_user)
+                .showImageOnLoading(R.drawable.loading)
                 .displayer(new BitmapDisplayer() {
                     @Override
                     public void display(Bitmap bitmap, ImageAware imageAware, LoadedFrom loadedFrom) {

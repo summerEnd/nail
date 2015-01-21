@@ -2,6 +2,7 @@ package com.finger.activity.login;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -9,12 +10,19 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.baidu.location.BDLocation;
 import com.finger.R;
 import com.finger.activity.base.BaseActivity;
 import com.finger.activity.info.User;
+import com.finger.activity.setting.ChangeMyData;
+import com.finger.entity.ArtistRole;
+import com.finger.entity.RoleBean;
 import com.finger.entity.UserRole;
+import com.finger.service.LocationService;
+import com.finger.support.Constant;
 import com.finger.support.net.FingerHttpClient;
 import com.finger.support.net.FingerHttpHandler;
+import com.finger.support.util.JsonUtil;
 import com.loopj.android.http.RequestParams;
 
 import org.json.JSONException;
@@ -40,60 +48,119 @@ public class RegisterActivity extends BaseActivity {
         smsButton = (Button) findViewById(R.id.getRegisterCode);
     }
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.reg: {
-                final String mobile = edit_mobile.getText().toString();
-                final String password = edit_password.getText().toString();
-                final String register_code = edit_yzm.getText().toString();
-                RequestParams params = new RequestParams();
-                params.put("phone_num", mobile);
-                params.put("password", password);
-                params.put("register_code", register_code);
-                FingerHttpClient.post("register", params, new FingerHttpHandler() {
+
+    /**
+     * 注册
+     *
+     * @param v
+     */
+    public void register(View v) {
+        final String mobile = getMobile();
+        final String password = getPassword();
+        final String register_code = edit_yzm.getText().toString();
+        RequestParams params = new RequestParams();
+        params.put("phone_num", mobile);
+        params.put("password", password);
+        params.put("register_code", register_code);
+        FingerHttpClient.post("register", params, new FingerHttpHandler() {
+            @Override
+            public void onSuccess(JSONObject object) {
+                UserRole bean = new UserRole();
+                bean.mobile = mobile;
+                bean.password = password;
+                AlertDialog.Builder builder = new AlertDialog.Builder(RegisterActivity.this);
+                builder.setTitle(getString(R.string.congratulation));
+                builder.setMessage(getString(R.string.congrate_reg));
+                builder.setPositiveButton(R.string.login_now, new DialogInterface.OnClickListener() {
                     @Override
-                    public void onSuccess(JSONObject object) {
-                        UserRole bean = new UserRole();
-                        bean.mobile = mobile;
-                        bean.password = password;
-                        AlertDialog.Builder builder = new AlertDialog.Builder(RegisterActivity.this);
-                        builder.setTitle(getString(R.string.congratulation));
-                        builder.setMessage(getString(R.string.congrate_reg));
-                        builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                finish();
-                            }
-                        });
-                        builder.show();
+                    public void onClick(DialogInterface dialog, int which) {
+                        startActivity(new Intent(RegisterActivity.this, ChangeMyData.class));
+                        setResult(RESULT_OK);
+                        finish();
+                    }
+                });
+                builder.show();
+                try {
+                    bean.id = object.getInt("data");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                getApp().setUser(bean);
+            }
+
+
+        });
+    }
+
+    /**
+     * 获取
+     *
+     * @return
+     */
+    private String getPassword() {
+        return edit_password.getText().toString();
+    }
+
+    /**
+     * @return
+     */
+    private String getMobile() {
+        return edit_mobile.getText().toString();
+    }
+
+    /**
+     * 获取验证码
+     *
+     * @param v
+     */
+    public void getRegisterCode(View v) {
+        RequestParams params = new RequestParams();
+        params.put("phone_num", getMobile());
+        FingerHttpClient.post("getRegisterCode", params, new FingerHttpHandler() {
+            @Override
+            public void onSuccess(JSONObject object) {
+                startTimer();
+                smsButton.setEnabled(false);
+            }
+
+        });
+    }
+
+
+    /**
+     * 执行登录
+     *
+     * @param mobile
+     * @param password
+     */
+    public void doLogin(final String mobile, final String password) {
+
+        RequestParams params = new RequestParams();
+        params.put("phone_num", mobile);
+        params.put("password", password);
+        params.put("type", Constant.LOGIN_TYPE_USER);
+        FingerHttpClient.post("login", params, new FingerHttpHandler() {
+
+                    @Override
+                    public void onSuccess(JSONObject o) {
+
+                        RoleBean bean;
+                        JSONObject user = null;
                         try {
-                            bean.id = object.getInt("data");
+                            user = o.getJSONObject("data");
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
+
+                        bean = JsonUtil.get(user.toString(), UserRole.class);
+                        bean.password = password;
+                        //设置登录用户信息
                         getApp().setUser(bean);
                     }
 
+                }
+        );
 
-                });
-                break;
-            }
-            case R.id.getRegisterCode: {
-                RequestParams params = new RequestParams();
-                params.put("phone_num", edit_mobile.getText().toString());
-                FingerHttpClient.post("getRegisterCode", params, new FingerHttpHandler() {
-                    @Override
-                    public void onSuccess(JSONObject object) {
-                        startTimer();
-                        smsButton.setEnabled(false);
-                    }
-
-                });
-                break;
-            }
-        }
-        super.onClick(v);
     }
 
     Timer timer;

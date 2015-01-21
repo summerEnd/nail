@@ -67,7 +67,7 @@ public class PlanForOther extends PlanFragment implements View.OnClickListener {
                     bean.time_block = time_block;
                     bean.book_date = book_date;
                     bean.addressSearchBean=addressSearchBean;
-                    bean.type = TYPE_FOR_ME;
+                    bean.type = TYPE_FOR_OTHER;
                     submit();
                 } else {
                     Intent intent = new Intent(getActivity(), LoginActivity.class);

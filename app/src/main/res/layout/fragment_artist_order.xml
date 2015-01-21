@@ -1,17 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:weightSum="1">
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@drawable/windowBackground"
+              android:weightSum="1">
 
-    <include layout="@layout/head_1" />
+    <include layout="@layout/head_1"/>
 
     <RadioGroup
         android:id="@+id/rg"
-        android:layout_margin="3dp"
-        android:background="@drawable/tab_bg_2"
         android:layout_width="match_parent"
         android:orientation="horizontal"
         android:layout_height="wrap_content">
@@ -21,19 +20,19 @@
             android:id="@+id/rb1"
             android:checked="true"
             android:text="订单通知"
-            android:button="@null" />
+            android:button="@null"/>
 
         <RadioButton
             style="@style/tab_order_style"
             android:id="@+id/rb2"
             android:text="退款通知"
-            android:button="@null" />
-
-
+            android:button="@null"/>
     </RadioGroup>
+
+    <TextView style="@style/horizontal_line"/>
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/frag_container" />
+        android:id="@+id/frag_container"/>
 </LinearLayout>

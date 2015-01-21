@@ -2,8 +2,8 @@ package com.finger.activity.main;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,13 +22,10 @@ import com.finger.support.net.FingerHttpClient;
 import com.finger.support.net.FingerHttpHandler;
 import com.finger.support.util.ContextUtil;
 import com.finger.support.util.JsonUtil;
-import com.finger.support.util.Logger;
 import com.finger.support.widget.RatingWidget;
 import com.loopj.android.http.RequestParams;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
-import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 import com.sp.lib.util.ImageManager;
-import com.sp.lib.util.ImageUtil;
 import com.sp.lib.util.ListController;
 
 import org.json.JSONException;
@@ -43,16 +40,18 @@ public class AttentionList extends BaseActivity implements AdapterView.OnItemCli
 
     ListView    listView;
     CareAdapter adapter;
-    TextView    title_delete;
     List<AttentionItemBean> beans = new LinkedList<AttentionItemBean>();
     ListController controller;
+    View           title_done;
+    View           title_delete;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_care);
         listView = (ListView) findViewById(R.id.listView);
-        title_delete = (TextView) findViewById(R.id.tv_title_delete);
+        title_delete = findViewById(R.id.title_delete);
+        title_done = findViewById(R.id.title_done);
         adapter = new CareAdapter(this);
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(this);
@@ -60,7 +59,11 @@ public class AttentionList extends BaseActivity implements AdapterView.OnItemCli
         getAttentionList(1);
     }
 
-
+    /**
+     * 获取关注列表
+     *
+     * @param page
+     */
     void getAttentionList(int page) {
         RequestParams params = new RequestParams();
         params.put("page", page);
@@ -81,15 +84,14 @@ public class AttentionList extends BaseActivity implements AdapterView.OnItemCli
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.tv_title_delete: {
-
-                String titleText = title_delete.getText().toString();
-                if (titleText.equals(getString(R.string.delete))) {
-                    title_delete.setText(R.string.done);
-                    adapter.showDelete(true);
-                } else {
-                    deleteItem();
-                }
+            case R.id.title_done: {
+                deleteItem();
+                toggleTitle(false);
+                break;
+            }
+            case R.id.title_delete: {
+                adapter.showDelete(true);
+                toggleTitle(true);
                 break;
             }
         }
@@ -127,13 +129,29 @@ public class AttentionList extends BaseActivity implements AdapterView.OnItemCli
             @Override
             public void onSuccess(JSONObject o) {
                 beans.clear();
-                title_delete.setText(R.string.delete);
+                toggleTitle(false);
                 adapter.showDelete(false);
                 getAttentionList(1);
             }
         });
 
 
+    }
+
+    /**
+     * 转换是否为删除状态
+     *
+     * @param delete
+     */
+    void toggleTitle(boolean delete) {
+        if (delete) {
+            title_done.setVisibility(View.VISIBLE);
+            title_delete.setVisibility(View.GONE);
+        } else {
+            title_done.setVisibility(View.GONE);
+            title_delete.setVisibility(View.VISIBLE);
+
+        }
     }
 
     @Override
@@ -153,11 +171,12 @@ public class AttentionList extends BaseActivity implements AdapterView.OnItemCli
     }
 
     class CareAdapter extends BaseAdapter {
-        LayoutInflater inflater;
+        LayoutInflater      inflater;
         DisplayImageOptions options;
+
         CareAdapter(Context context) {
             inflater = LayoutInflater.from(context);
-            options= ContextUtil.getAvatarOptions();
+            options = ContextUtil.getAvatarOptions();
         }
 
         private boolean delete;
@@ -198,12 +217,13 @@ public class AttentionList extends BaseActivity implements AdapterView.OnItemCli
                 holder.tv_nick_name = (TextView) convertView.findViewById(R.id.tv_nick_name);
                 holder.tv_average_price = (TextView) convertView.findViewById(R.id.tv_average_price);
                 holder.tv_order_number = (TextView) convertView.findViewById(R.id.tv_order_number);
+                holder.tv_news = (TextView) convertView.findViewById(R.id.tv_news);
                 holder.rating = (RatingWidget) convertView.findViewById(R.id.rating);
             } else {
                 holder = (ViewHolder) convertView.getTag();
             }
-            AttentionItemBean bean = beans.get(position);
 
+            AttentionItemBean bean = beans.get(position);
             if (delete) {
                 holder.iv_delete.setVisibility(View.VISIBLE);
                 if (bean.selected) {
@@ -214,13 +234,23 @@ public class AttentionList extends BaseActivity implements AdapterView.OnItemCli
             } else {
                 holder.iv_delete.setVisibility(View.GONE);
             }
+
             holder.tv_nick_name.setText(bean.username);
             holder.tv_average_price.setText(getString(R.string.average_price_s, bean.average_price));
             holder.rating.setScore(bean.score);
             holder.tv_order_number.setText(getString(R.string.order_d_num, bean.total_num));
-            Logger.i_format("name:" + bean.username);
-            Logger.i_format("avatar:"+bean.avatar);
-            ImageManager.loadImage(bean.avatar,holder.iv_avatar,options);
+
+
+            String new_product = bean.new_product;
+            if ("0".equals(new_product)|| TextUtils.isEmpty(new_product)||"null".equals(new_product)) {
+                holder.tv_news.setVisibility(View.GONE);
+            } else {
+                holder.tv_news.setVisibility(View.VISIBLE);
+                holder.tv_news.setText(new_product);
+
+            }
+
+            ImageManager.loadImage(bean.avatar, holder.iv_avatar, options);
 
             convertView.setTag(holder);
             return convertView;
@@ -233,6 +263,7 @@ public class AttentionList extends BaseActivity implements AdapterView.OnItemCli
         TextView     tv_nick_name;
         TextView     tv_average_price;
         TextView     tv_order_number;
+        TextView     tv_news;
         RatingWidget rating;
     }
 }

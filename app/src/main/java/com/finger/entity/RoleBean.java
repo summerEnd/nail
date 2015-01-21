@@ -16,6 +16,7 @@ public class RoleBean implements Serializable{
     public Integer id;
     protected String type;
     public String username;
+    public String new_product;
     public String avatar;
     public String mobile;
     public String password;

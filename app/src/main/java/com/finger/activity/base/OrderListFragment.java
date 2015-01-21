@@ -1,5 +1,7 @@
 package com.finger.activity.base;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -11,6 +13,7 @@ import android.widget.ListView;
 import com.finger.R;
 import com.finger.activity.FingerApp;
 import com.finger.activity.info.OrderInfoActivity;
+import com.finger.activity.main.artist.my.PublishNailActivity;
 import com.finger.entity.ArtistRole;
 import com.finger.entity.OrderListBean;
 import com.finger.entity.RoleBean;
@@ -85,7 +88,7 @@ public class OrderListFragment extends ListFragment implements ListController.Ca
         if (status != null)
             params.put("status", status);
 
-        RoleBean bean = FingerApp.getInstance().getUser();
+        final RoleBean bean = FingerApp.getInstance().getUser();
 
         if (bean instanceof ArtistRole) {
             params.put("mid", bean.id);
@@ -97,8 +100,9 @@ public class OrderListFragment extends ListFragment implements ListController.Ca
         FingerHttpClient.post("getOrderList", params, new FingerHttpHandler() {
             @Override
             public void onSuccess(JSONObject o) {
+                OrderAdapter adapter = (OrderAdapter) getListView().getAdapter();
+
                 try {
-                    OrderAdapter adapter = (OrderAdapter) getListView().getAdapter();
                     JsonUtil.getArray(o.getJSONArray("data"), OrderListBean.class, adapter.getData());
                     adapter.notifyDataSetChanged();
                 } catch (JSONException e) {

@@ -3,6 +3,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
+    android:background="@drawable/windowBackground"
     android:layout_height="match_parent"
     android:weightSum="1">
 
@@ -10,8 +11,6 @@
 
     <RadioGroup
         android:id="@+id/rg"
-        android:layout_margin="3dp"
-        android:background="@drawable/tab_bg_2"
         android:layout_width="match_parent"
         android:orientation="horizontal"
         android:layout_height="wrap_content">
@@ -41,7 +40,7 @@
             android:text="退款服务"
             android:button="@null" />
     </RadioGroup>
-
+    <TextView style="@style/horizontal_line"/>
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"

@@ -437,6 +437,14 @@ public class OrderAdapterFactory {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             dialog.dismiss();
+                            showSystemShare();
+//                            showCustomShare();
+                        }
+
+                        /**
+                         * 系统分享
+                         */
+                        public void showSystemShare(){
                             MainActivity activity = (MainActivity) mContext;
                             OrderListBean bean = (OrderListBean) v.getTag();
                             activity.setGetCouponOrderId(bean.id);
@@ -445,28 +453,29 @@ public class OrderAdapterFactory {
                                     MainActivity.REQUEST_SHARE);
                         }
 
-                        public void showShare(){
-                            if (window!=null){
-                                window.dismiss();
+                        //自定义分享 点蓝牙的时候会崩溃，原因没找到
+                        public void showCustomShare(){
+                            if (window==null){
+                                window = new ShareWindow(v.getContext());
+                                window.setOnShareItemClick(new ShareWindow.OnShareItemClick() {
+                                    @Override
+                                    public void onShare(ResolveInfo info) {
+                                        MainActivity activity = (MainActivity) mContext;
+                                        OrderListBean bean = (OrderListBean) v.getTag();
+                                        activity.setGetCouponOrderId(bean.id);
+                                        activity.startActivityForResult(
+                                                new Intent()
+                                                        .setClassName(info.activityInfo.packageName, info.activityInfo.name)
+                                                        .putExtra(Intent.EXTRA_TITLE, activity.getString(R.string.app_name))
+                                                        .putExtra(Intent.EXTRA_SUBJECT, "这是一个分享")
+                                                ,
+                                                MainActivity.REQUEST_SHARE);
+                                    }
+                                });
+                                window.setTitle(v.getContext().getString(R.string.app_name));
                             }
 
-                            window = new ShareWindow(v.getContext());
-                            window.setOnShareItemClick(new ShareWindow.OnShareItemClick() {
-                                @Override
-                                public void onShare(ResolveInfo info) {
-                                    MainActivity activity = (MainActivity) mContext;
-                                    OrderListBean bean = (OrderListBean) v.getTag();
-                                    activity.setGetCouponOrderId(bean.id);
-                                    activity.startActivityForResult(
-                                            new Intent()
-                                                    .setClassName(info.activityInfo.packageName, info.activityInfo.name)
-                                                    .putExtra(Intent.EXTRA_TITLE, activity.getString(R.string.app_name))
-                                                    .putExtra(Intent.EXTRA_SUBJECT, "这是一个分享")
-                                            ,
-                                            MainActivity.REQUEST_SHARE);
-                                }
-                            });
-                            window.setTitle(v.getContext().getString(R.string.app_name));
+
                             try{
                                 window.showAtLocation(v, Gravity.CENTER, 0, 0);
                             }catch (Exception e){

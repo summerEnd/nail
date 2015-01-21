@@ -17,7 +17,6 @@ import android.widget.TextView;
 
 import com.finger.R;
 import com.finger.support.util.ContextUtil;
-import com.finger.support.util.Logger;
 import com.finger.support.util.ItemUtil;
 
 import java.text.SimpleDateFormat;
@@ -93,7 +92,7 @@ public class Schedule extends PopupWindow implements ViewPager.OnPageChangeListe
      *
      * @param blocks
      */
-    public void setTimeBlock(List<TimeBlock> blocks) {
+    public void setTimeBlock(List<ScheduleOfDay> blocks) {
         final int halfScreen = ItemUtil.halfScreen;
         int w = halfScreen * 2;
         int h = (int) (halfScreen * 1.5);
@@ -102,7 +101,7 @@ public class Schedule extends PopupWindow implements ViewPager.OnPageChangeListe
 
         //根据时间blocks创建四个页面，今天、明天、后天、大后天
         if (blocks != null) {
-            for (TimeBlock block : blocks) {
+            for (ScheduleOfDay block : blocks) {
                 views.add(createPage(block, w, h));
             }
         }
@@ -127,7 +126,7 @@ public class Schedule extends PopupWindow implements ViewPager.OnPageChangeListe
      * @param height
      * @return
      */
-    View createPage(TimeBlock block, int width, int height) {
+    View createPage(ScheduleOfDay block, int width, int height) {
         //一个页面就是一个GridView
         GridView view = new GridView(context);
         view.setLayoutParams(new AbsListView.LayoutParams(width, height));
@@ -135,12 +134,12 @@ public class Schedule extends PopupWindow implements ViewPager.OnPageChangeListe
         if (block != null) {
             //默认设置为"忙"
             view.setTag(context.getString(R.string.busy));
-            ArrayList<ScheduleBean> scheduleBeans = block.convert2Schedule();
+            ArrayList<ScheduleBean> scheduleBeans = block.getScheduleList();
 
             //如果有一个时间段是闲，那么今天是可预约的
             for (int i = 0; i < scheduleBeans.size(); i++) {
                 if (scheduleBeans.get(i).free) {
-                    view.setTag(context.getString(R.string.xian));
+                    view.setTag(context.getString(R.string.free));
                 }
             }
             adapter = new ScheduleGridAdapter(scheduleBeans);
@@ -240,7 +239,7 @@ public class Schedule extends PopupWindow implements ViewPager.OnPageChangeListe
 
             if (bean != null && !bean.free) {
                 ContextUtil.toast(context.getString(R.string.not_valid_blocks));
-            }else{
+            } else {
                 mCallback.onSelect(date, block);
             }
 
@@ -338,27 +337,12 @@ public class Schedule extends PopupWindow implements ViewPager.OnPageChangeListe
                 }
             }
 
-            holder.tv_time.setText(convertTimeBlock(position + 1));
+            holder.tv_time.setText(ScheduleOfDay.convertTimeBlock(position + 1));
             convertView.setTag(holder);
             return convertView;
         }
     }
 
-    /**
-     * 将time_block转化为时间段
-     *
-     * @param time_block
-     * @return
-     */
-    public static String convertTimeBlock(int time_block) {
-        int start = time_block * 2 + 7;
-        return new StringBuilder()
-                .append(start)
-                .append(":00~")
-                .append(start + 2)
-                .append(":00")
-                .toString();
-    }
 
     /**
      * 根据book_date和time_block得出预约时间
@@ -368,7 +352,7 @@ public class Schedule extends PopupWindow implements ViewPager.OnPageChangeListe
      * @return
      */
     public static String convertPlanTime(String book_date, int time_block) {
-        return book_date + " " + convertTimeBlock(time_block);
+        return book_date + " " + ScheduleOfDay.convertTimeBlock(time_block);
     }
 
     static class ViewHolder {

@@ -10,14 +10,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.RadioGroup;
 
-import com.baidu.location.BDLocation;
 import com.finger.activity.base.BaseActivity;
 import com.finger.R;
 import com.finger.activity.info.ArtistInfoList;
-import com.finger.api.BaiduAPI;
 import com.finger.entity.OrderBean;
 import com.finger.entity.OrderManager;
-import com.finger.entity.RoleBean;
 import com.finger.support.net.FingerHttpClient;
 import com.finger.support.net.FingerHttpHandler;
 import com.finger.support.util.ContextUtil;
@@ -30,7 +27,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.finger.activity.main.artist.my.PlanTimeActivity.TimeBlock;
+import static com.finger.activity.main.artist.my.PlanTimeActivity.ScheduleOfDay;
 import static com.finger.activity.plan.Schedule.Callback;
 
 public class PlanActivity extends BaseActivity implements RadioGroup.OnCheckedChangeListener {
@@ -93,7 +90,7 @@ public class PlanActivity extends BaseActivity implements RadioGroup.OnCheckedCh
      *
      * @param blocks 为null代表所有时间都可以预约
      */
-    void showSchedule(List<TimeBlock> blocks) {
+    void showSchedule(List<ScheduleOfDay> blocks) {
 
         if (mSchedule == null) {
             mSchedule = new Schedule(this);
@@ -104,6 +101,10 @@ public class PlanActivity extends BaseActivity implements RadioGroup.OnCheckedCh
 
     }
 
+    /**
+     * 获取美甲师时间块
+     * @param mid
+     */
     void getTimeBlock(int mid) {
         RequestParams params = new RequestParams();
         params.put("mid", mid);
@@ -111,8 +112,8 @@ public class PlanActivity extends BaseActivity implements RadioGroup.OnCheckedCh
             @Override
             public void onSuccess(JSONObject o) {
                 try {
-                    ArrayList<TimeBlock> blocks = new ArrayList<TimeBlock>();
-                    JsonUtil.getArray(o.getJSONArray("data"), TimeBlock.class, blocks);
+                    ArrayList<ScheduleOfDay> blocks = new ArrayList<ScheduleOfDay>();
+                    JsonUtil.getArray(o.getJSONArray("data"), ScheduleOfDay.class, blocks);
                     showSchedule(blocks);
                 } catch (JSONException e) {
                     e.printStackTrace();

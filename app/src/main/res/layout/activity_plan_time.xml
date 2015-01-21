@@ -46,7 +46,7 @@
                 android:checked="true"
                 android:layout_weight="1"
                 style="@style/schedule_tab_style"
-                android:text="今天（忙）" />
+                android:text="今天" />
 
             <TextView style="@style/vertical_line" />
 
@@ -54,7 +54,7 @@
                 android:id="@+id/r2"
                 android:layout_weight="1"
                 style="@style/schedule_tab_style"
-                android:text="明天（忙）" />
+                android:text="明天" />
 
             <TextView style="@style/vertical_line" />
 
@@ -62,7 +62,7 @@
                 android:id="@+id/r3"
                 android:layout_weight="1"
                 style="@style/schedule_tab_style"
-                android:text="后天（忙）" />
+                android:text="后天" />
 
             <TextView style="@style/vertical_line" />
 
@@ -70,7 +70,7 @@
                 android:id="@+id/r4"
                 android:layout_weight="1"
                 style="@style/schedule_tab_style"
-                android:text="12.24（忙）" />
+                android:text="大后天" />
         </RadioGroup>
 
         <android.support.v4.view.ViewPager

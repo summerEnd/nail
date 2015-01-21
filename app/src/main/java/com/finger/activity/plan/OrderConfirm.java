@@ -14,12 +14,14 @@ import android.widget.TextView;
 
 import com.finger.activity.base.BaseActivity;
 import com.finger.R;
+import com.finger.api.AlipayAPI;
 import com.finger.entity.AddressSearchBean;
 import com.finger.entity.NailInfoBean;
 import com.finger.entity.OrderBean;
 import com.finger.entity.OrderManager;
 import com.finger.support.net.FingerHttpClient;
 import com.finger.support.net.FingerHttpHandler;
+import com.finger.support.util.ContextUtil;
 import com.finger.support.util.JsonUtil;
 import com.finger.support.widget.PopupList;
 import com.loopj.android.http.RequestParams;
@@ -51,6 +53,7 @@ public class OrderConfirm extends BaseActivity {
 
     float      taxiFee;
     CouponBean mCoupon;
+    String     total_fee;
     ArrayList<CouponBean> couponBeans = new ArrayList<CouponBean>();
     PopupList         popupList;
     CouponAdapter     adapter;
@@ -98,10 +101,7 @@ public class OrderConfirm extends BaseActivity {
 
         tv_address.setText(mOrderBean.address);
 
-        //不使用优惠券
-        CouponBean emptyBean = new CouponBean();
-        emptyBean.title = getString(R.string.not_use_coupon);
-        couponBeans.add(emptyBean);
+
         //
         ImageManager.loadImage(infoBean.cover, nail_image);
         calculateCost();
@@ -117,6 +117,9 @@ public class OrderConfirm extends BaseActivity {
             case R.id.choose_coupon: {
                 if (popupList == null) {
                     popupList = new PopupList(OrderConfirm.this, adapter, v.getWidth());
+                    popupList.getListView().setVerticalScrollBarEnabled(false);
+                    popupList.getListView().setPadding(1,1,1,1);
+                    popupList.getListView().setBackgroundResource(R.drawable.corner_frame_white_solid);
                     popupList.setOnListItemClickListener(new PopupList.OnListItemClick() {
                         @Override
                         public void onPopupListClick(PopupList v, int position) {
@@ -151,6 +154,11 @@ public class OrderConfirm extends BaseActivity {
      * 获取优惠券列表
      */
     void getCouponList() {
+        //不使用优惠券
+        CouponBean emptyBean = new CouponBean();
+        emptyBean.title = getString(R.string.not_use_coupon);
+        couponBeans.add(emptyBean);
+
         RequestParams params = new RequestParams();
         params.put("status", 0);
         FingerHttpClient.post("getCouponList", params, new FingerHttpHandler() {
@@ -191,7 +199,8 @@ public class OrderConfirm extends BaseActivity {
                     JSONObject data = o.getJSONObject("data");
                     taxiFee = (float) data.getDouble("taxiCost");
                     tv_taxi_fee.setText(getString(R.string.s_price, data.getString("taxiCost")));
-                    tv_real_pay.setText(getString(R.string.real_price_s, data.getString("realPay")));
+                    total_fee = data.getString("realPay");
+                    tv_real_pay.setText(getString(R.string.real_price_s, total_fee));
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -244,7 +253,11 @@ public class OrderConfirm extends BaseActivity {
                         .setPositiveButton(getString(R.string.pay_now), new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                finish();
+                                new AlipayAPI(OrderConfirm.this).start(
+                                        mOrderBean.nailInfoBean.name,
+                                        mOrderBean.nailInfoBean.name,
+                                        total_fee
+                                );
                             }
                         })
                         .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {

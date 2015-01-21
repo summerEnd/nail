@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    style="@style/activity_padding"
-    android:background="@drawable/windowBackground">
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                style="@style/activity_padding"
+                android:background="@drawable/windowBackground">
 
 
     <com.finger.support.widget.EditItem
@@ -16,7 +16,7 @@
         android:layout_height="wrap_content"
         app:edit_hint="@string/p_input_mobile"
         android:layout_alignParentTop="true"
-        android:id="@+id/edit_phone" />
+        android:id="@+id/edit_phone"/>
 
     <com.finger.support.widget.EditItem
         android:layout_marginTop="@dimen/edit_margin_top"
@@ -26,7 +26,7 @@
         android:layout_height="wrap_content"
         android:inputType="textPassword"
         app:edit_hint="@string/p_input_password"
-        android:id="@+id/edit_password" />
+        android:id="@+id/edit_password"/>
 
     <TextView
         android:layout_marginTop="@dimen/login_text_margin_top"
@@ -39,11 +39,11 @@
         android:clickable="true"
         android:textSize="@dimen/textSize_dp_24px"
         android:textColor="@color/textColorPink"
-        android:text="@string/forget_psw" />
+        android:text="@string/forget_psw"/>
 
     <LinearLayout
         android:layout_marginTop="@dimen/login_btn_margin_top"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_below="@id/forget_password"
         android:layout_centerHorizontal="true"
         android:layout_height="wrap_content">
@@ -53,18 +53,20 @@
             android:background="@drawable/button_green"
             android:layout_alignParentRight="true"
             android:layout_width="160dp"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/login_button_height"
             android:text="@string/register"
-            android:id="@+id/register" />
+            android:id="@+id/register"/>
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"/>
 
         <Button
-            android:layout_marginLeft="8dp"
             style="@style/button_mid"
             android:layout_width="160dp"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/login_button_height"
             android:text="@string/login"
-            android:id="@+id/login" />
-
-
+            android:id="@+id/login"/>
     </LinearLayout>
 </RelativeLayout>

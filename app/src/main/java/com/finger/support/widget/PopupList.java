@@ -38,6 +38,9 @@ public class PopupList extends PopupWindow implements AdapterView.OnItemClickLis
         setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
     }
 
+    public ListView getListView(){
+        return (ListView) getContentView();
+    }
 
     private ListView getListView(Context context, int width, BaseAdapter adapter) {
         ListView list = new ListView(context);

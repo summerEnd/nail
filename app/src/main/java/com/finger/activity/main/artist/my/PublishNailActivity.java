@@ -18,7 +18,7 @@ import com.loopj.android.http.RequestParams;
 import org.json.JSONObject;
 
 public class PublishNailActivity extends AddImageActivity {
-    EditText editTitle, editPrice, edit_time_cost, edit_time_keep, edit_detail;
+    EditText editTitle, editPrice, edit_time_cost, edit_time_keep, edit_detail, edit_store_price;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +29,7 @@ public class PublishNailActivity extends AddImageActivity {
         edit_time_cost = (EditText) findViewById(R.id.edit_time_cost);
         edit_time_keep = (EditText) findViewById(R.id.edit_time_keep);
         edit_detail = (EditText) findViewById(R.id.edit_detail);
+        edit_store_price = (EditText) findViewById(R.id.edit_store_price);
         MAX_IMAGE = 1;
     }
 
@@ -63,16 +64,18 @@ public class PublishNailActivity extends AddImageActivity {
                 || isTextEmpty(params, edit_time_cost, "spend_time")
                 || isTextEmpty(params, edit_time_keep, "keep_date")
                 || isTextEmpty(params, edit_detail, "description")
-                ) return;
+                )
+            return;
 
         params.put("cover", image_url.get(0));
         params.put("mid", getApp().getUser().id);
+        params.put("store_price", edit_store_price.getText().toString());
 
 
         FingerHttpClient.post("addProduct", params, new FingerHttpHandler() {
             @Override
             public void onSuccess(JSONObject o) {
-                DialogUtil.alert(PublishNailActivity.this,getString(R.string.publish_ok)).setOnDismissListener(new DialogInterface.OnDismissListener() {
+                DialogUtil.alert(PublishNailActivity.this, getString(R.string.publish_ok)).setOnDismissListener(new DialogInterface.OnDismissListener() {
                     @Override
                     public void onDismiss(DialogInterface dialog) {
                         finish();

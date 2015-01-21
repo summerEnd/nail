@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:background="@drawable/user_background"
+        android:background="@drawable/uer_center_bg"
         android:orientation="vertical">
 
         <ImageView

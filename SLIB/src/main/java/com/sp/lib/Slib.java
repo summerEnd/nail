@@ -3,6 +3,7 @@ package com.sp.lib;
 import android.content.Context;
 
 import com.sp.lib.exception.ExceptionHandler;
+import com.sp.lib.util.FileUtil;
 import com.sp.lib.util.ImageManager;
 
 /**
@@ -22,6 +23,7 @@ public class Slib {
         try {
             ImageManager.clear();
             ExceptionHandler.clear();
+
         } catch (Exception e) {
 
         }

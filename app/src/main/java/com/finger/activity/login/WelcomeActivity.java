@@ -54,7 +54,6 @@ public class WelcomeActivity extends BaseActivity {
      * 定位当前位置
      */
     void getLocation() {
-
         Intent service = new Intent(this, LocationService.class);
 
         //启动定位服务，别的地方只需要bind就可以了
@@ -80,7 +79,8 @@ public class WelcomeActivity extends BaseActivity {
             {
                 getApp().getUser().latitude = location.getLatitude();
                 getApp().getUser().longitude = location.getLongitude();
-                getApp().getCurCity().name = location.getCity();
+
+                //这里只保存city_code，因为百度定位的城市名可能与我们后台的不一样
                 getApp().getCurCity().city_code = location.getCityCode();
             }
 

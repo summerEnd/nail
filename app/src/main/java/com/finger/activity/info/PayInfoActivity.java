@@ -10,6 +10,7 @@ import com.finger.R;
 import com.finger.activity.base.BaseActivity;
 import com.finger.activity.plan.PayMethodFragment;
 import com.finger.activity.plan.Schedule;
+import com.finger.api.AlipayAPI;
 import com.finger.entity.NailInfoBean;
 import com.finger.entity.OrderListBean;
 import com.finger.support.net.FingerHttpClient;
@@ -48,6 +49,10 @@ public class PayInfoActivity extends BaseActivity {
         getSupportFragmentManager().beginTransaction().add(R.id.frag_container, payMethod).commit();
     }
 
+    /**
+     * 获取订单详情
+     * @param orderId
+     */
     void getOrderDetail(int orderId) {
         if (orderId == -1) {
             return;
@@ -83,7 +88,7 @@ public class PayInfoActivity extends BaseActivity {
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.pay:{
-                ContextUtil.toast("默默地，等待支付宝接口中。。。");
+                new AlipayAPI(this).start(bean.product_name,bean.product_name,bean.order_price);
                 break;
             }
         }

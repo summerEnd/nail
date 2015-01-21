@@ -26,23 +26,23 @@ import org.json.JSONObject;
  */
 public class AddImageItem extends HorizontalScrollView {
 
-    public interface Callback{
+    public interface Callback {
         public void onAdd(Bitmap bitmap);
     }
 
     /**
      * 图片的宽度 dp
      */
-    private int next_image_width = 120;
+    private       int next_image_width  = 120;
     /**
      * 图片的高度dp
      */
-    private int next_image_height = 120;
-    private final int REQUEST_CODE = 7715;
+    private       int next_image_height = 120;
+    private final int REQUEST_CODE      = 7715;
 
-    Callback mCallback;
+    Callback     mCallback;
     LinearLayout layout;
-    ImageView add;
+    ImageView    add;
 
     public AddImageItem(Context context) {
         this(context, null);
@@ -54,9 +54,8 @@ public class AddImageItem extends HorizontalScrollView {
 
     public AddImageItem(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-        layout = new LinearLayout(context);
+        layout = (LinearLayout) inflate(context, R.layout.add_image_layout, null);
         addView(layout);
-        layout.setOrientation(LinearLayout.HORIZONTAL);
         add = new ImageView(context);
         int width = (int) DisplayUtil.dp(100, getResources());
         int height = (int) DisplayUtil.dp(100, getResources());
@@ -96,12 +95,16 @@ public class AddImageItem extends HorizontalScrollView {
         }
     };
 
-    public void stopAdd(){
+    public void stopAdd() {
         add.setVisibility(GONE);
     }
 
     public void setCallback(Callback callback) {
         this.mCallback = callback;
+    }
+
+    public void removeImage(int index) {
+        layout.removeViewAt(index);
     }
 
     private ImageView addImage(Context context, Uri uri) {
@@ -112,7 +115,7 @@ public class AddImageItem extends HorizontalScrollView {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        if (mCallback!=null){
+        if (mCallback != null) {
             mCallback.onAdd(bitmap);
         }
         ImageView imageView = new ImageView(context);
@@ -124,14 +127,14 @@ public class AddImageItem extends HorizontalScrollView {
     }
 
 
-
     /**
      * @param requestCode
      * @param resultCode
      * @param data
      */
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (REQUEST_CODE != requestCode) return;
+        if (REQUEST_CODE != requestCode)
+            return;
 
         if (Activity.RESULT_OK == resultCode) {
             Toast.makeText(getContext(), "ok", Toast.LENGTH_SHORT).show();

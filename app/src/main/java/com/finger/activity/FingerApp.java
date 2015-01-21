@@ -37,12 +37,20 @@ public class FingerApp extends Application {
     private CityBean curCity  = new CityBean();
     private BaseInfo baseInfo = new BaseInfo();
 
+    /**
+     * 获取基础信息，包括 关于我们 服务范围 优惠券规则等
+     *
+     * @return
+     */
     public BaseInfo getBaseInfo() {
         return baseInfo = (baseInfo == null ? new BaseInfo() : baseInfo);
     }
 
+    /**
+     * 设置基础信息
+     * @param baseInfo
+     */
     public void setBaseInfo(BaseInfo baseInfo) {
-
         this.baseInfo = baseInfo;
     }
 
@@ -51,12 +59,9 @@ public class FingerApp extends Application {
         super.onCreate();
         mApp = this;
         ContextUtil.init(this);
-        BaiduAPI.init(this);
         Slib.initialize(this);
 
         loadGradeFromXml();
-
-
     }
 
     public static FingerApp getInstance() {

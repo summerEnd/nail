@@ -14,6 +14,7 @@ import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
@@ -46,6 +47,7 @@ public class NailInfoListFragment extends Fragment implements View.OnClickListen
     //价格筛选
     PriceSorter price_sorter;
     View        layout;
+    ImageView   iv_sort;
     int         width;
     List<NailInfoBean> beans = new LinkedList<NailInfoBean>();
     String          sort;
@@ -58,6 +60,7 @@ public class NailInfoListFragment extends Fragment implements View.OnClickListen
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         layout = inflater.inflate(R.layout.fragment_nail_list, null);
         gridView = (GridView) layout.findViewById(R.id.grid);
+        iv_sort = (ImageView) layout.findViewById(R.id.iv_sort);
         layout.findViewById(R.id.order_item).setOnClickListener(this);
         layout.findViewById(R.id.sort_item).setOnClickListener(this);
         adapter = new NailListAdapter(getActivity(), beans);
@@ -168,7 +171,6 @@ public class NailInfoListFragment extends Fragment implements View.OnClickListen
                     } else {
                         openOrder(v);
                     }
-
 
                     break;
                 }

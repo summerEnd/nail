@@ -1,20 +1,20 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context="com.finger.activity.login.UpdatePasswordActivity">
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical"
+              tools:context="com.finger.activity.login.UpdatePasswordActivity">
 
     <include
         android:id="@+id/head"
-        layout="@layout/head_2" />
+        layout="@layout/head_2"/>
 
     <TableLayout
         android:layout_marginLeft="@dimen/activity_horizontal_margin"
         android:layout_marginRight="@dimen/activity_horizontal_margin"
         android:layout_marginTop="@dimen/activity_vertical_margin"
         android:layout_width="match_parent"
-
+        android:stretchColumns="1"
         android:layout_height="wrap_content">
 
         <TableRow
@@ -25,11 +25,13 @@
             <TextView
                 style="@style/tab_item_name_style"
                 android:drawableRight="@drawable/divider"
-                android:text="账       号：" />
+                android:text="账       号："/>
+
             <EditText
                 android:id="@+id/mobile"
+                android:layout_height="match_parent"
                 style="@style/tab_item_value_style"
-                android:hint="@string/hint_password" />
+                android:hint="@string/hint_password"/>
         </TableRow>
 
 
@@ -41,13 +43,14 @@
             <TextView
                 android:drawableRight="@drawable/divider"
                 style="@style/tab_item_name_style"
-                android:text="密       码：" />
+                android:text="密       码："/>
 
             <EditText
                 android:id="@+id/password"
+                android:layout_height="match_parent"
                 style="@style/tab_item_value_style"
                 android:inputType="textPassword"
-                android:hint="@string/hint_password" />
+                android:hint="@string/hint_password"/>
         </TableRow>
 
         <TableRow
@@ -58,50 +61,64 @@
             <TextView
                 android:drawableRight="@drawable/divider"
                 style="@style/tab_item_name_style"
-                android:text="确认密码：" />
+                android:text="确认密码："/>
 
             <EditText
                 android:id="@+id/repeat"
+                android:layout_height="match_parent"
                 style="@style/tab_item_value_style"
                 android:inputType="textPassword"
-                android:hint="@string/hint_password" />
+                android:hint="@string/hint_password"/>
         </TableRow>
 
         <TableRow
             android:weightSum="5"
             style="@style/tab_item_style"
+
             android:background="@drawable/bg_with_shadow"
             android:gravity="center_vertical">
 
             <TextView
                 android:drawableRight="@drawable/divider"
                 style="@style/tab_item_name_style"
-                android:text="验  证  码：" />
+                android:text="验  证  码："/>
 
-            <EditText
-                android:layout_weight="2"
-                android:id="@+id/yzm"
-                style="@style/tab_item_value_style"
-                android:hint="@string/hint_password" />
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:paddingRight="30dp"
+                >
 
-            <Button
-                android:id="@+id/getRegisterCode"
-                android:layout_weight="1"
-                android:layout_gravity="right|center_vertical"
-                style="@style/button"
-                android:layout_height="30dp"
-                android:textSize="@dimen/textSize_dp_24px"
-                android:background="@drawable/button_green"
-                android:padding="3dp"
-                android:layout_marginLeft="3dp"
-                android:text="@string/get_yzm" />
+                <EditText
+                    android:layout_weight="2"
+                    android:id="@+id/yzm"
+                    android:layout_height="match_parent"
+                    style="@style/tab_item_value_style"
+                    android:hint="@string/hint_password"/>
+
+                <Button
+                    android:onClick="getRegisterCode"
+                    android:id="@+id/getRegisterCode"
+                    android:layout_weight="1"
+                    android:layout_gravity="right|center_vertical"
+                    style="@style/button"
+                    android:layout_height="30dp"
+                    android:textSize="12sp"
+                    android:background="@drawable/button_green"
+                    android:padding="3dp"
+                    android:layout_marginLeft="3dp"
+                    android:text="@string/get_yzm"/>
+            </LinearLayout>
+
+
         </TableRow>
     </TableLayout>
 
     <Button
         android:id="@+id/reg"
+        android:onClick="register"
         android:layout_marginTop="@dimen/button_to_text"
         style="@style/button_large"
         android:layout_gravity="center_horizontal"
-        android:text="@string/reg" />
+        android:text="@string/reg"/>
 </LinearLayout>

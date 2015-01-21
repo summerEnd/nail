@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
 
     <RelativeLayout
         android:orientation="vertical"
@@ -13,29 +13,37 @@
 
         <ImageView
             style="@style/title_back_style"
-            android:layout_centerVertical="true" />
+            android:layout_centerVertical="true"/>
 
         <TextView
             style="@style/title_text_style"
             android:text="我的关注"
-            android:layout_centerInParent="true" />
+            android:layout_centerInParent="true"/>
 
         <TextView
-            android:id="@+id/tv_title_delete"
+            android:id="@+id/title_done"
             style="@style/title_text_style"
-            android:text="@string/delete"
+            android:text="@string/done"
             android:clickable="true"
+            android:visibility="gone"
             android:onClick="onClick"
             android:textSize="@dimen/textSize_dp_34px"
             android:layout_marginRight="7dp"
             android:layout_alignParentRight="true"
-            android:layout_centerInParent="true" />
+            android:layout_centerInParent="true"/>
+
+        <ImageView
+            style="@style/title_back_style"
+            android:id="@+id/title_delete"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/ic_delete"
+            android:layout_centerVertical="true"/>
     </RelativeLayout>
 
     <ListView
         android:layout_width="match_parent"
         android:divider="#0000"
         android:listSelector="#0000"
-        android:layout_height="wrap_content"
-        android:id="@+id/listView" />
+        android:layout_height="match_parent"
+        android:id="@+id/listView"/>
 </LinearLayout>

@@ -2,6 +2,8 @@ package com.finger.activity.plan;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -52,32 +54,32 @@ public class SearchAddress extends BaseActivity implements ListController.Callba
         list.setAdapter(adapter);
         controller = new ListController(list, this);
         controller.setPageSize(20);
+        edit_address.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                allPoi.clear();
+                adapter.notifyDataSetChanged();
+                startSearch(0);
+
+            }
+        });
     }
-
-    @Override
-    public void onClick(View v) {
-
-        if (v.getId() == R.id.button3)
-            scale(v, new Runnable() {
-                @Override
-                public void run() {
-
-                    allPoi.clear();
-                    adapter.notifyDataSetChanged();
-                    startSearch(0);
-
-                }
-            });
-
-        super.onClick(v);
-    }
-
 
     void startSearch(int page) {
+
         String keywords = edit_address.getText().toString();
 
         String city = getApp().getCurCity().name;
-        Logger.d("开始搜索：" + city + " " + keywords);
 
         mPoiSearch.searchInCity(
                 new PoiCitySearchOption()

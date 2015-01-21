@@ -1,6 +1,8 @@
 package com.finger.activity.main.artist.my;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -25,6 +27,7 @@ import com.finger.activity.setting.SettingActivity;
 import com.finger.adapter.NailListAdapter;
 import com.finger.entity.ArtistRole;
 import com.finger.entity.NailInfoBean;
+import com.finger.entity.RoleBean;
 import com.finger.support.net.FingerHttpClient;
 import com.finger.support.net.FingerHttpHandler;
 import com.finger.support.util.JsonUtil;
@@ -59,6 +62,8 @@ public class MyFragment extends Fragment implements View.OnClickListener, ListCo
     LinkedList<NailInfoBean> beans = new LinkedList<NailInfoBean>();
     ListController  controller;
     NailListAdapter adapter;
+    //没有发布作品通知
+    boolean has_no_product_noticed = false;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -90,7 +95,14 @@ public class MyFragment extends Fragment implements View.OnClickListener, ListCo
     @Override
     public void onResume() {
         super.onResume();
-        setData(role);
+        RoleBean bean = FingerApp.getInstance().getUser();
+        if (bean instanceof ArtistRole) {
+            role = (ArtistRole) bean;
+            setData(role);
+            if (beans.size() == 0) {
+                getProductList(1);
+            }
+        }
     }
 
     void setData(ArtistRole bean) {
@@ -139,6 +151,21 @@ public class MyFragment extends Fragment implements View.OnClickListener, ListCo
                     adapter.notifyDataSetChanged();
 
                 } catch (JSONException e) {
+                    //提示还没有发布作品
+                    if (beans.size() == 0 && !has_no_product_noticed)
+                    {
+                        new AlertDialog.Builder(getActivity()).setTitle(R.string.warn)
+                                .setMessage(getString(R.string.product_null))
+                                .setPositiveButton(getString(R.string.publish_now), new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        startActivity(new Intent(getActivity(), PublishNailActivity.class));
+                                    }
+                                })
+                                .setNegativeButton(R.string.cancel, null)
+                                .show();
+                    }
+                    has_no_product_noticed = true;
                     e.printStackTrace();
                 }
             }

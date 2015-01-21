@@ -20,7 +20,9 @@ import com.finger.activity.main.AttentionList;
 import com.finger.activity.main.MyCollectionActivity;
 import com.finger.activity.setting.SettingActivity;
 import com.finger.activity.info.User;
+import com.finger.entity.ArtistRole;
 import com.finger.entity.RoleBean;
+import com.finger.entity.UserRole;
 import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 import com.sp.lib.util.ImageManager;
@@ -29,11 +31,11 @@ import com.sp.lib.util.ImageUtil;
 @User
 public class MyFragment extends Fragment implements View.OnClickListener {
 
-    TextView my_attention;
-    TextView my_collection;
-    TextView settings;
-    TextView my_discount_card;
-    TextView tv_nick_name;
+    TextView  my_attention;
+    TextView  my_collection;
+    TextView  settings;
+    TextView  my_discount_card;
+    TextView  tv_nick_name;
     ImageView avatar;
 
     @Override
@@ -60,18 +62,32 @@ public class MyFragment extends Fragment implements View.OnClickListener {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        setUserInfo();
+    }
+
+    @Override
     public void onHiddenChanged(boolean hidden) {
         if (!hidden) {
             setUserInfo();
         }
     }
 
+    /**
+     * 设置用户信息
+     */
     void setUserInfo() {
-        RoleBean role = ((FingerApp) getActivity().getApplication()).getUser();
+        RoleBean role = FingerApp.getInstance().getUser();
         tv_nick_name.setText(role.username);
         loadAvatar(role.avatar);
     }
 
+    /**
+     * 加载头像
+     *
+     * @param uri
+     */
     void loadAvatar(String uri) {
         ImageManager.loadImage(uri, new SimpleImageLoadingListener() {
             @Override

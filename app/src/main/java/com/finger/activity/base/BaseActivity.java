@@ -13,7 +13,9 @@ import android.widget.TextView;
 import com.finger.activity.FingerApp;
 import com.finger.R;
 import com.finger.activity.info.CommentListActivity;
+import com.finger.activity.login.LoginActivity;
 import com.finger.entity.ArtistRole;
+import com.finger.entity.RoleBean;
 import com.finger.support.Constant;
 import com.finger.support.util.Logger;
 
@@ -75,7 +77,6 @@ public class BaseActivity extends FragmentActivity implements View.OnClickListen
 
     /**
      * 好评中评差评
-     *
      */
     public void setArtistComment(final ArtistRole bean) {
 
@@ -114,9 +115,9 @@ public class BaseActivity extends FragmentActivity implements View.OnClickListen
         tv_good_comment.setText(getString(R.string.d_num, bean.comment_good));
         tv_mid_comment.setText(getString(R.string.d_num, bean.comment_normal));
         tv_bad_comment.setText(getString(R.string.d_num, bean.comment_bad));
-        tv_good_comment.setOnClickListener(onCommentClickListener);
-        tv_bad_comment.setOnClickListener(onCommentClickListener);
-        tv_mid_comment.setOnClickListener(onCommentClickListener);
+        ((View)tv_good_comment.getParent()).setOnClickListener(onCommentClickListener);
+        ((View)tv_bad_comment. getParent()).setOnClickListener(onCommentClickListener);
+        ((View)tv_mid_comment. getParent()).setOnClickListener(onCommentClickListener);
     }
 
 
@@ -228,6 +229,27 @@ public class BaseActivity extends FragmentActivity implements View.OnClickListen
      */
     protected void onRoleChange(String role) {
 
+    }
+
+    /**
+     * 判断是否登录
+     *
+     * @return
+     */
+    protected final boolean isLogin() {
+        return !(getApp().getUser() instanceof RoleBean.EmptyRole);
+    }
+
+    /**
+     * 执行登录
+     * @return 是否跳转到登录
+     */
+    protected boolean doLoginIfNeed() {
+        boolean isNeeded = !isLogin();
+        if (isNeeded) {
+            startActivity(new Intent(this, LoginActivity.class));
+        }
+        return isNeeded;
     }
 
     private class RoleChangeReceiver extends BroadcastReceiver

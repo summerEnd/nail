@@ -25,6 +25,7 @@
     <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
     <uses-permission android:name="android.permission.CALL_PHONE"/>
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
+    <uses-permission android:name="android.permission.BLUETOOTH"/>
 
     <application
         android:name=".activity.FingerApp"
@@ -43,7 +44,21 @@
         <!-- meta-data需要写在application中 -->
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
-            android:value="KDF8uslpDCiIyHlmMvkLuXqT"/>
+            android:value="ATF5Vj7KPDKDp7cYbNPNVZlc"/>
+
+        <activity
+            android:name="com.alipay.sdk.app.H5PayActivity"
+            android:configChanges="orientation|keyboardHidden|navigation"
+            android:exported="false"
+            android:screenOrientation="behind">
+        </activity>
+
+        <activity
+            android:name="com.alipay.sdk.auth.AuthActivity"
+            android:configChanges="orientation|keyboardHidden|navigation"
+            android:exported="false"
+            android:screenOrientation="behind">
+        </activity>
 
         <activity
             android:name=".TestActivity"
@@ -232,6 +247,11 @@
             android:name=".activity.info.PayInfoActivity"
             android:screenOrientation="portrait"
             android:label="@string/orderInfo"
+            />
+        />
+        <activity
+            android:name=".activity.setting.WebViewActivity"
+            android:screenOrientation="portrait"
             />
     </application>
 
