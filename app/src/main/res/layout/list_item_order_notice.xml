@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="vertical"
-              android:background="@color/white"
+              android:background="@drawable/clicked_white"
               android:layout_width="match_parent"
-              android:layout_height="match_parent">
+              android:layout_height="wrap_content">
 
     <TextView style="@style/horizontal_line"/>
 
     <RelativeLayout
         style="@style/list_padding_style"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
@@ -16,16 +18,16 @@
         <ImageView
             android:id="@+id/avatar"
             android:src="@drawable/default_user"
-            android:layout_width="@dimen/avatar_size"
-            android:layout_height="@dimen/avatar_size"/>
+            android:layout_width="40dp"
+            android:layout_height="40dp"/>
 
         <TextView
             android:id="@+id/username"
             android:layout_marginLeft="6dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/textSize_dp_34px"
-            android:textColor="@color/black"
+            android:textSize="@dimen/textSize_dp_24px"
+            android:textColor="@color/textColorGray"
             android:text="奥巴马"
             android:layout_centerVertical="true"
             android:layout_toRightOf="@+id/avatar"/>
@@ -36,7 +38,7 @@
             android:layout_height="wrap_content"
             android:text="@string/order_date_s"
             android:layout_alignParentRight="true"
-            android:textSize="@dimen/textSize_dp_24px"
+            android:textSize="12sp"
             android:layout_centerVertical="true"
             android:textColor="@color/textColorGray"/>
 
@@ -61,6 +63,8 @@
 
     <RelativeLayout
         style="@style/list_padding_style"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
@@ -77,7 +81,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="@dimen/textSize_dp_34px"
-            android:textColor="@color/textColorGray"
+            android:textColor="@color/textColorBlack"
             android:text="闪闪闪，闪瞎你丫的~"
             android:layout_toRightOf="@+id/cover"/>
 

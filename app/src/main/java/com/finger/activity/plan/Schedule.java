@@ -4,8 +4,12 @@ import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.TranslateAnimation;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
@@ -58,7 +62,7 @@ public class Schedule extends PopupWindow implements ViewPager.OnPageChangeListe
         contentView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dismiss();
+                exit();
             }
         });
         setContentView(contentView);
@@ -75,6 +79,38 @@ public class Schedule extends PopupWindow implements ViewPager.OnPageChangeListe
     }
 
     /**
+     * 退出
+     */
+    void exit() {
+        Animation animation = AnimationUtils.loadAnimation(context, R.anim.slide_down_out);
+        animation.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                dismiss();
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+        contentView.startAnimation(animation);
+
+    }
+
+    /**
+     * 进入
+     */
+    void enter() {
+        contentView.startAnimation(AnimationUtils.loadAnimation(context, R.anim.slide_up_in));
+    }
+
+    /**
      * 初始化popupWindow属性
      */
     void init() {
@@ -83,9 +119,12 @@ public class Schedule extends PopupWindow implements ViewPager.OnPageChangeListe
         pager.setAdapter(new SchedulePageAdapter());
         setHeight(ViewGroup.LayoutParams.MATCH_PARENT);
         setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
-        setAnimationStyle(android.R.style.Animation_InputMethod);
     }
 
+    public void show(View anchor) {
+        showAtLocation(anchor, Gravity.NO_GRAVITY, 0, 0);
+        enter();
+    }
 
     /**
      * 设置时间
@@ -223,7 +262,7 @@ public class Schedule extends PopupWindow implements ViewPager.OnPageChangeListe
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        dismiss();
+        exit();
         if (mCallback != null) {
 
             SimpleDateFormat sp = new SimpleDateFormat("yyyy-MM-dd");

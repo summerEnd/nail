@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
@@ -32,10 +33,13 @@ public class SearchWindow extends PopupWindow implements View.OnTouchListener, V
     private Activity activity;
     EditText              edit_key;
     ArrayList<HotTagBean> tags;
+    View                  search_title;
+    GridView              grid;
 
     public SearchWindow(Activity context) {
         super(context);
         this.activity = context;
+        //加载布局
         View v = LayoutInflater.from(context).inflate(R.layout.layout_search, null);
         v.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -45,24 +49,34 @@ public class SearchWindow extends PopupWindow implements View.OnTouchListener, V
         });
         v.findViewById(R.id.search).setOnClickListener(this);
         edit_key = (EditText) v.findViewById(R.id.edit_search);
+        search_title = v.findViewById(R.id.search_title);
+        //设置背景
         setBackgroundDrawable(new ColorDrawable(Color.argb(0x50, 0, 0, 0)));
+        //获取屏幕尺寸
         Point p = new Point();
         DisplayUtil.getScreenSize(context, p);
+        //全屏幕显示
         v.setLayoutParams(new ViewGroup.LayoutParams(p.x, p.y));
+
         setWidth(p.x + 4);
         setHeight(p.y);
         setFocusable(true);
         setContentView(v);
-        GridView gridView = (GridView) v.findViewById(R.id.grid);
-        gridView.setOnItemClickListener(onCategoryClicked);
+        grid = (GridView) v.findViewById(R.id.grid);
+        grid.setOnItemClickListener(onCategoryClicked);
         tags = (ArrayList<HotTagBean>) FileUtil.readFile(context, Constant.FILE_TAGS);
-        gridView.setOnTouchListener(this);
+        grid.setOnTouchListener(this);
         if (tags != null)
-            gridView.setAdapter(new TagAdapter(context, tags));
+            grid.setAdapter(new TagAdapter(context, tags));
     }
 
     public void show(View parent) {
-        showAsDropDown(parent, -4, 0);
+        //        setAnimationStyle(0);/**/
+
+        showAtLocation(parent, Gravity.NO_GRAVITY, 0, 0);
+        search_title.startAnimation(AnimationUtils.loadAnimation(activity, R.anim.search_title_anim));
+
+        //        showAsDropDown(parent, -4, 0);
     }
 
     private AdapterView.OnItemClickListener onCategoryClicked = new AdapterView.OnItemClickListener() {

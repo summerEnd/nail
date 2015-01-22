@@ -2,6 +2,7 @@ package com.finger.activity.main;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,7 @@ import android.widget.GridView;
 
 import com.finger.activity.base.BaseActivity;
 import com.finger.R;
+import com.finger.entity.AttentionItemBean;
 import com.finger.entity.NailItemBean;
 import com.finger.support.net.FingerHttpClient;
 import com.finger.support.net.FingerHttpHandler;
@@ -55,6 +57,10 @@ public class MyCollectionActivity extends BaseActivity implements ListController
         getCollectionList(1);
     }
 
+    /**
+     * 获取收藏列表
+     * @param page
+     */
     void getCollectionList(int page) {
         RequestParams params = new RequestParams();
         params.put("page", page);
@@ -95,12 +101,18 @@ public class MyCollectionActivity extends BaseActivity implements ListController
      */
     private void deleteFromWeb() {
         //先把要删除的放入一个集合
-        LinkedList<NailItemBean> deleteBean = new LinkedList<NailItemBean>();
+        final LinkedList<NailItemBean> deleteBean = new LinkedList<NailItemBean>();
         for (NailItemBean bean : beans) {
             if (bean.selected) {
                 deleteBean.add(bean);
             }
         }
+
+        if (deleteBean.size()==0){
+            showDelete(false);
+            return;
+        }
+
         StringBuilder delete_ids = new StringBuilder();
         Iterator<NailItemBean> it = deleteBean.iterator();
         //将要删除的id拼接成一个字符串用逗号隔开
@@ -122,9 +134,10 @@ public class MyCollectionActivity extends BaseActivity implements ListController
                 showDelete(false);
 
                 //删除成功，重新获取数据
-                beans.clear();
+                for (NailItemBean item : deleteBean) {
+                    beans.remove(item);
+                }
                 adapter.notifyDataSetChanged();
-                getCollectionList(1);
             }
         });
 
@@ -140,7 +153,6 @@ public class MyCollectionActivity extends BaseActivity implements ListController
         }
         adapter.showDelete(show);
         animate(show);
-
     }
 
     void animate(boolean enter) {

@@ -81,6 +81,7 @@
             android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.login.WelcomeActivity"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -250,7 +251,11 @@
             />
         />
         <activity
-            android:name=".activity.setting.WebViewActivity"
+            android:name=".activity.setting.BaseInfoActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity
+            android:name=".activity.main.AdsInfoActivity"
             android:screenOrientation="portrait"
             />
     </application>

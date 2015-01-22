@@ -22,6 +22,7 @@ import com.finger.support.net.FingerHttpHandler;
 import com.finger.support.util.ContextUtil;
 import com.finger.support.util.JsonUtil;
 import com.loopj.android.http.RequestParams;
+import com.sp.lib.anim.ActivityAnimator;
 import com.sp.lib.util.FileUtil;
 
 import org.json.JSONArray;
@@ -60,6 +61,7 @@ public class LocationActivity extends BaseActivity implements AdapterView.OnItem
         //加载开通城市
         loadServiceCityList();
     }
+
     /**
      * 加载开通服务城市列表,这是个异步的方法
      */
@@ -141,7 +143,6 @@ public class LocationActivity extends BaseActivity implements AdapterView.OnItem
     }
 
 
-
     /**
      * 展示所有城市，必须在加载完gps城市和开通城市后调用
      * 设置用户选择的城市，如果用户没有选择任何城市，则显示定位城市
@@ -197,17 +198,23 @@ public class LocationActivity extends BaseActivity implements AdapterView.OnItem
         switch (v.getId()) {
             case R.id.tv_gps_city: {
 
-                if (isGpsCityInService){
+                if (isGpsCityInService) {
                     returnCity(gpsCity);
-                }else if (gpsCity!=null&&!TextUtils.isEmpty(gpsCity.name)){
-                    ContextUtil.toast(getString(R.string.not_open_city,gpsCity.name));
-                }else{
+                } else if (gpsCity != null && !TextUtils.isEmpty(gpsCity.name)) {
+                    ContextUtil.toast(getString(R.string.not_open_city, gpsCity.name));
+                } else {
                     ContextUtil.toast(getString(R.string.not_choose_this_city));
                 }
                 break;
             }
+            case R.id.title_back: {
+                finish();
+                ActivityAnimator.override(this, ActivityAnimator.NO_ANIMATION, ActivityAnimator.OUT_SLIDE_DOWN);
+                break;
+            }
+            default:
+                super.onClick(v);
         }
-        super.onClick(v);
     }
 
     /**
@@ -227,7 +234,7 @@ public class LocationActivity extends BaseActivity implements AdapterView.OnItem
         } else {
             //列表的check事件由sdk自动完成
             tv_gps_city.setChecked(false);
-            listView.setItemChecked(position+1,true);
+            listView.setItemChecked(position + 1, true);
             city = cities.get(position);
         }
         return city;

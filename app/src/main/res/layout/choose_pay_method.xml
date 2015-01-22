@@ -16,8 +16,34 @@
         android:textSize="@dimen/textSize_dp_36px"
         android:layout_gravity="center_horizontal"/>
 
-    <ListView
-        android:id="@+id/listView"
+    <TextView style="@style/horizontal_line"/>
+
+    <LinearLayout
+        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:gravity="center_vertical"
+        android:background="@drawable/click_whit_bg"
+        android:padding="6dp"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:layout_width="@dimen/pay_icon_size"
+            android:layout_height="@dimen/pay_icon_size"
+            android:src="@drawable/ic_alipay"
+            android:id="@+id/icon"/>
+
+        <CheckedTextView
+            android:checked="true"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_marginLeft="6dp"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:text="支付宝"
+            android:textColor="@color/textColorBlack"
+            android:textSize="@dimen/textSize_dp_30px"
+            android:checkMark="@drawable/check_mark_1"
+            android:id="@+id/name"/>
+    </LinearLayout>
+    <TextView style="@style/horizontal_line"/>
 </LinearLayout>

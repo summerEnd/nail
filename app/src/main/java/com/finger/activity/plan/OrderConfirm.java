@@ -118,7 +118,7 @@ public class OrderConfirm extends BaseActivity {
                 if (popupList == null) {
                     popupList = new PopupList(OrderConfirm.this, adapter, v.getWidth());
                     popupList.getListView().setVerticalScrollBarEnabled(false);
-                    popupList.getListView().setPadding(1,1,1,1);
+                    popupList.getListView().setPadding(1, 1, 1, 1);
                     popupList.getListView().setBackgroundResource(R.drawable.corner_frame_white_solid);
                     popupList.setOnListItemClickListener(new PopupList.OnListItemClick() {
                         @Override
@@ -237,7 +237,7 @@ public class OrderConfirm extends BaseActivity {
         params.put("taxi_cost", taxiFee);
         params.put("order_price", mOrderBean.nailInfoBean.price);
         params.put("real_pay", pay_price);
-        params.put("pay_method", "");
+        params.put("pay_method", "1");
         params.put("book_date", mOrderBean.book_date);
         params.put("time_block", mOrderBean.time_block);
         params.put("contact", mOrderBean.contact);
@@ -247,13 +247,23 @@ public class OrderConfirm extends BaseActivity {
             @Override
             public void onSuccess(JSONObject o) {
                 OrderManager.cancel();
+                String orderId = "";
+                if (o.has("data")) {
+                    try {
+                        orderId = o.getString("data");
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+                final String finalOrderId = orderId;
                 new AlertDialog.Builder(OrderConfirm.this)
-                        .setTitle(getString(R.string.commit_ok))
+                        .setTitle(getString(R.string.order_ok))
                         .setMessage(getString(R.string.order_msg))
                         .setPositiveButton(getString(R.string.pay_now), new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 new AlipayAPI(OrderConfirm.this).start(
+                                        finalOrderId,
                                         mOrderBean.nailInfoBean.name,
                                         mOrderBean.nailInfoBean.name,
                                         total_fee

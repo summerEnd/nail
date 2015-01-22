@@ -24,7 +24,6 @@ import com.finger.support.util.ContextUtil;
 import com.loopj.android.http.RequestParams;
 import com.sp.lib.Slib;
 import com.sp.lib.activity.DEBUGActivity;
-import com.sp.lib.util.FileUtil;
 import com.sp.lib.version.Downloader;
 
 import org.json.JSONException;
@@ -38,7 +37,10 @@ public class SettingActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting);
-        if (BuildConfig.DEBUG) {
+
+        boolean showDebug=BuildConfig.DEBUG;
+        showDebug=true;
+        if (showDebug) {
             findViewById(R.id.debug_item).setVisibility(View.VISIBLE);
         } else {
             findViewById(R.id.debug_item).setVisibility(View.GONE);
@@ -87,9 +89,9 @@ public class SettingActivity extends BaseActivity {
 
             case R.id.service_area: {
                 BaseInfo info = getApp().getBaseInfo();
-                startActivity(new Intent(this, WebViewActivity.class)
-                                .putExtra(WebViewActivity.EXTRA_URL, info.service_rule)
-                                .putExtra(WebViewActivity.EXTRA_TITLE, getString(R.string.title_activity_service_area))
+                startActivity(new Intent(this, BaseInfoActivity.class)
+                                .putExtra(BaseInfoActivity.EXTRA_URL, info.service_rule)
+                                .putExtra(BaseInfoActivity.EXTRA_TITLE, getString(R.string.title_activity_service_area))
                 );
                 break;
             }
@@ -101,9 +103,9 @@ public class SettingActivity extends BaseActivity {
 
             case R.id.about: {
                 BaseInfo info = getApp().getBaseInfo();
-                startActivity(new Intent(this, WebViewActivity.class)
-                                .putExtra(WebViewActivity.EXTRA_URL, info.about_us)
-                                .putExtra(WebViewActivity.EXTRA_TITLE, getString(R.string.title_activity_about))
+                startActivity(new Intent(this, BaseInfoActivity.class)
+                                .putExtra(BaseInfoActivity.EXTRA_URL, info.about_us)
+                                .putExtra(BaseInfoActivity.EXTRA_TITLE, getString(R.string.title_activity_about))
                 );
                 break;
             }
@@ -166,9 +168,9 @@ public class SettingActivity extends BaseActivity {
 
             case R.id.discount_rule: {
                 BaseInfo info = getApp().getBaseInfo();
-                startActivity(new Intent(this, WebViewActivity.class)
-                                .putExtra(WebViewActivity.EXTRA_URL, info.coupon_rule)
-                                .putExtra(WebViewActivity.EXTRA_TITLE, getString(R.string.discount_rule))
+                startActivity(new Intent(this, BaseInfoActivity.class)
+                                .putExtra(BaseInfoActivity.EXTRA_URL, info.coupon_rule)
+                                .putExtra(BaseInfoActivity.EXTRA_TITLE, getString(R.string.discount_rule))
                 );
                 break;
             }

@@ -92,6 +92,7 @@
             android:text="清    空"/>
 
         <Button
+            android:visibility="invisible"
             android:id="@+id/color"
             style="@style/debug_button"
             android:onClick="onColor"

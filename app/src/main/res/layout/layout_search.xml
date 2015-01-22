@@ -5,6 +5,7 @@
     android:layout_height="match_parent">
 
     <LinearLayout
+        android:id="@+id/search_title"
         android:layout_width="match_parent"
         android:orientation="horizontal"
         android:paddingLeft="@dimen/search_horizontal_spacing"
@@ -30,7 +31,7 @@
             <EditText
                 android:id="@+id/edit_search"
                 android:background="#0000"
-                android:layout_margin="5dp"
+                android:layout_margin="4dp"
                 android:textSize="@dimen/textSize_dp_30px"
                 android:layout_width="match_parent"
                 android:hint="请输入关键字"
@@ -44,7 +45,7 @@
             android:id="@+id/cancel"
             android:layout_width="wrap_content"
             android:gravity="center"
-            android:textSize="@dimen/textSize_dp_34px"
+            android:textSize="@dimen/textSize_dp_30px"
             android:layout_height="match_parent"
             android:text="取消" />
     </LinearLayout>
@@ -52,6 +53,7 @@
     <GridView
         android:id="@+id/grid"
         android:padding="6dp"
+        android:layoutAnimation="@anim/search_grid_anim"
         android:background="@drawable/windowBackground"
         android:layout_width="match_parent"
         android:numColumns="4"

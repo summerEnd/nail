@@ -28,6 +28,7 @@ import com.finger.support.util.JsonUtil;
 import com.finger.support.util.ItemUtil;
 import com.finger.support.util.Logger;
 import com.loopj.android.http.RequestParams;
+import com.sp.lib.anim.ActivityAnimator;
 import com.sp.lib.support.SHttpClient;
 import com.sp.lib.util.FileUtil;
 
@@ -46,7 +47,6 @@ public class WelcomeActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
-        ItemUtil.init(this);
         getLocation();
     }
 
@@ -172,6 +172,7 @@ public class WelcomeActivity extends BaseActivity {
                 //testUser();//测试用户
                 startActivity(new Intent(WelcomeActivity.this, MainActivity.class));
                 finish();
+                overridePendingTransition(R.anim.stand_still,R.anim.stand_still);
             }
         }, 1000);
     }

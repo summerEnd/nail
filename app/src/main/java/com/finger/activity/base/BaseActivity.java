@@ -17,9 +17,12 @@ import com.finger.activity.login.LoginActivity;
 import com.finger.entity.ArtistRole;
 import com.finger.entity.RoleBean;
 import com.finger.support.Constant;
+import com.finger.support.util.ItemUtil;
 import com.finger.support.util.Logger;
+import com.sp.lib.anim.ActivityAnimator;
 
 import static com.finger.support.util.Logger.i;
+import static com.sp.lib.anim.ActivityAnimator.*;
 
 /**
  * @copy
@@ -44,6 +47,7 @@ public class BaseActivity extends FragmentActivity implements View.OnClickListen
         super.setContentView(layoutResID);
         setTitle(getTitle());
     }
+
 
     @Override
     public void setTitle(CharSequence title) {
@@ -115,9 +119,9 @@ public class BaseActivity extends FragmentActivity implements View.OnClickListen
         tv_good_comment.setText(getString(R.string.d_num, bean.comment_good));
         tv_mid_comment.setText(getString(R.string.d_num, bean.comment_normal));
         tv_bad_comment.setText(getString(R.string.d_num, bean.comment_bad));
-        ((View)tv_good_comment.getParent()).setOnClickListener(onCommentClickListener);
-        ((View)tv_bad_comment. getParent()).setOnClickListener(onCommentClickListener);
-        ((View)tv_mid_comment. getParent()).setOnClickListener(onCommentClickListener);
+        ((View) tv_good_comment.getParent()).setOnClickListener(onCommentClickListener);
+        ((View) tv_bad_comment.getParent()).setOnClickListener(onCommentClickListener);
+        ((View) tv_mid_comment.getParent()).setOnClickListener(onCommentClickListener);
     }
 
 
@@ -140,6 +144,7 @@ public class BaseActivity extends FragmentActivity implements View.OnClickListen
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         debug("onCreate");
+        ItemUtil.init(this);
     }
 
     @Override
@@ -194,6 +199,7 @@ public class BaseActivity extends FragmentActivity implements View.OnClickListen
         switch (v.getId()) {
             case R.id.title_back:
                 finish();
+
                 break;
             //            default:super.onClick(v);
         }
@@ -242,6 +248,7 @@ public class BaseActivity extends FragmentActivity implements View.OnClickListen
 
     /**
      * 执行登录
+     *
      * @return 是否跳转到登录
      */
     protected boolean doLoginIfNeed() {

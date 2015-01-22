@@ -3,10 +3,7 @@ package com.finger.activity.main.artist.my;
 import android.app.AlertDialog;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.view.GestureDetector;
-import android.view.MotionEvent;
 import android.view.View;
-import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -16,7 +13,6 @@ import com.finger.activity.base.BaseActivity;
 import com.finger.entity.ArtistRole;
 import com.finger.support.net.FingerHttpClient;
 import com.finger.support.net.FingerHttpHandler;
-import com.finger.support.util.ContextUtil;
 import com.finger.support.util.ItemUtil;
 import com.finger.support.util.JsonUtil;
 import com.finger.support.widget.RatingWidget;
@@ -25,7 +21,6 @@ import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListene
 import com.sp.lib.util.ClickFullScreen;
 import com.sp.lib.util.ImageManager;
 import com.sp.lib.util.ImageUtil;
-import com.sp.lib.widget.AddImageItem;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -33,7 +28,6 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 public class MyResumeActivity extends BaseActivity {
-    View         v;
     TextView     tv_short_content;
     TextView     tv_nick_name;
     TextView     tv_order_num;
@@ -45,17 +39,17 @@ public class MyResumeActivity extends BaseActivity {
     @Override
     public void onClick(View v) {
 
-        switch (v.getId()) {
-            case R.id.modify: {
-                //                startActivity(new Intent(this, ChangeResume.class).putExtra(ChangeResume.EXTRA_SHORT_TEXT, tv_short_content.getText().toString()));
-                AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                builder.setMessage(getString(R.string.update_resume_notice));
-                builder.setTitle(R.string.warn);
-                builder.setPositiveButton(R.string.yes, null);
-                builder.show();
-                break;
-            }
-        }
+        //        switch (v.getId()) {
+        //            case R.id.modify: {
+        //                //                startActivity(new Intent(this, ChangeResume.class).putExtra(ChangeResume.EXTRA_SHORT_TEXT, tv_short_content.getText().toString()));
+        //                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        //                builder.setMessage(getString(R.string.update_resume_notice));
+        //                builder.setTitle(R.string.warn);
+        //                builder.setPositiveButton(R.string.yes, null);
+        //                builder.show();
+        //                break;
+        //            }
+        //        }
         super.onClick(v);
     }
 
@@ -63,7 +57,6 @@ public class MyResumeActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.my_resume);
-        v = findViewById(R.id.modify);
         tv_short_content = (TextView) findViewById(R.id.tv_short_content);
         tv_nick_name = (TextView) findViewById(R.id.tv_nick_name);
         tv_order_num = (TextView) findViewById(R.id.tv_order_num);
@@ -76,7 +69,6 @@ public class MyResumeActivity extends BaseActivity {
         if (role == null) {
             getSellerInfo();
         } else {
-            findViewById(R.id.modify).setVisibility(View.GONE);
             setData(role);
         }
     }
@@ -116,7 +108,7 @@ public class MyResumeActivity extends BaseActivity {
         });
 
         ArrayList<String> alum = bean.album;
-        int imageSIze = ItemUtil.halfScreen  - 20;
+        int imageSIze = ItemUtil.halfScreen - 20;
         if (alum != null && alum.size() > 0) {
             for (String url : alum) {
                 ImageView imageView = new ImageView(this);

@@ -1,6 +1,7 @@
 package com.finger.api;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
@@ -8,6 +9,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.alipay.sdk.app.PayTask;
+import com.finger.support.util.DialogUtil;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -63,15 +65,18 @@ public class AlipayAPI {
 
                     // 判断resultStatus 为“9000”则代表支付成功，具体状态码代表含义可参考接口文档
                     if (TextUtils.equals(resultStatus, "9000")) {
-                        Toast.makeText(mActivity, "支付成功",
-                                Toast.LENGTH_SHORT).show();
+                        DialogUtil.alert(mActivity, "支付成功").setOnDismissListener(new DialogInterface.OnDismissListener() {
+                            @Override
+                            public void onDismiss(DialogInterface dialog) {
+                                mActivity.finish();
+                            }
+                        });
                     } else {
-                        // 判断resultStatus 为非“9000”则代表可能支付失败
-                        // “8000” 代表支付结果因为支付渠道原因或者系统原因还在等待支付结果确认，最终交易是否成功以服务端异步通知为准（小概率状态）
+                        //判断resultStatus 为非“9000”则代表可能支付失败
+                        //“8000” 代表支付结果因为支付渠道原因或者系统原因还在等待支付结果确认，最终交易是否成功以服务端异步通知为准（小概率状态）
                         if (TextUtils.equals(resultStatus, "8000")) {
                             Toast.makeText(mActivity, "支付结果确认中",
                                     Toast.LENGTH_SHORT).show();
-
                         } else {
                             Toast.makeText(mActivity, "支付失败",
                                     Toast.LENGTH_SHORT).show();
@@ -98,6 +103,7 @@ public class AlipayAPI {
      * call alipay sdk pay. 调用SDK支付
      */
     public void start(
+            String orderId,
             String subject,
             String body,
             //支付的价格

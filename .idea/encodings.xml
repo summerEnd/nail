@@ -4,6 +4,7 @@
     <file url="file://$PROJECT_DIR$/SLIB/src/main/java/com/sp/lib/activity/DEBUGActivity.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/SLIB/src/main/java/com/sp/lib/activity/NetWorkActivity.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/SLIB/src/main/java/com/sp/lib/activity/PhotoAlbumActivity.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/SLIB/src/main/java/com/sp/lib/anim/ActivityAnimator.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/SLIB/src/main/java/com/sp/lib/support/IntentFactory.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/SLIB/src/main/java/com/sp/lib/util/ClickFullScreen.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/SLIB/src/main/java/com/sp/lib/util/FileUtil.java" charset="UTF-8" />

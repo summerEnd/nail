@@ -35,6 +35,7 @@ public class FindPassword extends BaseActivity {
         edit_yzm= (EditItem) findViewById(R.id.edit_yzm);
         smsButton= (Button) findViewById(R.id.getRegisterCode);
         edit_password.getTextView().setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+        edit_mobile.getTextView().setInputType(InputType.TYPE_CLASS_PHONE);
     }
 
     @Override

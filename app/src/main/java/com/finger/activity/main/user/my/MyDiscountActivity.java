@@ -10,6 +10,7 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
@@ -24,6 +25,7 @@ import com.finger.support.net.FingerHttpHandler;
 import com.finger.support.util.ContextUtil;
 import com.finger.support.util.JsonUtil;
 import com.loopj.android.http.RequestParams;
+import com.sp.lib.util.ListController;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -45,7 +47,7 @@ public class MyDiscountActivity extends BaseActivity implements RadioGroup.OnChe
     List<CouponBean> freshCoupons = new ArrayList<CouponBean>();
     DiscountAdapter usedAdapter;
     DiscountAdapter freshAdapter;
-
+    final int PAGE=15;
     /**
      * Intent参数，是否为选择优惠券，true 选择优惠券 ，默认是false
      */
@@ -59,7 +61,6 @@ public class MyDiscountActivity extends BaseActivity implements RadioGroup.OnChe
      * 未使用
      */
     final int STATUS_FRESH = 0;
-
 
     public static class CouponBean implements Serializable {
         public int    id;
@@ -85,13 +86,15 @@ public class MyDiscountActivity extends BaseActivity implements RadioGroup.OnChe
         rg.setOnCheckedChangeListener(this);
 
 
-        getFreshCoupons();
+        getFreshCoupons(1);
     }
 
-    void getFreshCoupons() {
+    void getFreshCoupons(int page) {
         RoleBean user = getApp().getUser();
         RequestParams params = new RequestParams();
         params.put("uid", user.id);
+        params.put("page", page);
+        params.put("pagesize", PAGE);
         params.put("status", STATUS_FRESH);
         FingerHttpClient.post("getCouponList", params, new FingerHttpHandler() {
             @Override
@@ -109,11 +112,13 @@ public class MyDiscountActivity extends BaseActivity implements RadioGroup.OnChe
     /**
      * 获取过期优惠券
      */
-    void getUsedCoupons() {
+    void getUsedCoupons(int page) {
         RoleBean user = getApp().getUser();
         RequestParams params = new RequestParams();
         params.put("uid", user.id);
         params.put("status", STATUS_USED);
+        params.put("page", page);
+        params.put("pagesize", PAGE);
         FingerHttpClient.post("getCouponList", params, new FingerHttpHandler() {
             @Override
             public void onSuccess(JSONObject o) {
@@ -137,6 +142,12 @@ public class MyDiscountActivity extends BaseActivity implements RadioGroup.OnChe
             listView.setDivider(new ColorDrawable(0));
             listView.setSelector(new ColorDrawable(0));
             listView.setAdapter(freshAdapter);
+            new ListController(listView,new ListController.Callback() {
+                @Override
+                public void onLoadMore(AbsListView listView, int nextPage) {
+                    getFreshCoupons(nextPage);
+                }
+            }).setPageSize(PAGE);
             views.add(listView);
         }
 
@@ -146,6 +157,12 @@ public class MyDiscountActivity extends BaseActivity implements RadioGroup.OnChe
             listView.setDivider(new ColorDrawable(0));
             listView.setSelector(new ColorDrawable(0));
             listView.setAdapter(usedAdapter);
+            new ListController(listView,new ListController.Callback() {
+                @Override
+                public void onLoadMore(AbsListView listView, int nextPage) {
+                    getUsedCoupons(nextPage);
+                }
+            }).setPageSize(PAGE);
             views.add(listView);
         }
     }
@@ -174,12 +191,12 @@ public class MyDiscountActivity extends BaseActivity implements RadioGroup.OnChe
         if (i == 0) {
             rg.check(R.id.rb_remain);
             if (freshCoupons.size() == 0) {
-                getFreshCoupons();
+                getFreshCoupons(1);
             }
         } else {
             rg.check(R.id.rb_expired);
             if (usedCoupons.size() == 0) {
-                getUsedCoupons();
+                getUsedCoupons(1);
             }
         }
     }

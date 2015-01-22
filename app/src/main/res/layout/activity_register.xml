@@ -25,13 +25,13 @@
             <TextView
                 style="@style/tab_item_name_style"
                 android:drawableRight="@drawable/divider"
-                android:text="账       号："/>
+                android:text="手       机："/>
 
             <EditText
                 android:id="@+id/mobile"
                 android:layout_height="match_parent"
                 style="@style/tab_item_value_style"
-                android:hint="@string/hint_password"/>
+                android:hint="@string/hint_mobile"/>
         </TableRow>
 
 
@@ -94,7 +94,7 @@
                     android:id="@+id/yzm"
                     android:layout_height="match_parent"
                     style="@style/tab_item_value_style"
-                    android:hint="@string/hint_password"/>
+                    android:hint="@string/hint_yzm"/>
 
                 <Button
                     android:onClick="getRegisterCode"

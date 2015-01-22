@@ -28,7 +28,7 @@ import com.finger.activity.base.BaseActivity;
 import com.finger.activity.info.ArtistInfoList;
 import com.finger.activity.info.NailListActivity;
 import com.finger.activity.plan.PlanActivity;
-import com.finger.activity.setting.WebViewActivity;
+import com.finger.activity.setting.BaseInfoActivity;
 import com.finger.entity.AdsBean;
 import com.finger.entity.ArtistRole;
 import com.finger.entity.BaseInfo;
@@ -42,6 +42,7 @@ import com.finger.support.util.JsonUtil;
 import com.finger.support.widget.ArtistItem;
 import com.finger.support.widget.SearchWindow;
 import com.loopj.android.http.RequestParams;
+import com.sp.lib.anim.ActivityAnimator;
 import com.sp.lib.util.FileUtil;
 import com.sp.lib.util.ImageManager;
 
@@ -218,13 +219,17 @@ public class MainFragment extends Fragment implements View.OnClickListener {
         images.add(imageView);
     }
 
+    /**
+     * 广告条(banner)点击事件
+     */
     View.OnClickListener mBannerClicker = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             AdsBean bean = (AdsBean) v.getTag();
-            startActivity(new Intent(getActivity(), WebViewActivity.class)
-                            .putExtra(WebViewActivity.EXTRA_URL, bean.content)
+            startActivity(new Intent(getActivity(), AdsInfoActivity.class)
+                            .putExtra(AdsInfoActivity.EXTRA_URL, bean.content)
             );
+            ActivityAnimator.override(getActivity(), ActivityAnimator.IN_SLIDE_UP, ActivityAnimator.NO_ANIMATION);
         }
     };
 
@@ -361,7 +366,7 @@ public class MainFragment extends Fragment implements View.OnClickListener {
                     @Override
                     public void run() {
                         SearchWindow searchWindow = new SearchWindow(getActivity());
-                        searchWindow.showAsDropDown(anchor, 0, -layout.findViewById(R.id.head).getHeight());
+                        searchWindow.show(anchor);
                     }
                 });
 
@@ -373,6 +378,7 @@ public class MainFragment extends Fragment implements View.OnClickListener {
                     @Override
                     public void run() {
                         startActivity(new Intent(getActivity(), LocationActivity.class));
+                        ActivityAnimator.override(getActivity(), ActivityAnimator.IN_SLIDE_UP, ActivityAnimator.NO_ANIMATION);
                     }
                 });
 

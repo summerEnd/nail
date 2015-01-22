@@ -123,12 +123,7 @@ public class ArtistInfo extends BaseActivity {
      * @param bean
      */
     void setData(ArtistRole bean) {
-        ImageManager.loadImage(bean.avatar, new SimpleImageLoadingListener() {
-            @Override
-            public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-                iv_avatar.setImageBitmap(ImageUtil.roundBitmap(loadedImage, getResources().getDimensionPixelSize(R.dimen.avatar_size)));
-            }
-        });
+        ImageManager.loadImage(bean.avatar, iv_avatar,ContextUtil.getAvatarOptions());
         name.setText(bean.username);
 
         setArtistComment(bean);

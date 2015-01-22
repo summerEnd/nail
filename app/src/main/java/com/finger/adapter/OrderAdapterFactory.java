@@ -22,7 +22,10 @@ import com.finger.activity.info.PayInfoActivity;
 import com.finger.activity.main.user.order.ApplyRefund;
 import com.finger.activity.main.user.order.CommentOrder;
 import com.finger.entity.OrderListBean;
+import com.finger.support.net.FingerHttpClient;
+import com.finger.support.net.FingerHttpHandler;
 import com.finger.support.util.ContextUtil;
+import com.loopj.android.http.RequestParams;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.assist.LoadedFrom;
@@ -33,6 +36,8 @@ import com.sp.lib.support.ShareWindow;
 import com.sp.lib.util.ClickFullScreen;
 import com.sp.lib.util.ImageManager;
 import com.sp.lib.util.ImageUtil;
+
+import org.json.JSONObject;
 
 import java.io.Serializable;
 import java.util.List;
@@ -372,17 +377,20 @@ public class OrderAdapterFactory {
         final int STATUS_REFUND_FAILED = 6;//退款失败	退款服务	退款通知
         final int STATUS_WAIT_COMMENT  = 7;//确认支付成功	等待评价
         final int STATUS_COMMENT_OK    = 8;//评价成功
-        ShareWindow window;
+        ShareWindow         window;
         SparseArray<String> status;
         SparseArray<String> btn_status;
 
 
+        /**
+         * 所有订单上的按钮点击事件都在这里处理
+         */
         View.OnClickListener onListButtonClick = new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
-                Context context = v.getContext();
+                final Context context = v.getContext();
 
-                OrderListBean bean = (OrderListBean) v.getTag();
+                final OrderListBean bean = (OrderListBean) v.getTag();
                 switch (bean.status) {
                     case STATUS_NOT_PAY: {
                         //按钮：付款
@@ -398,7 +406,26 @@ public class OrderAdapterFactory {
                                     new Intent(context, ApplyRefund.class)
                                             .putExtra("id", bean.id));
                         } else {
-                            ContextUtil.toast("确认付款");
+                            AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                            builder.setTitle(R.string.warn);
+                            builder.setMessage(context.getString(R.string.confirm_pay));
+                            builder.setPositiveButton("确认付款", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+
+                                    RequestParams params = new RequestParams();
+                                    params.put("order_id", bean.id);
+                                    FingerHttpClient.post("confirmPay", params, new FingerHttpHandler() {
+                                        @Override
+                                        public void onSuccess(JSONObject o) {
+                                            ContextUtil.toast(context.getString(R.string.confirm_ok));
+                                        }
+                                    });
+
+                                }
+                            });
+                            builder.setNegativeButton(R.string.cancel, null);
+                            builder.show();
                         }
                         break;
                     }
@@ -438,24 +465,24 @@ public class OrderAdapterFactory {
                         public void onClick(DialogInterface dialog, int which) {
                             dialog.dismiss();
                             showSystemShare();
-//                            showCustomShare();
+                            //                            showCustomShare();
                         }
 
                         /**
                          * 系统分享
                          */
-                        public void showSystemShare(){
+                        public void showSystemShare() {
                             MainActivity activity = (MainActivity) mContext;
                             OrderListBean bean = (OrderListBean) v.getTag();
                             activity.setGetCouponOrderId(bean.id);
-                            activity.startActivityForResult(IntentFactory.share(activity.getString(R.string.app_name),"这是一个分享")
+                            activity.startActivityForResult(IntentFactory.share(activity.getString(R.string.app_name), "这是一个分享")
                                     ,
                                     MainActivity.REQUEST_SHARE);
                         }
 
                         //自定义分享 点蓝牙的时候会崩溃，原因没找到
-                        public void showCustomShare(){
-                            if (window==null){
+                        public void showCustomShare() {
+                            if (window == null) {
                                 window = new ShareWindow(v.getContext());
                                 window.setOnShareItemClick(new ShareWindow.OnShareItemClick() {
                                     @Override
@@ -476,9 +503,9 @@ public class OrderAdapterFactory {
                             }
 
 
-                            try{
+                            try {
                                 window.showAtLocation(v, Gravity.CENTER, 0, 0);
-                            }catch (Exception e){
+                            } catch (Exception e) {
                                 e.printStackTrace();
                             }
                         }

@@ -32,9 +32,9 @@ import static com.finger.activity.plan.Schedule.Callback;
 
 public class PlanActivity extends BaseActivity implements RadioGroup.OnCheckedChangeListener {
     RadioGroup rg_plan;
-    PlanForMe mPlanForMe = new PlanForMe();
-    PlanForOther mPlanForOther = new PlanForOther();
-    int REQUEST_CODE_GPS = 101;
+    PlanForMe    mPlanForMe       = new PlanForMe();
+    PlanForOther mPlanForOther    = new PlanForOther();
+    int          REQUEST_CODE_GPS = 101;
     Schedule mSchedule;
     Callback mScheduleCallback;
 
@@ -56,16 +56,16 @@ public class PlanActivity extends BaseActivity implements RadioGroup.OnCheckedCh
     public void onCheckedChanged(RadioGroup group, int checkedId) {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         switch (checkedId) {
-            case R.id.rb_user: {
-                ft.hide(mPlanForOther).show(mPlanForMe);
+            case R.id.rb_for_me: {
+                ft.setCustomAnimations(R.anim.stand_still, R.anim.slide_down_out).hide(mPlanForOther).show(mPlanForMe);
                 break;
             }
-            case R.id.rb_artist: {
+            case R.id.rb_for_other: {
                 if (!mPlanForOther.isAdded()) {
                     ft.add(R.id.frag_container, mPlanForOther);
                 }
 
-                ft.hide(mPlanForMe).show(mPlanForOther);
+                ft.setCustomAnimations(R.anim.slide_up_in, R.anim.stand_still).hide(mPlanForMe).show(mPlanForOther);
                 break;
             }
         }
@@ -97,12 +97,13 @@ public class PlanActivity extends BaseActivity implements RadioGroup.OnCheckedCh
         }
         mSchedule.setCallback(mScheduleCallback);
         mSchedule.setTimeBlock(blocks);
-        mSchedule.showAtLocation(rg_plan, Gravity.BOTTOM, 0, 0);
+        mSchedule.show(rg_plan);
 
     }
 
     /**
      * 获取美甲师时间块
+     *
      * @param mid
      */
     void getTimeBlock(int mid) {
@@ -131,6 +132,7 @@ public class PlanActivity extends BaseActivity implements RadioGroup.OnCheckedCh
 
     /**
      * 获取预约时间
+     *
      * @param callback
      */
 
@@ -146,11 +148,12 @@ public class PlanActivity extends BaseActivity implements RadioGroup.OnCheckedCh
 
     public static class PlanFragment extends Fragment {
 
-        String planTime = null;
+        String planTime  = null;
         String book_date = null;
         int time_block;
-        String TYPE_FOR_ME="0";
-        String TYPE_FOR_OTHER="1";
+        String TYPE_FOR_ME    = "0";
+        String TYPE_FOR_OTHER = "1";
+
         @Override
         public void onViewCreated(View view, Bundle savedInstanceState) {
             Button commit = (Button) view.findViewById(R.id.choose_nail_artist);
@@ -177,7 +180,7 @@ public class PlanActivity extends BaseActivity implements RadioGroup.OnCheckedCh
                 ContextUtil.toast(R.string.input_mobile);
                 return;
             }
-            if (bean.addressSearchBean==null||TextUtils.isEmpty(bean.address)) {
+            if (bean.addressSearchBean == null || TextUtils.isEmpty(bean.address)) {
                 ContextUtil.toast(R.string.input_address);
                 return;
             }
@@ -198,8 +201,8 @@ public class PlanActivity extends BaseActivity implements RadioGroup.OnCheckedCh
         }
 
         public String getPlanTimeStr(String book_date, int time_block) {
-            this.book_date=book_date;
-            this.time_block=time_block;
+            this.book_date = book_date;
+            this.time_block = time_block;
             return String.format("%s %d:00 ~ %d:00", book_date, time_block * 2 + 7, time_block * 2 + 9);
         }
     }

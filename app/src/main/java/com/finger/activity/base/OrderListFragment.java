@@ -120,6 +120,7 @@ public class OrderListFragment extends ListFragment implements ListController.Ca
         if (data == null) {
             return;
         }
+
         OrderListBean bean = (OrderListBean) data.get(position);
         Intent intent = new Intent(getActivity(), OrderInfoActivity.class);
         intent.putExtra("id", bean.id);

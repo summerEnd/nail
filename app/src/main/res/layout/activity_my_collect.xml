@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <include layout="@layout/head_3" />
+    <include layout="@layout/head_3"/>
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -17,8 +18,9 @@
             android:layout_height="match_parent"
             android:numColumns="2"
             android:verticalSpacing="@dimen/item_spacing"
+            android:layoutAnimation="@anim/layout"
             android:horizontalSpacing="@dimen/item_spacing"
-            android:id="@+id/grid" />
+            android:id="@+id/grid"/>
 
         <LinearLayout
             android:id="@+id/edit_layout"
@@ -28,7 +30,9 @@
             android:orientation="vertical"
             android:layout_height="wrap_content">
 
-            <TextView android:layout_alignParentTop="true" style="@style/horizontal_line" />
+            <TextView
+                android:layout_alignParentTop="true"
+                style="@style/horizontal_line"/>
 
             <Button
                 android:id="@+id/delete"
@@ -40,7 +44,7 @@
                 android:layout_height="@dimen/button_height_1"
                 style="@style/button"
                 android:text="删 除"
-                android:background="@drawable/button_green" />
+                android:background="@drawable/button_green"/>
         </LinearLayout>
     </FrameLayout>
 

@@ -146,6 +146,7 @@
     <string name="expire">该优惠券已过期！</string>
     <string name="getting">获取中...</string>
     <string name="commit_ok">提交成功</string>
+    <string name="order_ok">下单成功</string>
     <string name="pay_now">立即支付</string>
     <string name="order_msg">订单已经生成，是否立即支付？</string>
     <string name="publish_ok">发布成功</string>
@@ -178,6 +179,10 @@
     <string name="upload_failed">图片上传失败！</string>
     <string name="re_upload">重新上传</string>
     <string name="input_plan_address">请输入预约地址</string>
+    <string name="hint_yzm">请输入验证码</string>
+    <string name="hint_mobile">请输入手机号</string>
+    <string name="confirm_pay">您是否已经做好美甲，想要付款？</string>
+    <string name="confirm_ok">确认成功！</string>
 
 
 </resources>

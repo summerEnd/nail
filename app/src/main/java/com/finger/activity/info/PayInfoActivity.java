@@ -31,10 +31,10 @@ import static com.finger.activity.main.user.my.MyDiscountActivity.CouponBean;
  */
 public class PayInfoActivity extends BaseActivity {
 
-    OrderInfoBean bean;
+    OrderInfoBean     bean;
     PayMethodFragment payMethod;
 
-    public static final String EXTRA_ID="id";
+    public static final String EXTRA_ID = "id";
 
     class OrderInfoBean extends OrderListBean {
         NailInfoBean product;
@@ -45,12 +45,13 @@ public class PayInfoActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pay_info);
         getOrderDetail(getIntent().getIntExtra(EXTRA_ID, -1));
-        payMethod=new PayMethodFragment();
+        payMethod = new PayMethodFragment();
         getSupportFragmentManager().beginTransaction().add(R.id.frag_container, payMethod).commit();
     }
 
     /**
      * 获取订单详情
+     *
      * @param orderId
      */
     void getOrderDetail(int orderId) {
@@ -86,9 +87,9 @@ public class PayInfoActivity extends BaseActivity {
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
-            case R.id.pay:{
-                new AlipayAPI(this).start(bean.product_name,bean.product_name,bean.order_price);
+        switch (v.getId()) {
+            case R.id.pay: {
+                new AlipayAPI(this).start(String.valueOf(bean.id),bean.product_name, bean.product_name, bean.order_price);
                 break;
             }
         }
@@ -129,9 +130,9 @@ public class PayInfoActivity extends BaseActivity {
 
         //优惠券
         CouponBean coupon = bean.coupon;
-        tv_coupon.setText(coupon ==null
+        tv_coupon.setText(coupon == null
                 ? "无"
-                : (coupon.title+" ￥"+coupon.price));
+                : (coupon.title + " ￥" + coupon.price));
         //实付
         tv_real_pay.setText(getString(R.string.s_price, bean.order_price));
 
@@ -139,7 +140,7 @@ public class PayInfoActivity extends BaseActivity {
         tv_contact.setText(bean.contact);
 
         //预约时间
-        tv_planTime.setText(Schedule.convertPlanTime(bean.book_date,bean.time_block));
+        tv_planTime.setText(Schedule.convertPlanTime(bean.book_date, bean.time_block));
 
         //联系人电话
         tv_mobile.setText(bean.phone_num);

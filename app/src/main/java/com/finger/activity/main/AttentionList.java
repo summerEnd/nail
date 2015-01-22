@@ -3,6 +3,7 @@ package com.finger.activity.main;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -103,11 +104,16 @@ public class AttentionList extends BaseActivity implements AdapterView.OnItemCli
      */
     private void deleteItem() {
         //将选中的item放入一个集合
-        LinkedList<AttentionItemBean> deletes = new LinkedList<AttentionItemBean>();
+        final LinkedList<AttentionItemBean> deletes = new LinkedList<AttentionItemBean>();
         for (AttentionItemBean bean : beans) {
             if (bean.selected) {
                 deletes.add(bean);
             }
+        }
+        if (deletes.size()==0){
+            toggleTitle(false);
+            adapter.showDelete(false);
+            return;
         }
 
         //将集合中的id拼接起来
@@ -128,15 +134,15 @@ public class AttentionList extends BaseActivity implements AdapterView.OnItemCli
 
             @Override
             public void onSuccess(JSONObject o) {
-                beans.clear();
+                for (AttentionItemBean item : deletes) {
+                    beans.remove(item);
+                }
                 toggleTitle(false);
                 adapter.showDelete(false);
-                getAttentionList(1);
             }
         });
-
-
     }
+
 
     /**
      * 转换是否为删除状态
@@ -242,7 +248,7 @@ public class AttentionList extends BaseActivity implements AdapterView.OnItemCli
 
 
             String new_product = bean.new_product;
-            if ("0".equals(new_product)|| TextUtils.isEmpty(new_product)||"null".equals(new_product)) {
+            if ("0".equals(new_product) || TextUtils.isEmpty(new_product) || "null".equals(new_product)) {
                 holder.tv_news.setVisibility(View.GONE);
             } else {
                 holder.tv_news.setVisibility(View.VISIBLE);

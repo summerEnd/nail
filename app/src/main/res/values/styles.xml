@@ -6,9 +6,20 @@
         <item name="android:windowBackground">@drawable/windowBackground</item>
         <item name="android:windowNoTitle">true</item>
         <item name="android:textColorHint">#e1e1e1</item>
+        <item name="android:windowAnimationStyle">@style/window_animation</item>
     </style>
 
-    <style name="activity_padding" >
+    <style name="window_animation">
+        <!--打开新的activity 用的动画-->
+        <item name="android:activityOpenEnterAnimation">@anim/slide_in_right</item>
+        <item name="android:activityOpenExitAnimation">@anim/slide_out_left</item>
+
+        <!--关闭activity时的动画-->
+        <item name="android:activityCloseEnterAnimation">@anim/slide_in_left</item>
+        <item name="android:activityCloseExitAnimation">@anim/slide_out_right</item>
+    </style>
+
+    <style name="activity_padding">
         <item name="android:paddingTop">@dimen/activity_vertical_margin</item>
         <item name="android:paddingRight">@dimen/activity_horizontal_margin</item>
         <item name="android:paddingLeft">@dimen/activity_horizontal_margin</item>
@@ -137,11 +148,13 @@
         <item name="android:background">@drawable/order_tab</item>
         <item name="android:textColor">@drawable/text_gray_white</item>
     </style>
+
     <style name="tab_comment_style" parent="tab_login_style">
         <item name="android:background">@drawable/comment_tab</item>
         <item name="android:button">@null</item>
         <item name="android:layout_height">@dimen/title_height</item>
     </style>
+
     <style name="tab_item_name_style">
         <item name="android:textColor">@color/textColorBlack</item>
         <item name="android:textSize">@dimen/textSize_3</item>
@@ -272,13 +285,15 @@
         <item name="android:textSize">@dimen/textSize_dp_30px</item>
         <item name="android:button">@null</item>
     </style>
+
     <style name="comment_star_style">
-       <item name="android:layout_width">match_parent</item>
-       <item name="android:gravity">center_vertical</item>
-       <item name="android:layout_height">wrap_content</item>
-       <item name="android:layout_marginLeft">@dimen/activity_horizontal_margin</item>
-       <item name="android:orientation">horizontal</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginLeft">@dimen/activity_horizontal_margin</item>
+        <item name="android:orientation">horizontal</item>
     </style>
+
     <style name="comment_star_text_style">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
@@ -286,19 +301,23 @@
         <item name="android:textColor">@color/textColorBlack</item>
         <item name="android:textSize">@dimen/textSize_dp_30px</item>
     </style>
+
     <style name="resume_text_pink_style">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textColor">@color/textColorPink</item>
         <item name="android:textSize">@dimen/textSize_dp_28px</item>
     </style>
+
     <style name="resume_num_pink_style" parent="resume_text_pink_style">
         <item name="android:textSize">@dimen/textSize_dp_30px</item>
     </style>
+
     <style name="white_item_area">
         <item name="android:padding">8dp</item>
         <item name="android:background">@drawable/corner_frame_white_solid</item>
     </style>
+
     <style name="my_resume_white_item" parent="white_item_area">
         <item name="android:layout_marginLeft">8dp</item>
         <item name="android:layout_marginRight">8dp</item>
@@ -306,10 +325,12 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_marginTop">6dp</item>
     </style>
+
     <style name="home_item_text_style">
         <item name="android:gravity">center</item>
         <item name="android:scaleType">centerInside</item>
     </style>
+
     <style name="city_item_style">
         <item name="android:paddingLeft">@dimen/activity_horizontal_margin</item>
         <item name="android:paddingRight">@dimen/activity_horizontal_margin</item>
@@ -320,6 +341,7 @@
         <item name="android:textSize">@dimen/textSize_dp_34px</item>
 
     </style>
+
     <style name="city_item_title">
         <item name="android:paddingLeft">@dimen/activity_horizontal_margin</item>
         <item name="android:paddingRight">@dimen/activity_horizontal_margin</item>
@@ -327,11 +349,13 @@
         <item name="android:paddingBottom">4dp</item>
         <item name="android:textColor">@color/black</item>
     </style>
+
     <style name="taxi_fee">
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_marginTop">1px</item>
     </style>
+
     <style name="taxi_fee_textStyle">
         <item name="android:padding">10dp</item>
         <item name="android:layout_height">wrap_content</item>
@@ -339,6 +363,7 @@
         <item name="android:textSize">@dimen/textSize_dp_30px</item>
         <item name="android:textColor">@color/textColorGray</item>
     </style>
+
     <style name="taxi_fee_textStyle_title">
         <item name="android:padding">10dp</item>
         <item name="android:layout_height">wrap_content</item>

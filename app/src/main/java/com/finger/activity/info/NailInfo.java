@@ -157,7 +157,7 @@ public class NailInfo extends BaseActivity {
 
         RoleBean role = getApp().getUser();
 
-        //根据作品对应的美甲师id与当前登录的美甲师id是否相等，来显示或隐藏底部按钮
+        //美甲师不能预约，隐藏底部按钮
         if (role instanceof ArtistRole) {
             findViewById(R.id.choose_nail).setVisibility(View.INVISIBLE);
         } else {
