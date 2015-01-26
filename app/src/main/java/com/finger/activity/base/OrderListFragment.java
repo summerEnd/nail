@@ -8,24 +8,32 @@ import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.view.View;
 import android.widget.AbsListView;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 
 import com.finger.R;
 import com.finger.activity.FingerApp;
+import com.finger.activity.MainActivity;
 import com.finger.activity.info.OrderInfoActivity;
+import com.finger.activity.info.PayInfoActivity;
 import com.finger.activity.main.artist.my.PublishNailActivity;
+import com.finger.activity.main.user.order.ApplyRefund;
+import com.finger.activity.main.user.order.CommentOrder;
 import com.finger.entity.ArtistRole;
 import com.finger.entity.OrderListBean;
 import com.finger.entity.RoleBean;
 import com.finger.support.net.FingerHttpClient;
 import com.finger.support.net.FingerHttpHandler;
+import com.finger.support.util.ContextUtil;
 import com.finger.support.util.JsonUtil;
 import com.loopj.android.http.RequestParams;
+import com.sp.lib.support.IntentFactory;
 import com.sp.lib.util.ListController;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.util.List;
 
 import static com.finger.adapter.OrderAdapterFactory.OrderAdapter;
@@ -33,9 +41,10 @@ import static com.finger.adapter.OrderAdapterFactory.OrderAdapter;
 /**
  * 所有订单列表的父类
  */
-public class OrderListFragment extends ListFragment implements ListController.Callback {
+public class OrderListFragment extends ListFragment implements ListController.Callback, OrderListCallback {
     String         status;
     ListController controller;
+    OrderAdapter   mAdapter;
 
     /**
      * @param status 状态 STATUS_WAIT_SERVICE，STATUS_WAIT_COMMENT，STATUS_REFUND
@@ -49,13 +58,18 @@ public class OrderListFragment extends ListFragment implements ListController.Ca
         return fragment;
     }
 
+    @Override
+    public void setListAdapter(ListAdapter adapter) {
+        mAdapter = (OrderAdapter) adapter;
+        super.setListAdapter(mAdapter);
+    }
+
     /**
      * 刷新列表数据
      */
     public void clearList() {
-        OrderAdapter adapter = (OrderAdapter) getListView().getAdapter();
-        adapter.getData().clear();
-        adapter.notifyDataSetChanged();
+        mAdapter.getData().clear();
+        mAdapter.notifyDataSetChanged();
     }
 
     @Override
@@ -100,11 +114,11 @@ public class OrderListFragment extends ListFragment implements ListController.Ca
         FingerHttpClient.post("getOrderList", params, new FingerHttpHandler() {
             @Override
             public void onSuccess(JSONObject o) {
-                OrderAdapter adapter = (OrderAdapter) getListView().getAdapter();
+
 
                 try {
-                    JsonUtil.getArray(o.getJSONArray("data"), OrderListBean.class, adapter.getData());
-                    adapter.notifyDataSetChanged();
+                    JsonUtil.getArray(o.getJSONArray("data"), OrderListBean.class, mAdapter.getData());
+                    mAdapter.notifyDataSetChanged();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -115,8 +129,8 @@ public class OrderListFragment extends ListFragment implements ListController.Ca
     @Override
 
     public void onListItemClick(ListView l, View v, int position, long id) {
-        OrderAdapter listAdapter = (OrderAdapter) getListAdapter();
-        List data = listAdapter.getData();
+
+        List data = mAdapter.getData();
         if (data == null) {
             return;
         }
@@ -130,5 +144,90 @@ public class OrderListFragment extends ListFragment implements ListController.Ca
     @Override
     public void onLoadMore(AbsListView listView, int nextPage) {
         getOrderList(nextPage);
+    }
+
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mAdapter.getData().clear();
+        mAdapter.notifyDataSetChanged();
+        getOrderList(1);
+    }
+
+    @Override
+    public void onPay(OrderListBean bean) {
+        startActivity(
+                new Intent(getActivity(), PayInfoActivity.class)
+                        .putExtra(PayInfoActivity.EXTRA_ID, bean.id)
+        );
+    }
+
+    @Override
+    public void onApplyRefund(OrderListBean bean) {
+        startActivity(
+                new Intent(getActivity(), ApplyRefund.class)
+                        .putExtra("bean", bean));
+    }
+
+
+    @Override
+    public void onConfirmPay(final OrderListBean bean) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle(R.string.warn);
+        builder.setMessage(getString(R.string.confirm_pay));
+        builder.setPositiveButton("确认付款", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                RequestParams params = new RequestParams();
+                params.put("order_id", bean.id);
+                FingerHttpClient.post("confirmPay", params, new FingerHttpHandler() {
+                    @Override
+                    public void onSuccess(JSONObject o) {
+                        mAdapter.getData().clear();
+                        mAdapter.notifyDataSetChanged();
+                        getOrderList(1);
+                        ContextUtil.toast(getString(R.string.confirm_ok));
+                    }
+                });
+
+            }
+        });
+        builder.setNegativeButton(R.string.cancel, null);
+        builder.show();
+    }
+
+    @Override
+    public void onGetCoupon(final OrderListBean bean) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle(R.string.get_coupon)
+                .setMessage(R.string.share_coupon_notice)
+                .setNegativeButton(R.string.cancel, null)
+                .setPositiveButton(R.string.share, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        showSystemShare();
+                    }
+
+                    /**
+                     * 系统分享
+                     */
+                    public void showSystemShare() {
+                        MainActivity activity = (MainActivity) getActivity();
+                        activity.setGetCouponOrderId(bean.id);
+                        activity.startActivityForResult(IntentFactory.share(activity.getString(R.string.app_name), "这是一个分享")
+                                ,
+                                MainActivity.REQUEST_SHARE);
+                    }
+
+                })
+                .show();
+    }
+
+    @Override
+    public void onComment(OrderListBean bean) {
+        startActivity(new Intent(getActivity(), CommentOrder.class).putExtra("bean", bean));
     }
 }

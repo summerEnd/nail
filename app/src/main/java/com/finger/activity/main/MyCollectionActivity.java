@@ -59,6 +59,7 @@ public class MyCollectionActivity extends BaseActivity implements ListController
 
     /**
      * 获取收藏列表
+     *
      * @param page
      */
     void getCollectionList(int page) {
@@ -91,8 +92,23 @@ public class MyCollectionActivity extends BaseActivity implements ListController
 
                 break;
             }
+            case R.id.cancel:{
+                //隐藏删除页面
+                showDelete(false);
+                adapter.notifyDataSetChanged();
+                break;
+            }
             default:
                 super.onClick(v);
+        }
+    }
+    @Override
+    public void onBackPressed() {
+        if(adapter.delete){
+            showDelete(false);
+            adapter.notifyDataSetChanged();
+        }else{
+            super.onBackPressed();
         }
     }
 
@@ -108,7 +124,7 @@ public class MyCollectionActivity extends BaseActivity implements ListController
             }
         }
 
-        if (deleteBean.size()==0){
+        if (deleteBean.size() == 0) {
             showDelete(false);
             return;
         }
@@ -270,7 +286,8 @@ public class MyCollectionActivity extends BaseActivity implements ListController
             Logger.d("v:" + v + " tag:" + v.getTag());
             NailItemBean bean = (NailItemBean) v.getTag();
             bean.selected = !bean.selected;
-            notifyDataSetChanged();
+
+            ((CheckBox) ((View) v.getParent().getParent()).findViewById(R.id.cb_delete)).setChecked(bean.selected);
         }
     }
 

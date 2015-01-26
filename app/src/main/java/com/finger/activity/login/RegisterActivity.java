@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -22,6 +23,7 @@ import com.finger.service.LocationService;
 import com.finger.support.Constant;
 import com.finger.support.net.FingerHttpClient;
 import com.finger.support.net.FingerHttpHandler;
+import com.finger.support.util.ContextUtil;
 import com.finger.support.util.JsonUtil;
 import com.loopj.android.http.RequestParams;
 
@@ -59,8 +61,24 @@ public class RegisterActivity extends BaseActivity {
         final String password = getPassword();
         final String register_code = edit_yzm.getText().toString();
         RequestParams params = new RequestParams();
+        if (TextUtils.isEmpty(mobile)){
+            ContextUtil.toast(edit_mobile.getHint());
+            return;
+        }
         params.put("phone_num", mobile);
+
+        if (TextUtils.isEmpty(password)){
+            ContextUtil.toast(edit_mobile.getHint());
+            return;
+        }
         params.put("password", password);
+
+        if (TextUtils.isEmpty(register_code)){
+            ContextUtil.toast(edit_yzm.getHint());
+            return;
+        }
+
+
         params.put("register_code", register_code);
         FingerHttpClient.post("register", params, new FingerHttpHandler() {
             @Override
@@ -164,7 +182,7 @@ public class RegisterActivity extends BaseActivity {
     }
 
     Timer timer;
-    final int MAX_TIME = 100;
+    final int MAX_TIME = 60;
     int remainTime;
 
     void startTimer() {

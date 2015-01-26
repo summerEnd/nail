@@ -1,14 +1,9 @@
 package com.finger.adapter;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
 import android.text.TextUtils;
 import android.util.SparseArray;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,34 +12,21 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.finger.R;
-import com.finger.activity.MainActivity;
-import com.finger.activity.info.PayInfoActivity;
-import com.finger.activity.main.user.order.ApplyRefund;
-import com.finger.activity.main.user.order.CommentOrder;
+import com.finger.activity.base.OrderListCallback;
 import com.finger.entity.OrderListBean;
-import com.finger.support.net.FingerHttpClient;
-import com.finger.support.net.FingerHttpHandler;
 import com.finger.support.util.ContextUtil;
-import com.loopj.android.http.RequestParams;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
-import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.assist.LoadedFrom;
 import com.nostra13.universalimageloader.core.display.BitmapDisplayer;
 import com.nostra13.universalimageloader.core.imageaware.ImageAware;
-import com.sp.lib.support.IntentFactory;
 import com.sp.lib.support.ShareWindow;
 import com.sp.lib.util.ClickFullScreen;
 import com.sp.lib.util.ImageManager;
 import com.sp.lib.util.ImageUtil;
 
-import org.json.JSONObject;
-
-import java.io.Serializable;
 import java.util.List;
 
-/**
- * Created by acer on 2014/12/23.
- */
+
 public class OrderAdapterFactory {
 
 
@@ -380,7 +362,7 @@ public class OrderAdapterFactory {
         ShareWindow         window;
         SparseArray<String> status;
         SparseArray<String> btn_status;
-
+        OrderListCallback   callback;
 
         /**
          * 所有订单上的按钮点击事件都在这里处理
@@ -388,44 +370,23 @@ public class OrderAdapterFactory {
         View.OnClickListener onListButtonClick = new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
-                final Context context = v.getContext();
 
-                final OrderListBean bean = (OrderListBean) v.getTag();
+                if (callback == null) {
+                    return;
+                }
+
+                OrderListBean bean = (OrderListBean) v.getTag();
                 switch (bean.status) {
                     case STATUS_NOT_PAY: {
-                        //按钮：付款
-                        context.startActivity(new Intent(context, PayInfoActivity.class)
-                                        .putExtra(PayInfoActivity.EXTRA_ID, bean.id)
-                        );
+                        callback.onPay(bean);
                         break;
                     }
                     case STATUS_WAIT_SERVICE: {
                         //按钮：申请退款,确认付款
                         if (v.getId() == R.id.button1) {
-                            context.startActivity(
-                                    new Intent(context, ApplyRefund.class)
-                                            .putExtra("id", bean.id));
+                            callback.onApplyRefund(bean);
                         } else {
-                            AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                            builder.setTitle(R.string.warn);
-                            builder.setMessage(context.getString(R.string.confirm_pay));
-                            builder.setPositiveButton("确认付款", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-
-                                    RequestParams params = new RequestParams();
-                                    params.put("order_id", bean.id);
-                                    FingerHttpClient.post("confirmPay", params, new FingerHttpHandler() {
-                                        @Override
-                                        public void onSuccess(JSONObject o) {
-                                            ContextUtil.toast(context.getString(R.string.confirm_ok));
-                                        }
-                                    });
-
-                                }
-                            });
-                            builder.setNegativeButton(R.string.cancel, null);
-                            builder.show();
+                            callback.onConfirmPay(bean);
                         }
                         break;
                     }
@@ -434,85 +395,21 @@ public class OrderAdapterFactory {
                     case STATUS_WAIT_COMMENT: {
                         //按钮：领优惠券,等待评价
                         if (v.getId() == R.id.button1) {
-                            getCoupon(v);
+                            callback.onGetCoupon(bean);
                         } else {
-                            mContext.startActivity(new Intent(mContext, CommentOrder.class).putExtra("bean", (Serializable) v.getTag()));
+                            callback.onComment(bean);
                         }
                         break;
                     }
 
                     case STATUS_COMMENT_OK: {
                         //按钮：领优惠券
-                        getCoupon(v);
+                        callback.onGetCoupon(bean);
                         break;
                     }
                 }
             }
         };
-
-        /**
-         * 获取优惠券对话框
-         *
-         * @param v
-         */
-        void getCoupon(final View v) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
-            builder.setTitle(R.string.get_coupon)
-                    .setMessage(R.string.share_coupon_notice)
-                    .setNegativeButton(R.string.cancel, null)
-                    .setPositiveButton(R.string.share, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                            showSystemShare();
-                            //                            showCustomShare();
-                        }
-
-                        /**
-                         * 系统分享
-                         */
-                        public void showSystemShare() {
-                            MainActivity activity = (MainActivity) mContext;
-                            OrderListBean bean = (OrderListBean) v.getTag();
-                            activity.setGetCouponOrderId(bean.id);
-                            activity.startActivityForResult(IntentFactory.share(activity.getString(R.string.app_name), "这是一个分享")
-                                    ,
-                                    MainActivity.REQUEST_SHARE);
-                        }
-
-                        //自定义分享 点蓝牙的时候会崩溃，原因没找到
-                        public void showCustomShare() {
-                            if (window == null) {
-                                window = new ShareWindow(v.getContext());
-                                window.setOnShareItemClick(new ShareWindow.OnShareItemClick() {
-                                    @Override
-                                    public void onShare(ResolveInfo info) {
-                                        MainActivity activity = (MainActivity) mContext;
-                                        OrderListBean bean = (OrderListBean) v.getTag();
-                                        activity.setGetCouponOrderId(bean.id);
-                                        activity.startActivityForResult(
-                                                new Intent()
-                                                        .setClassName(info.activityInfo.packageName, info.activityInfo.name)
-                                                        .putExtra(Intent.EXTRA_TITLE, activity.getString(R.string.app_name))
-                                                        .putExtra(Intent.EXTRA_SUBJECT, "这是一个分享")
-                                                ,
-                                                MainActivity.REQUEST_SHARE);
-                                    }
-                                });
-                                window.setTitle(v.getContext().getString(R.string.app_name));
-                            }
-
-
-                            try {
-                                window.showAtLocation(v, Gravity.CENTER, 0, 0);
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
-                        }
-                    })
-                    .show();
-
-        }
 
         /**
          * 0未付款，1已经付款，2确认付款，3评价服务，4申请退款，5退款成功，6退款失败
@@ -605,6 +502,14 @@ public class OrderAdapterFactory {
             }
         }
 
+        /**
+         * 设置订单列表回调
+         * @param callback
+         */
+
+        public void setCallback(OrderListCallback callback) {
+            this.callback = callback;
+        }
 
         public OrderAdapter(Context context, List data) {
             this.data = data;
@@ -617,188 +522,5 @@ public class OrderAdapterFactory {
         }
     }
 
-    /**
-     * 等待美甲
-     */
-    static class WaitService extends OrderAdapter implements View.OnClickListener {
 
-
-        public WaitService(Context context, List data) {
-            super(context, data);
-        }
-
-        @Override
-        public int getCount() {
-            return data.size();
-        }
-
-        @Override
-        public Object getItem(int position) {
-            return null;
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return position;
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            ViewHolder holder;
-            if (convertView == null) {
-                holder = new ViewHolder();
-                convertView = inflater.inflate(R.layout.list_item_order_wait_service, null);
-                holder.product_name = (TextView) convertView.findViewById(R.id.product_name);
-                holder.tv_real_pay = (TextView) convertView.findViewById(R.id.tv_real_pay);
-                holder.create_time = (TextView) convertView.findViewById(R.id.create_time);
-                holder.tv_price = (TextView) convertView.findViewById(R.id.tv_price);
-                holder.cover = (ImageView) convertView.findViewById(R.id.cover);
-                holder.button1 = (TextView) convertView.findViewById(R.id.pay);
-                holder.button1.setOnClickListener(this);
-            } else {
-                holder = (ViewHolder) convertView.getTag();
-            }
-            OrderListBean bean = (OrderListBean) data.get(position);
-
-            ImageManager.loadImage(bean.product_cover, holder.cover);
-
-            holder.product_name.setText(bean.product_name);
-            holder.create_time.setText(bean.create_time);
-            //订单价格
-            holder.tv_price.setText(mContext.getString(R.string.price_r_s, bean.order_price));
-            //实付
-            holder.tv_real_pay.setText(mContext.getString(R.string.s_price, bean.real_pay));
-            convertView.setTag(holder);
-            return convertView;
-        }
-
-        @Override
-        public void onClick(View v) {
-
-        }
-    }
-
-    /**
-     * 等待评价
-     */
-    static class WaitComment extends OrderAdapter {
-        protected DisplayImageOptions options = ContextUtil.getSquareImgOptions();
-
-        public WaitComment(Context context, List data) {
-            super(context, data);
-        }
-
-
-        @Override
-        public int getCount() {
-            return data.size();
-        }
-
-        @Override
-        public Object getItem(int position) {
-            return null;
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return position;
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            ViewHolder holder;
-            if (convertView == null) {
-                holder = new ViewHolder();
-                convertView = inflater.inflate(R.layout.list_item_order_wait_comment, null);
-                holder.button1 = (TextView) convertView.findViewById(R.id.button1);
-                holder.cover = (ImageView) convertView.findViewById(R.id.cover);
-                holder.product_name = (TextView) convertView.findViewById(R.id.product_name);
-                holder.tv_price = (TextView) convertView.findViewById(R.id.tv_price);
-                holder.create_time = (TextView) convertView.findViewById(R.id.create_time);
-                holder.tv_real_pay = (TextView) convertView.findViewById(R.id.tv_real_pay);
-
-                holder.button1.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        mContext.startActivity(new Intent(mContext, CommentOrder.class).putExtra("bean", (OrderListBean) v.getTag()));
-                    }
-                });
-            } else {
-                holder = (ViewHolder) convertView.getTag();
-            }
-            OrderListBean bean = (OrderListBean) data.get(position);
-            holder.button1.setTag(bean);
-            holder.product_name.setText(bean.product_name);
-            holder.tv_price.setText(mContext.getString(R.string.price_s, bean.order_price));
-            holder.create_time.setText(bean.create_time);
-            holder.tv_real_pay.setText(mContext.getString(R.string.s_price, bean.real_pay));
-            ImageManager.loadImage(bean.product_cover, holder.cover, options);
-            convertView.setTag(holder);
-            return convertView;
-        }
-    }
-
-    /**
-     * 退款
-     */
-    static class Refund extends OrderAdapter {
-
-
-        public Refund(Context context, List data) {
-            super(context, data);
-        }
-
-        @Override
-        public int getCount() {
-            return data.size();
-        }
-
-        @Override
-        public Object getItem(int position) {
-            return null;
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return position;
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            ViewHolder holder;
-            if (convertView == null) {
-                holder = new ViewHolder();
-                convertView = inflater.inflate(R.layout.list_item_order_refund, null);
-
-                holder.cover = (ImageView) convertView.findViewById(R.id.cover);
-                holder.product_name = (TextView) convertView.findViewById(R.id.product_name);
-                holder.create_time = (TextView) convertView.findViewById(R.id.create_time);
-                holder.tv_price = (TextView) convertView.findViewById(R.id.tv_price);
-                holder.tv_real_pay = (TextView) convertView.findViewById(R.id.tv_real_pay);
-                holder.refund_state = (TextView) convertView.findViewById(R.id.refund_state);
-            } else {
-                holder = (ViewHolder) convertView.getTag();
-            }
-
-            OrderListBean bean = (OrderListBean) data.get(position);
-            holder.product_name.setText(bean.product_name);
-            holder.create_time.setText(bean.create_time);
-            holder.tv_price.setText(mContext.getString(R.string.price_s, bean.order_price));
-            holder.tv_real_pay.setText(mContext.getString(R.string.rmb_s, bean.real_pay));
-            int status = bean.status;
-            if (STATUS_REFUND_OK == bean.status) {
-                holder.refund_state.setTextColor(mContext.getResources().getColor(R.color.textColorGray));
-                holder.refund_state.setText(mContext.getString(R.string.refund_complete));
-            } else if (STATUS_REFUND_FAILED == status) {
-                holder.refund_state.setTextColor(mContext.getResources().getColor(R.color.textColorGray));
-                holder.refund_state.setText(mContext.getString(R.string.refund_failed));
-            } else {
-                holder.refund_state.setTextColor(mContext.getResources().getColor(R.color.textColorPink));
-                holder.refund_state.setText(mContext.getString(R.string.refunding));
-            }
-
-            convertView.setTag(holder);
-            return convertView;
-        }
-    }
 }

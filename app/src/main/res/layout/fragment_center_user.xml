@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:background="@drawable/windowBackground"
-    android:layout_height="match_parent">
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:background="@drawable/windowBackground"
+              android:layout_height="match_parent">
 
-    <include layout="@layout/head_1" />
+    <include layout="@layout/head_1"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -20,7 +20,7 @@
 
             android:layout_width="@dimen/avatar_center_size"
             android:layout_height="@dimen/avatar_center_size"
-            android:src="@drawable/default_user" />
+            android:src="@drawable/default_user"/>
 
         <TextView
             android:id="@+id/tv_nick_name"
@@ -29,7 +29,7 @@
             android:layout_height="wrap_content"
             android:textColor="@color/textColorBlack"
             android:textSize="@dimen/textSize_2"
-            android:text="昵称" />
+            android:text="昵称"/>
     </LinearLayout>
 
 
@@ -37,28 +37,26 @@
         android:drawableLeft="@drawable/ic_my_discount"
         android:id="@id/my_discount_card"
         style="@style/text_click_item"
-        android:text="@string/my_discount" />
-
-
-    <TextView
-        android:drawableLeft="@drawable/ic_my_collect"
-        android:id="@id/my_collection"
-        style="@style/text_click_item"
-        android:text="@string/my_collection" />
+        android:text="@string/my_discount"/>
 
 
     <TextView
         android:drawableLeft="@drawable/ic_my_care"
         android:id="@id/my_attention"
         style="@style/text_click_item"
-        android:text="@string/my_care" />
+        android:text="@string/my_care"/>
 
+    <TextView
+        android:drawableLeft="@drawable/ic_my_collect"
+        android:id="@id/my_collection"
+        style="@style/text_click_item"
+        android:text="@string/my_collection"/>
 
     <TextView
         android:drawableLeft="@drawable/ic_settings"
         android:id="@id/settings"
         style="@style/text_click_item"
-        android:text="@string/settings" />
+        android:text="@string/settings"/>
 
 
 </LinearLayout>

@@ -51,7 +51,8 @@
             app:drawable="@drawable/star1"
             android:layout_toRightOf="@+id/iv_avatar"
             app:stars="5"
-            android:layout_above="@+id/zgs"/>
+            android:layout_centerVertical="true"
+            />
 
         <LinearLayout
             android:layout_above="@+id/zgs"
@@ -143,7 +144,8 @@
         android:layout_marginTop="8dp"
         android:layout_marginLeft="@dimen/activity_horizontal_margin"
         android:layout_marginRight="@dimen/activity_horizontal_margin"
-        android:background="@drawable/bg_with_shadow"
+        android:layout_marginBottom="8dp"
+        android:background="@color/white"
         android:layout_height="wrap_content">
 
         <LinearLayout

@@ -159,10 +159,15 @@ public class NailInfo extends BaseActivity {
 
         //美甲师不能预约，隐藏底部按钮
         if (role instanceof ArtistRole) {
+            if (bean.mid==role.id){
+                cb_collect.setVisibility(View.GONE);
+            }
             findViewById(R.id.choose_nail).setVisibility(View.INVISIBLE);
         } else {
             findViewById(R.id.choose_nail).setVisibility(View.VISIBLE);
         }
+
+
 
     }
 

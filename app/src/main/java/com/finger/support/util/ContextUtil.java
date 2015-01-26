@@ -129,7 +129,7 @@ public class ContextUtil {
                 .imageScaleType(ImageScaleType.IN_SAMPLE_INT)
                 .showImageForEmptyUri(R.drawable.default_user)
                 .showImageOnFail(R.drawable.default_user)
-                .showImageOnLoading(R.drawable.loading)
+                .showImageOnLoading(R.drawable.default_user)
                 .displayer(new BitmapDisplayer() {
                     @Override
                     public void display(Bitmap bitmap, ImageAware imageAware, LoadedFrom loadedFrom) {

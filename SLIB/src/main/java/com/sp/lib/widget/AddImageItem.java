@@ -66,6 +66,10 @@ public class AddImageItem extends HorizontalScrollView {
         layout.addView(add);
     }
 
+    public ViewGroup getLayout(){
+        return layout;
+    }
+
     public int getNext_image_width() {
         return next_image_width;
     }
@@ -103,6 +107,11 @@ public class AddImageItem extends HorizontalScrollView {
         this.mCallback = callback;
     }
 
+    /**
+     * 删除一张图片
+     *
+     * @param index
+     */
     public void removeImage(int index) {
         layout.removeViewAt(index);
     }
@@ -137,11 +146,9 @@ public class AddImageItem extends HorizontalScrollView {
             return;
 
         if (Activity.RESULT_OK == resultCode) {
-            Toast.makeText(getContext(), "ok", Toast.LENGTH_SHORT).show();
             addImage(getContext(), data.getData());
-
         } else {
-            Toast.makeText(getContext(), "cancel", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "取消", Toast.LENGTH_SHORT).show();
         }
     }
 }

@@ -170,7 +170,7 @@ public class MyDiscountActivity extends BaseActivity implements RadioGroup.OnChe
     @Override
     public void onCheckedChanged(RadioGroup group, int checkedId) {
         switch (checkedId) {
-            case R.id.rb_remain: {
+            case R.id.rb_not_used: {
                 pager.setCurrentItem(0);
                 break;
             }
@@ -189,7 +189,7 @@ public class MyDiscountActivity extends BaseActivity implements RadioGroup.OnChe
     @Override
     public void onPageSelected(int i) {
         if (i == 0) {
-            rg.check(R.id.rb_remain);
+            rg.check(R.id.rb_not_used);
             if (freshCoupons.size() == 0) {
                 getFreshCoupons(1);
             }

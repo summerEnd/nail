@@ -48,15 +48,6 @@ public class OrderFragment extends Fragment implements RadioGroup.OnCheckedChang
         return v;
     }
 
-    /**
-     * 刷新数据
-     */
-    public void refresh(){
-        if (curFragment!=null){
-            curFragment.clearList();
-            curFragment.getOrderList(1);
-        }
-    }
 
     @Override
     public void onCheckedChanged(RadioGroup group, int checkedId) {
@@ -86,8 +77,8 @@ public class OrderFragment extends Fragment implements RadioGroup.OnCheckedChang
 
             fragment = OrderListFragment.newInstance(status);
             fragment.setListAdapter(adapter);
+            adapter.setCallback(fragment);
             ft.add(R.id.frag_container, fragment, String.valueOf(checked_id));
-
         }
 
         ft.show(fragment);

@@ -23,8 +23,8 @@ import static com.finger.support.util.ContextUtil.getVersion;
 
 public class FingerHttpClient {
     private static final String SECRET = "ju34s4&6d567nuwe678l89kjdf56o34iw!e";
-    public static final String host = "http://218.244.149.129/pnail/index.php?s=/Home/Api/";
-    private static String MIEI = "miei";
+    public static final  String host   = "http://218.244.149.129/pnail/index.php?s=/Home/Api/";
+    private static       String MIEI   = "miei";
 
     public static void setDialogCreator(SHttpClient.ProgressDialogCreator creator) {
         SHttpClient.setDialogCreator(creator);
@@ -35,8 +35,17 @@ public class FingerHttpClient {
      * @param params  参数
      * @param handler
      */
-    public static void post(String method, RequestParams params, final FingerHttpHandler handler) {
+    public static void post(String method, RequestParams params, FingerHttpHandler handler) {
 
+        post(method, params, handler, true);
+    }
+
+    /**
+     * @param method  调用的方法名称
+     * @param params  参数
+     * @param handler
+     */
+    public static void post(String method, RequestParams params, final FingerHttpHandler handler, boolean showDialog) {
         String time = String.valueOf(new Date().getTime());
         String uuId = getImei();
 
@@ -45,14 +54,10 @@ public class FingerHttpClient {
         params.put("uuid", uuId);
         params.put("version", getVersion());
         params.put("os", "android");
-        RoleBean user=((FingerApp) getContext()).getUser();
-//        if (user instanceof ArtistRole){
-//            params.put("mid",user.id );
-//        }else if(user instanceof UserRole){
-//            params.put("uid", user.id);
-//        }
+        RoleBean user = ((FingerApp) getContext()).getUser();
+
         params.put("uid", user.id);
-        SHttpClient.post(host + method, params, new WebJsonHttpHandler() {
+        WebJsonHttpHandler mWebJsonHandler = new WebJsonHttpHandler() {
             @Override
             public void onSuccess(JSONObject object, JSONArray array) {
                 JSONObject response = null;
@@ -60,8 +65,7 @@ public class FingerHttpClient {
                     response = object.getJSONObject("response");
                     if (!"100".equals(response.getString("code"))) {
                         handler.onFail(object);
-
-                    }else{
+                    } else {
                         handler.onSuccess(response);
                     }
                     String msg = response.getString("msg");
@@ -77,8 +81,9 @@ public class FingerHttpClient {
                 handler.onNetException();
                 ContextUtil.toast(R.string.net_failed);
             }
-        }, BuildConfig.DEBUG);
+        };
+
+        mWebJsonHandler.showDialog = showDialog;
+        SHttpClient.post(host + method, params, mWebJsonHandler, BuildConfig.DEBUG);
     }
-
-
 }

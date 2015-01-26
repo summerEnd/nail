@@ -14,11 +14,14 @@ import android.widget.TextView;
 
 import com.finger.activity.base.BaseActivity;
 import com.finger.R;
+import com.finger.activity.info.Artist;
+import com.finger.entity.ArtistRole;
 import com.finger.support.Constant;
 import com.finger.entity.RoleBean;
 import com.finger.support.net.FingerHttpClient;
 import com.finger.support.net.FingerHttpHandler;
 import com.finger.support.util.Logger;
+import com.finger.support.widget.RatingWidget;
 import com.loopj.android.http.RequestParams;
 import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
@@ -56,6 +59,14 @@ public class ChangeMyData extends BaseActivity {
         edit_nick.setText(bean.username);
         edit_phone.setText(bean.mobile);
         ((TextView) findViewById(R.id.tv_nick_name)).setText(bean.username);
+
+        RatingWidget widget= (RatingWidget) findViewById(R.id.rating);
+        if (bean instanceof ArtistRole){
+            widget.setVisibility(View.VISIBLE);
+            widget.setScore(((ArtistRole) bean).score);
+        }else{
+            widget.setVisibility(View.GONE);
+        }
     }
 
     /**

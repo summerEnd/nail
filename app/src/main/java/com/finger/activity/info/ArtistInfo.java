@@ -72,7 +72,6 @@ public class ArtistInfo extends BaseActivity {
                     return;
                 }
 
-
                 if (!attention.isChecked()) {
                     cancel(bean.attention_id);
                 } else {

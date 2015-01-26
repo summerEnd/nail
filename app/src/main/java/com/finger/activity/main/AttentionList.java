@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -110,7 +111,7 @@ public class AttentionList extends BaseActivity implements AdapterView.OnItemCli
                 deletes.add(bean);
             }
         }
-        if (deletes.size()==0){
+        if (deletes.size() == 0) {
             toggleTitle(false);
             adapter.showDelete(false);
             return;
@@ -165,7 +166,12 @@ public class AttentionList extends BaseActivity implements AdapterView.OnItemCli
         if (adapter.delete) {
             AttentionItemBean bean = beans.get(position);
             bean.selected = !bean.selected;
-            adapter.notifyDataSetChanged();
+            ImageView iv = (ImageView) view.findViewById(R.id.iv_delete);
+            if (bean.selected) {
+                iv.setImageResource(R.drawable.attention_checked);
+            } else {
+                iv.setImageResource(R.drawable.attention_unchecked);
+            }
         } else {
             startActivity(new Intent(this, ArtistInfo.class).putExtra("id", beans.get(position).uid));
         }
@@ -231,12 +237,12 @@ public class AttentionList extends BaseActivity implements AdapterView.OnItemCli
 
             AttentionItemBean bean = beans.get(position);
             if (delete) {
-                holder.iv_delete.setVisibility(View.VISIBLE);
                 if (bean.selected) {
                     holder.iv_delete.setImageResource(R.drawable.attention_checked);
                 } else {
                     holder.iv_delete.setImageResource(R.drawable.attention_unchecked);
                 }
+                holder.iv_delete.setVisibility(View.VISIBLE);
             } else {
                 holder.iv_delete.setVisibility(View.GONE);
             }

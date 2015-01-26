@@ -46,7 +46,7 @@
                     style="@style/tab_login_style"
                     android:id="@+id/rb_user"
                     android:checked="true"
-                    android:text="用户"
+                    android:text="普通用户"
                     android:button="@null"/>
 
                 <RadioButton

@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.drawable.ColorDrawable;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -23,6 +24,7 @@ import com.finger.R;
 import com.finger.activity.main.SearchResult;
 import com.finger.support.Constant;
 import com.finger.entity.HotTagBean;
+import com.finger.support.util.ContextUtil;
 import com.sp.lib.util.DisplayUtil;
 import com.sp.lib.util.FileUtil;
 
@@ -66,17 +68,14 @@ public class SearchWindow extends PopupWindow implements View.OnTouchListener, V
         grid.setOnItemClickListener(onCategoryClicked);
         tags = (ArrayList<HotTagBean>) FileUtil.readFile(context, Constant.FILE_TAGS);
         grid.setOnTouchListener(this);
-        if (tags != null)
+        if (tags != null){
             grid.setAdapter(new TagAdapter(context, tags));
+        }
     }
 
     public void show(View parent) {
-        //        setAnimationStyle(0);/**/
-
         showAtLocation(parent, Gravity.NO_GRAVITY, 0, 0);
         search_title.startAnimation(AnimationUtils.loadAnimation(activity, R.anim.search_title_anim));
-
-        //        showAsDropDown(parent, -4, 0);
     }
 
     private AdapterView.OnItemClickListener onCategoryClicked = new AdapterView.OnItemClickListener() {
@@ -99,9 +98,17 @@ public class SearchWindow extends PopupWindow implements View.OnTouchListener, V
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.search: {
+
+                String keywords = edit_key.getText().toString();
+
+                if (TextUtils.isEmpty(keywords)){
+                    ContextUtil.toast(edit_key.getHint());
+                    return;
+                }
+
                 Context context = v.getContext();
                 context.startActivity(new Intent(context, SearchResult.class)
-                                .putExtra(SearchResult.EXTRA_KEY, edit_key.getText().toString())
+                                .putExtra(SearchResult.EXTRA_KEY, keywords)
                 );
                 break;
             }

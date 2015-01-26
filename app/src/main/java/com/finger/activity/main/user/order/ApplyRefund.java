@@ -8,10 +8,13 @@ import android.widget.TextView;
 
 import com.finger.R;
 import com.finger.activity.base.AddImageActivity;
+import com.finger.entity.OrderListBean;
 import com.finger.support.net.FingerHttpClient;
 import com.finger.support.net.FingerHttpHandler;
 import com.finger.support.util.DialogUtil;
 import com.loopj.android.http.RequestParams;
+
+import junit.framework.Assert;
 
 import org.json.JSONObject;
 
@@ -20,13 +23,16 @@ import org.json.JSONObject;
  */
 public class ApplyRefund extends AddImageActivity {
 
+    OrderListBean bean;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_apply_refund);
+        bean= (OrderListBean) getIntent().getSerializableExtra("bean");
+        Assert.assertNotNull(bean);
         TextView tv_refund_money = (TextView) findViewById(R.id.tv_refund_money);
-        tv_refund_money.setText(getString(R.string.s_price, "998"));
+        tv_refund_money.setText(getString(R.string.s_price,bean.order_price));
         MAX_IMAGE = 1;
     }
 
@@ -34,7 +40,7 @@ public class ApplyRefund extends AddImageActivity {
         RequestParams params = new RequestParams();
         params.put("reason", reason);
         params.put("imageUrl", imageUrl);
-        params.put("order_id", getIntent().getIntExtra("id", -1));
+        params.put("order_id", bean.id);
         FingerHttpClient.post("applyRefund", params, new FingerHttpHandler() {
             @Override
             public void onSuccess(JSONObject o) {

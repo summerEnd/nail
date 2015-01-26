@@ -1,5 +1,7 @@
 package com.finger.activity.login;
 
+import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -27,9 +29,14 @@ import com.finger.support.net.FingerHttpHandler;
 import com.finger.support.util.JsonUtil;
 import com.finger.support.widget.EditItem;
 import com.loopj.android.http.RequestParams;
+import com.sp.lib.util.FileUtil;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 
 /**
  * Created by acer on 2014/12/8.
@@ -41,7 +48,8 @@ public class LoginActivity extends BaseActivity implements RadioGroup.OnCheckedC
     UserLogin       USER;
     FragmentManager manager;
     private LocationService.LocationConnection conn;
-    final int REQUEST_CODE=102;
+    final int REQUEST_CODE = 102;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -92,18 +100,25 @@ public class LoginActivity extends BaseActivity implements RadioGroup.OnCheckedC
                 }
                 bean.password = password;
 
+                Map<String,Object> map=new HashMap<String, Object>();
+                map.put("password",password);
+                map.put("mobile",mobile);
+                map.put("type",type);
+                FileUtil.saveFile(getApplicationContext(),Constant.FILE_ROLE_MAP,map);
                 //设置登录用户信息
                 getApp().setUser(bean);
                 //登录完成，定位当前位置
                 if (type.equals(Constant.LOGIN_TYPE_ARTIST)) {
-
-                   conn = new LocationService.LocationConnection() {
+                   final Dialog dialog= ProgressDialog.show(LoginActivity.this, null, getString(R.string.update_location));
+                    conn = new LocationService.LocationConnection() {
                         @Override
                         public void onLocated(BDLocation location) {
+                            dialog.dismiss();
                             setResult(RESULT_OK);
                             finish();
                         }
                     };
+
 
                     //更新位置，LocationService中会自动更新美甲师当前位置
                     bindService(new Intent(LoginActivity.this, LocationService.class), conn, BIND_AUTO_CREATE);
@@ -119,16 +134,15 @@ public class LoginActivity extends BaseActivity implements RadioGroup.OnCheckedC
 
     }
 
-    public void doRegister(){
-        startActivityForResult(new Intent(this, RegisterActivity.class),REQUEST_CODE);
+    public void doRegister() {
+        startActivityForResult(new Intent(this, RegisterActivity.class), REQUEST_CODE);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode==RESULT_OK&&requestCode==REQUEST_CODE){
+        if (resultCode == RESULT_OK && requestCode == REQUEST_CODE) {
             finish();
         }
-
 
 
     }
@@ -185,6 +199,7 @@ public class LoginActivity extends BaseActivity implements RadioGroup.OnCheckedC
             edit_phone = (EditItem) v.findViewById(R.id.edit_phone);
             edit_password = (EditItem) v.findViewById(R.id.edit_password);
             edit_password.getTextView().setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+            edit_phone.getTextView().setInputType(InputType.TYPE_CLASS_NUMBER);
             return v;
         }
 
@@ -220,6 +235,7 @@ public class LoginActivity extends BaseActivity implements RadioGroup.OnCheckedC
             v.findViewById(R.id.login).setOnClickListener(this);
             edit_phone = (EditItem) v.findViewById(R.id.edit_phone);
             edit_password = (EditItem) v.findViewById(R.id.edit_password);
+            edit_phone.getTextView().setInputType(InputType.TYPE_CLASS_NUMBER);
             edit_password.getTextView().setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
             return v;
         }
@@ -242,7 +258,7 @@ public class LoginActivity extends BaseActivity implements RadioGroup.OnCheckedC
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (conn!=null){
+        if (conn != null) {
             unbindService(conn);
         }
     }

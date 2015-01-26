@@ -1,117 +1,132 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
 
-    <include layout="@layout/head_2" />
+    <include layout="@layout/head_2"/>
 
-    <TableLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_marginLeft="@dimen/activity_horizontal_margin"
-        android:layout_marginRight="@dimen/activity_horizontal_margin"
-        android:layout_marginTop="@dimen/activity_vertical_margin"
-        android:stretchColumns="1"
-        android:background="@drawable/corner_frame_white_solid"
         android:layout_height="wrap_content">
 
-        <TableRow style="@style/tab_item_style_publish">
+        <LinearLayout
 
-            <TextView
-                style="@style/tab_item_name_style"
-                android:text="标    题：" />
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-            <EditText
-                android:id="@+id/edit_title"
-                android:hint="请输入标题"
-                style="@style/tab_item_value_style" />
-        </TableRow>
-        <TextView style="@style/horizontal_line" />
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:layout_marginRight="@dimen/activity_horizontal_margin"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:stretchColumns="1"
+                android:background="@drawable/corner_frame_white_solid"
+                android:layout_height="wrap_content">
 
-        <TableRow style="@style/tab_item_style_publish">
+                <TableRow style="@style/tab_item_style_publish">
 
-            <TextView
-                style="@style/tab_item_name_style"
-                android:text="店面价：" />
+                    <TextView
+                        style="@style/tab_item_name_style"
+                        android:text="标        题："/>
 
-            <EditText
-                android:id="@+id/edit_store_price"
-                android:inputType="numberDecimal"
-                android:hint="请输入价格"
-                style="@style/tab_item_value_style" />
-        </TableRow>
-        <TextView style="@style/horizontal_line" />
+                    <EditText
+                        android:id="@+id/edit_title"
+                        android:hint="请输入标题"
+                        style="@style/tab_item_value_style"/>
+                </TableRow>
 
-        <TableRow style="@style/tab_item_style_publish">
+                <TextView style="@style/horizontal_line"/>
 
-            <TextView
-                style="@style/tab_item_name_style"
-                android:text="现    价：" />
+                <TableRow style="@style/tab_item_style_publish">
 
-            <EditText
-                android:id="@+id/edit_price"
-                android:inputType="numberDecimal"
-                android:hint="请输入价格"
-                style="@style/tab_item_value_style" />
-        </TableRow>
+                    <TextView
+                        style="@style/tab_item_name_style"
+                        android:text="店  面  价："/>
 
-        <TextView style="@style/horizontal_line" />
+                    <EditText
+                        android:id="@+id/edit_store_price"
+                        android:inputType="numberDecimal"
+                        android:hint="请输入价格,单位"
+                        style="@style/tab_item_value_style"/>
+                </TableRow>
 
-        <TableRow style="@style/tab_item_style_publish">
+                <TextView style="@style/horizontal_line"/>
 
-            <TextView
-                style="@style/tab_item_name_style"
-                android:text="耗时(分)：" />
+                <TableRow style="@style/tab_item_style_publish">
 
-            <EditText
-                android:id="@+id/edit_time_cost"
-                style="@style/tab_item_value_style"
-                android:inputType="numberDecimal"
-                android:hint="请输入耗时" />
-        </TableRow>
+                    <TextView
+                        style="@style/tab_item_name_style"
+                        android:text="现        价："/>
 
-        <TextView style="@style/horizontal_line" />
+                    <EditText
+                        android:id="@+id/edit_price"
+                        android:inputType="numberDecimal"
+                        android:hint="请输入价格,单位（元）"
+                        style="@style/tab_item_value_style"/>
+                </TableRow>
 
-        <TableRow style="@style/tab_item_style_publish">
+                <TextView style="@style/horizontal_line"/>
 
-            <TextView
-                style="@style/tab_item_name_style"
-                android:text="保持时间(天)：" />
+                <TableRow style="@style/tab_item_style_publish">
 
-            <EditText
-                android:inputType="numberDecimal"
-                android:id="@+id/edit_time_keep"
-                style="@style/tab_item_value_style"
-                android:hint="请输入保持时间" />
-        </TableRow>
+                    <TextView
+                        style="@style/tab_item_name_style"
+                        android:text="耗        时："/>
 
-        <TextView style="@style/horizontal_line" />
+                    <EditText
+                        android:id="@+id/edit_time_cost"
+                        style="@style/tab_item_value_style"
+                        android:inputType="numberDecimal"
+                        android:hint="请输入耗时，单位（分）"/>
+                </TableRow>
+
+                <TextView style="@style/horizontal_line"/>
+
+                <TableRow style="@style/tab_item_style_publish">
+
+                    <TextView
+                        style="@style/tab_item_name_style"
+                        android:text="保持时间："/>
+
+                    <EditText
+                        android:inputType="numberDecimal"
+                        android:id="@+id/edit_time_keep"
+                        style="@style/tab_item_value_style"
+                        android:hint="请输入保持时间，单位（天）"/>
+                </TableRow>
+
+                <TextView style="@style/horizontal_line"/>
 
 
-        <EditText
-            android:id="@+id/edit_detail"
-            android:layout_margin="3dp"
-            android:layout_height="@dimen/publish_edit_height"
-            android:gravity="top"
-            style="@style/tab_item_style_publish"
-            android:background="@color/white"
-            android:textSize="@dimen/textSize_dp_28px"
-            android:textColor="@color/textColorGray"
-            android:hint="请输入详细内容" />
+                <EditText
+                    android:id="@+id/edit_detail"
+                    android:layout_margin="3dp"
+                    android:layout_height="@dimen/publish_edit_height"
+                    android:gravity="top"
+                    style="@style/tab_item_style_publish"
+                    android:background="@color/white"
+                    android:textSize="@dimen/textSize_dp_28px"
+                    android:textColor="@color/textColorGray"
+                    android:hint="请输入详细内容"/>
 
 
-    </TableLayout>
+            </TableLayout>
 
-    <com.sp.lib.widget.AddImageItem
-        android:layout_marginTop="7dp"
-        android:layout_marginLeft="@dimen/activity_horizontal_margin"
-        android:layout_width="wrap_content"
-        android:id="@+id/add_image"
-        android:layout_height="wrap_content" />
+            <ImageView
+                android:src="@drawable/iv_add_image"
+                android:layout_marginTop="7dp"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:layout_width="100dp"
+                android:id="@+id/add_image"
+                android:layout_height="100dp"/>
 
-    <Button
-        android:layout_marginTop="5dp"
-        android:id="@+id/publish"
-        style="@style/button_large"
-        android:text="@string/publish" />
+            <Button
+                android:layout_marginTop="5dp"
+                android:id="@+id/publish"
+                style="@style/button_large"
+                android:text="@string/publish"/>
+        </LinearLayout>
+    </ScrollView>
 </LinearLayout>

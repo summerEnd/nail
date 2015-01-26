@@ -25,15 +25,15 @@
         android:layout_marginRight="@dimen/activity_horizontal_margin"
         app:edit_editable="false"
         app:edit_text="选择地址"
-        app:edit_drawable="@drawable/ic_fly"
+        app:edit_drawable="@drawable/ic_mark"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
 
     <View
         android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_weight="1" />
+        android:layout_height="40dp"
+      />
 
     <Button
         style="@style/button_large"

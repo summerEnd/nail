@@ -41,19 +41,20 @@ public class AddImageActivity extends BaseActivity implements AddImageItem.Callb
             Logger.e("bitmap null!");
             return;
         }
-        failed_bitmap=bitmap;
+        if (image_url.size() + 1 >= MAX_IMAGE) {
+            addImageItem.stopAdd();
+        }
+        failed_bitmap = bitmap;
         String image = ImageUtil.base64Encode(bitmap);
         RequestParams params = new RequestParams();
         params.put("image", image);
         FingerHttpClient.post("uploadImage", params, new FingerHttpHandler() {
                     @Override
                     public void onSuccess(JSONObject o) {
-                        failed_bitmap=null;
+                        failed_bitmap = null;
                         try {
                             image_url.add(o.getString("data"));
-                            if (image_url.size() >= MAX_IMAGE) {
-                                addImageItem.stopAdd();
-                            }
+
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -67,13 +68,13 @@ public class AddImageActivity extends BaseActivity implements AddImageItem.Callb
                         builder.setPositiveButton(getString(R.string.re_upload), new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                    onAdd(failed_bitmap);
+                                onAdd(failed_bitmap);
                             }
                         });
                         builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                    addImageItem.removeImage(image_url.size());
+                                addImageItem.removeImage(image_url.size());
                             }
                         });
                         builder.show();

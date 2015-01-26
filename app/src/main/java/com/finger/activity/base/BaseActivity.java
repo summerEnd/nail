@@ -15,11 +15,15 @@ import com.finger.R;
 import com.finger.activity.info.CommentListActivity;
 import com.finger.activity.login.LoginActivity;
 import com.finger.entity.ArtistRole;
+import com.finger.entity.BaseInfo;
+import com.finger.entity.CityBean;
 import com.finger.entity.RoleBean;
+import com.finger.entity.UserRole;
 import com.finger.support.Constant;
 import com.finger.support.util.ItemUtil;
 import com.finger.support.util.Logger;
 import com.sp.lib.anim.ActivityAnimator;
+import com.sp.lib.util.FileUtil;
 
 import static com.finger.support.util.Logger.i;
 import static com.sp.lib.anim.ActivityAnimator.*;
@@ -47,7 +51,6 @@ public class BaseActivity extends FragmentActivity implements View.OnClickListen
         super.setContentView(layoutResID);
         setTitle(getTitle());
     }
-
 
     @Override
     public void setTitle(CharSequence title) {
@@ -144,7 +147,9 @@ public class BaseActivity extends FragmentActivity implements View.OnClickListen
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         debug("onCreate");
-        ItemUtil.init(this);
+        if (ItemUtil.halfScreen == 0) {
+            ItemUtil.init(this);
+        }
     }
 
     @Override
@@ -181,17 +186,32 @@ public class BaseActivity extends FragmentActivity implements View.OnClickListen
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         debug("onRestoreInstanceState");
+        //读取基本数据
+        RoleBean user = (RoleBean) savedInstanceState.getSerializable("user");
+        CityBean city = (CityBean) savedInstanceState.getSerializable("city");
+        BaseInfo info = (BaseInfo) savedInstanceState.getSerializable("info");
+        getApp().setUser(user);
+        getApp().setCurCity(city);
+        getApp().setBaseInfo(info);
     }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
+        //保存基本数据
+        RoleBean user = getApp().getUser();
+        CityBean city = getApp().getCurCity();
+        BaseInfo info = getApp().getBaseInfo();
+        outState.putSerializable("user", user);
+        outState.putSerializable("city", city);
+        outState.putSerializable("info", info);
+        FileUtil.saveFile(this,Constant.FILE_ROLE,user);
         debug("onSaveInstanceState");
     }
 
     void debug(String msg) {
         if (showLifeCircle)
-            i(getClass().getSimpleName() + msg);
+            i(getClass().getSimpleName()+"--->" + msg);
     }
 
     @Override

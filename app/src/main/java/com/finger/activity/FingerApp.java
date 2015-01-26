@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.content.res.XmlResourceParser;
 
 import com.finger.R;
-import com.finger.api.BaiduAPI;
 import com.finger.entity.ArtistGrade;
 import com.finger.entity.ArtistRole;
 import com.finger.entity.BaseInfo;
@@ -119,7 +118,7 @@ public class FingerApp extends Application {
             map.put("password", bean.password);
             map.put("type", type);
         }
-        FileUtil.saveFile(this, Constant.FILE_ROLE, map);
+        FileUtil.saveFile(this, Constant.FILE_ROLE_MAP, map);
         sendBroadcast(new Intent(ACTION_ROLE_CHANGED).putExtra("role", getUser().getType()));
     }
 

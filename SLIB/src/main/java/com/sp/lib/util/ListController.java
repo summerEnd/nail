@@ -18,6 +18,7 @@ import java.util.logging.Logger;
  */
 public class ListController implements AbsListView.OnScrollListener {
 
+    final String TAG = "listController";
 
     public interface Callback {
         public void onLoadMore(AbsListView listView, int nextPage);
@@ -29,6 +30,8 @@ public class ListController implements AbsListView.OnScrollListener {
     boolean isBottom                  = false;
     int     pageSize                  = DEFAULT_PAGE_SIZE;
     int     mSavedSize                = 0;
+    //上一次加载了多少
+    int     lastLoadedCount           = DEFAULT_PAGE_SIZE;
     boolean dataSetObserverRegistered = false;
 
 
@@ -50,13 +53,20 @@ public class ListController implements AbsListView.OnScrollListener {
 
     public void setPageSize(int pageSize) {
         this.pageSize = pageSize;
+        lastLoadedCount = pageSize;
     }
 
+    /**
+     * 数据变化观察者,当{@link android.widget.BaseAdapter#notifyDataSetChanged()}时触发
+     */
     private DataSetObserver dataSetObserver = new DataSetObserver() {
         @Override
         public void onChanged() {
             ListAdapter adapter = mListView.getAdapter();
+            lastLoadedCount = adapter.getCount() - mSavedSize;
             mSavedSize = adapter.getCount();
+
+            Log.d(TAG, String.format("notifyDataSetChanged--> saved size:%d new page:%d",mSavedSize,lastLoadedCount));
         }
     };
 
@@ -65,6 +75,7 @@ public class ListController implements AbsListView.OnScrollListener {
         if (adapter == null) {
             throw new IllegalStateException("AbsListView doesn't have a adapter");
         }
+        mSavedSize=adapter.getCount();
         adapter.registerDataSetObserver(dataSetObserver);
         dataSetObserverRegistered = true;
     }
@@ -88,12 +99,9 @@ public class ListController implements AbsListView.OnScrollListener {
             ListAdapter adapter = mListView.getAdapter();
             if (!dataSetObserverRegistered)
                 registerDataObserver();
-
-            int count = adapter.getCount();
-            int loadedCount = count - mSavedSize;
-
-            if (loadedCount >= pageSize) {
-                int page = count / pageSize + 1;
+            Log.d(TAG, String.format("loadMore:%s mSavedSize：%d count:%d lastPage:%d ",(lastLoadedCount>=pageSize?"true":"false"),mSavedSize,adapter.getCount(),lastLoadedCount));
+            if (lastLoadedCount >= pageSize) {
+                int page = adapter.getCount() / pageSize + 1;
                 callback.onLoadMore(mListView, page);
             }
         }
@@ -103,4 +111,5 @@ public class ListController implements AbsListView.OnScrollListener {
     public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
         isBottom = firstVisibleItem + visibleItemCount == totalItemCount;
     }
+
 }

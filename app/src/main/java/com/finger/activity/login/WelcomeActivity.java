@@ -4,7 +4,6 @@ import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.ComponentName;
 import android.content.Intent;
-import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
@@ -17,7 +16,6 @@ import com.finger.activity.base.BaseActivity;
 import com.finger.activity.MainActivity;
 import com.finger.service.LocationService;
 import com.finger.support.Constant;
-import com.finger.api.BaiduAPI;
 import com.finger.entity.ArtistRole;
 import com.finger.entity.RoleBean;
 import com.finger.entity.UserRole;
@@ -25,10 +23,7 @@ import com.finger.support.net.FingerHttpClient;
 import com.finger.support.net.FingerHttpHandler;
 import com.finger.support.util.ContextUtil;
 import com.finger.support.util.JsonUtil;
-import com.finger.support.util.ItemUtil;
-import com.finger.support.util.Logger;
 import com.loopj.android.http.RequestParams;
-import com.sp.lib.anim.ActivityAnimator;
 import com.sp.lib.support.SHttpClient;
 import com.sp.lib.util.FileUtil;
 
@@ -43,6 +38,7 @@ import static com.finger.service.LocationService.*;
 public class WelcomeActivity extends BaseActivity {
     final String FIRST_LOGIN = "first_login";
     private LocationService.LocationBinder mBinder;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,8 +54,17 @@ public class WelcomeActivity extends BaseActivity {
 
         //启动定位服务，别的地方只需要bind就可以了
         startService(service);
-        bindService(service, cnn, BIND_AUTO_CREATE);
+
+        if (SHttpClient.isConnect(this)) {
+            bindService(service, cnn, BIND_AUTO_CREATE);
+        } else {
+            UserRole userRole= (UserRole) FileUtil.readFile(this,Constant.FILE_ROLE);
+            getApp().setUser(userRole);
+            enterMainActivity();
+        }
+
     }
+
 
     /**
      * 链接服务
@@ -75,8 +80,7 @@ public class WelcomeActivity extends BaseActivity {
         @Override
         public void onLocated(BDLocation location) {
 
-            if (location != null)
-            {
+            if (location != null) {
                 getApp().getUser().latitude = location.getLatitude();
                 getApp().getUser().longitude = location.getLongitude();
 
@@ -105,9 +109,9 @@ public class WelcomeActivity extends BaseActivity {
      */
     void doLogin() {
         //读取保存的登录信息
-        Map<String, String> map = (Map<String, String>) FileUtil.readFile(this, Constant.FILE_ROLE);
+        Map<String, String> map = (Map<String, String>) FileUtil.readFile(this, Constant.FILE_ROLE_MAP);
 
-        if (map != null) {
+        if (map != null && map.containsKey("mobile")) {
             String mobile = map.get("mobile");
             final String password = map.get("password");
             final String type = map.get("type");
@@ -157,7 +161,7 @@ public class WelcomeActivity extends BaseActivity {
         FingerHttpClient.setDialogCreator(new SHttpClient.ProgressDialogCreator() {
             @Override
             public Dialog onCreateDialog() {
-                ProgressDialog dialog = new ProgressDialog(getApplicationContext());
+                ProgressDialog dialog = new ProgressDialog(getApplicationContext(),android.R.style.Theme_Holo_Light);
                 dialog.getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);
                 dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
                 dialog.setMessage(getString(R.string.loading));
@@ -172,7 +176,7 @@ public class WelcomeActivity extends BaseActivity {
                 //testUser();//测试用户
                 startActivity(new Intent(WelcomeActivity.this, MainActivity.class));
                 finish();
-                overridePendingTransition(R.anim.stand_still,R.anim.stand_still);
+                overridePendingTransition(R.anim.stand_still, R.anim.stand_still);
             }
         }, 1000);
     }
@@ -194,7 +198,7 @@ public class WelcomeActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (cnn!=null){
+        if (cnn != null) {
             unbindService(cnn);
         }
     }

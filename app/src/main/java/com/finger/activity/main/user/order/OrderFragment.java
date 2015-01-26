@@ -1,10 +1,10 @@
 package com.finger.activity.main.user.order;
 
-import android.support.v4.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,16 +13,18 @@ import android.widget.TextView;
 
 import com.finger.R;
 import com.finger.activity.base.OrderListFragment;
-import com.finger.adapter.OrderAdapterFactory;
 import com.finger.activity.info.User;
+import com.finger.adapter.OrderAdapterFactory;
 import com.finger.entity.OrderListBean;
 import com.finger.entity.OrderManager;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import static com.finger.adapter.OrderAdapterFactory.OrderAdapter;
-import static com.finger.adapter.OrderAdapterFactory.OrderType.*;
+import static com.finger.adapter.OrderAdapterFactory.OrderType.ORDER_TO_PAY;
+import static com.finger.adapter.OrderAdapterFactory.OrderType.REFUND;
+import static com.finger.adapter.OrderAdapterFactory.OrderType.WAIT_COMMENT;
+import static com.finger.adapter.OrderAdapterFactory.OrderType.WAIT_SERVICE;
 
 @User
 public class OrderFragment extends Fragment implements RadioGroup.OnCheckedChangeListener {
@@ -81,6 +83,7 @@ public class OrderFragment extends Fragment implements RadioGroup.OnCheckedChang
             }
             fragment = OrderListFragment.newInstance(status);
             fragment.setListAdapter(adapter);
+            adapter.setCallback(fragment);
             ft.add(R.id.frag_container, fragment, String.valueOf(checked_id));
         }
 
@@ -93,15 +96,5 @@ public class OrderFragment extends Fragment implements RadioGroup.OnCheckedChang
 
         ft.commit();
         curFragment = fragment;
-    }
-
-    /**
-     * 刷新数据
-     */
-    public void refresh(){
-        if (curFragment!=null){
-            curFragment.clearList();
-            curFragment.getOrderList(1);
-        }
     }
 }

@@ -120,10 +120,7 @@
             android:name=".activity.login.FindPassword"
             android:label="@string/reset_password"
             android:screenOrientation="portrait"/>
-        <activity
-            android:name=".activity.login.SignUp"
-            android:screenOrientation="portrait"
-            android:label="@string/reg"/>
+
         <activity
             android:name=".activity.info.NailInfo"
             android:screenOrientation="portrait"
@@ -257,6 +254,11 @@
         <activity
             android:name=".activity.main.AdsInfoActivity"
             android:screenOrientation="portrait"
+            />
+        <activity
+            android:name=".activity.main.artist.my.ProductManage"
+            android:screenOrientation="portrait"
+            android:label="@string/product_manage"
             />
     </application>
 

@@ -23,13 +23,16 @@
             style="@style/choose_artist_select_style">
 
             <ImageView
+                android:id="@+id/iv_sort_distance"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_order_by_distance" />
 
             <TextView
+                android:id="@+id/tv_sort_distance"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="@color/textColorBlack"
                 android:textSize="@dimen/textSize_5"
                 android:text="按距离排序" />
         </LinearLayout>
@@ -46,11 +49,14 @@
             style="@style/choose_artist_select_style">
 
             <ImageView
+                android:id="@+id/iv_sort_stars"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_order_by_stars" />
 
             <TextView
+                android:id="@+id/tv_sort_stars"
+                android:textColor="@color/textColorBlack"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="@dimen/textSize_5"
@@ -69,13 +75,16 @@
             style="@style/choose_artist_select_style">
 
             <ImageView
+                android:id="@+id/iv_sort_price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_order_by_price" />
 
             <TextView
+                android:id="@+id/tv_sort_price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="@color/textColorBlack"
                 android:textSize="@dimen/textSize_5"
                 android:text="按价格排序" />
         </LinearLayout>

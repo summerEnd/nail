@@ -82,30 +82,42 @@ public class MyFragment extends Fragment implements View.OnClickListener, ListCo
 
         rating = (RatingWidget) v.findViewById(R.id.rating);
         gridView = (GridView) v.findViewById(R.id.grid);
-        role = (ArtistRole) ((BaseActivity) getActivity()).getApp().getUser();
+
+
         adapter = new NailListAdapter(getActivity(), beans);
         gridView.setAdapter(adapter);
         controller = new ListController(gridView, this);
         findIds(v);
-        setData(role);
-        getProductList(1);
+        initialUserData();
         return v;
     }
 
     @Override
     public void onResume() {
         super.onResume();
+        initialUserData();
+    }
+
+    /**
+     * 初始化用户数据
+     */
+    void initialUserData() {
         RoleBean bean = FingerApp.getInstance().getUser();
         if (bean instanceof ArtistRole) {
             role = (ArtistRole) bean;
-            setData(role);
-            if (beans.size() == 0) {
-                getProductList(1);
-            }
+            displayArtistInfo(role);
+            beans.clear();
+            adapter.notifyDataSetChanged();
+            getProductList(1);
         }
     }
 
-    void setData(ArtistRole bean) {
+    /**
+     * 展示美甲师信息
+     *
+     * @param bean
+     */
+    void displayArtistInfo(ArtistRole bean) {
         //设置头像
         ImageManager.loadImage(bean.avatar, new SimpleImageLoadingListener() {
             @Override
@@ -152,8 +164,7 @@ public class MyFragment extends Fragment implements View.OnClickListener, ListCo
 
                 } catch (JSONException e) {
                     //提示还没有发布作品
-                    if (beans.size() == 0 && !has_no_product_noticed)
-                    {
+                    if (beans.size() == 0 && !has_no_product_noticed) {
                         new AlertDialog.Builder(getActivity()).setTitle(R.string.warn)
                                 .setMessage(getString(R.string.product_null))
                                 .setPositiveButton(getString(R.string.publish_now), new DialogInterface.OnClickListener() {
@@ -188,7 +199,7 @@ public class MyFragment extends Fragment implements View.OnClickListener, ListCo
 
     void findIds(View v) {
         settings = (TextView) v.findViewById(R.id.settings);
-        v.findViewById(R.id.publish_nail).setOnClickListener(this);
+        v.findViewById(R.id.title_manage).setOnClickListener(this);
         iv_avatar = (ImageView) v.findViewById(R.id.iv_avatar);
         settings.setOnClickListener(this);
         iv_avatar.setOnClickListener(this);
@@ -198,7 +209,7 @@ public class MyFragment extends Fragment implements View.OnClickListener, ListCo
     public void onHiddenChanged(boolean hidden) {
         if (!hidden) {
             role = (ArtistRole) FingerApp.getInstance().getUser();
-            setData(role);
+            displayArtistInfo(role);
         }
     }
 
@@ -227,8 +238,8 @@ public class MyFragment extends Fragment implements View.OnClickListener, ListCo
                     context.startActivity(intent);
                     break;
                 }
-                case R.id.publish_nail: {
-                    Intent intent = new Intent(context, PublishNailActivity.class);
+                case R.id.title_manage: {
+                    Intent intent = new Intent(context, ProductManage.class);
                     context.startActivity(intent);
                     break;
                 }

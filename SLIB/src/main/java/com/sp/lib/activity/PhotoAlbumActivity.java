@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Point;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -12,12 +13,11 @@ import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
@@ -50,7 +50,7 @@ import static com.sp.lib.util.DisplayUtil.getScreenSize;
 public class PhotoAlbumActivity extends BaseActivity implements AdapterView.OnItemClickListener {
 
     private final String TAG = "PhotoAlbumActivity";
-    GridView grid;
+    GridView     grid;
     LinearLayout bottom_ll;
     /**
      * 图片目录
@@ -59,35 +59,36 @@ public class PhotoAlbumActivity extends BaseActivity implements AdapterView.OnIt
     /**
      * 图片目录和图片url集合
      */
-    private HashMap<String, LinkedList<String>> urlsMap = new HashMap<String, LinkedList<String>>();
-    private final int OPEN_CAMERA = 100;
-    private final int CROP_IMAGE = 101;
+    private       HashMap<String, LinkedList<String>> urlsMap                    = new HashMap<String, LinkedList<String>>();
+    private final int                                 OPEN_CAMERA                = 100;
+    private final int                                 CROP_IMAGE                 = 101;
     /**
-     * Intent参数，拍照选择图片的保存路径，String类型。如果不传，将使用默认路径。
+     * Intent参数，拍照选的保存路径，String类型。如果不传，将不保存。
      */
-    public static String EXTRA_CAMERA_OUTPUT_PATH = "camera_out_path";
+    public static String                              EXTRA_CAMERA_OUTPUT_PATH   = "camera_out_path";
     /**
      * 输出图片的高度，单位dp
      */
-    public static String EXTRA_CAMERA_OUTPUT_HEIGHT = "camera_out_height";
+    public static String                              EXTRA_CAMERA_OUTPUT_HEIGHT = "camera_out_height";
     /**
      * 输出图片的宽度，单位dp
      */
-    public static String EXTRA_CAMERA_OUTPUT_WIDTH = "camera_out_width";
+    public static String                              EXTRA_CAMERA_OUTPUT_WIDTH  = "camera_out_width";
 
     /**
-     * 图片的输出uri
+     * 相机的输出uri
      */
-    private Uri outPutUri;
+    private Uri cameraUri;
 
-    private int outPut_height;
-    private int outPut_width;
+    private int                outPut_height;
+    private int                outPut_width;
     private LinkedList<String> curAlbumList;
     AlbumAdapter pictureAdapter;
     private int selectedItem = 0;
-    private PopupWindow dirWindow;
-    private final String ALL = "全部";
+    private DirWindow dirWindow;
+    private final String ALL   = "全部";
     private final String OTHER = "其他";
+    DirAdapter dirAdapter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -97,7 +98,6 @@ public class PhotoAlbumActivity extends BaseActivity implements AdapterView.OnIt
         bottom_ll = (LinearLayout) findViewById(R.id.bottom_ll);
         loadPictures();
         initParams();
-
         bottom_ll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -114,8 +114,10 @@ public class PhotoAlbumActivity extends BaseActivity implements AdapterView.OnIt
         String camera_output = getIntent().getStringExtra(EXTRA_CAMERA_OUTPUT_PATH);
         outPut_height = (int) (getIntent().getIntExtra(EXTRA_CAMERA_OUTPUT_HEIGHT, 30) * dm.density);
         outPut_width = (int) (getIntent().getIntExtra(EXTRA_CAMERA_OUTPUT_WIDTH, 30) * dm.density);
-        if (!TextUtils.isEmpty(camera_output)) outPutUri = Uri.fromFile(new File(camera_output));
-        else outPutUri = Uri.fromFile(ImageUtil.getImageTempFile("album"));
+        if (!TextUtils.isEmpty(camera_output))
+            cameraUri = Uri.fromFile(new File(camera_output));
+        else
+            cameraUri = Uri.fromFile(ImageUtil.getImageTempFile("album"));
     }
 
     /**
@@ -174,55 +176,36 @@ public class PhotoAlbumActivity extends BaseActivity implements AdapterView.OnIt
      * @return
      */
     private void showWindow() {
-
-        final View contentView = View.inflate(this, R.layout.photo_ablum_layout, null);
-        final ListView list = (ListView) contentView.findViewById(R.id.listView);
-
-        dirWindow = new PopupWindow(contentView, WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT, true) {
-        };
-        dirWindow.setAnimationStyle(R.style.popup_window_animation);
-        dirWindow.showAtLocation(bottom_ll, Gravity.BOTTOM, 0, bottom_ll.getHeight());
-        list.setAdapter(new PupWindowAdapter(PhotoAlbumActivity.this));
-        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String dirName = dirsNameArarry[position];
-                curAlbumList = urlsMap.get(dirName);
-                setTitle(dirName);
-                pictureAdapter.notifyDataSetChanged();
-                selectedItem = position;
-                ((BaseAdapter) parent.getAdapter()).notifyDataSetChanged();
-                dirWindow.dismiss();
-            }
-        });
-        contentView.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if (event.getAction() == MotionEvent.ACTION_UP)
-                    if (event.getY() < contentView.getHeight() - list.getHeight())
-                        dirWindow.dismiss();
-                return true;
-            }
-        });
-        contentView.setOnKeyListener(new View.OnKeyListener() {
-            @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                if (keyCode == KeyEvent.KEYCODE_BACK) {
-                    if (dirWindow != null && dirWindow.isShowing()) dirWindow.dismiss();
-                    return true;
+        if (dirWindow == null) {
+            dirWindow = new DirWindow(this);
+            dirAdapter = new DirAdapter(PhotoAlbumActivity.this);
+            dirWindow.setListAdapter(dirAdapter);
+            dirWindow.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    //获取点击的目录名称
+                    String dirName = dirsNameArarry[position];
+                    //获取目录对应的图片列表
+                    curAlbumList = urlsMap.get(dirName);
+                    //设置标题为目录名称
+                    setTitle(dirName);
+                    pictureAdapter.notifyDataSetChanged();
+                    dirAdapter.select(position);
+                    dirWindow.exitWithAnimation();
                 }
-                return false;
-            }
-        });
+            });
+        }
+        dirWindow.showWithAnimation(bottom_ll);
     }
+
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         if (position == 0) {
             //打开相机拍照
             Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-            if (outPutUri != null) {
-                intent.putExtra(MediaStore.EXTRA_OUTPUT, outPutUri);
+            if (cameraUri != null) {
+                intent.putExtra(MediaStore.EXTRA_OUTPUT, cameraUri);
             }
             startActivityForResult(intent, OPEN_CAMERA);
         } else {//选择照片，返回照片Uri
@@ -237,7 +220,6 @@ public class PhotoAlbumActivity extends BaseActivity implements AdapterView.OnIt
      * @param uri
      */
     private void returnUri(Uri uri) {
-
         Intent data = new Intent();
         data.setData(uri);
         setResult(RESULT_OK, data);
@@ -247,15 +229,20 @@ public class PhotoAlbumActivity extends BaseActivity implements AdapterView.OnIt
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode != RESULT_OK) {
-            Toast.makeText(this, "", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "失败", Toast.LENGTH_SHORT).show();
         } else if (requestCode == OPEN_CAMERA) {
-            Log.i(TAG, "CROP_IMAGE output:" + outPutUri);
-            cropImage(outPutUri);
+            Log.i(TAG, "CROP_IMAGE output:" + cameraUri);
+            cropImage(cameraUri);
         } else if (requestCode == CROP_IMAGE) {
-            returnUri(outPutUri);
+            returnUri(cameraUri);
         }
     }
 
+    /**
+     * 剪裁图片
+     *
+     * @param uri
+     */
     private void cropImage(Uri uri) {
 
         Intent intent = new Intent("com.android.camera.action.CROP");
@@ -266,7 +253,7 @@ public class PhotoAlbumActivity extends BaseActivity implements AdapterView.OnIt
         intent.putExtra("aspectY", outPut_height);
         intent.putExtra("outputX", outPut_width);
         intent.putExtra("outputY", outPut_height);
-        intent.putExtra("output", outPutUri);// 保存到原文件
+        intent.putExtra("output", cameraUri);// 保存到原文件
         intent.putExtra("outputFormat", "JPEG");// 返回格式
         intent.putExtra("return-data", false);
         startActivityForResult(intent, CROP_IMAGE);
@@ -276,8 +263,8 @@ public class PhotoAlbumActivity extends BaseActivity implements AdapterView.OnIt
         private Context mContext;
 
         DisplayImageOptions options;
-        View header;
-        int width;
+        View                header;
+        int                 width;
 
         @SuppressWarnings("deprecation")
         AlbumAdapter(Context context) {
@@ -286,11 +273,11 @@ public class PhotoAlbumActivity extends BaseActivity implements AdapterView.OnIt
                     .imageScaleType(ImageScaleType.IN_SAMPLE_INT)
                     .showImageForEmptyUri(R.drawable.fail_image_square)
                     .showImageOnFail(R.drawable.fail_image_square)
-                    .cacheInMemory(true).cacheOnDisc(true).build();
+                    .build();
             header = LayoutInflater.from(mContext).inflate(R.layout.camera_header, null);
             Point p = new Point();
             getScreenSize((android.app.Activity) context, p);
-            width = (int) (p.x / 3 - DisplayUtil.dp(1,context.getResources()));
+            width = (int) (p.x / 3 - DisplayUtil.dp(1, context.getResources()));
             header.setLayoutParams(new AbsListView.LayoutParams(width, width));
         }
 
@@ -341,17 +328,22 @@ public class PhotoAlbumActivity extends BaseActivity implements AdapterView.OnIt
         ImageView imageView;
     }
 
-    class PupWindowAdapter extends BaseAdapter implements CompoundButton.OnCheckedChangeListener {
+    class DirAdapter extends BaseAdapter implements CompoundButton.OnCheckedChangeListener {
         DisplayImageOptions options;
-        Context context;
+        Context             context;
 
-        PupWindowAdapter(Context context) {
+        DirAdapter(Context context) {
             this.context = context;
             options = new DisplayImageOptions.Builder()
                     .imageScaleType(ImageScaleType.IN_SAMPLE_INT)
                     .showImageForEmptyUri(R.drawable.fail_image_square)
                     .showImageOnFail(R.drawable.fail_image_square)
-                    .cacheInMemory(true).cacheOnDisc(true).build();
+                    .build();
+        }
+
+        public void select(int position) {
+            selectedItem = position;
+            notifyDataSetChanged();
         }
 
         @Override
@@ -379,17 +371,17 @@ public class PhotoAlbumActivity extends BaseActivity implements AdapterView.OnIt
                 holder.dir_name = (TextView) convertView.findViewById(R.id.dir_name);
                 holder.num_pics = (TextView) convertView.findViewById(R.id.num_pics);
                 holder.selected = (ImageView) convertView.findViewById(R.id.selected);
-//                holder.selected.setOnCheckedChangeListener(this);
+                //                holder.selected.setOnCheckedChangeListener(this);
             } else {
                 holder = (ViewHolder2) convertView.getTag();
             }
-//            LogCat.d("dir-->" + dirsNameArarry);
+            //            LogCat.d("dir-->" + dirsNameArarry);
             String dirName = dirsNameArarry[position];
             LinkedList<String> list = urlsMap.get(dirName);
-           if (list.size()>0){
-               String image = list.get(0);
-               ImageManager.loadImage("file://" + image, holder.imageView, options);
-           }
+            if (list.size() > 0) {
+                String image = list.get(0);
+                ImageManager.loadImage("file://" + image, holder.imageView, options);
+            }
             holder.dir_name.setText(dirName);
             holder.num_pics.setText(list.size() + "张");
             holder.selected.setVisibility(selectedItem == position ? View.VISIBLE : View.INVISIBLE);
@@ -408,9 +400,95 @@ public class PhotoAlbumActivity extends BaseActivity implements AdapterView.OnIt
 
     static class ViewHolder2 {
         ImageView imageView;
-        TextView dir_name;
-        TextView num_pics;
+        TextView  dir_name;
+        TextView  num_pics;
         ImageView selected;
     }
 
+    /**
+     * 图片目录展示窗口
+     */
+    static class DirWindow extends PopupWindow implements AdapterView.OnItemClickListener {
+        View                            contentView;
+        ListView                        list;
+        AdapterView.OnItemClickListener mExtraOnItemClick;
+        Context                         context;
+
+        DirWindow(Context context) {
+            super(context);
+            this.context = context;
+            setHeight(ViewGroup.LayoutParams.MATCH_PARENT);
+            setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
+            setFocusable(true);
+            setBackgroundDrawable(new ColorDrawable(0x80000000));
+            contentView = View.inflate(context, R.layout.photo_ablum_layout, null);
+            contentView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    exitWithAnimation();
+                }
+            });
+            list = (ListView) contentView.findViewById(R.id.listView);
+            list.setOnItemClickListener(this);
+            setContentView(contentView);
+        }
+
+        /**
+         * 设置列表Adapter
+         *
+         * @param adapter
+         */
+        public void setListAdapter(BaseAdapter adapter) {
+            list.setAdapter(adapter);
+        }
+
+        public void setOnItemClickListener(AdapterView.OnItemClickListener onItemClickListener) {
+            mExtraOnItemClick = onItemClickListener;
+        }
+
+        /**
+         * 动画弹出
+         *
+         * @param v
+         */
+        public void showWithAnimation(View v) {
+            showAtLocation(v, Gravity.NO_GRAVITY, 0, 0);
+            Animation animation = AnimationUtils.loadAnimation(v.getContext(), R.anim.slide_up_in);
+            animation.setDuration(200);
+            list.startAnimation(animation);
+        }
+
+        /**
+         * 动画退出
+         */
+        public void exitWithAnimation() {
+            Animation animation = AnimationUtils.loadAnimation(context, R.anim.slide_down_out);
+            animation.setDuration(200);
+            animation.setAnimationListener(new Animation.AnimationListener() {
+                @Override
+                public void onAnimationStart(Animation animation) {
+
+                }
+
+                @Override
+                public void onAnimationEnd(Animation animation) {
+                    dismiss();
+                }
+
+                @Override
+                public void onAnimationRepeat(Animation animation) {
+
+                }
+            });
+            list.startAnimation(animation);
+        }
+
+
+        @Override
+        public void onItemClick(final AdapterView<?> parent, final View view, final int position, final long id) {
+            if (mExtraOnItemClick != null) {
+                mExtraOnItemClick.onItemClick(parent, view, position, id);
+            }
+        }
+    }
 }

@@ -165,6 +165,7 @@
     <style name="tab_item_value_style" parent="edit">
         <item name="android:textColor">@color/textColorGray</item>
         <item name="android:textSize">@dimen/textSize_3</item>
+        <item name="android:background">#0000</item>
     </style>
 
     <style name="tab_item_style">
@@ -175,6 +176,7 @@
 
     <style name="tab_item_style_publish">
         <item name="android:paddingLeft">9dp</item>
+        <item name="android:paddingRight">9dp</item>
         <item name="android:paddingTop">10dp</item>
         <item name="android:paddingBottom">10dp</item>
     </style>
@@ -269,6 +271,8 @@
     </style>
 
     <style name="order_confirm_item_value">
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:background">#0000</item>
         <item name="android:textSize">@dimen/textSize_dp_30px</item>
         <item name="android:textColor">@color/textColorGray</item>
         <item name="android:layout_marginLeft">8dp</item>

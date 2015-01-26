@@ -1,11 +1,11 @@
 package com.finger.entity;
 
+import java.io.Serializable;
+
 import static com.finger.activity.info.NailInfo.SellerInfoBean;
 
-/**
- * Created by acer on 2014/12/31.
- */
-public class NailInfoBean {
+
+public class NailInfoBean implements Serializable{
     public int id;
     public String price;
     public String cover;

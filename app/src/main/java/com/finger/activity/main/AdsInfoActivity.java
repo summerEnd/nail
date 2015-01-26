@@ -51,7 +51,8 @@ public class AdsInfoActivity extends BaseActivity {
             }
         });
         setWindowTitle(getIntent().getStringExtra(EXTRA_TITLE));
-        webView.loadUrl(getIntent().getStringExtra(EXTRA_URL));
+        String url = getIntent().getStringExtra(EXTRA_URL);
+        webView.loadUrl(url);
     }
 
     void setWindowTitle(String title) {

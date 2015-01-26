@@ -34,6 +34,7 @@
 
         <ImageView
             style="@style/title_back_style"
+
             android:id="@+id/title_delete"
             android:layout_alignParentRight="true"
             android:src="@drawable/ic_delete"

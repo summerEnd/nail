@@ -89,7 +89,7 @@ public class LocationService extends Service {
         option.setOpenGps(true);
         option.setLocationMode(LocationClientOption.LocationMode.Hight_Accuracy);
         //        option.setScanSpan(10 * 1000 * 60);//定位时间间隔
-        option.setTimeOut(10000);
+        option.setTimeOut(8000);
         FingerLocationListener l = new FingerLocationListener();
         mLocationClient.registerLocationListener(l);
         mLocationClient.setLocOption(option);

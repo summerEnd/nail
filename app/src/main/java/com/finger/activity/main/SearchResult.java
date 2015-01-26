@@ -9,13 +9,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.BaseAdapter;
+import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.finger.activity.FingerApp;
 import com.finger.R;
 import com.finger.activity.base.BaseActivity;
+import com.finger.activity.plan.SearchAddress;
+import com.finger.adapter.NailListAdapter;
 import com.finger.entity.NailInfoBean;
 import com.finger.support.net.FingerHttpClient;
 import com.finger.support.net.FingerHttpHandler;
@@ -36,31 +39,33 @@ import java.util.List;
 
 
 public class SearchResult extends BaseActivity implements ListController.Callback {
-    ListView list;
+    ListView mListView;
+    GridView mGridView;
     public static final String EXTRA_KEY         = "keywords";
     public static final String EXTRA_CATEGORY_ID = "category_id";
-    ListController controller;
     //普通作品
     LinkedList<NailInfoBean> normals    = new LinkedList<NailInfoBean>();
     //精彩推荐
     LinkedList<NailInfoBean> recommends = new LinkedList<NailInfoBean>();
 
-    public SearchAdapter adapter;
+    public BaseAdapter adapter;
     View recommend;
+
+    final int PAGE_SIZE = 15;
+
+    boolean INIT_GET = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_result_02);
-        list = (ListView) findViewById(R.id.list);
+        mListView = (ListView) findViewById(R.id.list);
+        mGridView = (GridView) findViewById(R.id.grid);
 
-        adapter = new SearchAdapter(SearchResult.this, normals);
+
         recommend = getLayoutInflater().inflate(R.layout.search_footer, null);
         showRecommends(recommends);
-        list.addFooterView(recommend);
-        list.setAdapter(adapter);
-
-        controller = new ListController(list, this);
+        mListView.addFooterView(recommend);
 
         getSearchList(1);
     }
@@ -102,7 +107,7 @@ public class SearchResult extends BaseActivity implements ListController.Callbac
 
         //分页相关的参数
         params.put("page", page);
-        params.put("pagesize", controller.getPageSize());
+        params.put("pagesize", PAGE_SIZE);
 
         FingerHttpClient.post("getProductList", params, new FingerHttpHandler() {
 
@@ -119,32 +124,52 @@ public class SearchResult extends BaseActivity implements ListController.Callbac
 
                     }
 
-                    if (normals.size() == 0) {
-                        adapter.showEmpty(true);
-                    }
-
-                    try {
-                        //获取人气作品,如果已经获取过了就不再取
-                        if (recommends.size() == 0) {
+                    //执行初始化
+                    if (INIT_GET) {
+                        try {
+                            //获取人气作品,人气作品数量是固定的，只需初始化时取一次
                             JsonUtil.getArray(data.getJSONArray("recommend"), NailInfoBean.class, recommends);
-                            if (recommends.size() != 0) {
-                                //展示精彩推荐
-                                showRecommends(recommends);
+                        } catch (Exception e) {
+
+                        }
+                        findViewById(R.id.progress_layout).setVisibility(View.GONE);
+                        if (recommends.size() != 0) {
+                            //使用listView，原因如下
+                            // 1.这时在列表底部有人气推荐，GridView不容易实现
+                            // 2.数据只有一页，不用考虑分页问题
+                            mGridView.setVisibility(View.GONE);
+                            mListView.setVisibility(View.VISIBLE);
+                            adapter = new SearchAdapter(SearchResult.this, normals);
+                            mListView.setAdapter(adapter);
+                            if (normals.size() == 0) {
+                                //没有数据展示一张图片
+                                ((SearchAdapter) adapter).showEmpty(true);
                             }
+
+                            //展示精彩推荐
+                            showRecommends(recommends);
+                        } else {
+                            //使用GridView，原因如下
+                            // 1.这时没有人气推荐
+                            // 2.需要考虑分页，listView每一行加载两个item，实现分页困难
+                            adapter = new NailListAdapter(SearchResult.this, normals);
+                            mListView.setVisibility(View.GONE);
+                            mGridView.setVisibility(View.VISIBLE);
+                            mGridView.setAdapter(adapter);
+                            ListController mListController = new ListController(mGridView, SearchResult.this);
+                            mListController.setPageSize(PAGE_SIZE);
                         }
 
-                    } catch (Exception e) {
-
+                        INIT_GET = false;
                     }
-                    //这里要注意，要先setAdapter，后加footerView
-                    //否则java.lang.ClassCastException: android.widget.HeaderViewListAdapter cannot be cast to android.widget.BaseAdapter
+
                     adapter.notifyDataSetChanged();
 
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
             }
-        });
+        }, false);
     }
 
     /**
@@ -206,6 +231,10 @@ public class SearchResult extends BaseActivity implements ListController.Callbac
 
         @Override
         public int getCount() {
+
+            if (normals.size() == 0) {
+                return 1;
+            }
             int size = normals.size();
             //如果没有数据加载一个imageView
             return size % 2 == 0 ? size / 2 : size / 2 + 1;

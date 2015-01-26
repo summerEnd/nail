@@ -1,5 +1,7 @@
 package com.finger.entity;
 
-public class NailItemBean extends NailInfoBean {
+import java.io.Serializable;
+
+public class NailItemBean extends NailInfoBean implements Serializable{
     public boolean selected;//用于列表删除的标记
 }

@@ -55,6 +55,8 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        showLifeCircle=true;
+
         setContentView(R.layout.activity_main);
 
         imageView[0] = (ImageView) findViewById(R.id.r1);
@@ -279,15 +281,6 @@ public class MainActivity extends BaseActivity {
         );
     }
 
-    @Override
-    protected void onResumeFragments() {
-        super.onResumeFragments();
-        if (curIndex ==1){
-            ((com.finger.activity.main.user.order.OrderFragment) fragments[1]).refresh();
-        }else if (curIndex ==3){
-            ((OrderFragment) fragments[3]).refresh();
-        }
-    }
 
     /**
      * 查看优惠券dialog

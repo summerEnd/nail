@@ -39,7 +39,6 @@
                 android:id="@+id/cover"
                 android:layout_marginRight="@dimen/order_image_margin"
                 android:layout_width="@dimen/avatar_size"
-                android:src="@drawable/default_user"
                 android:layout_height="@dimen/avatar_size"/>
 
             <TextView

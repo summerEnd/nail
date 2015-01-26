@@ -5,10 +5,8 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
-import android.graphics.Bitmap;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,11 +20,10 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.baidu.location.BDLocation;
-import com.finger.activity.base.BaseActivity;
 import com.finger.R;
+import com.finger.activity.base.BaseActivity;
 import com.finger.entity.OrderBean;
 import com.finger.entity.OrderManager;
-import com.finger.api.BaiduAPI;
 import com.finger.service.LocationService;
 import com.finger.support.net.FingerHttpClient;
 import com.finger.support.net.FingerHttpHandler;
@@ -36,17 +33,13 @@ import com.finger.support.util.Logger;
 import com.finger.support.widget.RatingWidget;
 import com.loopj.android.http.RequestParams;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
-import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 import com.sp.lib.util.DisplayUtil;
 import com.sp.lib.util.ImageManager;
-import com.sp.lib.util.ImageUtil;
 import com.sp.lib.util.ListController;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.text.DateFormat;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -74,6 +67,15 @@ public class ArtistInfoList extends BaseActivity implements AdapterView.OnItemCl
     private double longitude = -1;
     private ServiceConnection conn;
 
+    ImageView
+            iv_sort_distance,
+            iv_sort_price,
+            iv_sort_stars;
+    TextView
+            tv_sort_distance,
+            tv_sort_price,
+            tv_sort_stars;
+
     @Override
     public void onLoadMore(AbsListView listView, int nextPage) {
         getSellerList(nextPage);
@@ -94,6 +96,15 @@ public class ArtistInfoList extends BaseActivity implements AdapterView.OnItemCl
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_choose_artist);
+
+        iv_sort_distance = (ImageView) findViewById(R.id.iv_sort_distance);
+        iv_sort_price = (ImageView) findViewById(R.id.iv_sort_price);
+        iv_sort_stars = (ImageView) findViewById(R.id.iv_sort_stars);
+
+        tv_sort_distance = (TextView) findViewById(R.id.tv_sort_distance);
+        tv_sort_price = (TextView) findViewById(R.id.tv_sort_price);
+        tv_sort_stars = (TextView) findViewById(R.id.tv_sort_stars);
+
         listView = (ListView) findViewById(R.id.listView);
         listView.setOnItemClickListener(this);
         adapter = new ArtistAdapter(ArtistInfoList.this, beans);
@@ -170,6 +181,7 @@ public class ArtistInfoList extends BaseActivity implements AdapterView.OnItemCl
 
         if (sort != null) {
             params.put("sort", sort + "_" + ASC_DESC);
+            setSortImage();
         }
 
         params.put("page", page);
@@ -238,7 +250,6 @@ public class ArtistInfoList extends BaseActivity implements AdapterView.OnItemCl
                 //按距离只有一种排序方式
                 sort = "position";
                 ASC_DESC = "asc";
-
                 getSellerList(1);
                 break;
             }
@@ -259,6 +270,36 @@ public class ArtistInfoList extends BaseActivity implements AdapterView.OnItemCl
             openList(v, name);
         }
         super.onClick(v);
+    }
+
+    /**
+     * 设置排序方式的图片
+     */
+    void setSortImage() {
+        if (sort == null) {
+            return;
+        }
+
+        iv_sort_distance.setImageResource(R.drawable.ic_order_by_distance);
+        iv_sort_stars.setImageResource(R.drawable.ic_order_by_stars);
+        iv_sort_price.setImageResource(R.drawable.ic_order_by_price);
+
+        int defaultColor=getResources().getColor(R.color.textColorBlack);
+
+        tv_sort_distance.setTextColor(defaultColor);
+        tv_sort_stars.setTextColor(defaultColor);
+        tv_sort_price.setTextColor(defaultColor);
+
+        if (sort.equals("position")) {
+            iv_sort_distance.setImageResource(R.drawable.ic_order_by_distance_01);
+            tv_sort_distance.setTextColor(0xffc55e2d);
+        } else if (sort.equals("score")) {
+            iv_sort_stars.setImageResource(R.drawable.ic_order_by_stars_01);
+            tv_sort_stars.setTextColor(0xffc55e2d);
+        } else if (sort.equals("price")) {
+            iv_sort_price.setImageResource(R.drawable.ic_order_by_price_01);
+            tv_sort_price.setTextColor(0xffc55e2d);
+        }
     }
 
     /**
@@ -335,6 +376,7 @@ public class ArtistInfoList extends BaseActivity implements AdapterView.OnItemCl
             if (convertView == null) {
                 item = new TextView(context);
                 item.setTextSize(15);
+                item.setTextColor(0xff808080);
                 int verticalPadding = (int) DisplayUtil.dp(9, getResources());
                 item.setPadding(0, verticalPadding, 0, verticalPadding);
                 convertView = item;

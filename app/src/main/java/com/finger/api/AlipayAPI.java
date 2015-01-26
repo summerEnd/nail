@@ -108,7 +108,7 @@ public class AlipayAPI {
             String body,
             //支付的价格
             String price) {
-        String orderInfo = getOrderInfo(subject, body, price);
+        String orderInfo = getOrderInfo(orderId,subject, body, price);
         String sign = sign(orderInfo);
         try {
             // 仅需对sign 做URL编码
@@ -175,7 +175,7 @@ public class AlipayAPI {
     /**
      * create the order info. 创建订单信息
      */
-    public String getOrderInfo(String subject, String body, String price) {
+    public String getOrderInfo(String orderId,String subject, String body, String price) {
         // 合作者身份ID
         String orderInfo = "partner=" + "\"" + PARTNER + "\"";
 
@@ -183,7 +183,7 @@ public class AlipayAPI {
         orderInfo += "&seller_id=" + "\"" + SELLER + "\"";
 
         // 商户网站唯一订单号
-        orderInfo += "&out_trade_no=" + "\"" + getOutTradeNo() + "\"";
+        orderInfo += "&out_trade_no=" + "\"" + orderId + "\"";
 
         // 商品名称
         orderInfo += "&subject=" + "\"" + subject + "\"";

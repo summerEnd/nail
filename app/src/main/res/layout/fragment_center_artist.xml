@@ -26,9 +26,9 @@
             android:layout_centerInParent="true"/>
 
         <TextView
-            android:id="@id/publish_nail"
+            android:id="@+id/title_manage"
             style="@style/title_click_text"
-            android:text="@string/publish"
+            android:text="@string/manager"
             android:layout_alignParentRight="true"
             android:layout_centerInParent="true"/>
     </RelativeLayout>

@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
 
-    <include layout="@layout/head_2" />
+    <include layout="@layout/head_2"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -20,7 +21,13 @@
             android:onClick="onClick"
             android:layout_width="@dimen/avatar_center_size"
             android:layout_height="@dimen/avatar_center_size"
-            android:src="@drawable/default_user" />
+            android:src="@drawable/default_user"/>
+
+        <com.finger.support.widget.RatingWidget
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:drawable="@drawable/star2"
+            android:id="@+id/rating"/>
 
         <TextView
             android:id="@+id/tv_nick_name"
@@ -29,7 +36,7 @@
             android:layout_height="wrap_content"
             android:textColor="@color/textColorBlack"
             android:textSize="@dimen/textSize_2"
-            android:text="昵称" />
+            android:text="昵称"/>
     </LinearLayout>
 
     <TableLayout
@@ -43,7 +50,7 @@
 
             <TextView
                 style="@style/tab_item_name_style"
-                android:text="昵        称：" />
+                android:text="昵        称："/>
 
             <EditText
                 android:id="@+id/edit_nick"
@@ -51,13 +58,13 @@
                 />
         </TableRow>
 
-        <TextView style="@style/horizontal_line" />
+        <TextView style="@style/horizontal_line"/>
 
         <TableRow style="@style/tabRow_item_change_data">
 
             <TextView
                 style="@style/tab_item_name_style"
-                android:text="手机号码：" />
+                android:text="手机号码："/>
 
             <TextView
                 android:id="@+id/edit_phone"
@@ -70,5 +77,5 @@
         android:id="@+id/commit"
         android:layout_marginTop="@dimen/login_btn_margin_top"
         style="@style/button_large"
-        android:text="@string/yes" />
+        android:text="@string/yes"/>
 </LinearLayout>

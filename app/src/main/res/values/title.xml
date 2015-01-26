@@ -2,8 +2,8 @@
 <resources>
     <style name="title_back_style">
         <item name="android:src">@drawable/back_selector</item>
-        <item name="android:layout_width">@dimen/title_height</item>
-        <item name="android:layout_height">@dimen/title_height</item>
+        <item name="android:layout_width">@dimen/title_image</item>
+        <item name="android:layout_height">@dimen/title_image</item>
         <item name="android:onClick">onClick</item>
         <item name="android:clickable">true</item>
         <item name="android:id">@id/title_back</item>

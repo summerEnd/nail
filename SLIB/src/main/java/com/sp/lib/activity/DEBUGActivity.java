@@ -22,9 +22,9 @@ import static com.sp.lib.exception.ExceptionHandler.ErrorLog;
  */
 public class DEBUGActivity extends Activity {
     LinkedList<ErrorLog> logs;
-    TextView tv_logs;
-    TextView tv_time;
-    TextView tv_page;
+    TextView             tv_logs;
+    TextView             tv_time;
+    TextView             tv_page;
     int curIndex = 0;
 
     @Override
@@ -46,6 +46,7 @@ public class DEBUGActivity extends Activity {
 
     /**
      * 删除
+     *
      * @param v
      */
     public void onDelete(View v) {
@@ -58,6 +59,7 @@ public class DEBUGActivity extends Activity {
 
     /**
      * 下一个
+     *
      * @param v
      */
     public void onNext(View v) {
@@ -69,6 +71,7 @@ public class DEBUGActivity extends Activity {
 
     /**
      * 上一个
+     *
      * @param v
      */
     public void onPrev(View v) {
@@ -80,17 +83,18 @@ public class DEBUGActivity extends Activity {
 
     /**
      * 清空
+     *
      * @param v
      */
-    public void onClear(View v){
+    public void onClear(View v) {
         logs.clear();
         showLog(0);
     }
 
-    public void onColor(View v){
-        SharedPreferences sp=getSharedPreferences("debug_color",MODE_PRIVATE);
-        ColorDialog dialog=new ColorDialog(this);
-        dialog.setColor(sp.getInt("color",0));
+    public void onColor(View v) {
+        SharedPreferences sp = getSharedPreferences("debug_color", MODE_PRIVATE);
+        ColorDialog dialog = new ColorDialog(this);
+        dialog.setColor(sp.getInt("color", 0));
         dialog.setPickListener(new ColorDialog.PickListener() {
             @Override
             public void onPick(int color) {
@@ -101,9 +105,10 @@ public class DEBUGActivity extends Activity {
     }
 
     public void onSend(View v) {
+        String logs = tv_time.getText().toString() + "\n" + tv_logs.getText().toString();
         Intent intent = new Intent(Intent.ACTION_SEND);
         intent.setType("text/plain");
-        intent.putExtra(Intent.EXTRA_TEXT, tv_logs.getText().toString());
+        intent.putExtra(Intent.EXTRA_TEXT, logs);
         startActivity(Intent.createChooser(intent, "SEND"));
     }
 
@@ -119,10 +124,10 @@ public class DEBUGActivity extends Activity {
             index += logs.size();
         }
 
-        if (index>=logs.size()){
-            index-=logs.size();
+        if (index >= logs.size()) {
+            index -= logs.size();
         }
-        curIndex=index;
+        curIndex = index;
 
         tv_logs.setText(logs.get(index).msg);
         tv_time.setText(logs.get(index).time);

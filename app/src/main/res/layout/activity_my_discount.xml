@@ -6,31 +6,58 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <include layout="@layout/head_2" />
-
-    <RadioGroup
-        android:id="@+id/rg"
-        android:background="@drawable/tab_bg_2"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_marginLeft="@dimen/activity_horizontal_margin"
-        android:layout_marginRight="@dimen/activity_horizontal_margin"
-        android:layout_marginTop="@dimen/activity_vertical_margin"
-        android:orientation="horizontal"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@drawable/titleBackground"
+        android:gravity="bottom"
+        android:orientation="vertical">
 
-        <RadioButton
-            style="@style/tab_login_style"
-            android:id="@+id/rb_remain"
-            android:checked="true"
-            android:text="未使用"
-            android:button="@null" />
+        <RelativeLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/title_height">
 
-        <RadioButton
-            style="@style/tab_login_style"
-            android:id="@+id/rb_expired"
-            android:text="已过期"
-            android:button="@null" />
-    </RadioGroup>
+            <ImageView
+                style="@style/title_back_style"
+                android:layout_centerVertical="true"/>
+
+            <TextView
+                style="@style/title_text_style"
+                android:text="首 页"
+                android:layout_centerInParent="true"/>
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:paddingBottom="@dimen/list_padding_vertical"
+            android:gravity="bottom"
+            android:layout_height="@dimen/title_height">
+
+            <RadioGroup
+                android:id="@+id/rg"
+                android:background="@drawable/tab_bg_2"
+                android:layout_width="match_parent"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:layout_marginRight="@dimen/activity_horizontal_margin"
+                android:orientation="horizontal"
+                android:layout_height="wrap_content">
+
+                <RadioButton
+                    style="@style/tab_login_style"
+                    android:id="@+id/rb_not_used"
+                    android:checked="true"
+                    android:text="未使用"
+                    android:button="@null"/>
+
+                <RadioButton
+                    style="@style/tab_login_style"
+                    android:id="@+id/rb_expired"
+                    android:text="已过期"
+                    android:button="@null"/>
+            </RadioGroup>
+        </LinearLayout>
+    </LinearLayout>
 
     <android.support.v4.view.ViewPager
         android:layout_width="match_parent"

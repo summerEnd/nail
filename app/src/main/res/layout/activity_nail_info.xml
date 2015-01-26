@@ -34,7 +34,6 @@
                     android:layout_height="wrap_content"
                     android:textColor="#ff0e03"
                     android:textSize="@dimen/textSize_dp_60px"
-                    android:textStyle="bold"
                     android:text="@string/getting" />
 
                 <TextView

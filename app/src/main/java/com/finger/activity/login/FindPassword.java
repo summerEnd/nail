@@ -86,7 +86,7 @@ public class FindPassword extends BaseActivity {
         super.onClick(v);
     }
     Timer timer;
-    final int MAX_TIME = 100;
+    final int MAX_TIME = 60;
     int remainTime;
 
     void startTimer() {
