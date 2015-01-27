@@ -27,11 +27,11 @@ public class ListController implements AbsListView.OnScrollListener {
     private static final int DEFAULT_PAGE_SIZE = 15;
     Callback    callback;
     AbsListView mListView;
-    boolean isBottom                  = false;
-    int     pageSize                  = DEFAULT_PAGE_SIZE;
-    int     mSavedSize                = 0;
+    boolean isBottom   = false;
+    int     pageSize   = DEFAULT_PAGE_SIZE;
+    int     mSavedSize = 0;
     //上一次加载了多少
-    int     lastLoadedCount           = DEFAULT_PAGE_SIZE;
+    int lastLoadedCount;
     boolean dataSetObserverRegistered = false;
 
 
@@ -66,7 +66,7 @@ public class ListController implements AbsListView.OnScrollListener {
             lastLoadedCount = adapter.getCount() - mSavedSize;
             mSavedSize = adapter.getCount();
 
-            Log.d(TAG, String.format("notifyDataSetChanged--> saved size:%d new page:%d",mSavedSize,lastLoadedCount));
+            Log.d(TAG, String.format("notifyDataSetChanged--> saved size:%d new page:%d", mSavedSize, lastLoadedCount));
         }
     };
 
@@ -75,7 +75,7 @@ public class ListController implements AbsListView.OnScrollListener {
         if (adapter == null) {
             throw new IllegalStateException("AbsListView doesn't have a adapter");
         }
-        mSavedSize=adapter.getCount();
+        mSavedSize = adapter.getCount();
         adapter.registerDataSetObserver(dataSetObserver);
         dataSetObserverRegistered = true;
     }
@@ -99,7 +99,7 @@ public class ListController implements AbsListView.OnScrollListener {
             ListAdapter adapter = mListView.getAdapter();
             if (!dataSetObserverRegistered)
                 registerDataObserver();
-            Log.d(TAG, String.format("loadMore:%s mSavedSize：%d count:%d lastPage:%d ",(lastLoadedCount>=pageSize?"true":"false"),mSavedSize,adapter.getCount(),lastLoadedCount));
+            Log.d(TAG, String.format("loadMore:%s mSavedSize：%d count:%d lastPage:%d ", (lastLoadedCount >= pageSize ? "true" : "false"), mSavedSize, adapter.getCount(), lastLoadedCount));
             if (lastLoadedCount >= pageSize) {
                 int page = adapter.getCount() / pageSize + 1;
                 callback.onLoadMore(mListView, page);

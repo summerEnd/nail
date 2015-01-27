@@ -185,7 +185,6 @@ public class SHttpClient {
                 }
             }
         } catch (Exception e) {
-            // TODO: handle exception
             Log.v("error",e.toString());
         }
         return false;
