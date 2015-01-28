@@ -2,6 +2,7 @@ package com.finger.api;
 
 import android.app.Activity;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
@@ -9,6 +10,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.alipay.sdk.app.PayTask;
+import com.finger.activity.MainActivity;
 import com.finger.support.util.DialogUtil;
 
 import java.io.UnsupportedEncodingException;
@@ -68,7 +70,9 @@ public class AlipayAPI {
                         DialogUtil.alert(mActivity, "支付成功").setOnDismissListener(new DialogInterface.OnDismissListener() {
                             @Override
                             public void onDismiss(DialogInterface dialog) {
-                                mActivity.finish();
+                                Intent intent = new Intent(mActivity, MainActivity.class);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                mActivity.startActivity(intent);
                             }
                         });
                     } else {
@@ -80,7 +84,6 @@ public class AlipayAPI {
                         } else {
                             Toast.makeText(mActivity, "支付失败",
                                     Toast.LENGTH_SHORT).show();
-
                         }
                     }
                     break;
@@ -108,7 +111,7 @@ public class AlipayAPI {
             String body,
             //支付的价格
             String price) {
-        String orderInfo = getOrderInfo(orderId,subject, body, price);
+        String orderInfo = getOrderInfo(orderId, subject, body, price);
         String sign = sign(orderInfo);
         try {
             // 仅需对sign 做URL编码
@@ -175,7 +178,7 @@ public class AlipayAPI {
     /**
      * create the order info. 创建订单信息
      */
-    public String getOrderInfo(String orderId,String subject, String body, String price) {
+    public String getOrderInfo(String orderId, String subject, String body, String price) {
         // 合作者身份ID
         String orderInfo = "partner=" + "\"" + PARTNER + "\"";
 
@@ -192,7 +195,7 @@ public class AlipayAPI {
         orderInfo += "&body=" + "\"" + body + "\"";
 
         // 商品金额
-        orderInfo += "&total_fee=" + "\"" + 0.01 + "\"";
+        orderInfo += "&total_fee=" + "\"" + price + "\"";
 
         // 服务器异步通知页面路径
         orderInfo += "&notify_url=" + "\"" + "http://pnail.ywswl.com/Home/Alipay/notify_url.html"

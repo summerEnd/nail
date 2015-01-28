@@ -75,8 +75,9 @@ s
                 android:layout_width="wrap_content"
                 android:layout_height="23dp"
                 android:numStars="5"
+                android:stepSize="1"
                 style="@style/comment_ratingBar"
-                android:rating="2" />
+                android:rating="2.3" />
         </LinearLayout>
 
         <LinearLayout style="@style/comment_star_style">
@@ -90,8 +91,9 @@ s
                 android:layout_width="wrap_content"
                 android:layout_height="23dp"
                 android:numStars="5"
+                android:stepSize="1"
                 style="@style/comment_ratingBar"
-                android:rating="2" />
+                android:rating="2.3" />
         </LinearLayout>
 
         <LinearLayout style="@style/comment_star_style">
@@ -105,12 +107,14 @@ s
                 android:layout_width="wrap_content"
                 android:layout_height="23dp"
                 android:numStars="5"
+                android:stepSize="1"
                 style="@style/comment_ratingBar"
-                android:rating="2" />
+                android:rating="2.3" />
         </LinearLayout>
 
         <Button
             android:id="@+id/commit"
+            android:stepSize="1"
             android:layout_marginTop="@dimen/button_to_text"
             style="@style/button_large"
             android:text="提    交" />

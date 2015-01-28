@@ -29,7 +29,7 @@ public class OrderManager {
     /**
      * 退款
      */
-    public static String STATUS_REFUND       = "4,5,6";
+    public static String STATUS_REFUND       = "2,4,5,6";
 
     public static String STATUS_ALL = "1,2,3,4,5,6,7,8";
 
@@ -54,6 +54,7 @@ public class OrderManager {
         for (Activity a : activities) {
             a.finish();
         }
+        activities.clear();
     }
 
     /**
@@ -73,7 +74,6 @@ public class OrderManager {
     public static void addOrderActivity(Activity activity) {
         activities.add(activity);
     }
-
 
 
 }

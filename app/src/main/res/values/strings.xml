@@ -15,7 +15,7 @@
     <string name="title_activity_plan">预约美甲</string>
     <string name="p_input_mobile">请输入手机号</string>
     <string name="p_input_password">请输入密码</string>
-    <string name="p_input_mobile_or_acc">请输入手机号或用户名</string>
+    <string name="p_input_mobile_or_acc">请输入手机号</string>
     <string name="forget_psw">忘记密码</string>
     <string name="update_password">修改密码</string>
     <string name="title_activity_update_password">修改密码</string>
@@ -43,11 +43,11 @@
     </string-array>
 
     <string name="title_activity_about">关于我们</string>
-    <string name="title_activity_suggestion">建议反馈</string>
+    <string name="title_activity_suggestion">意见反馈</string>
     <string name="title_activity_service_area">服务范围</string>
     <string name="change_data">修改资料</string>
     <string name="confirm_logout">确定退出登录吗</string>
-    <string name="hint_suggestion">在这里写下您的宝贵建议！</string>
+    <string name="hint_suggestion">请在这里写下您的宝贵意见，来帮助我们为您提供更好的服务！！</string>
     <string name="suggestion_done">提交反馈成功</string>
     <string name="suggestion_dialog_msg">您好，我们已经收到了您的反馈，会尽快处理！</string>
     <string name="order_center">订单中心</string>
@@ -92,8 +92,8 @@
     <string name="d_num">%d条</string>
     <string name="d_price">￥%d</string>
     <string name="s_price">￥%s</string>
-    <string name="time_cost_s">耗时%s分钟</string>
-    <string name="time_keep_s">保持%s天</string>
+    <string name="time_cost_s">耗时：%s分钟</string>
+    <string name="time_keep_s">保持：%s天</string>
     <string name="rmb_s">￥%s</string>
     <string name="nail_info">作品详情</string>
     <string name="plan_time">预约时间</string>
@@ -187,6 +187,11 @@
     <string name="product_manage">作品管理</string>
     <string name="edit">编辑</string>
     <string name="update_location">更新位置中...</string>
+    <string name="input_init_psw">请输入初始密码！</string>
+    <string name="input_new_psw">请输入新密码！</string>
+    <string name="input_repeat_psw">请输入重复密码！</string>
+    <string name="input_repeat_not_match">重复密码与新密码不同！</string>
+    <string name="confirm_delete">确定删除？</string>
 
 
 </resources>

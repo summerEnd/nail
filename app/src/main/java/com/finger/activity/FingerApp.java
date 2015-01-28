@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.Intent;
 import android.content.res.XmlResourceParser;
 
+import com.baidu.mapapi.SDKInitializer;
 import com.finger.R;
 import com.finger.entity.ArtistGrade;
 import com.finger.entity.ArtistRole;
@@ -59,7 +60,7 @@ public class FingerApp extends Application {
         mApp = this;
         ContextUtil.init(this);
         Slib.initialize(this);
-
+        SDKInitializer.initialize(this);
         loadGradeFromXml();
     }
 

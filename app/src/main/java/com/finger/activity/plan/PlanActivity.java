@@ -49,6 +49,7 @@ public class PlanActivity extends BaseActivity implements RadioGroup.OnCheckedCh
         getSupportFragmentManager().beginTransaction()
                 .add(R.id.frag_container, mPlanForMe)
                 .commit();
+
     }
 
 

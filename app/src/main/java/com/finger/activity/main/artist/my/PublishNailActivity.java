@@ -99,7 +99,7 @@ public class PublishNailActivity extends BaseActivity {
                             try {
                                 String url = o.getString("data");
                                 add_image.setContentDescription(url);
-                                ImageManager.loadImage(url,add_image);
+                                ImageManager.loadImage(url, add_image);
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
@@ -115,25 +115,26 @@ public class PublishNailActivity extends BaseActivity {
     void publish() {
 
         CharSequence imageUrl = add_image.getContentDescription();
-        if (TextUtils.isEmpty(imageUrl)) {
-            ContextUtil.toast(getString(R.string.please_input_image));
-            return;
-        }
+
         RequestParams params = new RequestParams();
 
         if (isTextEmpty(params, editTitle, "name")
                 || isTextEmpty(params, editPrice, "price")
+                || isTextEmpty(params, edit_store_price, "store_price")
                 || isTextEmpty(params, edit_time_cost, "spend_time")
                 || isTextEmpty(params, edit_time_keep, "keep_date")
                 || isTextEmpty(params, edit_detail, "description")
                 )
             return;
+        if (TextUtils.isEmpty(imageUrl)) {
+            ContextUtil.toast(getString(R.string.please_input_image));
+            return;
+        }
         if (bean != null) {
             params.put("product_id", bean.id);
         }
         params.put("cover", imageUrl);
         params.put("mid", getApp().getUser().id);
-        params.put("store_price", edit_store_price.getText().toString());
 
 
         FingerHttpClient.post("addProduct", params, new FingerHttpHandler() {
@@ -141,18 +142,19 @@ public class PublishNailActivity extends BaseActivity {
             public void onSuccess(JSONObject o) {
 
                 String msg;
-                if (bean==null){
-                    msg=getString(R.string.publish_ok);
-                }else{
-                    msg=getString(R.string.modify_ok);
+                if (bean == null) {
+                    msg = getString(R.string.publish_ok);
+                } else {
+                    msg = getString(R.string.modify_ok);
                 }
-
-                DialogUtil.alert(PublishNailActivity.this, msg).setOnDismissListener(new DialogInterface.OnDismissListener() {
-                    @Override
-                    public void onDismiss(DialogInterface dialog) {
-                        finish();
-                    }
-                });
+                ContextUtil.toast(msg);
+                finish();
+                //                DialogUtil.alert(PublishNailActivity.this, msg).setOnDismissListener(new DialogInterface.OnDismissListener() {
+                //                    @Override
+                //                    public void onDismiss(DialogInterface dialog) {
+                //                        finish();
+                //                    }
+                //                });
             }
         });
     }

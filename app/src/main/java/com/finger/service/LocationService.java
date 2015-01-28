@@ -80,8 +80,6 @@ public class LocationService extends Service {
     public void onCreate() {
         super.onCreate();
         debug("onCreate");
-        SDKInitializer.initialize(getApplicationContext());
-
         mLocationClient = new LocationClient(this);
         LocationClientOption option = new LocationClientOption();
 

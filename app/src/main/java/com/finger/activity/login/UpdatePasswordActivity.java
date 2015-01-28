@@ -1,6 +1,8 @@
 package com.finger.activity.login;
 
+import android.content.Context;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 
@@ -8,6 +10,7 @@ import com.finger.activity.base.BaseActivity;
 import com.finger.R;
 import com.finger.support.net.FingerHttpClient;
 import com.finger.support.net.FingerHttpHandler;
+import com.finger.support.util.ContextUtil;
 import com.loopj.android.http.RequestParams;
 
 import org.json.JSONObject;
@@ -51,6 +54,27 @@ public class UpdatePasswordActivity extends BaseActivity {
     }
 
     boolean check(String init_psw, String new_psw, String confirm_psw) {
+
+        if(TextUtils.isEmpty(init_psw)){
+            ContextUtil.toast(getString(R.string.input_init_psw));
+            return false;
+        }
+
+        if(TextUtils.isEmpty(new_psw)){
+            ContextUtil.toast(getString(R.string.input_new_psw));
+            return false;
+        }
+
+        if(TextUtils.isEmpty(confirm_psw)){
+            ContextUtil.toast(getString(R.string.input_repeat_psw));
+            return false;
+        }
+
+        if (!new_psw.equals(confirm_psw)){
+            ContextUtil.toast(getString(R.string.input_repeat_not_match));
+            return false;
+        }
+
         return true;
     }
 }

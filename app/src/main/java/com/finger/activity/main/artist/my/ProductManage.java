@@ -1,6 +1,8 @@
 package com.finger.activity.main.artist.my;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -80,7 +82,19 @@ public class ProductManage extends BaseActivity implements ListController.Callba
                 break;
             }
             case R.id.delete: {
-                deleteFromWeb();
+
+                AlertDialog.Builder builder=new AlertDialog.Builder(this);
+                builder.setTitle(R.string.warn)
+                        .setMessage(getString(R.string.confirm_delete))
+                        .setNegativeButton(R.string.cancel, null)
+                        .setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                deleteFromWeb();
+                            }
+                        })
+                        .show();
+
 
                 break;
             }

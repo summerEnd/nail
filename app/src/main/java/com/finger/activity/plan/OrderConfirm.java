@@ -59,6 +59,7 @@ public class OrderConfirm extends BaseActivity {
     CouponAdapter     adapter;
     PayMethodFragment payMethod;
     OrderBean         mOrderBean;
+    private String orderId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,8 +102,6 @@ public class OrderConfirm extends BaseActivity {
 
         tv_address.setText(mOrderBean.address);
 
-
-        //
         ImageManager.loadImage(infoBean.cover, nail_image);
         calculateCost();
     }
@@ -111,7 +110,11 @@ public class OrderConfirm extends BaseActivity {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.commit: {
-                postOrder();
+                if (TextUtils.isEmpty(orderId)) {
+                    postOrder();
+                } else {
+                    showAlipayDialog(orderId);
+                }
                 break;
             }
             case R.id.choose_coupon: {
@@ -216,8 +219,10 @@ public class OrderConfirm extends BaseActivity {
 
     }
 
+    /**
+     * 提交订单
+     */
     public void postOrder() {
-
 
         float pay_price = Float.valueOf(mOrderBean.nailInfoBean.price);
         if (mCoupon != null) {
@@ -247,7 +252,6 @@ public class OrderConfirm extends BaseActivity {
             @Override
             public void onSuccess(JSONObject o) {
                 OrderManager.cancel();
-                String orderId = "";
                 if (o.has("data")) {
                     try {
                         orderId = o.getString("data");
@@ -255,32 +259,41 @@ public class OrderConfirm extends BaseActivity {
                         e.printStackTrace();
                     }
                 }
-                final String finalOrderId = orderId;
-                new AlertDialog.Builder(OrderConfirm.this)
-                        .setTitle(getString(R.string.order_ok))
-                        .setMessage(getString(R.string.order_msg))
-                        .setPositiveButton(getString(R.string.pay_now), new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                new AlipayAPI(OrderConfirm.this).start(
-                                        finalOrderId,
-                                        mOrderBean.nailInfoBean.name,
-                                        mOrderBean.nailInfoBean.name,
-                                        total_fee
-                                );
-                            }
-                        })
-                        .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                finish();
-                            }
-                        })
-                        .show()
-                ;
+                showAlipayDialog(orderId);
 
             }
         });
+    }
+
+    /**
+     * 是否立即支付
+     * @param orderId
+     */
+    private void showAlipayDialog(String orderId) {
+        final String finalOrderId = orderId;
+
+        new AlertDialog.Builder(OrderConfirm.this)
+                .setTitle(getString(R.string.order_ok))
+                .setMessage(getString(R.string.order_msg))
+                .setPositiveButton(getString(R.string.pay_now), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        new AlipayAPI(OrderConfirm.this).start(
+                                finalOrderId,
+                                mOrderBean.nailInfoBean.name,
+                                mOrderBean.nailInfoBean.name,
+                                total_fee
+                        );
+                    }
+                })
+                .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                })
+                .show()
+        ;
     }
 
     class CouponAdapter extends BaseAdapter {

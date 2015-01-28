@@ -40,6 +40,7 @@ public class SettingActivity extends BaseActivity {
 
         boolean showDebug=BuildConfig.DEBUG;
         showDebug=true;
+        //TODO:隐藏底部
         if (showDebug) {
             findViewById(R.id.debug_item).setVisibility(View.VISIBLE);
         } else {

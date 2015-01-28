@@ -62,7 +62,7 @@ public class Schedule extends PopupWindow implements ViewPager.OnPageChangeListe
         contentView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                exit();
+               dismiss();
             }
         });
         setContentView(contentView);
@@ -91,6 +91,7 @@ public class Schedule extends PopupWindow implements ViewPager.OnPageChangeListe
 
             @Override
             public void onAnimationEnd(Animation animation) {
+                contentView.clearAnimation();
                 dismiss();
             }
 
@@ -262,7 +263,7 @@ public class Schedule extends PopupWindow implements ViewPager.OnPageChangeListe
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        exit();
+
         if (mCallback != null) {
 
             SimpleDateFormat sp = new SimpleDateFormat("yyyy-MM-dd");
@@ -283,6 +284,7 @@ public class Schedule extends PopupWindow implements ViewPager.OnPageChangeListe
             }
 
         }
+        dismiss();
     }
 
     /**

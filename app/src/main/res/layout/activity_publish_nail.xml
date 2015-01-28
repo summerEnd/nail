@@ -48,7 +48,7 @@
                     <EditText
                         android:id="@+id/edit_store_price"
                         android:inputType="numberDecimal"
-                        android:hint="请输入价格,单位"
+                        android:hint="请输入店面价格，单位（元）"
                         style="@style/tab_item_value_style"/>
                 </TableRow>
 
@@ -73,13 +73,13 @@
 
                     <TextView
                         style="@style/tab_item_name_style"
-                        android:text="耗        时："/>
+                        android:text="耗 时（分）："/>
 
                     <EditText
                         android:id="@+id/edit_time_cost"
                         style="@style/tab_item_value_style"
                         android:inputType="numberDecimal"
-                        android:hint="请输入耗时，单位（分）"/>
+                        android:hint="请输入耗时"/>
                 </TableRow>
 
                 <TextView style="@style/horizontal_line"/>
@@ -88,13 +88,13 @@
 
                     <TextView
                         style="@style/tab_item_name_style"
-                        android:text="保持时间："/>
+                        android:text="保持时间（天）："/>
 
                     <EditText
                         android:inputType="numberDecimal"
                         android:id="@+id/edit_time_keep"
                         style="@style/tab_item_value_style"
-                        android:hint="请输入保持时间，单位（天）"/>
+                        android:hint="请输入保持时间"/>
                 </TableRow>
 
                 <TextView style="@style/horizontal_line"/>

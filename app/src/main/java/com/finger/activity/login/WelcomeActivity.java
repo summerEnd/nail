@@ -161,7 +161,7 @@ public class WelcomeActivity extends BaseActivity {
         FingerHttpClient.setDialogCreator(new SHttpClient.ProgressDialogCreator() {
             @Override
             public Dialog onCreateDialog() {
-                ProgressDialog dialog = new ProgressDialog(getApplicationContext(),android.R.style.Theme_Holo_Light);
+                ProgressDialog dialog = new ProgressDialog(getApplicationContext());
                 dialog.getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);
                 dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
                 dialog.setMessage(getString(R.string.loading));

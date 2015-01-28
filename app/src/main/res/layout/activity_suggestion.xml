@@ -25,5 +25,5 @@
         style="@style/button_large"
         android:id="@+id/commit"
         android:layout_marginTop="@dimen/button_to_text"
-        android:text="提交" />
+        android:text="提 交" />
 </LinearLayout>
