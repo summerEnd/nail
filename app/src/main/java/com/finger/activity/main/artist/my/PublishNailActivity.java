@@ -56,7 +56,7 @@ public class PublishNailActivity extends BaseActivity {
             edit_detail.setText(bean.description);
             add_image.setContentDescription(bean.cover);
             ImageManager.loadImage(bean.cover, add_image);
-            setTitle(getString(R.string.edit));
+            setTitle(getString(R.string.modify_product));
         }
     }
 
@@ -149,12 +149,7 @@ public class PublishNailActivity extends BaseActivity {
                 }
                 ContextUtil.toast(msg);
                 finish();
-                //                DialogUtil.alert(PublishNailActivity.this, msg).setOnDismissListener(new DialogInterface.OnDismissListener() {
-                //                    @Override
-                //                    public void onDismiss(DialogInterface dialog) {
-                //                        finish();
-                //                    }
-                //                });
+
             }
         });
     }

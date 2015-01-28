@@ -2,5 +2,32 @@
 <resources>
 
     <string name="hello_world">Hello world!</string>
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="android:Theme.Holo.Light">
 
+        <item name="android:windowActionBar">true</item>
+
+        <item name="android:actionBarStyle">@style/mActionBarStyle</item>
+        <!--标题高度-->
+        <item name="android:actionBarSize">40dp</item>
+
+        <item name="android:actionButtonStyle">@style/mActionButton</item>
+        <!--返回图标-->
+        <!--<item name="android:homeAsUpIndicator">@drawable/back_normal</item>-->
+    </style>
+
+    <style name="mActionBarStyle" parent="android:Widget.ActionBar">
+        <!--标题背景-->
+        <!--<item name="android:background">@drawable/title_bg</item>-->
+        <!--item背景-->
+        <!--<item name="android:itemBackground">@drawable/click</item>-->
+    </style>
+
+
+    <style name="mActionButton">
+        <!--item宽度-->
+        <item name="android:width">35dp</item>
+        <!--item背景-->
+        <!--<item name="android:background">@drawable/click</item>-->
+    </style>
 </resources>

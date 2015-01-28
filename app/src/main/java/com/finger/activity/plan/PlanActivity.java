@@ -13,6 +13,7 @@ import android.widget.RadioGroup;
 import com.finger.activity.base.BaseActivity;
 import com.finger.R;
 import com.finger.activity.info.ArtistInfoList;
+import com.finger.activity.main.artist.my.PlanTimeActivity;
 import com.finger.entity.OrderBean;
 import com.finger.entity.OrderManager;
 import com.finger.support.net.FingerHttpClient;
@@ -143,7 +144,31 @@ public class PlanActivity extends BaseActivity implements RadioGroup.OnCheckedCh
         if (order != null && order.nailInfoBean != null) {
             getTimeBlock(order.nailInfoBean.mid);
         } else {
-            showSchedule(null);
+            List<ScheduleOfDay> days = new ArrayList<ScheduleOfDay>();
+            int curTime = ScheduleOfDay.getCurTimeBlock();
+
+            ScheduleOfDay today = new ScheduleOfDay();
+            today.time1 = curTime > 1 ? 1 : 0;
+            today.time2 = curTime > 2 ? 1 : 0;
+            today.time3 = curTime > 3 ? 1 : 0;
+            today.time4 = curTime > 4 ? 1 : 0;
+            today.time5 = curTime > 5 ? 1 : 0;
+            today.time6 = curTime > 6 ? 1 : 0;
+
+            days.add(today);
+
+            for (int i = 0; i < 3; i++) {
+                ScheduleOfDay day = new ScheduleOfDay();
+                day.time1 = 0;
+                day.time2 = 0;
+                day.time3 = 0;
+                day.time4 = 0;
+                day.time5 = 0;
+                day.time6 = 0;
+                days.add(day);
+            }
+
+            showSchedule(days);
         }
     }
 

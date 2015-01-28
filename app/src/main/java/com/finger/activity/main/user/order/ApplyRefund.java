@@ -33,7 +33,7 @@ public class ApplyRefund extends AddImageActivity {
         Assert.assertNotNull(bean);
         TextView tv_refund_money = (TextView) findViewById(R.id.tv_refund_money);
         tv_refund_money.setText(getString(R.string.s_price,bean.order_price));
-        MAX_IMAGE = 1;
+        MAX_IMAGE = 2;
     }
 
     public void applyRefund(String reason, String imageUrl) {

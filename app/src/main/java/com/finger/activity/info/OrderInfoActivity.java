@@ -110,7 +110,7 @@ public class OrderInfoActivity extends BaseActivity {
                 ? "无"
                 : (coupon.title+" ￥"+coupon.price));
         //实付
-        tv_real_pay.setText(getString(R.string.s_price, bean.order_price));
+        tv_real_pay.setText(getString(R.string.s_price, bean.real_pay));
 
         //联系人
         tv_contact.setText(bean.contact);

@@ -322,8 +322,9 @@ public class Schedule extends PopupWindow implements ViewPager.OnPageChangeListe
         final int item_w = ItemUtil.halfScreen - 1;
         final int item_h = item_w / 2;
         List<ScheduleBean> beans;
-
+        int curBlock;
         ScheduleGridAdapter() {
+            curBlock=ScheduleOfDay.getCurTimeBlock();
         }
 
         public boolean hasData() {

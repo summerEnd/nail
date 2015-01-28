@@ -6,21 +6,15 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.Binder;
 import android.os.IBinder;
-import android.os.IInterface;
-import android.os.Parcel;
-import android.os.RemoteException;
 
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
-import com.baidu.mapapi.SDKInitializer;
 import com.finger.BuildConfig;
 import com.finger.activity.FingerApp;
-import com.finger.activity.info.Artist;
 import com.finger.entity.ArtistRole;
 import com.finger.entity.RoleBean;
-import com.finger.support.Constant;
 import com.finger.support.net.FingerHttpClient;
 import com.finger.support.util.Logger;
 import com.loopj.android.http.RequestParams;
@@ -30,7 +24,6 @@ import com.sp.lib.support.WebJsonHttpHandler;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.io.FileDescriptor;
 import java.util.Date;
 
 /**

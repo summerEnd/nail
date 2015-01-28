@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
 
-    <include layout="@layout/head_2" />
+    <include layout="@layout/head_2"/>
 
     <ScrollView
         android:layout_width="match_parent"
@@ -21,7 +21,7 @@
                 android:id="@+id/cover"
                 android:layout_width="match_parent"
                 android:scaleType="centerCrop"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"/>
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -34,7 +34,7 @@
                     android:layout_height="wrap_content"
                     android:textColor="#ff0e03"
                     android:textSize="@dimen/textSize_dp_60px"
-                    android:text="@string/getting" />
+                    android:text="@string/getting"/>
 
                 <TextView
                     android:id="@+id/dmj"
@@ -44,7 +44,7 @@
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/textSize_dp_24px"
                     android:textColor="@color/textColorGray"
-                    android:text="店面价：" />
+                    android:text="店面价："/>
 
                 <TextView
                     android:id="@+id/tv_shop_price"
@@ -54,20 +54,36 @@
                     android:textSize="@dimen/textSize_dp_24px"
                     android:layout_toRightOf="@id/dmj"
                     android:textColor="@color/textColorGray"
-                    android:text="@string/getting" />
+                    android:text="@string/getting"/>
 
-                <CheckBox
-                    android:id="@+id/collect"
-                    android:layout_alignParentRight="true"
+                <LinearLayout
                     android:layout_width="wrap_content"
-                    android:scaleType="centerInside"
-                    android:button="@drawable/ic_collect"
-                    android:layout_alignBottom="@+id/tv_shop_price"
                     android:layout_height="wrap_content"
-                    />
+                    android:layout_alignParentRight="true"
+                    android:layout_alignBottom="@+id/tv_shop_price"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical">
+
+                    <CheckBox
+                        android:id="@+id/collect"
+                        android:layout_width="wrap_content"
+                        android:scaleType="centerInside"
+                        android:button="@drawable/ic_collect"
+                        android:layout_height="wrap_content"
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="收藏"
+                        android:textColor="@color/textColorBlack"
+                        android:textSize="15sp"
+                        android:layout_below="@+id/collect"
+                        android:layout_alignRight="@+id/collect"/>
+                </LinearLayout>
             </RelativeLayout>
 
-            <TextView style="@style/horizontal_line" />
+            <TextView style="@style/horizontal_line"/>
 
             <LinearLayout
                 android:layout_marginLeft="@dimen/activity_horizontal_margin"
@@ -81,7 +97,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/textSize_dp_38px"
-                    android:textColor="#f35d35" />
+                    android:textColor="#f35d35"/>
 
                 <TextView
                     android:id="@+id/tv_info_text"
@@ -90,7 +106,7 @@
                     android:layout_below="@id/tv_info_title"
                     android:layout_width="wrap_content"
                     android:text="@string/getting"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"/>
 
 
             </LinearLayout>
@@ -110,8 +126,7 @@
                     android:textSize="@dimen/textSize_dp_30px"
                     android:gravity="center_vertical"
                     android:textColor="@color/textColorGray"
-                    android:layout_height="wrap_content" />
-
+                    android:layout_height="wrap_content"/>
 
 
                 <TextView
@@ -122,10 +137,10 @@
                     android:text="@string/getting"
                     android:gravity="center_vertical"
                     android:textColor="@color/textColorGray"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"/>
             </LinearLayout>
 
-            <TextView style="@style/horizontal_line" />
+            <TextView style="@style/horizontal_line"/>
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -140,7 +155,7 @@
                     android:drawableLeft="@drawable/ic_comment"
                     android:layout_alignParentLeft="true"
                     android:textColor="@color/textColorBlack"
-                    android:text="评价" />
+                    android:text="评价"/>
 
                 <TextView
                     android:id="@+id/tv_comment_num"
@@ -151,10 +166,10 @@
                     android:drawablePadding="5dp"
                     android:textSize="@dimen/textSize_2"
                     android:textColor="#f46751"
-                    android:drawableRight="@drawable/right_arrow" />
+                    android:drawableRight="@drawable/right_arrow"/>
             </RelativeLayout>
 
-            <TextView style="@style/horizontal_line" />
+            <TextView style="@style/horizontal_line"/>
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -167,7 +182,7 @@
                     android:id="@+id/iv_avatar"
                     android:layout_width="@dimen/avatar_size"
                     android:layout_height="@dimen/avatar_size"
-                    android:src="@drawable/default_user" />
+                    android:src="@drawable/default_user"/>
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -183,13 +198,13 @@
                         android:layout_height="wrap_content"
                         android:textSize="@dimen/textSize_dp_36px"
                         android:text="@string/getting"
-                        android:textColor="@color/textColorBlack" />
+                        android:textColor="@color/textColorBlack"/>
 
                     <com.finger.support.widget.RatingWidget
                         android:id="@+id/rating"
                         android:layout_marginTop="10dp"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"/>
                 </LinearLayout>
             </RelativeLayout>
 
@@ -205,7 +220,7 @@
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/textSize_dp_24px"
                     android:textColor="@color/textColorBlack"
-                    android:text="专业：" />
+                    android:text="专业："/>
 
                 <TextView
                     android:id="@id/tv_pro"
@@ -213,19 +228,19 @@
                     android:textColor="@color/textColorBlack"
                     android:layout_height="wrap_content"
                     android:text="@string/getting"
-                    android:textSize="@dimen/textSize_dp_30px" />
+                    android:textSize="@dimen/textSize_dp_30px"/>
 
                 <View
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1" />
+                    android:layout_weight="1"/>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/textSize_dp_24px"
                     android:textColor="@color/textColorBlack"
-                    android:text="沟通：" />
+                    android:text="沟通："/>
 
                 <TextView
                     android:id="@id/tv_com"
@@ -233,19 +248,19 @@
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/textSize_dp_30px"
                     android:text="@string/getting"
-                    android:textColor="@color/textColorBlack" />
+                    android:textColor="@color/textColorBlack"/>
 
                 <View
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1" />
+                    android:layout_weight="1"/>
 
                 <TextView
                     android:textSize="@dimen/textSize_dp_24px"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/textColorBlack"
-                    android:text="守时：" />
+                    android:text="守时："/>
 
                 <TextView
                     android:id="@id/tv_on_time"
@@ -254,11 +269,11 @@
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/textSize_dp_30px"
                     android:textColor="@color/textColorBlack"
-                    android:layout_marginBottom="8dp" />
+                    android:layout_marginBottom="8dp"/>
             </LinearLayout>
 
 
-            <TextView style="@style/horizontal_line" />
+            <TextView style="@style/horizontal_line"/>
 
             <Button
                 android:visibility="gone"
@@ -266,7 +281,7 @@
                 style="@style/button_large"
                 android:layout_marginTop="@dimen/button_to_bottom"
                 android:text="@string/choose_nail"
-                android:layout_marginBottom="@dimen/button_to_bottom" />
+                android:layout_marginBottom="@dimen/button_to_bottom"/>
         </LinearLayout>
 
     </ScrollView>

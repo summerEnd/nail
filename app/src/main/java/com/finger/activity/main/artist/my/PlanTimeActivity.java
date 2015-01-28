@@ -18,6 +18,7 @@ import com.finger.R;
 import com.finger.activity.base.BaseActivity;
 import com.finger.support.net.FingerHttpClient;
 import com.finger.support.net.FingerHttpHandler;
+import com.finger.support.util.ContextUtil;
 import com.finger.support.util.DialogUtil;
 import com.finger.support.util.JsonUtil;
 import com.finger.support.util.ItemUtil;
@@ -64,6 +65,7 @@ public class PlanTimeActivity extends BaseActivity implements RadioGroup.OnCheck
          */
         public ArrayList<ScheduleBean> getScheduleList() {
             if (beans.size() == 0) {
+                //==0代表闲
                 addSchedule(time1 == 0);
                 addSchedule(time2 == 0);
                 addSchedule(time3 == 0);
@@ -117,6 +119,32 @@ public class PlanTimeActivity extends BaseActivity implements RadioGroup.OnCheck
                     .append(start + 2)
                     .append(":00")
                     .toString();
+        }
+
+        public static final int getCurTimeBlock() {
+            SimpleDateFormat sf = new SimpleDateFormat();
+            int hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
+            int block;
+            if (hour < 9) {
+                block = -1;
+            } else if (hour >= 9 && hour <= 11) {
+                block = 1;
+            } else if (hour <= 13) {
+                block = 2;
+            } else if (hour <= 15) {
+                block = 3;
+            } else if (hour <= 17) {
+                block = 4;
+            } else if (hour <= 19) {
+                block = 5;
+            } else if (hour <= 21) {
+                block = 6;
+            } else {
+                block = 10;
+            }
+
+
+            return block;
         }
 
     }
@@ -190,7 +218,7 @@ public class PlanTimeActivity extends BaseActivity implements RadioGroup.OnCheck
                 try {
                     JsonUtil.getArray(o.getJSONArray("data"), ScheduleOfDay.class, blocks);
                     buildViews();
-                    DialogUtil.alert(PlanTimeActivity.this, getString(R.string.setting_ok));
+                    ContextUtil.toast(R.string.update_ok);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

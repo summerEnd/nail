@@ -26,6 +26,7 @@ import com.finger.support.net.FingerHttpClient;
 import com.finger.support.net.FingerHttpHandler;
 import com.finger.support.util.ContextUtil;
 import com.finger.support.util.JsonUtil;
+import com.finger.support.widget.OrderConfirmDialog;
 import com.loopj.android.http.RequestParams;
 import com.sp.lib.support.IntentFactory;
 import com.sp.lib.util.ListController;
@@ -173,13 +174,10 @@ public class OrderListFragment extends ListFragment implements ListController.Ca
 
     @Override
     public void onConfirmPay(final OrderListBean bean) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setTitle(R.string.warn);
-        builder.setMessage(getString(R.string.confirm_pay));
-        builder.setPositiveButton("确认付款", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
 
+       new OrderConfirmDialog(getActivity(),new OrderConfirmDialog.Listener() {
+            @Override
+            public void onDialogYesPressed(final DialogInterface dialog) {
                 RequestParams params = new RequestParams();
                 params.put("order_id", bean.id);
                 FingerHttpClient.post("confirmPay", params, new FingerHttpHandler() {
@@ -189,13 +187,22 @@ public class OrderListFragment extends ListFragment implements ListController.Ca
                         mAdapter.notifyDataSetChanged();
                         getOrderList(1);
                         ContextUtil.toast(getString(R.string.confirm_ok));
+                        dialog.dismiss();
+                    }
+
+                    @Override
+                    public void onFail(JSONObject o) {
+                        super.onFail(o);
+
                     }
                 });
-
             }
-        });
-        builder.setNegativeButton(R.string.cancel, null);
-        builder.show();
+
+            @Override
+            public void onDialogNoPressed(DialogInterface dialog) {
+                dialog.dismiss();
+            }
+        }).show();
     }
 
     @Override

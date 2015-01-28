@@ -43,7 +43,7 @@ public class UpdatePasswordActivity extends BaseActivity {
                 FingerHttpClient.post("changePassword", params, new FingerHttpHandler() {
                     @Override
                     public void onSuccess(JSONObject o) {
-
+                        ContextUtil.toast(R.string.modify_ok);
                     }
                 });
 

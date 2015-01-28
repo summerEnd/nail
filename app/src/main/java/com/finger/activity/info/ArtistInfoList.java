@@ -21,6 +21,7 @@ import android.widget.TextView;
 
 import com.baidu.location.BDLocation;
 import com.finger.R;
+import com.finger.activity.FingerApp;
 import com.finger.activity.base.BaseActivity;
 import com.finger.entity.OrderBean;
 import com.finger.entity.OrderManager;
@@ -40,6 +41,8 @@ import com.sp.lib.util.ListController;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -57,7 +60,7 @@ public class ArtistInfoList extends BaseActivity implements AdapterView.OnItemCl
      * 价格排序:price
      * 例如：价格降序price_desc,等级升序score_asc
      */
-    private String         sort;
+    private String         sort="position";
     private String         ASC_DESC;
     private PopListAdapter popupAdapter;
     private ArtistAdapter  adapter;
@@ -111,6 +114,7 @@ public class ArtistInfoList extends BaseActivity implements AdapterView.OnItemCl
         listView.setAdapter(adapter);
         controller = new ListController(listView, this);
         getLocation();
+        setSortImage();
     }
 
     void getLocation() {
@@ -170,27 +174,37 @@ public class ArtistInfoList extends BaseActivity implements AdapterView.OnItemCl
         if (latitude == -1 || longitude == -1) {
             return;
         }
-
         if (page == 1) {
             beans.clear();
             adapter.notifyDataSetChanged();
         }
 
-
         RequestParams params = new RequestParams();
-
         if (sort != null) {
             params.put("sort", sort + "_" + ASC_DESC);
             setSortImage();
         }
 
+        JSONObject condition = new JSONObject();
+        try {
+            //百度城市代码
+            condition.put("city_code", getApp().getCurCity().city_code);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            //对condition进行URL编码
+            params.put("condition", URLEncoder.encode(condition.toString(), "UTF-8"));
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
         params.put("page", page);
         params.put("pagesize", controller.getPageSize());
         OrderBean bean = OrderManager.getCurrentOrder();
         if (bean != null) {
             params.put("book_time", bean.book_date + "," + bean.time_block);
         }
-
 
         if (!Double.isInfinite(latitude) && !Double.isInfinite(longitude)) {
             params.put("longitude", longitude);
@@ -284,7 +298,7 @@ public class ArtistInfoList extends BaseActivity implements AdapterView.OnItemCl
         iv_sort_stars.setImageResource(R.drawable.ic_order_by_stars);
         iv_sort_price.setImageResource(R.drawable.ic_order_by_price);
 
-        int defaultColor=getResources().getColor(R.color.textColorBlack);
+        int defaultColor = getResources().getColor(R.color.textColorBlack);
 
         tv_sort_distance.setTextColor(defaultColor);
         tv_sort_stars.setTextColor(defaultColor);

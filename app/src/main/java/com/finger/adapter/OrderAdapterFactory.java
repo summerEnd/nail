@@ -154,14 +154,6 @@ public class OrderAdapterFactory {
 
             ImageManager.loadImage(bean.product_cover, holder.cover);
 
-            //如果是未付款，就隐藏"实付"
-            if (bean.status != STATUS_NOT_PAY) {
-                holder.real_pay_layout.setVisibility(View.VISIBLE);
-                holder.tv_real_pay.setText(mContext.getString(R.string.s_price, bean.real_pay));
-            } else {
-                holder.real_pay_layout.setVisibility(View.GONE);
-            }
-
             holder.tv_pay_state.setText(getStatusByCode(bean.status));
             holder.tv_pay_state.setTextColor(getColorByCode(bean.status));
 
@@ -169,8 +161,13 @@ public class OrderAdapterFactory {
             holder.create_time.setText(bean.create_time);
             holder.tv_price.setText(mContext.getString(R.string.price_r_s, bean.order_price));
 
-            setButtonStatus(bean, holder.button1, holder.button2);
-
+            int button_number=setButtonStatus(bean, holder.button1, holder.button2);
+            if (button_number>0){
+                holder.real_pay_layout.setVisibility(View.VISIBLE);
+                holder.tv_real_pay.setText(mContext.getString(R.string.s_price, bean.real_pay));
+            }else{
+                holder.real_pay_layout.setVisibility(View.GONE);
+            }
             //如果是等待评价或者评价成功，就设置按钮状态
             if (bean.status == STATUS_WAIT_COMMENT || bean.status == STATUS_COMMENT_OK) {
                 //优惠券按钮
@@ -475,7 +472,8 @@ public class OrderAdapterFactory {
         /**
          * 设置按钮文字
          */
-        protected void setButtonStatus(OrderListBean bean, TextView... buttons) {
+        protected int setButtonStatus(OrderListBean bean, TextView... buttons) {
+            int button_number=0;
             int status = bean.status;
             String str = getButtonStatusByCode(status);
             //Logger.i_format("status:%d str:%s status_str:%s", status, str, getStatusByCode(status));
@@ -485,6 +483,7 @@ public class OrderAdapterFactory {
             } else {
                 ((View) buttons[0].getParent()).setVisibility(View.VISIBLE);
                 String[] texts = str.split(",");
+                button_number=texts.length;
                 //遍历按钮数组
                 for (int i = 0; i < buttons.length; i++) {
                     //给安妮添加tag
@@ -500,6 +499,7 @@ public class OrderAdapterFactory {
                     }
                 }
             }
+            return button_number;
         }
 
         /**

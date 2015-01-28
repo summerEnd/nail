@@ -23,6 +23,7 @@ import com.finger.entity.ArtistRole;
 import com.finger.entity.NailItemBean;
 import com.finger.support.net.FingerHttpClient;
 import com.finger.support.net.FingerHttpHandler;
+import com.finger.support.util.ContextUtil;
 import com.finger.support.util.ItemUtil;
 import com.finger.support.util.JsonUtil;
 import com.finger.support.util.Logger;
@@ -164,6 +165,7 @@ public class ProductManage extends BaseActivity implements ListController.Callba
                 for (NailItemBean item : deleteBean) {
                     beans.remove(item);
                 }
+                ContextUtil.toast(getString(R.string.delete_ok));
                 adapter.notifyDataSetChanged();
             }
         });
