@@ -16,7 +16,6 @@ import com.finger.activity.FingerApp;
 import com.finger.activity.MainActivity;
 import com.finger.activity.info.OrderInfoActivity;
 import com.finger.activity.info.PayInfoActivity;
-import com.finger.activity.main.artist.my.PublishNailActivity;
 import com.finger.activity.main.user.order.ApplyRefund;
 import com.finger.activity.main.user.order.CommentOrder;
 import com.finger.entity.ArtistRole;
@@ -26,7 +25,7 @@ import com.finger.support.net.FingerHttpClient;
 import com.finger.support.net.FingerHttpHandler;
 import com.finger.support.util.ContextUtil;
 import com.finger.support.util.JsonUtil;
-import com.finger.support.widget.OrderConfirmDialog;
+import com.finger.support.widget.FingerDialog;
 import com.loopj.android.http.RequestParams;
 import com.sp.lib.support.IntentFactory;
 import com.sp.lib.util.ListController;
@@ -34,7 +33,6 @@ import com.sp.lib.util.ListController;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.Serializable;
 import java.util.List;
 
 import static com.finger.adapter.OrderAdapterFactory.OrderAdapter;
@@ -175,7 +173,7 @@ public class OrderListFragment extends ListFragment implements ListController.Ca
     @Override
     public void onConfirmPay(final OrderListBean bean) {
 
-       new OrderConfirmDialog(getActivity(),new OrderConfirmDialog.Listener() {
+        new FingerDialog(getActivity(), new FingerDialog.Listener() {
             @Override
             public void onDialogYesPressed(final DialogInterface dialog) {
                 RequestParams params = new RequestParams();
@@ -207,30 +205,28 @@ public class OrderListFragment extends ListFragment implements ListController.Ca
 
     @Override
     public void onGetCoupon(final OrderListBean bean) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setTitle(R.string.get_coupon)
-                .setMessage(R.string.share_coupon_notice)
-                .setNegativeButton(R.string.cancel, null)
-                .setPositiveButton(R.string.share, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                        showSystemShare();
-                    }
 
-                    /**
-                     * 系统分享
-                     */
-                    public void showSystemShare() {
-                        MainActivity activity = (MainActivity) getActivity();
-                        activity.setGetCouponOrderId(bean.id);
-                        activity.startActivityForResult(IntentFactory.share(activity.getString(R.string.app_name), "这是一个分享")
-                                ,
-                                MainActivity.REQUEST_SHARE);
-                    }
+        FingerDialog dialog = new FingerDialog(getActivity(), new FingerDialog.Listener() {
+            @Override
+            public void onDialogYesPressed(DialogInterface dialog) {
+                dialog.dismiss();
+                MainActivity activity = (MainActivity) getActivity();
+                activity.setGetCouponOrderId(bean.id);
+                activity.startActivityForResult(IntentFactory.share(activity.getString(R.string.app_name), "这是一个分享")
+                        ,
+                        MainActivity.REQUEST_SHARE);
+            }
 
-                })
-                .show();
+            @Override
+            public void onDialogNoPressed(DialogInterface dialog) {
+                dialog.dismiss();
+            }
+        });
+        dialog.setTitle(getString(R.string.get_coupon));
+        dialog.setMessage(getString(R.string.share_coupon_notice));
+        dialog.setNoText(getString(R.string.cancel));
+        dialog.setYesText(getString(R.string.share));
+        dialog.show();
     }
 
     @Override

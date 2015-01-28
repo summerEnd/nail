@@ -5,21 +5,44 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.view.View;
 import android.view.Window;
+import android.widget.Button;
+import android.widget.TextView;
 
 import com.finger.R;
 
-public class OrderConfirmDialog extends Dialog implements View.OnClickListener {
+public class FingerDialog extends Dialog implements View.OnClickListener {
     Listener mListener;
+    TextView tv_title;
+    TextView tv_message;
+    Button   yes;
+    Button   no;
 
-    public OrderConfirmDialog(Context context, Listener l) {
+    public FingerDialog(Context context, Listener l) {
         super(context);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         mListener = l;
         setContentView(R.layout.order_confirm_dialog);
-        findViewById(R.id.button_no).setOnClickListener(this);
-        findViewById(R.id.button_yes).setOnClickListener(this);
+        no= (Button) findViewById(R.id.button_no);
+        yes= (Button) findViewById(R.id.button_yes);
+        tv_title= (TextView) findViewById(R.id.tv_title);
+        tv_message= (TextView) findViewById(R.id.tv_message);
     }
 
+    public void setDialogTitle(String title) {
+        tv_title.setText(title);
+    }
+
+    public void setMessage(String msg){
+        tv_message.setText(msg);
+    }
+
+    public void setYesText(String text){
+        yes.setText(text);
+    }
+
+    public void setNoText(String text){
+        no.setText(text);
+    }
 
     @Override
     public void onClick(View v) {
