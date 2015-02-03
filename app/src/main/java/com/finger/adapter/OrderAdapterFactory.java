@@ -64,7 +64,7 @@ public class OrderAdapterFactory {
                 break;
             }
             case REFUND_NOTICE: {
-                adapter = new RefundNotice(context, data);
+                adapter = new OrderNotice(context, data);
                 break;
             }
         }
@@ -161,11 +161,11 @@ public class OrderAdapterFactory {
             holder.create_time.setText(bean.create_time);
             holder.tv_price.setText(mContext.getString(R.string.price_r_s, bean.order_price));
 
-            int button_number=setButtonStatus(bean, holder.button1, holder.button2);
-            if (button_number>0){
+            int button_number = setButtonStatus(bean, holder.button1, holder.button2);
+            if (button_number > 0) {
                 holder.real_pay_layout.setVisibility(View.VISIBLE);
                 holder.tv_real_pay.setText(mContext.getString(R.string.s_price, bean.real_pay));
-            }else{
+            } else {
                 holder.real_pay_layout.setVisibility(View.GONE);
             }
             //如果是等待评价或者评价成功，就设置按钮状态
@@ -315,6 +315,7 @@ public class OrderAdapterFactory {
                 holder.username = (TextView) convertView.findViewById(R.id.username);
                 holder.avatar = (ImageView) convertView.findViewById(R.id.avatar);
                 holder.cover = (ImageView) convertView.findViewById(R.id.cover);
+                holder.tv_pay_state = (TextView) convertView.findViewById(R.id.tv_state);
                 holder.cover.setOnClickListener(this);
             } else {
                 holder = (ViewHolder) convertView.getTag();
@@ -325,7 +326,8 @@ public class OrderAdapterFactory {
             holder.product_name.setText(bean.product_name);
             holder.tv_price.setText(mContext.getString(R.string.price_r_s, bean.order_price));
             holder.tv_real_pay.setText(mContext.getString(R.string.s_price, bean.real_pay));
-
+            holder.tv_pay_state.setTextColor(getArtistColorByCode(bean.status));
+            holder.tv_pay_state.setText(getArtistStatusByCode(bean.status));
             ImageManager.loadImage(bean.product_cover, holder.cover);
             ImageManager.loadImage(bean.avatar, holder.avatar, options);
             holder.cover.setTag(bean.product_cover);
@@ -357,7 +359,10 @@ public class OrderAdapterFactory {
         final int STATUS_WAIT_COMMENT  = 7;//确认支付成功	等待评价
         final int STATUS_COMMENT_OK    = 8;//评价成功
         ShareWindow         window;
+        //普通用户状态
         SparseArray<String> status;
+        //美甲师状态
+        SparseArray<String> artistStatus;
         SparseArray<String> btn_status;
         OrderListCallback   callback;
 
@@ -431,6 +436,32 @@ public class OrderAdapterFactory {
             return status.get(state);
         }
 
+        protected String getArtistStatusByCode(int state) {
+            if (artistStatus == null) {
+                artistStatus = new SparseArray();
+                artistStatus.put(STATUS_NOT_PAY, "未付款");
+                artistStatus.put(STATUS_WAIT_SERVICE, "等待服务");
+                artistStatus.put(STATUS_CANCEL, "订单取消");
+                artistStatus.put(STATUS_APPLY_REFUND, "正在退款");
+                artistStatus.put(STATUS_REFUND_OK, "退款成功");
+                artistStatus.put(STATUS_REFUND_FAILED, "退款失败");
+                artistStatus.put(STATUS_WAIT_COMMENT, "等待评价");
+                artistStatus.put(STATUS_COMMENT_OK, "已评价");
+            }
+
+            return artistStatus.get(state);
+        }
+
+        protected int getArtistColorByCode(int status){
+            int color;
+            if (status==STATUS_WAIT_SERVICE){
+                color=0xffe5376b;
+            }else{
+                color=0xff808080;
+            }
+            return color;
+        }
+
         protected int getColorByCode(int status) {
             int color;
 
@@ -473,7 +504,7 @@ public class OrderAdapterFactory {
          * 设置按钮文字
          */
         protected int setButtonStatus(OrderListBean bean, TextView... buttons) {
-            int button_number=0;
+            int button_number = 0;
             int status = bean.status;
             String str = getButtonStatusByCode(status);
             //Logger.i_format("status:%d str:%s status_str:%s", status, str, getStatusByCode(status));
@@ -483,7 +514,7 @@ public class OrderAdapterFactory {
             } else {
                 ((View) buttons[0].getParent()).setVisibility(View.VISIBLE);
                 String[] texts = str.split(",");
-                button_number=texts.length;
+                button_number = texts.length;
                 //遍历按钮数组
                 for (int i = 0; i < buttons.length; i++) {
                     //给安妮添加tag
@@ -504,6 +535,7 @@ public class OrderAdapterFactory {
 
         /**
          * 设置订单列表回调
+         *
          * @param callback
          */
 

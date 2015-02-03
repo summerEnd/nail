@@ -210,7 +210,7 @@ public class LocationService extends Service {
 
 
         RequestParams params = new RequestParams();
-        params.put("longitude", latitude);
+        params.put("longitude", longitude);
         params.put("latitude", latitude);
         params.put("mid", mid);
 

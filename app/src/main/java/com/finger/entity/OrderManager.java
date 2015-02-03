@@ -33,6 +33,12 @@ public class OrderManager {
 
     public static String STATUS_ALL = "1,2,3,4,5,6,7,8";
 
+    public static String STATUS_ORDER_NOTICE  = "2,7,8";
+    /**
+     * 退款
+     */
+    public static String STATUS_ARTIST_REFUND = "4,5,6";
+
     private static OrderBean bean;
     private static LinkedList<Activity> activities = new LinkedList<Activity>();
 

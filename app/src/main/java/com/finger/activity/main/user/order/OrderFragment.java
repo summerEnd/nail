@@ -1,6 +1,7 @@
 package com.finger.activity.main.user.order;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -8,6 +9,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
@@ -29,9 +31,10 @@ import static com.finger.adapter.OrderAdapterFactory.OrderType.WAIT_SERVICE;
 @User
 public class OrderFragment extends Fragment implements RadioGroup.OnCheckedChangeListener {
 
-    RadioGroup        rg;
+    public RadioGroup rg;
     FragmentManager   manager;
     OrderListFragment curFragment;
+    public boolean goToComment = false;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -47,11 +50,37 @@ public class OrderFragment extends Fragment implements RadioGroup.OnCheckedChang
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        if (goToComment) {
+
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    goToComment = false;
+                    ((RadioButton) rg.getChildAt(2)).setChecked(true);
+//                    rg.check(R.id.rb3);
+                }
+            }, 600);
+        }
+    }
+
+    @Override
     public void onCheckedChanged(RadioGroup group, int checkedId) {
+        switch (checkedId) {
+            case R.id.rb1:
+                break;
+            case R.id.rb2:
+                break;
+            case R.id.rb3:
+                break;
+            case R.id.rb4:
+                break;
+        }
         showFragment(checkedId);
     }
 
-    void showFragment(int checked_id) {
+    public void showFragment(int checked_id) {
         OrderListFragment fragment = (OrderListFragment) manager.findFragmentByTag(String.valueOf(checked_id));
         FragmentTransaction ft = manager.beginTransaction();
 

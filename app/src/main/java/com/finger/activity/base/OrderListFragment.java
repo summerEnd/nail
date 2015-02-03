@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.ListFragment;
 import android.view.View;
 import android.widget.AbsListView;
@@ -16,10 +17,12 @@ import com.finger.activity.FingerApp;
 import com.finger.activity.MainActivity;
 import com.finger.activity.info.OrderInfoActivity;
 import com.finger.activity.info.PayInfoActivity;
+import com.finger.activity.main.artist.order.OrderFragment;
 import com.finger.activity.main.user.order.ApplyRefund;
 import com.finger.activity.main.user.order.CommentOrder;
 import com.finger.entity.ArtistRole;
 import com.finger.entity.OrderListBean;
+import com.finger.entity.OrderManager;
 import com.finger.entity.RoleBean;
 import com.finger.support.net.FingerHttpClient;
 import com.finger.support.net.FingerHttpHandler;
@@ -90,7 +93,6 @@ public class OrderListFragment extends ListFragment implements ListController.Ca
         //获取订单列表
         status = getArguments().getString("status");
         controller = new ListController(mListView, this);
-        getOrderList(1);
     }
 
     /**
@@ -102,7 +104,6 @@ public class OrderListFragment extends ListFragment implements ListController.Ca
             params.put("status", status);
 
         final RoleBean bean = FingerApp.getInstance().getUser();
-
         if (bean instanceof ArtistRole) {
             params.put("mid", bean.id);
         }
@@ -128,7 +129,6 @@ public class OrderListFragment extends ListFragment implements ListController.Ca
     @Override
 
     public void onListItemClick(ListView l, View v, int position, long id) {
-
         List data = mAdapter.getData();
         if (data == null) {
             return;
@@ -149,9 +149,19 @@ public class OrderListFragment extends ListFragment implements ListController.Ca
     @Override
     public void onResume() {
         super.onResume();
-        mAdapter.getData().clear();
-        mAdapter.notifyDataSetChanged();
-        getOrderList(1);
+
+        Fragment parent = getParentFragment();
+        if (parent instanceof com.finger.activity.main.user.order.OrderFragment
+                && ((com.finger.activity.main.user.order.OrderFragment) parent).goToComment
+            //                &&!OrderManager.STATUS_WAIT_COMMENT.equals(getTag())
+                ) {
+            //do nothing
+
+        } else {
+            mAdapter.getData().clear();
+            mAdapter.notifyDataSetChanged();
+            getOrderList(1);
+        }
     }
 
     @Override
@@ -232,5 +242,9 @@ public class OrderListFragment extends ListFragment implements ListController.Ca
     @Override
     public void onComment(OrderListBean bean) {
         startActivity(new Intent(getActivity(), CommentOrder.class).putExtra("bean", bean));
+        Fragment parent = getParentFragment();
+        if (parent instanceof com.finger.activity.main.user.order.OrderFragment) {
+            ((com.finger.activity.main.user.order.OrderFragment) parent).goToComment = true;
+        }
     }
 }

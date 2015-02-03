@@ -10,6 +10,7 @@
     <dimen name="textSize_dp_34px">17sp</dimen>
     <dimen name="textSize_dp_36px">19.5sp</dimen>
     <dimen name="textSize_dp_18px">9.5sp</dimen>
+    <dimen name="textSize_dp_20px">10.5sp</dimen>
     <dimen name="textSize_dp_38px">20sp</dimen>
     <dimen name="textSize_dp_30px">15sp</dimen>
     <dimen name="textSize_dp_28px">14sp</dimen>

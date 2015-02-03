@@ -24,7 +24,7 @@ import com.finger.support.Constant;
 import com.finger.support.net.FingerHttpClient;
 import com.finger.support.net.FingerHttpHandler;
 import com.finger.support.util.ContextUtil;
-import com.finger.support.util.Logger;
+import com.finger.support.widget.SingleButtonDialog;
 import com.loopj.android.http.RequestParams;
 import com.sp.lib.support.IntentFactory;
 
@@ -46,7 +46,7 @@ public class MainActivity extends BaseActivity {
      * fragments[0] 首页 {@link com.finger.activity.main.MainFragment}
      * fragments[1]  用户订单 {@link com.finger.activity.main.user.order.OrderFragment}
      * fragments[2] 用户个人中心{@link com.finger.activity.main.user.my.MyFragment}
-     *
+     * <p/>
      * fragments[3] 美甲师订单{@link com.finger.activity.main.artist.order.OrderFragment}
      * fragments[4] 美甲师个人中心{@link com.finger.activity.main.artist.my.MyFragment}
      */
@@ -55,7 +55,7 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        showLifeCircle=true;
+        showLifeCircle = true;
 
         setContentView(R.layout.activity_main);
 
@@ -140,11 +140,11 @@ public class MainActivity extends BaseActivity {
             }
             case R.id.tab4: {
                 //客服
-                final BaseInfo baseInfo=FingerApp.getInstance().getBaseInfo();
+                final BaseInfo baseInfo = FingerApp.getInstance().getBaseInfo();
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 builder.setMessage(getString(R.string.alert_msg_call_service));
-                builder.setTitle(getString(R.string.call_service,baseInfo.service_tel));
+                builder.setTitle(getString(R.string.call_service, baseInfo.service_tel));
                 builder.setPositiveButton(R.string.call_number, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -229,7 +229,6 @@ public class MainActivity extends BaseActivity {
     }
 
 
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == 100) {
@@ -240,17 +239,18 @@ public class MainActivity extends BaseActivity {
                 onTabClick(clicked_tab);
             }
         } else if (REQUEST_SHARE == requestCode) {
-            new AlertDialog.Builder(this)
-                    .setTitle(getString(R.string.share_ok))
-                    .setMessage("亲,您现在可以领取优惠券了")
-                    .setPositiveButton(getString(R.string.get_now),
-                            new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    getCoupon();
-                                }
-                            }
-                    ).show();
+
+            SingleButtonDialog dialog = new SingleButtonDialog(this, new SingleButtonDialog.Listener() {
+                @Override
+                public void onDialogYesPressed(DialogInterface dialog) {
+                    getCoupon();
+                }
+
+            });
+            dialog.setTitle(getString(R.string.share_ok));
+            dialog.setMessage(getString(R.string.get_coupon_msg));
+            dialog.setButtonText(getString(R.string.get_now));
+            dialog.show();
         }
 
     }

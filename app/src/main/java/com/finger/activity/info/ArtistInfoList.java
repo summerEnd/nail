@@ -51,17 +51,17 @@ import java.util.List;
  * 美甲师列表
  */
 public class ArtistInfoList extends BaseActivity implements AdapterView.OnItemClickListener, ListController.Callback {
-    private ListView       listView;
-    private PopupWindow    orderList;
-    private int            width;
+    private ListView    listView;
+    private PopupWindow orderList;
+    private int         width;
     /**
      * 距离排序:position
      * 等级排序:score
      * 价格排序:price
      * 例如：价格降序price_desc,等级升序score_asc
      */
-    private String         sort="position";
-    private String         ASC_DESC;
+    private String sort = "position";
+    private String         ASC_DESC="asc";
     private PopListAdapter popupAdapter;
     private ArtistAdapter  adapter;
     private List<ArtistListBean> beans = new ArrayList<ArtistListBean>();
@@ -185,20 +185,10 @@ public class ArtistInfoList extends BaseActivity implements AdapterView.OnItemCl
             setSortImage();
         }
 
-        JSONObject condition = new JSONObject();
-        try {
-            //百度城市代码
-            condition.put("city_code", getApp().getCurCity().city_code);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        //百度城市代码
+        params.put("city_code", getApp().getCurCity().city_code);
 
-        try {
-            //对condition进行URL编码
-            params.put("condition", URLEncoder.encode(condition.toString(), "UTF-8"));
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
+
         params.put("page", page);
         params.put("pagesize", controller.getPageSize());
         OrderBean bean = OrderManager.getCurrentOrder();

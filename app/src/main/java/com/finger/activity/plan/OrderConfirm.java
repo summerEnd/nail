@@ -233,7 +233,7 @@ public class OrderConfirm extends BaseActivity {
         RequestParams params = new RequestParams();
         params.put("product_id", infoBean.id);
         params.put("uid", getApp().getUser().id);
-        params.put("mid", infoBean.seller_info.mid);
+        params.put("mid", infoBean.seller_info.uid);
         if (mCoupon != null)
             params.put("coupon_id", mCoupon.id);
         params.put("remark", edit_summary.getText().toString());

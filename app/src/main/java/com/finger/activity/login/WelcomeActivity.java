@@ -1,5 +1,6 @@
 package com.finger.activity.login;
 
+import android.app.ActivityOptions;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.ComponentName;

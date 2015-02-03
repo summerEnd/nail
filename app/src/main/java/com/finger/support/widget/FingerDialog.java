@@ -24,6 +24,8 @@ public class FingerDialog extends Dialog implements View.OnClickListener {
         setContentView(R.layout.order_confirm_dialog);
         no= (Button) findViewById(R.id.button_no);
         yes= (Button) findViewById(R.id.button_yes);
+        no.setOnClickListener(this);
+        yes.setOnClickListener(this);
         tv_title= (TextView) findViewById(R.id.tv_title);
         tv_message= (TextView) findViewById(R.id.tv_message);
     }

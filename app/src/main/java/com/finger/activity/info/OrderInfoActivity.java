@@ -2,8 +2,10 @@ package com.finger.activity.info;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -38,6 +40,19 @@ public class OrderInfoActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order_info);
         getOrderDetail(getIntent().getIntExtra("id", -1));
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.nail_image: {
+                if (bean!=null)startActivity(new Intent(this,NailInfo.class)
+                    .putExtra("id", bean.id)
+                );
+                break;
+            }
+        }
+        super.onClick(v);
     }
 
     void getOrderDetail(int orderId) {
@@ -106,9 +121,9 @@ public class OrderInfoActivity extends BaseActivity {
 
         //优惠券
         CouponBean coupon = bean.coupon;
-        tv_coupon.setText(coupon ==null
+        tv_coupon.setText(coupon == null
                 ? "无"
-                : (coupon.title+" ￥"+coupon.price));
+                : (coupon.title + " ￥" + coupon.price));
         //实付
         tv_real_pay.setText(getString(R.string.s_price, bean.real_pay));
 
@@ -116,7 +131,7 @@ public class OrderInfoActivity extends BaseActivity {
         tv_contact.setText(bean.contact);
 
         //预约时间
-        tv_planTime.setText(Schedule.convertPlanTime(bean.book_date,bean.time_block));
+        tv_planTime.setText(Schedule.convertPlanTime(bean.book_date, bean.time_block));
 
         //联系人电话
         tv_mobile.setText(bean.phone_num);

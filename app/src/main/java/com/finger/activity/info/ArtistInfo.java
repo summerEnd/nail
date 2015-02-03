@@ -44,6 +44,7 @@ public class ArtistInfo extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_artist_info);
 
         iv_avatar = (ImageView) findViewById(R.id.iv_avatar);
@@ -66,7 +67,6 @@ public class ArtistInfo extends BaseActivity {
         switch (v.getId()) {
             case R.id.attention: {
                 //注意：CheckBox先改变状态，再触发onClick
-
                 if(doLoginIfNeed()){
                     attention.setChecked(false);
                     return;

@@ -1,6 +1,7 @@
 package com.finger.activity.info;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -90,6 +91,12 @@ public class PayInfoActivity extends BaseActivity {
         switch (v.getId()) {
             case R.id.pay: {
                 new AlipayAPI(this).start(String.valueOf(bean.id),bean.product_name, bean.product_name, bean.order_price);
+                break;
+            }
+            case R.id.nail_image: {
+                if (bean!=null)startActivity(new Intent(this,NailInfo.class)
+                                .putExtra("id", bean.id)
+                );
                 break;
             }
         }

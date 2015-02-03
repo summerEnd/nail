@@ -38,6 +38,8 @@
                 android:layout_height="wrap_content">
 
                 <ImageView
+                    android:onClick="onClick"
+                    android:clickable="true"
                     android:id="@+id/nail_image"
                     android:layout_width="70dp"
                     android:background="@color/pink"
@@ -58,8 +60,8 @@
                 <TextView
                     android:id="@+id/tv_price"
                     android:layout_toRightOf="@id/nail_image"
-                    android:layout_marginBottom="16dp"
-                    android:layout_alignBottom="@id/nail_image"
+                    android:layout_marginTop="16dp"
+                    android:layout_below="@id/tv_nail_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/textColorGray"

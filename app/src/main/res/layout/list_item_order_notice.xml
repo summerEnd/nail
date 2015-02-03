@@ -21,41 +21,42 @@
             android:layout_width="@dimen/artist_order_image_size"
             android:layout_height="@dimen/artist_order_image_size"/>
 
-        <TextView
-            android:id="@+id/username"
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="6dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/textSize_dp_24px"
-            android:textColor="@color/textColorGray"
-            android:text="奥巴马"
+            android:layout_toRightOf="@+id/avatar"
             android:layout_centerVertical="true"
-            android:layout_toRightOf="@+id/avatar"/>
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/username"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/textSize_dp_20px"
+                android:textColor="@color/textColorGray"
+                android:text="奥巴马"
+               />
+
+            <TextView
+                android:id="@+id/create_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/order_date_s"
+                android:textSize="@dimen/textSize_dp_20px"
+                android:textColor="@color/textColorGray"/>
+        </LinearLayout>
 
         <TextView
-            android:id="@+id/create_time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/order_date_s"
+            android:id="@+id/tv_state"
             android:layout_alignParentRight="true"
-            android:textSize="12sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="已取消"
             android:layout_centerVertical="true"
-            android:textColor="@color/textColorGray"/>
-
-        <!--
-        <TextView
-              android:id="@+id/tv_state"
-              android:layout_toRightOf="@+id/avatar"
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:text="已取消"
-              android:layout_marginLeft="6dp"
-              android:padding="4dp"
-              android:background="#bebebe"
-              android:layout_alignBottom="@+id/avatar"
-              android:textSize="@dimen/textSize_dp_24px"
-              android:textColor="@color/textColorWhite" />
-              -->
+            android:padding="4dp"
+            android:textSize="@dimen/textSize_dp_24px"
+            />
 
     </RelativeLayout>
 
