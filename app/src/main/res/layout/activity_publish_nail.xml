@@ -22,6 +22,7 @@
                 android:layout_marginRight="@dimen/activity_horizontal_margin"
                 android:layout_marginTop="@dimen/activity_vertical_margin"
                 android:stretchColumns="1"
+                android:shrinkColumns="1"
                 android:background="@drawable/corner_frame_white_solid"
                 android:layout_height="wrap_content">
 
@@ -34,6 +35,7 @@
                     <EditText
                         android:id="@+id/edit_title"
                         android:hint="请输入标题"
+                        android:ems="15"
                         style="@style/tab_item_value_style"/>
                 </TableRow>
 
@@ -69,7 +71,7 @@
 
                 <TextView style="@style/horizontal_line"/>
 
-                <TableRow style="@style/tab_item_style_publish">
+                <LinearLayout style="@style/tab_item_style_publish">
 
                     <TextView
                         style="@style/tab_item_name_style"
@@ -80,11 +82,11 @@
                         style="@style/tab_item_value_style"
                         android:inputType="numberDecimal"
                         android:hint="请输入耗时"/>
-                </TableRow>
+                </LinearLayout>
 
                 <TextView style="@style/horizontal_line"/>
 
-                <TableRow style="@style/tab_item_style_publish">
+                <LinearLayout style="@style/tab_item_style_publish">
 
                     <TextView
                         style="@style/tab_item_name_style"
@@ -95,7 +97,7 @@
                         android:id="@+id/edit_time_keep"
                         style="@style/tab_item_value_style"
                         android:hint="请输入保持时间"/>
-                </TableRow>
+                </LinearLayout>
 
                 <TextView style="@style/horizontal_line"/>
 

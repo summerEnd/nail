@@ -47,7 +47,7 @@ public class OrderInfoActivity extends BaseActivity {
         switch (v.getId()) {
             case R.id.nail_image: {
                 if (bean!=null)startActivity(new Intent(this,NailInfo.class)
-                    .putExtra("id", bean.id)
+                    .putExtra("id", bean.product.id)
                 );
                 break;
             }

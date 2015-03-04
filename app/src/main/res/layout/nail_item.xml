@@ -30,6 +30,7 @@
             android:textColor="@color/textColorWhite"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
+            android:singleLine="true"
             android:text="让所有的抓伤都能被原谅" />
 
         <TextView

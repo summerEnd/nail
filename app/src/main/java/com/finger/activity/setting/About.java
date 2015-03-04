@@ -3,6 +3,7 @@ package com.finger.activity.setting;
 import android.os.Bundle;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.AbsoluteLayout;
 
 import com.finger.R;
 import com.finger.activity.base.BaseActivity;
@@ -40,6 +41,4 @@ public class About extends BaseActivity {
             });
         }
     }
-
-
 }

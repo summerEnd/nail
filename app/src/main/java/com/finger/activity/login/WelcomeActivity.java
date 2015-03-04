@@ -13,6 +13,7 @@ import android.view.WindowManager;
 
 import com.baidu.location.BDLocation;
 import com.finger.R;
+import com.finger.TestActivity;
 import com.finger.activity.base.BaseActivity;
 import com.finger.activity.MainActivity;
 import com.finger.service.LocationService;
@@ -98,6 +99,7 @@ public class WelcomeActivity extends BaseActivity {
                 sp.edit().putBoolean("first", false).commit();
                 finish();
             } else {
+             //   enterTest();
                 doLogin();
             }
         }
@@ -159,6 +161,9 @@ public class WelcomeActivity extends BaseActivity {
      * 进入首页
      */
     void enterMainActivity() {
+
+
+
         FingerHttpClient.setDialogCreator(new SHttpClient.ProgressDialogCreator() {
             @Override
             public Dialog onCreateDialog() {
@@ -180,6 +185,11 @@ public class WelcomeActivity extends BaseActivity {
                 overridePendingTransition(R.anim.stand_still, R.anim.stand_still);
             }
         }, 1000);
+    }
+
+    void enterTest(){
+        startActivity(new Intent(WelcomeActivity.this, TestActivity.class));
+        finish();
     }
 
     void testArtist() {

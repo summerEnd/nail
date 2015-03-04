@@ -118,6 +118,7 @@ public class RatingWidget extends View {
 
         }
         invalidateStars();
+        requestLayout();
         invalidate();
     }
 
@@ -147,7 +148,14 @@ public class RatingWidget extends View {
         int heightMode = MeasureSpec.getMode(heightMeasureSpec);
         int width = MeasureSpec.getSize(widthMeasureSpec);
         int height = MeasureSpec.getSize(heightMeasureSpec);
-        int horizontal_padding = getPaddingLeft() + getPaddingRight() + (num_star - 1) * STAR_PADDING;
+
+        int starPadding=0;
+        if (num_star > 1) {
+            starPadding = (num_star - 1) * STAR_PADDING;
+        }
+
+
+        int horizontal_padding = getPaddingLeft() + getPaddingRight() + starPadding;
         int vertical_padding = getPaddingTop() + getPaddingBottom();
 
         int demandWidth;
@@ -186,10 +194,12 @@ public class RatingWidget extends View {
             star = null;
             return;
         }
+
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inJustDecodeBounds = true;
         BitmapFactory.decodeResource(getResources(), starRecourseId, options);
         int starHeight = getMeasuredHeight() - getPaddingTop() - getPaddingBottom();
+
         if (starHeight != 0) {
             float scale = options.outHeight / starHeight;
             options.inJustDecodeBounds = false;

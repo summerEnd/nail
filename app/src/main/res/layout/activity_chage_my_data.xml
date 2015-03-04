@@ -24,6 +24,7 @@
             android:src="@drawable/default_user"/>
 
         <com.finger.support.widget.RatingWidget
+            android:layout_marginTop="6dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:drawable="@drawable/star2"
@@ -31,7 +32,7 @@
 
         <TextView
             android:id="@+id/tv_nick_name"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="5dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/textColorBlack"

@@ -196,6 +196,7 @@
     <string name="delete_ok">删除成功</string>
     <string name="modify_product">修改作品</string>
     <string name="get_coupon_msg">亲,您现在可以领取优惠券了</string>
+    <string name="not_set_time">该时间段不可设置！</string>
 
 
 </resources>

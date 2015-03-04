@@ -30,7 +30,6 @@
             <EditText
                 android:id="@+id/mobile"
                 android:layout_height="match_parent"
-                android:inputType="numberPassword"
                 style="@style/tab_item_value_style"
                 android:hint="@string/hint_mobile"/>
         </TableRow>

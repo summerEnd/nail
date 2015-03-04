@@ -160,6 +160,13 @@ public class PublishNailActivity extends BaseActivity {
             ContextUtil.toast(edit_text.getHint());
             return true;
         }
+
+        if(input.length()>15){
+            ContextUtil.toast("标题不能超过15字");
+            return true;
+        }
+
+
         params.put(params_key, input);
         return false;
     }

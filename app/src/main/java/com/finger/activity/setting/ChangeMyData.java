@@ -60,11 +60,11 @@ public class ChangeMyData extends BaseActivity {
         edit_phone.setText(bean.mobile);
         ((TextView) findViewById(R.id.tv_nick_name)).setText(bean.username);
 
-        RatingWidget widget= (RatingWidget) findViewById(R.id.rating);
-        if (bean instanceof ArtistRole){
+        RatingWidget widget = (RatingWidget) findViewById(R.id.rating);
+        if (bean instanceof ArtistRole) {
             widget.setVisibility(View.VISIBLE);
             widget.setScore(((ArtistRole) bean).score);
-        }else{
+        } else {
             widget.setVisibility(View.GONE);
         }
     }

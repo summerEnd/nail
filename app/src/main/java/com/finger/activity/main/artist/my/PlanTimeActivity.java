@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.text.format.DateUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
@@ -56,7 +57,22 @@ public class PlanTimeActivity extends BaseActivity implements RadioGroup.OnCheck
         public int time5;
         //19点到21点
         public int time6;
-        ArrayList<ScheduleBean> beans = new ArrayList<ScheduleBean>();
+
+        public Date mDate;
+        ArrayList<ScheduleBean> beans ;
+
+        public ScheduleOfDay(){
+            if(beans==null){
+                beans=new ArrayList<ScheduleBean>();
+            }
+        }
+
+        public ScheduleOfDay(Date date){
+            if(beans==null){
+                beans=new ArrayList<ScheduleBean>();
+            }
+            mDate=date;
+        }
 
         /**
          * 转化成集合,time1,time2..将不再使用
@@ -64,6 +80,11 @@ public class PlanTimeActivity extends BaseActivity implements RadioGroup.OnCheck
          * @return
          */
         public ArrayList<ScheduleBean> getScheduleList() {
+
+            if(beans==null){
+                beans=new ArrayList<ScheduleBean>();
+            }
+
             if (beans.size() == 0) {
                 //==0代表闲
                 addSchedule(time1 == 0);
@@ -80,14 +101,13 @@ public class PlanTimeActivity extends BaseActivity implements RadioGroup.OnCheck
          * 格式：2014-09-09_1_0,2014-09-09_2_0
          * 格式说明:每组数据用逗号分隔，每组数据之中再通过_分隔。第一个为日期，第二个是时间段编号，第三个是设置的状态（0未占用，1已经占用）
          *
-         * @param date 前缀日期
          * @return
          */
-        public String getTimeBlockStr(Date date) {
+        public String getTimeBlockStr() {
             StringBuilder sb = new StringBuilder();
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
             for (int i = 0; i < beans.size(); i++) {
-                sb.append(format.format(date))
+                sb.append(format.format(mDate))
                         .append("_")
                         .append(i + 1)
                         .append("_")
@@ -122,27 +142,25 @@ public class PlanTimeActivity extends BaseActivity implements RadioGroup.OnCheck
         }
 
         public static final int getCurTimeBlock() {
-            SimpleDateFormat sf = new SimpleDateFormat();
-            int hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
+            float time = Calendar.getInstance().get(Calendar.HOUR_OF_DAY)+Calendar.getInstance().get(Calendar.MINUTE)/60f;
             int block;
-            if (hour < 9) {
+            if (time < 9) {
                 block = -1;
-            } else if (hour >= 9 && hour <= 11) {
+            } else if (time >= 9 && time <= 11) {
                 block = 1;
-            } else if (hour <= 13) {
+            } else if (time <= 13) {
                 block = 2;
-            } else if (hour <= 15) {
+            } else if (time <= 15) {
                 block = 3;
-            } else if (hour <= 17) {
+            } else if (time <= 17) {
                 block = 4;
-            } else if (hour <= 19) {
+            } else if (time <= 19) {
                 block = 5;
-            } else if (hour <= 21) {
+            } else if (time <= 21) {
                 block = 6;
             } else {
                 block = 10;
             }
-
 
             return block;
         }
@@ -184,6 +202,12 @@ public class PlanTimeActivity extends BaseActivity implements RadioGroup.OnCheck
             public void onSuccess(JSONObject o) {
                 try {
                     JsonUtil.getArray(o.getJSONArray("data"), ScheduleOfDay.class, blocks);
+                    for (int i=0;i<blocks.size();i++){
+                        ScheduleOfDay day=blocks.get(i);
+                        Calendar mCal=Calendar.getInstance();
+                        mCal.add(Calendar.DAY_OF_YEAR,i);
+                        day.mDate=mCal.getTime();
+                    }
                     buildViews();
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -197,16 +221,14 @@ public class PlanTimeActivity extends BaseActivity implements RadioGroup.OnCheck
      */
     void setTimeBlock() {
         //        2014-09-09_1_0
-        Calendar calendar = Calendar.getInstance();
         StringBuilder time_block_str = new StringBuilder();
 
         Iterator<ScheduleOfDay> it = blocks.iterator();
         while (it.hasNext()) {
             ScheduleOfDay block = it.next();
-            time_block_str.append(block.getTimeBlockStr(calendar.getTime()));
+            time_block_str.append(block.getTimeBlockStr());
             if (it.hasNext()) {
                 time_block_str.append(",");
-                calendar.add(Calendar.DAY_OF_YEAR, 1);
             }
         }
 
@@ -398,13 +420,28 @@ public class PlanTimeActivity extends BaseActivity implements RadioGroup.OnCheck
 
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+            Calendar now = Calendar.getInstance();
+            Calendar selectDay=Calendar.getInstance();
+            selectDay.setTime(mSchedule.mDate);
+
+            float curTime=now.get(Calendar.HOUR_OF_DAY)+now.get(Calendar.MINUTE)/60.f;
+
             ArrayList<ScheduleBean> scheduleList = mSchedule.getScheduleList();
             ScheduleBean bean = scheduleList.get(position);
+
+            if (DateUtils.isToday(selectDay.getTimeInMillis())&&curTime>bean.time_block){
+                ContextUtil.toast(getString(R.string.not_set_time));
+                return;
+            }
+
             bean.free = !bean.free;
             ((ScheduleItemAdapter) parent.getAdapter()).notifyDataSetChanged();
 
             refreshTab((Integer) parent.getTag());
         }
+
+
     }
 
     class ScheduleItemAdapter extends BaseAdapter {

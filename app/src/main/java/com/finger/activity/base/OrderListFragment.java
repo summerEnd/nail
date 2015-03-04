@@ -87,7 +87,7 @@ public class OrderListFragment extends ListFragment implements ListController.Ca
         super.onViewCreated(view, savedInstanceState);
         ListView mListView = getListView();
         mListView.setDivider(new ColorDrawable(0));
-        mListView.setDividerHeight(18);
+        mListView.setDividerHeight(15);
         mListView.setSelector(new ColorDrawable(0));
         view.setBackgroundResource(R.drawable.windowBackground);
         //获取订单列表
@@ -154,7 +154,7 @@ public class OrderListFragment extends ListFragment implements ListController.Ca
         if (parent instanceof com.finger.activity.main.user.order.OrderFragment
                 && ((com.finger.activity.main.user.order.OrderFragment) parent).goToComment
             //                &&!OrderManager.STATUS_WAIT_COMMENT.equals(getTag())
-                ) {
+               &&(!OrderManager.STATUS_WAIT_COMMENT.equals(status)) ) {
             //do nothing
 
         } else {
@@ -222,7 +222,8 @@ public class OrderListFragment extends ListFragment implements ListController.Ca
                 dialog.dismiss();
                 MainActivity activity = (MainActivity) getActivity();
                 activity.setGetCouponOrderId(bean.id);
-                activity.startActivityForResult(IntentFactory.share(activity.getString(R.string.app_name), "这是一个分享")
+                activity.startActivityForResult(IntentFactory.share(
+                                activity.getString(R.string.app_name), "http://218.244.149.129/pnail/download/aiyou.apk")
                         ,
                         MainActivity.REQUEST_SHARE);
             }
@@ -241,10 +242,18 @@ public class OrderListFragment extends ListFragment implements ListController.Ca
 
     @Override
     public void onComment(OrderListBean bean) {
-        startActivity(new Intent(getActivity(), CommentOrder.class).putExtra("bean", bean));
+        startActivityForResult(new Intent(getActivity(), CommentOrder.class).putExtra("bean", bean), 100);
         Fragment parent = getParentFragment();
         if (parent instanceof com.finger.activity.main.user.order.OrderFragment) {
             ((com.finger.activity.main.user.order.OrderFragment) parent).goToComment = true;
         }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        mAdapter.getData().clear();
+        mAdapter.notifyDataSetChanged();
+        getOrderList(1);
     }
 }

@@ -26,6 +26,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import static com.finger.activity.main.artist.my.PlanTimeActivity.ScheduleOfDay;
@@ -144,31 +146,33 @@ public class PlanActivity extends BaseActivity implements RadioGroup.OnCheckedCh
         if (order != null && order.nailInfoBean != null) {
             getTimeBlock(order.nailInfoBean.mid);
         } else {
-            List<ScheduleOfDay> days = new ArrayList<ScheduleOfDay>();
+            List<ScheduleOfDay> scheduleOfDays = new ArrayList<ScheduleOfDay>();
             int curTime = ScheduleOfDay.getCurTimeBlock();
+            Calendar today = Calendar.getInstance();
+            ScheduleOfDay todaySchedule = new ScheduleOfDay(today.getTime());
+            todaySchedule.time1 = curTime >= 1 ? 1 : 0;
+            todaySchedule.time2 = curTime >= 2 ? 1 : 0;
+            todaySchedule.time3 = curTime >= 3 ? 1 : 0;
+            todaySchedule.time4 = curTime >= 4 ? 1 : 0;
+            todaySchedule.time5 = curTime >= 5 ? 1 : 0;
+            todaySchedule.time6 = curTime >= 6 ? 1 : 0;
 
-            ScheduleOfDay today = new ScheduleOfDay();
-            today.time1 = curTime > 1 ? 1 : 0;
-            today.time2 = curTime > 2 ? 1 : 0;
-            today.time3 = curTime > 3 ? 1 : 0;
-            today.time4 = curTime > 4 ? 1 : 0;
-            today.time5 = curTime > 5 ? 1 : 0;
-            today.time6 = curTime > 6 ? 1 : 0;
+            scheduleOfDays.add(todaySchedule);
 
-            days.add(today);
-
-            for (int i = 0; i < 3; i++) {
-                ScheduleOfDay day = new ScheduleOfDay();
+            for (int i = 1; i <= 3; i++) {
+                Calendar mDay = Calendar.getInstance();
+                mDay.add(Calendar.DAY_OF_YEAR, i);
+                ScheduleOfDay day = new ScheduleOfDay(mDay.getTime());
                 day.time1 = 0;
                 day.time2 = 0;
                 day.time3 = 0;
                 day.time4 = 0;
                 day.time5 = 0;
                 day.time6 = 0;
-                days.add(day);
+                scheduleOfDays.add(day);
             }
 
-            showSchedule(days);
+            showSchedule(scheduleOfDays);
         }
     }
 

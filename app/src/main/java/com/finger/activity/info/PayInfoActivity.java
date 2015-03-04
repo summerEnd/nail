@@ -95,7 +95,7 @@ public class PayInfoActivity extends BaseActivity {
             }
             case R.id.nail_image: {
                 if (bean!=null)startActivity(new Intent(this,NailInfo.class)
-                                .putExtra("id", bean.id)
+                                .putExtra("id", bean.product.id)
                 );
                 break;
             }

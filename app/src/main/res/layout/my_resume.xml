@@ -18,7 +18,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="170dp"
+                android:layout_height="wrap_content"
                 android:gravity="center"
                 android:background="@drawable/user_background"
                 android:orientation="vertical">
@@ -29,21 +29,23 @@
                     android:layout_height="@dimen/avatar_center_size"
                     android:src="@drawable/default_user"/>
 
+                <com.finger.support.widget.RatingWidget
+                    android:id="@+id/rating"
+                    android:layout_marginTop="5dp"
+                    android:layout_width="wrap_content"
+                    app:drawable="@drawable/star2"
+                    android:layout_height="wrap_content"/>
+
                 <TextView
                     android:id="@+id/tv_nick_name"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="5dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/textColorBlack"
                     android:textSize="@dimen/textSize_2"
                     android:text="昵称"/>
 
-                <com.finger.support.widget.RatingWidget
-                    android:id="@+id/rating"
-                    android:layout_width="wrap_content"
-                    app:drawable="@drawable/star2"
-                    app:stars="5"
-                    android:layout_height="wrap_content"/>
+
             </LinearLayout>
 
             <LinearLayout

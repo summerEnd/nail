@@ -50,7 +50,6 @@ public class RegisterActivity extends BaseActivity {
         smsButton = (Button) findViewById(R.id.getRegisterCode);
     }
 
-
     /**
      * 注册
      *

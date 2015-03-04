@@ -32,10 +32,6 @@ public class AdsInfoActivity extends BaseActivity {
                 progressBar.setProgress(newProgress);
             }
 
-            @Override
-            public void onReceivedTitle(WebView view, String title) {
-                setWindowTitle(title);
-            }
         });
         webView.setWebViewClient(new WebViewClient() {
             @Override
@@ -50,7 +46,7 @@ public class AdsInfoActivity extends BaseActivity {
                 progressBar.setVisibility(View.GONE);
             }
         });
-        setWindowTitle(getIntent().getStringExtra(EXTRA_TITLE));
+        setWindowTitle(null);
         String url = getIntent().getStringExtra(EXTRA_URL);
         webView.loadUrl(url);
     }

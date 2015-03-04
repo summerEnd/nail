@@ -242,8 +242,18 @@ public class MainActivity extends BaseActivity {
 
             SingleButtonDialog dialog = new SingleButtonDialog(this, new SingleButtonDialog.Listener() {
                 @Override
-                public void onDialogYesPressed(DialogInterface dialog) {
-                    getCoupon();
+                public void onDialogYesPressed(final DialogInterface dialog) {
+
+                    RequestParams params = new RequestParams();
+                    params.put("order_id", orderId);
+                    FingerHttpClient.post("getCoupon", params, new FingerHttpHandler() {
+                                @Override
+                                public void onSuccess(JSONObject o) {
+                                    dialog.dismiss();
+                                    showCheckCoupon();
+                                }
+                            }
+                    );
                 }
 
             });
@@ -264,21 +274,6 @@ public class MainActivity extends BaseActivity {
      */
     public void setGetCouponOrderId(int orderId) {
         this.orderId = orderId;
-    }
-
-    /**
-     * 领取优惠券
-     */
-    void getCoupon() {
-        RequestParams params = new RequestParams();
-        params.put("order_id", orderId);
-        FingerHttpClient.post("getCoupon", params, new FingerHttpHandler() {
-                    @Override
-                    public void onSuccess(JSONObject o) {
-                        showCheckCoupon();
-                    }
-                }
-        );
     }
 
 
