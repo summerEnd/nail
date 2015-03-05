@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -137,18 +138,27 @@ public class MyDiscountActivity extends BaseActivity implements RadioGroup.OnChe
         freshAdapter = new DiscountAdapter(this, freshCoupons);
 
         {
+            FrameLayout layout=new FrameLayout(this);
+            View empty=getLayoutInflater().inflate(R.layout.empty_vuew,null);
+            empty.setBackgroundResource(R.drawable.ic_discount_bg);
+            ((TextView) empty.findViewById(R.id.empty_text)).setText(getString(R.string.empty_coupon));
+
+
             ListView listView = new ListView(this);
             listView.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
             listView.setDivider(new ColorDrawable(0));
             listView.setSelector(new ColorDrawable(0));
             listView.setAdapter(freshAdapter);
+            listView.setBackgroundResource(R.drawable.windowBackground);
             new ListController(listView,new ListController.Callback() {
                 @Override
                 public void onLoadMore(AbsListView listView, int nextPage) {
                     getFreshCoupons(nextPage);
                 }
             }).setPageSize(PAGE);
-            views.add(listView);
+            layout.addView(empty);
+            layout.addView(listView);
+            views.add(layout);
         }
 
         {

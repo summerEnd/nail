@@ -13,6 +13,7 @@ import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.GridView;
+import android.widget.TextView;
 
 import com.finger.activity.base.BaseActivity;
 import com.finger.R;
@@ -51,6 +52,11 @@ public class MyCollectionActivity extends BaseActivity implements ListController
         v = findViewById(R.id.edit_layout);
         v.setVisibility(View.INVISIBLE);
         grid = (GridView) findViewById(R.id.grid);
+        View empty = findViewById(android.R.id.empty);
+        grid.setEmptyView(empty);
+        TextView tv= (TextView) empty.findViewById(R.id.empty_text);
+        tv.setText(getString(R.string.empty_product));
+
         adapter = new CollectAdapter(this);
         grid.setAdapter(adapter);
         controller = new ListController(grid, this);

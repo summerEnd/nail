@@ -11,9 +11,10 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
+        <include layout="@layout/empty_vuew"/>
         <GridView
             android:layout_margin="@dimen/item_spacing"
+            android:background="@drawable/windowBackground"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:numColumns="2"
@@ -38,7 +39,6 @@
                 style="@style/horizontal_line"/>
 
             <Button
-
                 android:layout_alignBaseline="@+id/cancel"
                 android:id="@+id/delete"
                 android:layout_width="wrap_content"

@@ -197,6 +197,10 @@
     <string name="modify_product">修改作品</string>
     <string name="get_coupon_msg">亲,您现在可以领取优惠券了</string>
     <string name="not_set_time">该时间段不可设置！</string>
+    <string name="order_empty">抱歉，您还没有相关的订单。</string>
+    <string name="empty_nail">您还没有关注的美甲师哦!</string>
+    <string name="empty_product">您还没有收藏的作品哦！</string>
+    <string name="empty_coupon">您还没有可以使用的优惠券哦！</string>
 
 
 </resources>

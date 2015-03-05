@@ -7,10 +7,13 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.ListFragment;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.finger.R;
 import com.finger.activity.FingerApp;
@@ -83,6 +86,11 @@ public class OrderListFragment extends ListFragment implements ListController.Ca
     }
 
     @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.list,null);
+    }
+
+    @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         ListView mListView = getListView();
@@ -93,6 +101,12 @@ public class OrderListFragment extends ListFragment implements ListController.Ca
         //获取订单列表
         status = getArguments().getString("status");
         controller = new ListController(mListView, this);
+
+        //加载空数据也
+        View empty=view.findViewById(android.R.id.empty);
+        TextView empty_text= (TextView) empty.findViewById(R.id.empty_text);
+        empty_text.setText(getString(R.string.order_empty));
+        mListView.setEmptyView(empty);
     }
 
     /**

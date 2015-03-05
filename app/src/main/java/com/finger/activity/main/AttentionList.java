@@ -52,6 +52,11 @@ public class AttentionList extends BaseActivity implements AdapterView.OnItemCli
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_care);
         listView = (ListView) findViewById(R.id.listView);
+        View empty = findViewById(android.R.id.empty);
+        listView.setEmptyView(empty);
+        TextView tv= (TextView) empty.findViewById(R.id.empty_text);
+        tv.setText(getString(R.string.empty_nail));
+
         title_delete = findViewById(R.id.title_delete);
         title_done = findViewById(R.id.title_done);
         adapter = new CareAdapter(this);

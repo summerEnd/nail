@@ -39,7 +39,6 @@ public class SettingActivity extends BaseActivity {
         setContentView(R.layout.activity_setting);
 
         boolean showDebug=BuildConfig.DEBUG;
-        showDebug=true;
         //TODO:隐藏底部
         if (showDebug) {
             findViewById(R.id.debug_item).setVisibility(View.VISIBLE);
