@@ -22,6 +22,7 @@ public class RoleBean implements Serializable{
     public String password;
     public double latitude;
     public double longitude;
+
     public String getType() {
         return type;
     }

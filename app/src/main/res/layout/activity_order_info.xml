@@ -190,7 +190,7 @@
 
                     <TextView
                         style="@style/order_confirm_item_name"
-                        android:text="详细地址"/>
+                        android:text="@string/address_located"/>
 
                     <TextView
                         android:id="@+id/tv_address"
@@ -204,7 +204,7 @@
 
                     <TextView
                         style="@style/order_confirm_item_name"
-                        android:text="备注信息"/>
+                        android:text="@string/address_detail"/>
 
                     <TextView
                         android:id="@+id/tv_summary"

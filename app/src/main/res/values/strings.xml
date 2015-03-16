@@ -145,6 +145,8 @@
     <string name="order_not_exist">订单不存在！</string>
     <string name="distance_s">距您%s公里</string>
     <string name="expire">该优惠券已过期！</string>
+    <string name="expired">已过期</string>
+    <string name="used">已使用</string>
     <string name="getting">获取中...</string>
     <string name="commit_ok">提交成功</string>
     <string name="order_ok">下单成功</string>
@@ -201,6 +203,8 @@
     <string name="empty_nail">您还没有关注的美甲师哦!</string>
     <string name="empty_product">您还没有收藏的作品哦！</string>
     <string name="empty_coupon">您还没有可以使用的优惠券哦！</string>
+    <string name="address_detail">详细地址</string>
+    <string name="address_located">定位地址</string>
 
 
 </resources>

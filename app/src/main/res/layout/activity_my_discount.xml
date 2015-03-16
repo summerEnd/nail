@@ -47,13 +47,13 @@
                     style="@style/tab_login_style"
                     android:id="@+id/rb_not_used"
                     android:checked="true"
-                    android:text="未使用"
+                    android:text="有效券"
                     android:button="@null"/>
 
                 <RadioButton
                     style="@style/tab_login_style"
                     android:id="@+id/rb_expired"
-                    android:text="已过期"
+                    android:text="无效券"
                     android:button="@null"/>
             </RadioGroup>
         </LinearLayout>

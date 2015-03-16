@@ -214,8 +214,9 @@ public class OrderConfirm extends BaseActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (RESULT_OK != resultCode)
+        if (RESULT_OK != resultCode){
             return;
+        }
 
     }
 

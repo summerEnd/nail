@@ -86,11 +86,10 @@ public class MyDiscountActivity extends BaseActivity implements RadioGroup.OnChe
         rg = (RadioGroup) findViewById(R.id.rg);
         rg.setOnCheckedChangeListener(this);
 
-
         getFreshCoupons(1);
     }
 
-    void getFreshCoupons(int page) {
+    void getFreshCoupons(final int page) {
         RoleBean user = getApp().getUser();
         RequestParams params = new RequestParams();
         params.put("uid", user.id);
@@ -101,6 +100,9 @@ public class MyDiscountActivity extends BaseActivity implements RadioGroup.OnChe
             @Override
             public void onSuccess(JSONObject o) {
                 try {
+                    if (page<=1){
+                        freshCoupons.clear();
+                    }
                     JsonUtil.getArray(o.getJSONArray("data"), CouponBean.class, freshCoupons);
                     freshAdapter.notifyDataSetChanged();
                 } catch (JSONException e) {
@@ -113,7 +115,7 @@ public class MyDiscountActivity extends BaseActivity implements RadioGroup.OnChe
     /**
      * 获取过期优惠券
      */
-    void getUsedCoupons(int page) {
+    void getUsedCoupons(final int page) {
         RoleBean user = getApp().getUser();
         RequestParams params = new RequestParams();
         params.put("uid", user.id);
@@ -124,6 +126,9 @@ public class MyDiscountActivity extends BaseActivity implements RadioGroup.OnChe
             @Override
             public void onSuccess(JSONObject o) {
                 try {
+                    if (page<=1){
+                        freshCoupons.clear();
+                    }
                     JsonUtil.getArray(o.getJSONArray("data"), CouponBean.class, usedCoupons);
                     usedAdapter.notifyDataSetChanged();
                 } catch (JSONException e) {
@@ -135,8 +140,9 @@ public class MyDiscountActivity extends BaseActivity implements RadioGroup.OnChe
 
     private void addView() {
         usedAdapter = new DiscountAdapter(this, usedCoupons);
+        usedAdapter.STATUS=STATUS_USED;
         freshAdapter = new DiscountAdapter(this, freshCoupons);
-
+        freshAdapter.STATUS=STATUS_FRESH;
         {
             FrameLayout layout=new FrameLayout(this);
             View empty=getLayoutInflater().inflate(R.layout.empty_vuew,null);
@@ -249,7 +255,7 @@ public class MyDiscountActivity extends BaseActivity implements RadioGroup.OnChe
     class DiscountAdapter extends BaseAdapter {
         LayoutInflater   inflater;
         List<CouponBean> beans;
-
+        public int STATUS;
         DiscountAdapter(Context context, List<CouponBean> beans) {
             this.beans = beans;
             inflater = LayoutInflater.from(context);
@@ -284,7 +290,7 @@ public class MyDiscountActivity extends BaseActivity implements RadioGroup.OnChe
                 holder = (ViewHolder) convertView.getTag();
             }
             CouponBean bean = beans.get(position);
-            holder.tv_expire.setVisibility(bean.status == STATUS_USED ? View.VISIBLE : View.INVISIBLE);
+            holder.tv_expire.setVisibility(STATUS == STATUS_USED ? View.VISIBLE : View.INVISIBLE);
             holder.tv_title.setText(bean.title);
             holder.tv_price.setText(getString(R.string.price_s, bean.price));
             holder.tv_date.setText(getString(R.string.date_limit, bean.start_time + "~" + bean.stop_time));

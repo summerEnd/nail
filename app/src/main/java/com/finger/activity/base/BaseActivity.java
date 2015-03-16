@@ -34,7 +34,7 @@ import static com.sp.lib.anim.ActivityAnimator.*;
 public class BaseActivity extends FragmentActivity implements View.OnClickListener {
     /**
      * 是否debug生命周期
-     */
+    */
     protected boolean            showLifeCircle     = false;
     private   RoleChangeReceiver roleChangeReceiver = null;
 

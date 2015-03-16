@@ -15,6 +15,7 @@ import com.finger.R;
 import com.finger.activity.base.OrderListCallback;
 import com.finger.entity.OrderListBean;
 import com.finger.support.util.ContextUtil;
+import com.finger.support.util.Logger;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.assist.LoadedFrom;
 import com.nostra13.universalimageloader.core.display.BitmapDisplayer;
@@ -162,11 +163,12 @@ public class OrderAdapterFactory {
             holder.tv_price.setText(mContext.getString(R.string.price_r_s, bean.order_price));
 
             int button_number = setButtonStatus(bean, holder.button1, holder.button2);
+            Logger.i_format("num:%d",button_number);
             if (button_number > 0) {
-                holder.real_pay_layout.setVisibility(View.VISIBLE);
+                holder.btn_layout.setVisibility(View.VISIBLE);
                 holder.tv_real_pay.setText(mContext.getString(R.string.s_price, bean.real_pay));
             } else {
-                holder.real_pay_layout.setVisibility(View.GONE);
+                holder.btn_layout.setVisibility(View.GONE);
             }
             //如果是等待评价或者评价成功，就设置按钮状态
             if (bean.status == STATUS_WAIT_COMMENT || bean.status == STATUS_COMMENT_OK) {
